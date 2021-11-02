@@ -143,8 +143,8 @@ Attach the centroid point geometry to the origin object (workers) and the destin
 #workers (origins)
 workers_ft_cent <- workers_ft %>% merge(gtha_taz_cent %>% select(GTA06), by="GTA06") %>% st_sf
 
-work_origins <- cbind(workers_ft_cent, st_coordinates(st_transform(workers_ft_cent, crs = 32617))) %>%
-  rename(lon = "X", lat = "Y", id = "GTA06") %>%
+work_origins <- cbind(workers_ft_cent, st_coordinates(st_transform(workers_ft_cent, crs = 4326))) %>%
+  rename(lon = "X", lat = "Y", id = "GTA06") %>% as.data.frame()  %>%
   select(id, lon, lat) %>% as.data.frame()
 
 ```
@@ -153,9 +153,9 @@ work_origins <- cbind(workers_ft_cent, st_coordinates(st_transform(workers_ft_ce
 #jobs (destinations)
 jobs_ft_cent <- jobs_ft %>% merge(gtha_taz_cent %>% select(GTA06), by="GTA06") %>% st_sf
 
-job_destinations <- cbind(jobs_ft_cent, st_coordinates(st_transform(jobs_ft_cent, crs = 32617))) %>%
-  rename(lon = "X", lat = "Y", id = "GTA06") %>%
-  select(id, lon, lat) %>% as.data.frame()
+job_destinations <- cbind(jobs_ft_cent, st_coordinates(st_transform(jobs_ft_cent, crs = 4326))) %>%
+  rename(lon = "X", lat = "Y", id = "GTA06") %>% as.data.frame()  %>%
+  select(id, lon, lat) 
 
 ```
 

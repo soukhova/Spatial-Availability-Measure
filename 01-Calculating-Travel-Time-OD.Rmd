@@ -41,8 +41,8 @@ tmap_mode("view")
 ##--- Prepare Input Data
 loading the destination points and origins points:
 ```{r}
-load(file = "data-inputs/Travel-Time-Calculations/inputs/workers_origins.Rdata")
-load(file = "data-inputs/Travel-Time-Calculations/inputs/jobs_destinations.Rdata")
+load(file = "data-inputs/Travel-Time-Calculations/inputs/work_origins.Rdata")
+load(file = "data-inputs/Travel-Time-Calculations/inputs/job_destinations.Rdata")
 ```
 The input points are already formatted to run R5R. 
 
@@ -55,7 +55,7 @@ r5_path <- file.path("data-inputs/Travel-Time-Calculations/r5_graph")
 ```
 
 ```{r download data, include=FALSE, eval=FALSE}
-downloading ontario osm in the correct format
+#downloading ontario osm in the correct format
 download.file(url = paste0("https://download.geofabrik.de/north-america/canada/ontario-latest.osm.pbf"),
               destfile = file.path(r5_path, "osm.pbf"),
               mode = "wb")
@@ -78,10 +78,10 @@ r5_ONT <- setup_r5(data_path = r5_path, verbose = FALSE)
 ```{r}
 # set up batching according to how many origin rows to process at one time
 chunksize = 50 
-num_chunks = ceiling(nrow(workers_origins)/chunksize)
+num_chunks = ceiling(nrow(work_origins)/chunksize)
 
 # create origin-destination pairs
-origins_chunks <- as.disk.frame(workers_origins,
+origins_chunks <- as.disk.frame(work_origins,
                           outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
                           nchunks = num_chunks,
                           overwrite = TRUE)
@@ -93,7 +93,7 @@ for (i in 1:num_chunks){
   Orig_chunk <- get_chunk(origins_chunks, i)
   ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
                           origins = Orig_chunk,
-                          destinations = jobs_destinations,
+                          destinations = job_destinations,
                           mode = c("CAR"), 
                           departure_datetime = as.POSIXct(strptime("2021-10-20 07:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
                           max_trip_duration = 180)
