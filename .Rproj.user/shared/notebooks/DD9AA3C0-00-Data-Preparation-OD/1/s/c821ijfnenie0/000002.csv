@@ -1,0 +1,7 @@
+"0","#jobs (destinations)"
+"0","jobs_ft_cent <- jobs_ft %>% merge(gtha_taz_cent %>% select(GTA06), by=""GTA06"") %>% st_sf"
+"0",""
+"0","job_destinations <- cbind(jobs_ft_cent, st_coordinates(st_transform(jobs_ft_cent, crs = 32617))) %>%"
+"0","  rename(lon = ""X"", lat = ""Y"", id = ""GTA06"") %>%"
+"0","  select(id, lon, lat) %>% as.data.frame()"
+"0",""

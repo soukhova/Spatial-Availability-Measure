@@ -1,0 +1,673 @@
+---
+title: "01-Calculating-Travel-Time-OD"
+output: html_document
+---
+
+In this notebook, we find the car time from origins (centroids of work zones) to destinations (centroids of full-time employment zones) for a one-way morning commute for the golden greater horse area (yellow). 
+
+![](data-inputs/OD-by-FT-Employment/Greater-Golden-Horseshoe-Map.png)
+Libraries:
+```{r setup, include=FALSE}
+library(disk.frame)
+library(dplyr)
+library(ggplot2)
+library(gridExtra)
+library(httr)
+library(knitr)
+#install.packages("kableExtra", dependencies = TRUE) #installing kableExtra and dependencies as I was recieving errors
+library(kableExtra)
+#install.packages("devtools")
+#install.packages("Rtools")
+#devtools::install_github("https://github.com/hrbrmstr/lodes.git", dependencies = TRUE) # if you need to download
+library(lodes)
+library(progress)
+library(purrr)
+library(r5r)
+library(sf)
+library(stplanr)
+library(tidycensus)
+library(tidyr)
+library(tmap)
+library(zoo) # for rollapplyr
+
+# setup for disk.frame
+setup_disk.frame()
+options(scipen = 999)
+options(java.parameters = "-Xmx6G")
+options(future.globals.maxSize = Inf)
+tmap_mode("view")
+```
+
+##--- Prepare Input Data
+loading the destination points and origins points:
+```{r}
+load(file = "data-inputs/Travel-Time-Calculations/inputs/workers_origins.Rdata")
+load(file = "data-inputs/Travel-Time-Calculations/inputs/jobs_destinations.Rdata")
+```
+The input points are already formatted to run R5R. 
+
+##--- Download OSM Network Data
+
+```{r set up r5 path, include=FALSE}
+# the r5r package requires Java Development Kit version 11, which can be downloaded from https://www.oracle.com/java/technologies/javase-jdk11-downloads.html
+dir.create("data-inputs/Travel-Time-Calculations/r5_graph")
+r5_path <- file.path("data-inputs/Travel-Time-Calculations/r5_graph")
+```
+
+```{r download data, include=FALSE, eval=FALSE}
+downloading ontario osm in the correct format
+download.file(url = paste0("https://download.geofabrik.de/north-america/canada/ontario-latest.osm.pbf"),
+              destfile = file.path(r5_path, "osm.pbf"),
+              mode = "wb")
+
+```
+
+## Set Up R5 Routing
+
+```{r build graph, include = FALSE}
+r5_ONT <- setup_r5(data_path = r5_path, verbose = FALSE)
+```
+```{r}
+# stop_r5(r5_ONT)
+# rJava::.jgc(R.gc = TRUE)
+```
+
+## Calculate OD Matrices
+
+#Car travel time - from all jobs to all work locations
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_1)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_1,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_all,
+                          mode = c("CAR"), 
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_trip_duration = 60)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_car1 <- as.data.frame(output_df)
+
+save("output_OD_car1", file = "data-inputs/Travel-Time-Calculations/results/output_OD_car1.Rdata")
+#I only made the cut off 60 minutes, so if some parcels do not have a travel time, rerun this for a 120 min cut off. The following are 120mins cutoff
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_2)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_2,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_all,
+                          mode = c("CAR"), 
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_trip_duration = 60)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_car2 <- as.data.frame(output_df)
+
+save("output_OD_car2", file = "data-inputs/Travel-Time-Calculations/results/output_OD_car2.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_3)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_3,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_all,
+                          mode = c("CAR"), 
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_trip_duration = 60)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_car3 <- as.data.frame(output_df)
+
+save("output_OD_car3", file = "data-inputs/Travel-Time-Calculations/results/output_OD_car3.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_4)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_4,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_all,
+                          mode = c("CAR"), 
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_trip_duration = 60)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_car4 <- as.data.frame(output_df)
+
+save("output_OD_car4", file = "data-inputs/Travel-Time-Calculations/results/output_OD_car4.Rdata")
+```
+
+#Walk travel time - high school
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_1)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_1,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_high,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_high1 <- as.data.frame(output_df)
+save("output_OD_walk_high1", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_high1.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_2)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_2,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_high,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_high2 <- as.data.frame(output_df)
+save("output_OD_walk_high2", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_high2.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_3)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_3,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_high,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_high3 <- as.data.frame(output_df)
+save("output_OD_walk_high3", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_high3.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_4)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_4,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_high,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 240)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_high4 <- as.data.frame(output_df)
+save("output_OD_walk_high4", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_high4.Rdata")
+```
+
+#Walk travel time - elementary school
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_1)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_1,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_elem,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_elem1 <- as.data.frame(output_df)
+save("output_OD_walk_elem1", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_elem1.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_2)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_2,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_elem,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_elem2 <- as.data.frame(output_df)
+save("output_OD_walk_elem2", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_elem2.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_3)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_3,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_elem,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_elem3 <- as.data.frame(output_df)
+save("output_OD_walk_elem3", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_elem3.Rdata")
+```
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_4)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_4,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_elem,
+                          mode = c("WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_walk_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_walk_elem4 <- as.data.frame(output_df)
+save("output_OD_walk_elem4", file = "data-inputs/Travel-Time-Calculations/results/output_OD_walk_elem4.Rdata")
+```
+
+
+#Bike travel time - high school
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_all)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_all,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_high,
+                          mode = c("BICYCLE"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_bike_dist = 3200,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_bike_high <- as.data.frame(output_df)
+save("output_OD_bike_high", file = "data-inputs/Travel-Time-Calculations/results/output_OD_bike_high.Rdata")
+```
+
+#Bike travel time - elementary school
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_all)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_all,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_elem,
+                          mode = c("BICYCLE"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_bike_dist = 1600,
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_bike_elem <- as.data.frame(output_df)
+save("output_OD_bike_elem", file = "data-inputs/Travel-Time-Calculations/results/output_OD_bike_elem.Rdata")
+```
+
+#Transit bus travel time - all schools
+```{r}
+# set up batching according to how many origin rows to process at one time
+chunksize = 50 
+num_chunks = ceiling(nrow(Orig_all)/chunksize)
+
+# create origin-destination pairs
+origins_chunks <- as.disk.frame(Orig_all,
+                          outdir = "data-inputs/Travel-Time-Calculations/df/Orig",
+                          nchunks = num_chunks,
+                          overwrite = TRUE)
+
+start.time <- Sys.time()
+pb <- txtProgressBar(0, num_chunks, style = 3)
+
+for (i in 1:num_chunks){
+  Orig_chunk <- get_chunk(origins_chunks, i)
+  ttm_chunk <- travel_time_matrix(r5r_core = r5_ONT,
+                          origins = Orig_chunk,
+                          destinations = Dest_all,
+                          mode = c("TRANSIT", "WALK"),
+                          departure_datetime = as.POSIXct(strptime("2021-03-01 08:00:00", "%Y-%m-%d %H:%M:%S", tz = "EST5EDT")),
+                          max_trip_duration = 120)
+  
+  # export output as disk.frame
+  ifelse(i == 1, output_df <- as.disk.frame(ttm_chunk,
+                                            nchunks = 1,
+                                            outdir = "data-inputs/Travel-Time-Calculations/df/output_ttm",
+                                            compress = 50,
+                                            overwrite = TRUE),
+         add_chunk(output_df, ttm_chunk, chunk_id = i))
+  setTxtProgressBar(pb, i)
+}
+end.time <- Sys.time()
+print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time, units = "mins"), digits = 2), " minutes..."))
+
+output_OD_bus <- as.data.frame(output_df)
+save("output_OD_bus", file = "data-inputs/Travel-Time-Calculations/results/output_OD_bus.Rdata")
+```

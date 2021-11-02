@@ -1,0 +1,5 @@
+"0","ggplot() +"
+"0","  geom_sf(data = gtha_taz,"
+"0","          aes(fill = jobs),"
+"0","          color = NA) +"
+"0","  scale_fill_fermenter(direction = 1)"

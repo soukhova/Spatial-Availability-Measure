@@ -1,0 +1,5 @@
+"0","gtha_taz <- gtha_taz %>%"
+"0","  transmute(GTA06 = as.character(GTA06),"
+"0","            AREA = st_area(geometry) %>% "
+"0","              set_units(km^2) %>% "
+"0","              drop_units())"

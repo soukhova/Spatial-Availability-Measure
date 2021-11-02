@@ -1,0 +1,23 @@
+"0","gtha_taz <- st_read(""data-inputs/OD-by-FT-Employment/tts06_83_region.shp"")"
+"1","Reading layer `"
+"1","tts06_83_region"
+"1","' from data source `"
+"1","C:\Users\annie\OneDrive - McMaster University\05. PhD Research\02. MJ\002_Equity Measures\data-inputs\OD-by-FT-Employment\tts06_83_region.shp"
+"1","' using driver `"
+"1","ESRI Shapefile"
+"1","'"
+"1","
+"
+"1","Simple feature collection with 3764 features and 9 fields"
+"1","
+"
+"1","geometry type:  MULTIPOLYGON
+"
+"1","dimension:      XY
+"
+"1","bbox:           "
+"1","xmin: 510589 ymin: 4744298 xmax: 746856.2 ymax: 4983538"
+"1","
+"
+"1","projected CRS:  NAD83 / UTM zone 17N
+"

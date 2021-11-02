@@ -1,0 +1,7 @@
+"0","od_ft <- od_ft %>%"
+"0","  separate(X1, into = c(""Zones"", ""Persons""), sep = "" (?=[^ ]+$)"") %>%"
+"0","  mutate(Zones = str_trim(Zones, side = ""both"")) %>%"
+"0","  separate(Zones, into = c(""Origin"", ""Destination""), sep = "" (?=[^ ]+$)"") %>%"
+"0","  mutate(Origin = str_trim(Origin),"
+"0","         Destination = str_trim(Destination),"
+"0","         Persons = as.numeric(Persons))"

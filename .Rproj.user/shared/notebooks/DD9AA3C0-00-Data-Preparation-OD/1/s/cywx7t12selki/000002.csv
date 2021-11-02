@@ -1,0 +1,6 @@
+"0","gtha_taz_cent <- st_centroid(gtha_taz) "
+"2","Warning in st_centroid.sf(gtha_taz) :"
+"2","
+ "
+"2"," st_centroid assumes attributes are constant over geometries of x
+"

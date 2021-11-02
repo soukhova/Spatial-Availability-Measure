@@ -1,0 +1,10 @@
+"0","od_ft <- read_delim(file = ""data-inputs/OD-by-FT-Employment/tts-2016-OD-FT-Employment.txt"", "
+"0","                      delim = ""\t"", "
+"0","                      col_names = FALSE)"
+"1","
+[36m--[39m [1m[1mColumn specification[1m[22m [36m-----------------------------------------------------------------------------[39m
+cols(
+  X1 = [31mcol_character()[39m
+)
+
+"
