@@ -1,7 +1,0 @@
-"0","#workers (origins)"
-"0","workers_ft_cent <- workers_ft %>% merge(gtha_taz_cent %>% select(GTA06), by=""GTA06"") %>% st_sf"
-"0",""
-"0","work_origins <- cbind(workers_ft_cent, st_coordinates(st_transform(workers_ft_cent, crs = 32617))) %>%"
-"0","  rename(lon = ""X"", lat = ""Y"", id = ""GTA06"") %>%"
-"0","  select(id, lon, lat) %>% as.data.frame()"
-"0",""
