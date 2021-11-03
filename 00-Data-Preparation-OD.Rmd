@@ -165,3 +165,9 @@ save("work_origins", file = "data-inputs/Travel-Time-Calculations/inputs/work_or
 save("job_destinations", file = "data-inputs/Travel-Time-Calculations/inputs/job_destinations.Rdata")
 ```
 
+## saving inputs for later processing
+```{r}
+save("gtha_taz", file = "data-inputs/OD-by-FT-Employment/gtha_taz.Rdata")
+save("od_ft", file = "data-inputs/OD-by-FT-Employment/od_ft.Rdata")
+```
+

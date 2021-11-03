@@ -1,0 +1,104 @@
+---
+title: "02-Accessibility-Calculations"
+output:
+---
+Here we visualize the travel times calculated for the greater golden horse area.
+
+## Preliminaries
+Load packages:
+```{r load-packages}
+library(readxl)
+library(sf)
+library(tidyverse)
+library(units)
+library(ggmap)
+library(scales)
+```
+
+```{r}
+#car travel times for all origins to all destinations (matrix)
+load(file = "data-inputs/Travel-Time-Calculations/results/output_OD_car1.Rdata")
+
+# all, unique, traffic analysis zones with associated number of workers and jobs
+load(file = "data-inputs/OD-by-FT-Employment/gtha_taz.Rdata")
+
+#Trips taken from origin to destination and associated people
+load(file = "data-inputs/OD-by-FT-Employment/od_ft.Rdata")
+```
+
+## Joining OD Travel time matrix with taken OD trips
+
+```{r}
+od_ft_tt <- od_ft %>% merge(output_OD_car1, by.x=c("Origin", "Destination"), by.y=c("fromId", "toId"), all.x=T)
+rm(output_OD_car1)
+
+summary(od_ft_tt)
+```
+There are 3507 trips which are longer than 180 mins (3 hrs); I only calculated trips 180 mins or less. How many people does this account for?
+```{r}
+od_ft_tt %>% summarise(sum(Persons)) / od_ft_tt %>% filter(is.na(travel_time)) %>% summarise(sum(Persons))
+```
+9.1% of people... that's quite a bit! Maybe it's safe to assume they are remote workers? Or work at different locations? Perhaps I'll recalculate. 
+
+
+## Joining travel times to each TAZ
+
+Here we'll sum all travel times from an origin and multiple it by the number of working persons (travel time in hr*person) and associate it to the origin TAZ.
+```{r}
+origins_tt <- od_ft_tt %>% group_by(Origin) %>% 
+  summarise(Persons_tt_Origin = sum(Persons, na.rm = T)*sum(travel_time, na.rm = T)/60)
+origins_tt
+```
+
+
+Repeat the process but sum all travel times to a destination, multiple it by the number of working persons at that destination, and associate it to the destination TAZ
+```{r}
+destinations_tt <- od_ft_tt %>% group_by(Destination) %>% 
+  summarise(Persons_tt_Destination = sum(Persons, na.rm = T)*sum(travel_time, na.rm = T)/60)
+destinations_tt
+```
+Join the Persons_tt_Origin and Persons_tt_Destination to the TAZ object for mapping
+
+```{r}
+gtha_taz_tt <- gtha_taz %>% merge(origins_tt, by.x="GTA06", by.y="Origin", all.x=T) %>%
+  merge(destinations_tt, by.x = "GTA06", by.y="Destination", all.x = T)
+```
+
+
+## Visualizing weighted travel times
+
+Plot ORIGIN person weighted travel time for workers to their jobs in the GTHA:
+```{r}
+ggplot() +
+  geom_sf(data = gtha_taz_tt %>% filter(!is.na(Persons_tt_Origin)), aes(fill= Persons_tt_Origin), color = NA) +
+    scale_fill_distiller(palette = "Spectral")
+```
+
+Plot DESTINATION person weighted travel time for workers to their jobs in the GTHA:
+```{r}
+ggplot() +
+  geom_sf(data = gtha_taz_tt %>% filter(!is.na(Persons_tt_Destination)),
+          aes(fill = Persons_tt_Destination),
+          color = NA) +
+   scale_fill_distiller(palette = "Spectral")
+```
+
+Maybe this would be more interesting visualized as graduated TAZ centroids
+```{r}
+gtha_taz_cent_tt <- st_centroid(gtha_taz) %>% select(GTA06) %>% merge(gtha_taz_tt %>% st_drop_geometry(), by="GTA06")
+```
+
+Let's repeat origin plot:
+```{r}
+ggplot() +
+  geom_sf(data = gtha_taz_cent_tt %>% filter(!is.na(Persons_tt_Origin)),
+          aes(color=Persons_tt_Origin, size=AREA), alpha = .5) +
+  scale_color_distiller(palette = "Spectral")
+```
+destination plot:
+```{r}
+ggplot() +
+  geom_sf(data = gtha_taz_cent_tt %>% filter(!is.na(Persons_tt_Destination)),
+          aes(color=Persons_tt_Destination, size=AREA), alpha = .5) +
+  scale_color_distiller(palette = "Spectral")
+```

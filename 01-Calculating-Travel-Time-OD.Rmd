@@ -44,11 +44,6 @@ loading the destination points and origins points:
 load(file = "data-inputs/Travel-Time-Calculations/inputs/work_origins.Rdata")
 load(file = "data-inputs/Travel-Time-Calculations/inputs/job_destinations.Rdata")
 ```
-The input points are already formatted to run R5R. 
-
-```{r}
-job_destinations1 <- job_destinations[1:100,]
-```
 
 
 ##--- Download OSM Network Data
