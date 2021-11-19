@@ -113,5 +113,7 @@ print(paste0("OD matrix calculation took ", round(difftime(end.time, start.time,
 output_OD_car1 <- as.data.frame(output_df)
 
 save("output_OD_car1", file = "data-inputs/Travel-Time-Calculations/results/output_OD_car1.Rdata")
-#I made the cut off 180 minutes, so if some zones do not have a travel tim.
+#I made the cut off 180 minutes, so if some zones do not have a travel time.
+
+#This took 260 mins to execute on Aidan's computer.
 ```
