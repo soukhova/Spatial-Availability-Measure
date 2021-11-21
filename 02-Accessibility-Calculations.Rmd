@@ -2,7 +2,12 @@
 title: "02-Accessibility-Calculations"
 output:
 ---
-Here we visualize the travel times calculated for the greater golden horse area.
+Here we visualize the travel times calculated for the greater golden horse area. Then we calculate proportional accessibility (availability).
+
+-workers per TAZ
+-jobs per TAZ
+-travel time (car)
+"2021-10-20 07:00:00", tz = "EST5EDT", max_trip_duration = 180 min
 
 ## Preliminaries
 Load packages:
@@ -29,7 +34,9 @@ load(file = "data-inputs/OD-by-FT-Employment/od_ft.Rdata")
 ## Joining OD Travel time matrix with taken OD trips
 
 ```{r}
-od_ft_tt <- od_ft %>% merge(output_OD_car1, by.x=c("Origin", "Destination"), by.y=c("fromId", "toId"), all.x=T)
+od_ft_tt <- od_ft %>% 
+  merge(output_OD_car1, by.x=c("Origin", "Destination"), by.y=c("fromId", "toId"), all.x=T) %>% 
+  mutate(travel_time = ifelse(is.na(travel_time), 0, travel_time)) 
 rm(output_OD_car1)
 
 summary(od_ft_tt)
@@ -38,67 +45,81 @@ There are 3507 trips which are longer than 180 mins (3 hrs); I only calculated t
 ```{r}
 od_ft_tt %>% summarise(sum(Persons)) / od_ft_tt %>% filter(is.na(travel_time)) %>% summarise(sum(Persons))
 ```
-9.1% of people... that's quite a bit! Maybe it's safe to assume they are remote workers? Or work at different locations? Perhaps I'll recalculate. 
+9.1% of people... that's quite a bit! Maybe it's safe to assume they are remote workers? Or work at different locations? Perhaps I'll recalculate in the future. 
 
 
-## Joining travel times to each TAZ
+## Calculating Accessibility
 
-Here we'll sum all travel times from an origin and multiple it by the number of working persons (travel time in hr*person) and associate it to the origin TAZ.
+### First a preamble on accessibility
+
+Conventional origin-based accessibility `A_{i}` is defined as the summation of:
+$$
+A_{i} = \sum_{j} (W_j \cdot f(C_{ij}))
+$$
+Where,
+- `i` is a set of origin locations.
+- `j` is a set of destination locations.
+- `W_{j}` is a set of weights at each destination location. These are opportunities for activity and add some sort of _supply_ to the area;
+- `f(C_{ij})` is broadly defined as the impedance function and is a function of `C_{ij}` which is the cost of travel from `i` to `j`. `C_{ij}`is either or a combination of travel time, distance, monetary cost, internal/external costs, subjective cost (comfort, safety, ease, etc) from origin to destination. This travel cost can be expressed in different functions such as a **binary function** where `f(C_{ij})` is set to 0  if `C_{ij}` is outside some `theta` parameter or is set to 1 if inside the `theta` parameter. For example, accessibility for each origin TAZ `A_{i}` is 0 for all travel-times to destination TAZ greater than 30 minutes (`theta`). 
+  -  People are at these origins and they have some sort of _demand_;
+
+We are interested in considering  _supply_ from destinations in `W_{j}` but also considering  _demand_ from origins in the impedance function to define origin-based 'available potential accessibility'. From our perspective, supply and demand should be balanced and proportional; this will add more meaning to this origin-based accessibility measure. But first a simple example.
+
+### Simple origin-based-accessibility
+
+Let's extract the number of jobs, at each destination `j`; this is our `W_{j}`.
+Next, let's define our `f(C_{ij})`. In this simple example we will assume that it is just a binary function with a `theta` of 45 minutes; so  `A_{i}` is defined as the number of jobs at j that someone from origin i can access in 30 minutes. As this is a binary function; we're simply filtering out all trips that are over 30 minutes and summing up all the jobs within a destination.
+
+
 ```{r}
-origins_tt <- od_ft_tt %>% group_by(Origin) %>% 
-  summarise(Persons_tt_Origin = sum(Persons, na.rm = T)*sum(travel_time, na.rm = T)/60)
-origins_tt
+access_jobs <- od_ft_tt %>% filter(travel_time <= 45) %>% group_by(Destination) %>% summarise(jobs_i = sum(Persons, na.rm = T))
 ```
 
-
-Repeat the process but sum all travel times to a destination, multiple it by the number of working persons at that destination, and associate it to the destination TAZ
+Now, we associate this object to a unique origins object to get `A_{i}` for each origin. I also add average travel time as a check to ensure average times are still under the `theta`.
 ```{r}
-destinations_tt <- od_ft_tt %>% group_by(Destination) %>% 
-  summarise(Persons_tt_Destination = sum(Persons, na.rm = T)*sum(travel_time, na.rm = T)/60)
-destinations_tt
-```
-Join the Persons_tt_Origin and Persons_tt_Destination to the TAZ object for mapping
-
-```{r}
-gtha_taz_tt <- gtha_taz %>% merge(origins_tt, by.x="GTA06", by.y="Origin", all.x=T) %>%
-  merge(destinations_tt, by.x = "GTA06", by.y="Destination", all.x = T)
+gtha_taz_i <- gtha_taz %>% merge(access_jobs, by.x=c("GTA06"), by.y=c("Destination"), all.x=T) 
 ```
 
-
-## Visualizing weighted travel times
-
-Plot ORIGIN person weighted travel time for workers to their jobs in the GTHA:
+Plot origin accessibility
 ```{r}
 ggplot() +
-  geom_sf(data = gtha_taz_tt %>% filter(!is.na(Persons_tt_Origin)), aes(fill= Persons_tt_Origin), color = NA) +
+  geom_sf(data = gtha_taz_i, 
+          aes(fill= jobs_i), color = NA) +
     scale_fill_distiller(palette = "Spectral")
 ```
 
-Plot DESTINATION person weighted travel time for workers to their jobs in the GTHA:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Maybe this would be more interesting visualized as graduated TAZ centroids?
+```{r}
+gtha_taz_cent_tt <- st_centroid(gtha_taz_i) %>% select(GTA06) %>% merge(gtha_taz_i %>% st_drop_geometry(), by="GTA06")
+```
+Let's repeat plot:
 ```{r}
 ggplot() +
-  geom_sf(data = gtha_taz_tt %>% filter(!is.na(Persons_tt_Destination)),
-          aes(fill = Persons_tt_Destination),
-          color = NA) +
-   scale_fill_distiller(palette = "Spectral")
-```
-
-Maybe this would be more interesting visualized as graduated TAZ centroids
-```{r}
-gtha_taz_cent_tt <- st_centroid(gtha_taz) %>% select(GTA06) %>% merge(gtha_taz_tt %>% st_drop_geometry(), by="GTA06")
-```
-
-Let's repeat origin plot:
-```{r}
-ggplot() +
-  geom_sf(data = gtha_taz_cent_tt %>% filter(!is.na(Persons_tt_Origin)),
-          aes(color=Persons_tt_Origin, size=AREA), alpha = .5) +
+  geom_sf(data = gtha_taz_cent_tt %>% filter(!is.na(jobs_i)),
+          aes(color=jobs_i, size=AREA), alpha = .5) +
   scale_color_distiller(palette = "Spectral")
 ```
-destination plot:
-```{r}
-ggplot() +
-  geom_sf(data = gtha_taz_cent_tt %>% filter(!is.na(Persons_tt_Destination)),
-          aes(color=Persons_tt_Destination, size=AREA), alpha = .5) +
-  scale_color_distiller(palette = "Spectral")
-```
+Hm... not so meaningful.
+
+End of simple example!
+
