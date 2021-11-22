@@ -243,45 +243,63 @@ sum(availability$availability)
 
 Pack the proportional allocation of opportunities into a function:
 ```{r}
-p_allocation <- function(x, alpha = 1){
+p_allocation <- function(x, o_id, d_id, pop, opp, f, alpha = 1){
   # The input is an OD-table with Origins, Destinations, Population, Jobs, and a pre-calculated impedance function f
+  #' Multiply two numbers
+  #
+  #' @param x A data frame with origin-destination information, including identifiers for origins, destinations, population, opportunities, and a pre-calculated impedance function
+  #' @param o_id  A character string with the name of the column in data frame x that contains the unique origin identifiers
+  #' @param d_id  A character string with the name of the column in data frame x that contains the unique destination identifiers
+  #' @param pop   A character string with the name of the column in data frame x that contains the population
+  #' @param opp   A character string with the name of the column in data frame x that contains the opportunities
+  #' @param f     A character string with the name of the column in data frame x that contains the values of the impedance function
+  #' @param alpha A number string with the name of the column in data frame x that contains the values of the impedance function
+  #' @return A vector with the number of opportunities available to o_id from d_id 
+  #' @export
+  
+  x <- x %>% 
+    rename(o = as.name(o_id),
+           d = as.name(d_id),
+           p = as.name(pop),
+           w = as.name(opp),
+           f = as.name(f))
+  
   sum_pop <- x %>%
-  distinct(Origin, 
-           .keep_all = TRUE) %>%
-  mutate(sum_pop = Population^alpha) %>%
-  pull(sum_pop) %>%
-  sum()
-
+    distinct(o, 
+             .keep_all = TRUE) %>%
+    mutate(sum_pop = p^alpha) %>%
+    pull(sum_pop) %>%
+    sum()
+  
   x <- x %>%
-  mutate(f_p = Population^alpha / sum_pop)
-
+    mutate(f_p = p^alpha / sum_pop)
+  
   sum_impedance <- x %>% 
-    group_by(Destination) %>% 
+    group_by(d) %>% 
     summarize(sum_impedance = sum(f))
-  sum_impedance
   
   x <- x %>%
     left_join(sum_impedance,
-              by = "Destination")
+              by = "d")
   
   x <- x %>%
     mutate(f_c = f / sum_impedance)
   
   sum_pa <- x %>% 
-    group_by(Destination) %>% 
+    group_by(d) %>% 
     summarize(sum_pa= sum(f_p * f_c))
   
   x <- x %>%
     left_join(sum_pa,
-              by = "Destination")
+              by = "d")
   
   x <- x %>%
     mutate(f_t = (f_p * f_c) / sum_pa)
   
   x <- x %>%
-    mutate(W_ij = Jobs * f_t)
+    mutate(v_ij = w * f_t)
   
-  return(x$W_ij)
+  return(x$v_ij)
 }
 ```
 
@@ -299,7 +317,12 @@ od_table <- od_table %>%
 Calculate the proportional allocation of opportunities using this function:
 ```{r}
 od_table <- od_table %>%
-  mutate(W_ij_binary = p_allocation(.))
+  mutate(W_ij_binary = p_allocation(., 
+                                    o_id = "Origin", 
+                                    d_id = "Destination", 
+                                    pop = "Population", 
+                                    opp = "Jobs",
+                                    f = "f"))
 ```
 
 Verify that the sum of all jobs allocated is consistent with the total number of jobs:
@@ -392,7 +415,12 @@ od_table <- od_table %>%
 Calculate the proportional allocation of opportunities using this function:
 ```{r}
 od_table <- od_table %>%
-  mutate(W_ij_exp1 = p_allocation(.))
+  mutate(W_ij_exp1 = p_allocation(., 
+                                  o_id = "Origin", 
+                                  d_id = "Destination", 
+                                  pop = "Population", 
+                                  opp = "Jobs",
+                                  f = "f"))
 ```
 
 Verify that the sum of all jobs allocated is consistent with the total number of jobs:
@@ -471,13 +499,13 @@ data.frame(trips = trips$trips, binary = od_table$W_ij_binary, exp1 = od_table$W
 Scatterplots:
 ```{r fig.height=6, fig.width=6}
 scatter_binary <- data.frame(trips = trips$trips, 
-           W_ij = od_table$W_ij_binary) %>%
+                             W_ij = od_table$W_ij_binary) %>%
   ggplot() +
   geom_point(aes(x = trips, y = W_ij)) +
   geom_abline(slope = 1, intercept = 0)
 
 scatter_exp1 <- data.frame(trips = trips$trips, 
-           W_ij = od_table$W_ij_exp1) %>%
+                           W_ij = od_table$W_ij_exp1) %>%
   ggplot() +
   geom_point(aes(x = trips, y = W_ij)) +
   geom_abline(slope = 1, intercept = 0)
@@ -494,11 +522,21 @@ mad_beta <- vector(length = length(beta))
 for(i in 1:length(beta)){
   od_exp <- od_table %>%
     mutate(f = exp(-beta[i] * distance))
-   junk <- data.frame(trips = trips$trips, 
-              W_ij = p_allocation(od_exp)) %>% 
-     cor()
-   cor_beta[i] <- junk[2,1]
-  junk <- abs(trips$trips - p_allocation(od_exp))
+  junk <- data.frame(trips = trips$trips, 
+                     W_ij = p_allocation(od_exp, 
+                                         o_id = "Origin", 
+                                         d_id = "Destination", 
+                                         pop = "Population", 
+                                         opp = "Jobs",
+                                         f = "f")) %>% 
+    cor()
+  cor_beta[i] <- junk[2,1]
+  junk <- abs(trips$trips - p_allocation(od_exp, 
+                                         o_id = "Origin", 
+                                         d_id = "Destination", 
+                                         pop = "Population", 
+                                         opp = "Jobs",
+                                         f = "f"))
   mad_beta[i] <- max(junk)
 }
 
@@ -532,7 +570,12 @@ od_table <- od_table %>%
 Calculate the proportional allocation of opportunities using this function:
 ```{r}
 od_table <- od_table %>%
-  mutate(W_ij_exp2 = p_allocation(.))
+  mutate(W_ij_exp2 = p_allocation(., 
+                                  o_id = "Origin", 
+                                  d_id = "Destination", 
+                                  pop = "Population", 
+                                  opp = "Jobs",
+                                  f = "f"))
 ```
 
 Verify that the sum of all jobs allocated is consistent with the total number of jobs:
@@ -543,7 +586,7 @@ sum(od_table$W_ij_exp2)
 Compare to actual trip distribution:
 ```{r}
 scatter_exp2 <- data.frame(trips = trips$trips, 
-           W_ij = od_table$W_ij_exp2) %>%
+                           W_ij = od_table$W_ij_exp2) %>%
   ggplot() +
   geom_point(aes(x = trips, y = W_ij)) +
   geom_abline(slope = 1, intercept = 0)
@@ -629,17 +672,27 @@ counter <- 0
 
 for(b in 1:length(beta)){
   od_exp <- od_table %>%
-      mutate(f = exp(-beta[b] * distance))
+    mutate(f = exp(-beta[b] * distance))
   for(a in 1: length(alpha)){
     counter <- counter + 1
     junk <- data.frame(trips = trips$trips, 
                        W_ij = p_allocation(od_exp,
+                                           o_id = "Origin", 
+                                           d_id = "Destination", 
+                                           pop = "Population", 
+                                           opp = "Jobs",
+                                           f = "f",
                                            alpha = alpha[a])) %>% 
       cor()
-   hyper_parameters$cor_hp[counter] <- junk[2,1]
-   junk <- abs(trips$trips - p_allocation(od_exp, 
-                                          alpha = alpha[a]))
-   hyper_parameters$mad_hp[counter] <- max(junk)
+    hyper_parameters$cor_hp[counter] <- junk[2,1]
+    junk <- abs(trips$trips - p_allocation(od_exp,
+                                           o_id = "Origin", 
+                                           d_id = "Destination", 
+                                           pop = "Population", 
+                                           opp = "Jobs",
+                                           f = "f",
+                                           alpha = alpha[a]))
+    hyper_parameters$mad_hp[counter] <- max(junk)
   }
 }
 ```
@@ -680,7 +733,12 @@ od_table <- od_table %>%
 Calculate the proportional allocation of opportunities using these parameters:
 ```{r}
 od_table <- od_table %>%
-  mutate(W_ij_best = p_allocation(.,
+  mutate(W_ij_best = p_allocation(., 
+                                  o_id = "Origin", 
+                                  d_id = "Destination", 
+                                  pop = "Population", 
+                                  opp = "Jobs",
+                                  f = "f",
                                   alpha = 0.1))
 ```
 
@@ -692,7 +750,7 @@ sum(od_table$W_ij_best)
 Compare to actual trip distribution:
 ```{r}
 scatter_best <- data.frame(trips = trips$trips, 
-           W_ij = od_table$W_ij_best) %>%
+                           W_ij = od_table$W_ij_best) %>%
   ggplot() +
   geom_point(aes(x = trips, y = W_ij)) +
   geom_abline(slope = 1, intercept = 0)
@@ -760,7 +818,6 @@ avail_best_person_plot <- ggplot() +
 avail_best_person_plot
 ```
 
-
 Compare the impedance curves:
 ```{r fig.height=6, fig.width=6}
 data.frame(d_ij = seq(600, 7800, 50)) %>%
@@ -774,7 +831,7 @@ data.frame(d_ij = seq(600, 7800, 50)) %>%
                        ordered = TRUE)) %>%
   ggplot() +
   geom_line(aes(x = d_ij, y = f)) +
-    facet_wrap(~ beta, ncol = 2)
+  facet_wrap(~ beta, ncol = 2)
 ```
 
 Compare availability per person with the three impedance functions:
