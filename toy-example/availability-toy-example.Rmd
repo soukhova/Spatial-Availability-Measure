@@ -589,7 +589,7 @@ avail_workers_job_plot
 
 ## Scenario 3
 
-In this scenario we introduce catchment/eligibility constraints. Due to differences in educational achievement among the population, the jobs in Employment Center 1 can only be taken by individuals in population centers 1, 2, 3, 4. Jobs in Employment Center 2 can be taken by individuals in population centers 3, 4, 5, 8, and 8. Lastly, jobs in Employment Center 3 require qualifications available only among individuals in population centers 5, 6, and 9. See figure below.
+In this scenario we introduce catchment/eligibility constraints. Due to differences in educational achievement among the population, the jobs in Employment Center 1 can only be taken by individuals in population centers 1 and 2. Jobs in Employment Center 2 can be taken by individuals in population centers 3, 4, 5, 7, and 8. Lastly, jobs in Employment Center 3 require qualifications available only among individuals in population centers 5, 6, 8, and 9. See figure below.
 
 ```{r include=FALSE}
 # Create catchments for visualization:
@@ -612,7 +612,8 @@ catchment_2 <- simulated_data %>% filter(id == "Employment Center 2" |
 
 catchment_3 <- simulated_data %>% filter(id == "Employment Center 3" | 
                           id == "Population 5" | 
-                          id == "Population 6" | 
+                          id == "Population 6" |  
+                          id == "Population 8" | 
                           id == "Population 9") %>% 
   st_union %>% 
   st_convex_hull()  %>%
