@@ -1,0 +1,568 @@
+---
+title: "Toy example to experiment with spatial availability"
+output: html_document
+---
+
+# Introduction
+
+So Anastasia and I have been experimenting with proportional allocation in accessibility measures, and have discussed the concept of _spatial availability_. Briefly, consider the following accessibility measure:
+$$
+A_i = \sum_{j=1}^JW_jf(c_{ij})
+$$
+
+\noindent where $W_j$ is the number of opportunities at location $j$, $c_{ij}$ is a measure of the cost of moving between $i$ and $j$, and $f(\cdot)$ is an impedance (or distance-decay) function (a monotonically non-increasing or decreasing function of $c_{ij}$). In this way, the accessibility $A_i$ is the weighted sum of opportunities that can be reached from location $i$. It is well known that this is a gravity-type measure of accessibility, and it is a widely used tool in transportation studies.
+
+Accessibility $A_i$, by summing the opportunities in the neighborhood of $i$ (the neighborhood is defined by the impedance function), is an estimation of the total number of opportunities that can be reached from $i$ at a certain cost. 
+
+As we have discussed proportional allocations (see for instance Paez, Higgins, Vivona, 2019), it has become increasingly clear that a lot of multiple-counting happens when calculating $A_i$ for $i=1,\cdots,n$, since every opportunity that can be reached from every $i$ enters the sum.
+
+For this reason, we have thought of a related concept that we are provisionally calling _spatial availability_, and that we think of as a singly-constrained measure of accessibility.
+
+How does this work? It all comes down to proportional allocation. We wish to allocate opportunities proportionally, based on the number of size of, and the distance to, the demand for opportunities.
+
+This framework is appropriate for non-divisible opportunities. Examples of non-divisible opportunities are jobs (when a person takes up a job, the same job is no longer available to anyone else), seats at schools (once a seat has been taken, it is no longer available to another student). From a different perspective, employers may see workers as opportunities, but when a worker takes a job, they are no longer in the available pool of candidates.
+
+We distinguish between opportunities and demand.
+
+To illustrate our analytical framework, we will think of demand as 'population' and opportunities as 'jobs'.
+
+We begin with allocation based on demand (the number of individuals in the population in the labor market). Consider an employment center $j$ with $W_j^r$ jobs of type $r$. There are also $K$ population centers in the region. To allocate the jobs proportionally based on the population of each center we define the following proportional allocation factor:
+$$
+f^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{k=1}^K P_{k\in r}^\alpha}
+$$
+\noindent where $f^p_{ij}$ is a factor to proportionally allocate a share of the jobs at $j$ to population center $i$. On the right hand side of the equation, $P_{k\in r}$ is the population at location $k$ eligible for taking jobs of type $r$ (maybe those with a certain level of training, or in a designated age group). Here we add a parameter $\alpha$ that can be used to modulate the effect of size in the calculations. The summation in the bottom is over $k=1,\cdots,K$, the number of population centers in the region. The factors $f_{kj}^p$ satisfy the property that $\sum_k^{K} f^p_{kj} = 1$.
+
+The share of jobs allocated to each population center is:
+$$
+W_{kj} = W_jf^p_{kj}
+$$
+\noindent and since $\sum_k^{K} f^p_{kj} = 1$ it follows that:
+$$
+\sum_{k=1}^K W_{kj} = W_j 
+$$
+
+In other words, the number of jobs is preserved. 
+
+As an example, consider an employment center $j$ in a region with two population centers (say $j$ and $k$). For simplicity, assume that all jobs in the population centers are eligible for the population in this region. The allocation factors for the jobs at $j$ would be:
+$$
+\begin{array}{l}\
+f^p_{ij} = \frac{P_i ^\alpha}{P_i^\alpha + P_k^\alpha}\\
+f^p_{kj} = \frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha}\\
+\end{array}
+$$
+
+Suppose that there are three hundred jobs in the employment center ($W_j = 300$), and that the populations are $P_j=240$ and $P_k=120$. The jobs would be allocated as follows (assuming that $\alpha=1$):
+$$
+\begin{array}{l}\
+W_{ij} = W_j\frac{P_i^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{240}{240 + 120} = 300\frac{240}{360} = 200\\
+W_{kj} = W_j\frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{120}{240 + 120} = 300\frac{120}{360} = 100 \\
+\end{array}
+$$
+Proportionally more jobs are allocated to the bigger center and the total number of jobs is preserved ($\sum_{k=1}^K W_{kj} = W_j$).
+
+The proportional allocation factors above account for the capacity of the employment centers, but they do not account for their location relative to the population centers. The proportional allocation procedure above is insensitive to how far population center $i$ is from employment center $j$. To account for this effect we can define a second set of allocation factors based on distance to the employment centers. These are defined as:
+$$
+f^d_{ij} = \frac{f(c_{ij})}{\sum_{k=1}^K f(c_{kj})}
+$$
+\noindent where $c_{ij}$ is the distance/(travel time, etc.) to employment center $j$ from population center $i$, and $f(\cdot)$ is an impedance function (a monotonically decreasing function of $c_{kj}$. The idea is that proportionally more jobs are allocated to closer locations. Assume that the impedance function is:
+$$
+f(c_{ij}) = \exp(-\beta c_{ij})
+$$
+
+Continuing the example, suppose that the distance from population center $i$ to employment center $j$ is 0.6 km, and the distance from population center $k$ to employment center $j$ is 0.3 km. Being closer, we would expect more jobs to be allocated to the population of $i$. The jobs would be sorted as follows:
+$$
+\begin{array}{l}\
+f^d_{ij} = \frac{\exp(-\beta D_{ij})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
+f^d_{kj} = \frac{\exp(-\beta D_{kj})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
+\end{array}
+$$
+
+Numerically, the jobs allocated to each population center would be:
+$$
+\begin{array}{l}\
+W^d_{ij} = W_j\frac{\exp(-D_{ij})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.6)}{\exp(-0.6) + \exp(-0.3)} = 3\times 0.426 = 127.8\\
+W^d_{kj} = W_j\frac{\exp(-D_{kj})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.3)}{\exp(-0.6) + \exp(-0.3)} = 3\times  0.574 = 172.2\\
+\end{array}
+$$
+Proportionally more jobs are allocated to the closer population center. As before, the sum of jobs allocated to the population centers matches the total number of jobs available.
+
+We can combine the proportional allocation factors by population and distance as follows:
+$$
+W_{ij} = W_i\frac{f^p_{ij} \cdot f^d_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^d_{kj}}
+$$
+In the example:
+$$
+\begin{array}{l}\
+W_{ij} = W_j\cdot \frac{f^o_{ij} \cdot f^d_{ij}}{f^o_{ij} \cdot f^d_{ij} + f^o_{kj} \cdot f^d_{kj}} = 300 \frac{\big(\frac{2}{3} \big) \big(0.426 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)} = \big(300 \big)\big(\frac{0.284}{0.475} \big)= 179.4\\
+W_{kj} = W_j\cdot \frac{f^o_{kj} \cdot f^d_{kj}}{f^o_{ij} \cdot f^d_{ij} + f^o_{ik} \cdot f^d_{ik}} = 300 \frac{\big(\frac{1}{3} \big) \big(0.574 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)}  = \big(300 \big)\big(\frac{0.191}{0.475} \big)= 120.6 \\
+\end{array}
+$$
+Fewer jobs are allocated to population center $i$ compared to the allocation by population size only, to account for the longer distance to reach those jobs. Considering distance alone allocated more jobs to the closer population center (i.e., $k$), but since it is smaller, it also get a smaller proportion of jobs overall. Again, the sum of jobs at employment center $j$ that are allocated to population centers $i$ and $k$ simultaneously based on _population_ and _distance_ is preserved (i.e., $W_{ij} + W_{kj} = W_j$.
+
+Availability is the sum of available jobs by origin:
+$$
+V_i = \sum_{j=1}^J W_{ij}
+$$
+
+# Step-by-step Numerical Example 
+
+In this section we present a numerical example.
+
+Load packages needed for the example:
+```{r message=FALSE}
+library(kableExtra)
+library(patchwork)
+library(sf)
+library(tidyverse)
+```
+
+Load data for example:
+```{r}
+load("od_table.rda")
+load("simulated_data.rda")
+load("trips.rda")
+```
+
+This is the setup for the example: three employment centers and nine population centers.
+```{r}
+ggplot(data = simulated_data) + 
+  geom_sf(aes(color = type,
+              shape = type,
+              size = number)) +
+  geom_sf_text(aes(label = id_short),
+               size = 4,
+               nudge_y = -300) +
+  scale_size(range = c(3, 7))
+
+ggsave("images/figure-1.png")
+```
+
+This is the distribution of jobs and population:
+```{r}
+simulated_data %>%
+  st_drop_geometry() %>%
+  kable()
+  #mutate(images = paste0("<","img src=","images\figure-1",".png",">")) %>%
+  #kable(format = "html", escape = F) %>%
+  #kable_styling(bootstrap_options = "striped")
+```
+
+Use a negative exponential function for the example:
+$$
+f(c_{ij}) = exp(-\beta c_{ij})
+$$
+
+This is the shape of the impedance function (the rate of decay is modulated by $\beta$):
+```{r}
+beta <- 0.0015
+data.frame(d_ij = seq(600, 7800, 50)) %>%
+  mutate(f = exp(-beta * d_ij)) %>%
+  ggplot() +
+  geom_line(aes(x = d_ij, y = f))
+```
+
+Calculate the impedance function in the OD-table:
+```{r}
+od_table <- od_table %>%
+  mutate(f = exp(-beta * distance))
+```
+
+For this numerical example we will assume that $\alpha = 1$ (i.e., we disregard any size effects):
+```{r}
+alpha <- 1
+```
+
+First, calculate the denominator of the proportional allocation factor $f^p_{ij}$ based on population, assuming that there are no catchment/eligibility conditions (i.e., $r=1$ for all population):
+```{r}
+sum_pop <- od_table %>% 
+  mutate(r = 1) %>%
+  group_by(Destination) %>% 
+  summarize(sum_pop = sum(r * Population^alpha))
+sum_pop
+```
+
+Since there are no catchment/eligibility conditions for the jobs, the jobs at each employment center are in principle open to all members of the population. Next, join the sums of the population to the OD-table:
+```{r}
+od_table <- od_table %>%
+  left_join(sum_pop,
+            by = "Destination")
+```
+
+Calculate the proportional allocation factor:
+```{r}
+od_table <- od_table %>%
+  mutate(f_p = Population^alpha / sum_pop)
+```
+
+Calculate the jobs allocated to each population center from each employment center:
+```{r}
+od_table <- od_table %>%
+  mutate(V_ij = Jobs * f_p)
+```
+
+Verify that the sum of all jobs allocated is consistent with the total number of jobs:
+```{r}
+sum(od_table$V_ij)
+```
+
+The total number of jobs is preserved.
+
+The spatial availability is the sum of available jobs by origin:
+```{r}
+availability <- od_table %>%
+  group_by(Origin) %>%
+  summarize(availability = sum(V_ij))
+availability
+```
+
+The above calculations are based on the size of the population centers only. Now we illustrate the calculations based on location, and calculate the denominator of the proportional allocation factors based on the impedance function:
+```{r}
+sum_impedance <- od_table %>% 
+  group_by(Destination) %>% 
+  summarize(sum_impedance = sum(f))
+sum_impedance
+```
+
+Employment center 1 is relatively the most distant from the population centers (the sum of the impedances gives a smaller value). Check:
+```{r}
+filter(od_table, Destination == "Employment Center 1") %>% select(Origin, Destination, distance, f)
+#filter(od_table, Destination == "Employment Center 1") %>% select(Origin, Destination, distance, f) %>% pull(f) %>% sum()
+```
+
+```{r}
+filter(od_table, Destination == "Employment Center 2") %>% select(Origin, Destination, distance, f)
+#filter(od_table, Destination == "Employment Center 2") %>% select(Origin, Destination, distance, f) %>% pull(f) %>% sum()
+```
+
+```{r}
+filter(od_table, Destination == "Employment Center 3") %>% select(Origin, Destination, distance, f)
+#filter(od_table, Destination == "Employment Center 3") %>% select(Origin, Destination, distance, f) %>% pull(f) %>% sum()
+```
+
+Next, join the sums of the impedances to the OD-table:
+```{r}
+od_table <- od_table %>%
+  left_join(sum_impedance,
+            by = "Destination")
+```
+
+Calculate the proportional allocation factor:
+```{r}
+od_table <- od_table %>%
+  mutate(f_c = f / sum_impedance)
+```
+
+Calculate the jobs allocated to each population center from each employment center:
+```{r}
+od_table <- od_table %>%
+  mutate(v_ij = Jobs * f_c)
+```
+
+Verify that the sum of all jobs allocated is consistent with the total number of jobs:
+```{r}
+sum(od_table$V_ij)
+```
+
+We will now calculate the availability using the two proportional allocation factors simultaneously:
+```{r}
+sum_pa <- od_table %>% 
+  group_by(Destination) %>% 
+  summarize(sum_pa= sum(f_p * f_c))
+sum_pa
+```
+
+Next, join the sums of the impedance to the OD-table:
+```{r}
+od_table <- od_table %>%
+  left_join(sum_pa,
+            by = "Destination")
+```
+
+Calculate the combined proportional allocation factor:
+```{r}
+od_table <- od_table %>%
+  mutate(f_t = (f_p * f_c) / sum_pa)
+```
+
+Calculate the jobs allocated to each population center from each employment center:
+```{r}
+od_table <- od_table %>%
+  mutate(V_ij = Jobs * f_t)
+```
+
+Verify that the sum of all jobs allocated is consistent with the total number of jobs:
+```{r}
+sum(od_table$V_ij)
+```
+
+The spatial availability of jobs for each population center is the sum of the jobs proportionally allocated to them from each employment center:
+```{r}
+availability <- od_table %>%
+  group_by(Origin) %>%
+  summarize(availability = sum(V_ij))
+availability
+```
+
+Again, check that the spatial availability is consistent with the total:
+```{r}
+sum(availability$availability)
+```
+
+Pack all these procedure of proportional allocation of opportunities into a function:
+```{r}
+p_allocation <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
+  # The input is an OD-table with Origins, Destinations, Population, Jobs, and a pre-calculated impedance function f
+  #' Multiply two numbers
+  #
+  #' @param x A data frame with origin-destination information, including identifiers for origins, destinations, population, opportunities, and a pre-calculated impedance function
+  #' @param o_id  A character string with the name of the column in data frame x that contains the unique origin identifiers
+  #' @param d_id  A character string with the name of the column in data frame x that contains the unique destination identifiers
+  #' @param pop   A character string with the name of the column in data frame x that contains the population
+  #' @param opp   A character string with the name of the column in data frame x that contains the opportunities
+  #' @param r     A character string with the name of the column in data frame x that contains catchment membership, with 1 if in catchment and 0 otherwise; defaults to 1 for all population  
+  #' @param f     A character string with the name of the column in data frame x that contains the values of the impedance function
+  #' @param alpha A number with the parameter \alpha
+  #' @return A vector with the number of opportunities available to o_id from d_id 
+  #' @export
+  
+  x <- x %>% 
+    rename(o = as.name(o_id),
+           d = as.name(d_id),
+           p = as.name(pop),
+           w = as.name(opp),
+           f = as.name(f))
+  
+  if(!missing(r)){
+    x <- x %>% 
+      rename(r = as.name(r))
+  }else{
+    r = 1
+  }
+  
+  
+  #sum_pop <- x %>%
+  #  distinct(o, 
+  #           .keep_all = TRUE) %>%
+  #  mutate(sum_pop = p^alpha) %>%
+  #  pull(sum_pop) %>%
+  #  sum()
+  
+  sum_pop <- x %>% 
+    group_by(d) %>% 
+    summarize(sum_pop = sum(r * p^alpha))
+  
+  x <- x %>%
+    left_join(sum_pop,
+              by = "d")
+  
+  x <- x %>%
+    mutate(f_p = r * p^alpha / sum_pop)
+  
+  sum_impedance <- x %>% 
+    group_by(d) %>% 
+    summarize(sum_impedance = sum(f))
+  
+  x <- x %>%
+    left_join(sum_impedance,
+              by = "d")
+  
+  x <- x %>%
+    mutate(f_c = f / sum_impedance)
+  
+  sum_pa <- x %>% 
+    group_by(d) %>% 
+    summarize(sum_pa= sum(f_p * f_c))
+  
+  x <- x %>%
+    left_join(sum_pa,
+              by = "d")
+  
+  x <- x %>%
+    mutate(f_t = (f_p * f_c) / sum_pa)
+  
+  x <- x %>%
+    mutate(v_ij = w * f_t)
+  
+  return(x$v_ij)
+}
+```
+
+# Examples of applications
+
+Refresh the od_table:
+```{r}
+load("od_table.rda")
+```
+
+Recalculate the impedance function:
+```{r}
+beta <- 0.0015
+od_table <- od_table %>%
+  mutate(f = exp(-beta * distance))
+```
+
+## Scenario 1
+
+Calculate the proportional allocation of opportunities:
+```{r}
+od_table <- od_table %>%
+  mutate(V_ij_exp = p_allocation(., 
+                                 o_id = "Origin", 
+                                 d_id = "Destination", 
+                                 pop = "Population", 
+                                 opp = "Jobs",
+                                 f = "f"))
+```
+
+Verify that the sum of all jobs allocated is consistent with the total number of jobs:
+```{r}
+sum(od_table$V_ij_exp)
+```
+
+The total number of jobs is preserved.
+
+Aggregate available jobs by origin:
+```{r}
+availability <- od_table %>%
+  group_by(Origin) %>%
+  summarize(avail_exp = sum(V_ij_exp))
+availability
+```
+
+Join the availability to the simulated_data:
+```{r}
+simulated_data <- simulated_data %>%
+  left_join(availability, 
+            by = c("id" = "Origin"))
+```
+
+Plot the availability estimates:
+```{r fig.height=3}
+avail_exp_plot <- ggplot() +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(color = avail_exp,
+              size = avail_exp),
+          shape = 17) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(size = avail_exp),
+          shape = 2) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "jobs"),
+          aes(size = number,
+              shape = )) +
+  scale_color_distiller(palette = "OrRd",
+                        direction = 1)
+
+avail_exp_plot
+```
+
+How do we interpret this? Accessibility is the number of jobs that can be reached at a given cost. Here, the total number of jobs is a constant. Population center 5 has the greatest availability, due to being a large population center that is moreover relatively close to jobs.
+
+Since the total number of jobs is constant, we can calculate the available jobs per person:
+```{r}
+simulated_data <- simulated_data %>%
+  mutate(avail_exp_per_person = avail_exp/number)
+```
+
+Plot the availability per person:
+```{r fig.height=3}
+avail_exp_person_plot <- ggplot() +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(color = avail_exp_per_person,
+              size = avail_exp_per_person),
+          shape = 17) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(size = avail_exp_per_person),
+          shape = 2) +
+  scale_color_gradient2(midpoint = 1)
+
+avail_exp_person_plot
+```
+Some population centers have almost two jobs available per person, and others less than one job available per person. This does not mean that people are not taking some of the jobs. It means that controlling for the cost of reaching jobs, they are worse off than those with more jobs spatially available. 
+
+## Scenario 2
+
+## Scenario 3
+
+Calculate the proportional allocation of opportunities but now with catchment constraints:
+```{r}
+od_table <- od_table %>%
+  mutate(V_ij_r = p_allocation(., 
+                               o_id = "Origin", 
+                               d_id = "Destination", 
+                               pop = "Population", 
+                               opp = "Jobs",
+                               r = "catchments",
+                               f = "f"))
+```
+
+Verify that the sum of all jobs allocated is consistent with the total number of jobs:
+```{r}
+sum(od_table$V_ij_r)
+```
+
+The total number of jobs is preserved.
+
+Repeat the availability calculation:
+```{r}
+availability <- od_table %>%
+  group_by(Origin) %>%
+  summarize(avail_r = sum(V_ij_r))
+availability
+```
+
+Join the availability to the simulated_data:
+```{r}
+simulated_data <- simulated_data %>%
+  left_join(availability, 
+            by = c("id" = "Origin"))
+```
+
+Plot the availability estimates:
+```{r fig.height=6}
+avail_r_plot <- ggplot() +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(color = avail_r,
+              size = avail_r),
+          shape = 17) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(size = avail_r),
+          shape = 2) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "jobs"),
+          aes(size = number,
+              shape = )) +
+  scale_color_distiller(palette = "OrRd",
+                        direction = 1)
+
+avail_exp_plot / avail_r_plot
+```
+
+Available jobs per person with catchment/eligibility conditions:
+```{r}
+simulated_data <- simulated_data %>%
+  mutate(avail_r_per_person = avail_r/number)
+```
+
+Plot the availability per person:
+```{r fig.height=6}
+avail_r_person_plot <- ggplot() +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(color = avail_r_per_person,
+              size = avail_r_per_person),
+          shape = 17) +
+  geom_sf(data = simulated_data %>% 
+            filter(type == "population"),
+          aes(size = avail_r_per_person),
+          shape = 2) +
+  scale_color_gradient2(midpoint = 1)
+
+avail_exp_person_plot / avail_r_person_plot
+```
