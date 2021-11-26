@@ -4,32 +4,23 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-```
+# Spatial Availability Measure
 
-# Equity-Access-Measures
+This repository contains working files and a draft manuscript detailing to a newly proposed  _proportionally allocated_ accessibility measure referred to as **spatial availability**. This measure is within the family of transport planning accessibility measures. 
+
+All files are still a collaborative work in process. Contributors: Anastasia Soukhov, Antonio Paez, Chris Higgins, and Moataz Mohamed.
+
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Equity-Access-Measures is to ...
+# About
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+The goal of this project is to contrast the differences, boundaries, and improvements of a newly proposed accessibility measure we call **spatial availability**. Through the example of Worker Origin to Job Destination Transportation Tomorrow Survey (TTS) data in the City of Toronto, conventional accessibility to jobs is calculated alongside the proposed spatially **available** accessibility to jobs measure. 
 
-```{r cars}
-summary(cars)
-```
+Associated data and a function for **spatial availability** is available in a data-package called 'JobsAvailable-TTS16' ([_work in progress_](https://github.com/soukhova/JobsAvailable-TTS16)). This data-package, includes the TTS origins, TTS destinations, number of jobs and workers at origin and destination, travel times by car (calculated via [`r5r`](https://github.com/ipeaGIT/r5r)), the **spatial availability** function, and a developed vignette demonstrating a toy example.
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
+# Keywords
 
-You can also embed plots, for example:
+Accessibility
 
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub.

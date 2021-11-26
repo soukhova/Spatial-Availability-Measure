@@ -1,0 +1,55 @@
+---
+title: Spatial Availability Measure
+author:
+  - name: "Anastasia Soukhov"
+    email: "soukhoa@mcmaster.ca"
+    affiliation: McMaster University
+  - name: "Antonio Paez"
+    email: "paezha@mcmaster.ca"
+    affiliation: McMaster University
+    footnote: "Corresponding Author"
+  - name: "Christopher D. Higgins"
+    email: "cd.higgins@utoronto.ca"
+    affiliation: University of Toronto Scarborough
+  - name: "Moataz Mohamed"
+    email: "mmohame@mcmaster.ca"
+    affiliation: McMaster University
+address:
+  - code: McMaster University
+    address: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - code: University of Toronto Scarborough
+    address: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4"
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+
+journal: "An awesome journal"
+date: "`r Sys.Date()`"
+bibliography: mybibfile.bib
+#linenumbers: true
+#numbersections: true
+csl: elsevier-harvard.csl
+output: rticles::elsevier_article
+---
+
+```{r load-package, include=FALSE}
+library(tidyverse)
+library(JobsAvailable-TTS16)
+```
+
+# Introduction
+
+# Spatial Accessibility Measure notes/highlights
+
+- improves interpretability of conventional accessibility measure. Conventional accessibility captures the spatial structure of opportunity distribution; it does not consider which opportunities are realistically available to the opportunity-seeking population. 
+- this measure introduces a new meaning to how many opportunities can be accessed by an area by constraining the opportunities to a number of _available_ opportunities for each origin containing opportunity-seeking people. 
+- there have been efforts to develop competitive accessibility measures but issues of inflation/deflation
+- how is our measure different? proportional allocation of opportunity-seeking population allowing for outputs which determine the rate of _available_ opportunities per person and provide a benchmark for _availability_ opportunities per person within a boundary
+- we will compare conventional accessibility to the proposed _spatial availability_ accessibility measure. 
+
+References {#references .unnumbered}
+==========

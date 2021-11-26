@@ -1,0 +1,128 @@
+\documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
+%%% Begin My package additions %%%%%%%%%%%%%%%%%%%
+\usepackage[hyphens]{url}
+
+  \journal{An awesome journal} % Sets Journal name
+
+
+\usepackage{lineno} % add
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+\usepackage{graphicx}
+%%%%%%%%%%%%%%%% end my additions to header
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \usepackage{fontspec}
+  \ifxetex
+    \usepackage{xltxtra,xunicode}
+  \fi
+  \defaultfontfeatures{Mapping=tex-text,Scale=MatchLowercase}
+  \newcommand{\euro}{€}
+\fi
+% use microtype if available
+\IfFileExists{microtype.sty}{\usepackage{microtype}}{}
+\bibliographystyle{elsarticle-harv}
+\ifxetex
+  \usepackage[setpagesize=false, % page size defined by xetex
+              unicode=false, % unicode breaks when used with xetex
+              xetex]{hyperref}
+\else
+  \usepackage[unicode=true]{hyperref}
+\fi
+\hypersetup{breaklinks=true,
+            bookmarks=true,
+            pdfauthor={},
+            pdftitle={Spatial Availability Measure},
+            colorlinks=false,
+            urlcolor=blue,
+            linkcolor=magenta,
+            pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
+
+\setcounter{secnumdepth}{0}
+% Pandoc toggle for numbering sections (defaults to be off)
+\setcounter{secnumdepth}{0}
+
+% Pandoc citation processing
+
+% Pandoc header
+
+
+
+\begin{document}
+\begin{frontmatter}
+
+  \title{Spatial Availability Measure}
+    \author[McMaster University]{Anastasia Soukhov}
+   \ead{soukhoa@mcmaster.ca} 
+    \author[McMaster University]{Antonio Paez\corref{Corresponding
+Author}}
+   \ead{paezha@mcmaster.ca} 
+    \author[University of Toronto Scarborough]{Christopher D. Higgins}
+   \ead{cd.higgins@utoronto.ca} 
+    \author[McMaster University]{Moataz Mohamed}
+   \ead{mmohame@mcmaster.ca} 
+      \address[McMaster University]{School of Earth, Environment and
+Society, McMaster University, Hamilton, ON, L8S 4K1, Canada}
+    \address[University of Toronto Scarborough]{Department of Geography
+\& Planning, University of Toronto Scarborough, 1265 Military Trail,
+Toronto, ON M1C1A4}
+      \cortext[1]{Corresponding Author}
+  
+  \begin{abstract}
+  This is the abstract.
+
+  It consists of two paragraphs.
+  \end{abstract}
+  
+ \end{frontmatter}
+
+\hypertarget{introduction}{%
+\section{Introduction}\label{introduction}}
+
+\hypertarget{spatial-accessibility-measure-noteshighlights}{%
+\section{Spatial Accessibility Measure
+notes/highlights}\label{spatial-accessibility-measure-noteshighlights}}
+
+\begin{itemize}
+\tightlist
+\item
+  improves interpretability of conventional accessibility measure.
+  Conventional accessibility captures the spatial structure of
+  opportunity distribution; it does not consider which opportunities are
+  realistically available to the opportunity-seeking population.
+\item
+  this measure introduces a new meaning to how many opportunities can be
+  accessed by an area by constraining the opportunities to a number of
+  \emph{available} opportunities for each origin containing
+  opportunity-seeking people.
+\item
+  there have been efforts to develop competitive accessibility measures
+  but issues of inflation/deflation
+\item
+  how is our measure different? proportional allocation of
+  opportunity-seeking population allowing for outputs which determine
+  the rate of \emph{available} opportunities per person and provide a
+  benchmark for \emph{availability} opportunities per person within a
+  boundary
+\item
+  we will compare conventional accessibility to the proposed
+  \emph{spatial availability} accessibility measure.
+\end{itemize}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+
+\end{document}

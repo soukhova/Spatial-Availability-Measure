@@ -1,36 +1,37 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Equity-Access-Measures
+# Spatial Availability Measure
+
+This repository contains working files and a draft manuscript detailing
+to a newly proposed *proportionally allocated* accessibility measure
+referred to as **spatial availability**. This measure is within the
+family of transport planning accessibility measures.
+
+All files are still a collaborative work in process. Contributors:
+Anastasia Soukhov, Antonio Paez, Chris Higgins, and Moataz Mohamed.
 
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of Equity-Access-Measures is to …
+# About
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+The goal of this project is to contrast the differences, boundaries, and
+improvements of a newly proposed accessibility measure we call **spatial
+availability**. Through the example of Worker Origin to Job Destination
+Transportation Tomorrow Survey (TTS) data in the City of Toronto,
+conventional accessibility to jobs is calculated alongside the proposed
+spatially **available** accessibility to jobs measure.
 
-``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
-```
+Associated data and a function for **spatial availability** is available
+in a data-package called ‘JobsAvailable-TTS16’ ([*work in
+progress*](https://github.com/soukhova/JobsAvailable-TTS16)). This
+data-package, includes the TTS origins, TTS destinations, number of jobs
+and workers at origin and destination, travel times by car (calculated
+via [`r5r`](https://github.com/ipeaGIT/r5r)), the **spatial
+availability** function, and a developed vignette demonstrating a toy
+example.
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
+# Keywords
 
-You can also embed plots, for example:
-
-![](README_files/figure-gfm/pressure-1.png)<!-- -->
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub.
+Accessibility
