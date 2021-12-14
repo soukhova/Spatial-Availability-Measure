@@ -1,0 +1,39 @@
+---
+title: "Estimating spatial availability/mismatch using singly constrained accessibility measures"
+author:
+  - name: "Anastasia Soukhov"
+    email: "soukhoa@mcmaster.ca"
+    affiliation: SEES
+  - name: "Antonio Paez"
+    email: "paezha@mcmaster.ca"
+    affiliation: SEES
+    footnote: "Corresponding Author"
+  - name: "Christopher D. Higgins"
+    email: "cd.higgins@utoronto.ca"
+    affiliation: UofTS
+  - name: "Moataz Mohamed"
+    email: "mmohame@mcmaster.ca"
+    affiliation: CIVENG
+address:
+  - code: SEES
+    address: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - code: University of Toronto Scarborough
+    address: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4"
+  - code: CIVENG
+    address: "Dept. of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+abstract: |
+  This is the abstract.
+
+  It consists of two paragraphs.
+
+journal: "Journal of Transport Geography"
+date: "`r Sys.Date()`"
+bibliography: bibliography.bib
+#linenumbers: true
+#numbersections: true
+csl: elsevier-harvard.csl
+output: rticles::elsevier_article
+---
