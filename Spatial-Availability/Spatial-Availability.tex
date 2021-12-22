@@ -54,6 +54,31 @@
 \setcounter{secnumdepth}{0}
 
 % Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 % Pandoc header
 \usepackage{booktabs}
@@ -98,24 +123,113 @@ constrained accessibility measures}
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
 
-Accessibility analysis is widely employed in transportation, geography,
-public health, and many other areas. It is a relatively simple concept
-whose appeal derives from combining the spatial distribution of
-opportunities and the cost of reaching them. Recent works have aimed at
-making accessibility easier to interpret. This vignette introduces the
-concept of spatial \emph{availability}, a form of singly-constrained
-accessibility that preserves the number of opportunities available, and
-therefore leads to more interpretable results.
+The concept of accessibility is a relatively simple one whose appeal
+derives from combining the spatial distribution of opportunities and the
+cost of reaching them (Hansen, 1959). Numerous methods for calculating
+accessibility have been proposed that can be broadly organized into
+infrastructure-, place-, person-, and utility-based measures (Geurs and
+van Wee, 2004). Of these, the place-based family of measures is arguably
+the most common, capturing the number of opportunities reachable from an
+origin using the transportation network. This type of measure is also
+referred to as a gravity-based measure of accessibility that captures
+the potential for interaction.
 
-\hypertarget{background-accessibility-analysis}{%
-\section{Background: Accessibility
-Analysis}\label{background-accessibility-analysis}}
+Accessibility analysis is widely employed in transportation, geography,
+public health, and many other areas, and there is increasing emphasis on
+a shift from mobility-oriented to accessibility-oriented planning
+(Deboosere et al., 2018; Handy, 2020; Proffitt et al., 2017; Yan, 2021).
+However, while these types of accessibility measures are excellent
+indicators of the intersection between urban structure and
+transportation infrastructure, they have been criticized in the past for
+not being highly interpretable. Previous research has highlighted how
+the weighting of opportunities using an impedance function can make
+gravity measures more difficult for planners and policymakers to
+interpret compared to simpler cumulative opportunity measures (Geurs and
+van Wee, 2004; Miller, 2018). Moreover, because place-based
+accessibility measures sensitive to the number of opportunities and the
+characteristics of the transportation network, raw accessibility values
+cannot be easily compared across study areas (Allen and Farber, 2019).
+
+It is also unclear what the highest and lowest levels of accessibility
+in the region actually represent. The ``total accessibility'' in the
+region is not a meaningful quantity since it is not constrained to
+resemble, let alone match the number of opportunities available in a
+region. Furthermore, while accessibility depends on the supply of
+destination opportunities weighted by the travel costs associated with
+reaching them, the calculated accessibilities are not sensitive to the
+demand for those opportunities at the origins. Put another way,
+traditional measures of place-based accessibility do not capture the
+competition for opportunities. This theoretical shortcoming (Geurs and
+van Wee, 2004) is particularly problematic when those opportunities are
+``non-divisible'' in the sense that, once they have been taken by
+someone, are no longer available to other members of the population.
+Examples of indivisible opportunities include jobs (when a person takes
+up a job, the same job cannot be taken by someone else) and seats at
+schools (once a student takes a seat at a school, that particular
+opportunity is no longer there for another student). From a different
+perspective, employers may see workers as opportunities, so when a
+worker takes a job, this particular individual is no longer in the
+available pool of candidates for hiring.
+
+To remedy these issues, researchers have proposed several different
+approaches for calculating competitive accessibility measures. On the
+one hand, this includes several approaches that first normalize the
+number of opportunities available at a destination by the demand for
+them from the origin zones and, second, sum the demand-corrected
+opportunities reachable from the origins (e.g. Joseph and Bantock
+(1984); Shen (1998)). These advances were popularized in the family of
+two-step floating catchment area methods (Luo and Wang, 2003) that have
+found widespread adoption for calculating competitive accessibility to
+healthcare and other uses. However, while floating catchment areas
+purport to account for competition/congestion effects, but as discussed
+by Paez, Higgins, and Vivona (2019), they are vulnerable to
+inflation/deflation issues due to the multiple counting of demand and
+supply, which makes them prone to bias unless corrected.
+
+A second approach is to impose constraints on the gravity model to
+ensure flows between zones are equal to the observed totals. Based on
+Wilson's (1971) spatial interaction models, researchers can incorporate
+a single or pair of constraints that control the magnitude of flows from
+zone \(i\) to \(j\) are equal to the demand at \(i\) and the number of
+opportunities at \(j\). Allen and Farber (2019) recently incorporated a
+version of the doubly-constrained gravity model within the floating
+catchment area approach to calculate competitive accessibility to
+accessibility using transit across eight cities in Canada. But while
+such a model can account for competition, the mutual dependence of the
+balancing factors in a doubly-constrained model means they must be
+iteratively calculated and thus more computationally-intensive.
+
+As an alternative to place-based measures of competitive accessibility,
+we propose a measure of \emph{spatial availability} to capture the
+number of indivisible opportunities that are realistically available to
+the opportunity-seeking population. As we will show, spatial
+availability is a singly-constrained measure of accessibility.
+By\ldots{} this method avoids the issues of inflation that result from
+multiple counting of opportunities in traditional accessibility
+measures. The method returns meaningful accessibilities that correspond
+to the rate of available opportunities per person. Moreover, the method
+also returns a benchmark value for the region under study against which
+results for individual origins can be compared.
+
+In the following sections we will describe and illustrate this new
+measure using simple numerical examples. First, we will describe the
+measure. Second, we will calculate the spatial availability of jobs from
+the perspective of the population. Then, we will calculate the spatial
+availability of workers from the perspective of employers. Next, we will
+illustrate how to calculate the spatial availability with catchment
+restrictions. Finally, we will compare conventional accessibility
+estimates to the proposed measure of spatial availability.
+
+\hypertarget{background}{%
+\section{Background}\label{background}}
 
 Most accessibility measures (excluding utility-based measures) are
 derived from the gravity model, and are known as \emph{gravity-based}
 accessibility. Briefly, consider the following conventional
-accessibility measure \(A_i\) : \[
-A_i = \sum_{j=1}^JW_jf(c_{ij})
+accessibility measure \(A_i\) :
+
+\[
+A_i = \sum_{j=1}^JO_jf(c_{ij})
 \]
 
 \noindent where:
@@ -127,7 +241,7 @@ A_i = \sum_{j=1}^JW_jf(c_{ij})
 \item
   \(j\) is a set of destination locations.
 \item
-  \(W_j\) is the number of opportunities at location \(j\). These are
+  \(O_j\) is the number of opportunities at location \(j\). These are
   opportunities for activity and add some sort of \emph{supply} to the
   area;
 \item
@@ -159,8 +273,8 @@ opportunities.
 \subsection{Numerical Example}\label{numerical-example}}
 
 In this section we present a simple numerical example. The setup for the
-example is a simple system with three employment centers and nine
-population centers, as seen in Table \ref{tab:toy-example}.
+example is a system with three employment centers and nine population
+centers, as seen in Table \ref{tab:toy-example}.
 
 \begin{table}
 
@@ -201,17 +315,15 @@ P9 & 255 & population & \multirow{-12}{*}{\raggedright\arraybackslash \includegr
 The accessibility to employment of each of the population centers can be
 calculated using the expression above for \(A_i\). As noted, this yields
 the number of jobs (opportunities) that are accessible (i.e., can be
-reached) from each population center, given the cost.
-
-In this example we use the straight line distance between the population
-and jobs for \(c_{ij}\), and a negative exponential function with
-\(\beta = 0.0015\).
+reached) from each population center, given the cost. In this example we
+use the straight line distance between the population and jobs for
+\(c_{ij}\), and a negative exponential function with \(\beta = 0.0015\).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1} \caption{\label{fig:toy-example-accessibility}Accessibility results using simple numerical example}\label{fig:toy-example-accessibility-plot}
 \end{figure}
 
-Plot \ref{fig:toy-example-accessibility} shows the three employment
+Figure \ref{fig:toy-example-accessibility} shows the three employment
 centers (black circles), with the size of the symbol in proportion to
 the number of jobs there. We also see nine population centers
 (triangles), where the size of the symbol is proportional to the
@@ -241,53 +353,28 @@ indicators of the intersection between urban structure and
 transportation infrastructure. However, beyond enabling comparisons of
 cardinality (e.g., P5 has higher accessibility than P1, which although
 low is still better than zero) they are not highly interpretable on
-their own.
-
-First, the ``total accessibility'' in the region is not a meaningful
-quantity since it is not constrained to resemble, let alone match the
-number of opportunities available in a region. Further, this quantity,
-if calculated, depends on the number of origins: since every additional
+their own. First, total accessibility \(\sum_{i=1}^IA_i\), if
+calculated, depends on the number of origins: since every additional
 origin in the analysis makes at least one and possibly more
-opportunities at destinations to be multiple-counted, the ``total
-accessibility'' is vulnerable to the modifiable areal unit problem.
+opportunities at destinations to be multiple-counted, total
+accessibility does not match the total number of opportunities available
+in the study area. Moreover, this property means total accessibility is
+vulnerable to the modifiable areal unit problem.
 
-Secondly, it is unclear what the highest and lowest levels of
-accessibility in the region actually represent. For example, an
-individual at P5 in the example has accessibility to 680.6373657 jobs.
-But since this is also a large population center, there is potentially
-large competition for those accessible jobs. In other words, the value
-of \(A_i\) is not sensitive to the size of population at the origin
-seeking the opportunity (in this case jobs), let alone the population at
-other locations. This unfortunately limits the interpretability of the
-measure. Floating catchment areas purport to account for
-competition/congestion effects, but as discussed by Paez, Higgins, and
-Vivona \href{https://doi.org/10.1371/journal.pone.0218773}{(2019)}, they
-are vulnerable to inflation/deflation issues, which makes them prone to
-bias unless corrected.
-
-As an alternative, we propose a measure of \emph{spatial
-availability/mismatch}.
-
-Spatial availability is an appropriate framework for \emph{indivisible}
-opportunities. These are opportunities that, once they have been taken
-by someone, are no longer available to other members of the population.
-Examples of indivisible opportunities include jobs (when a person takes
-up a job, the same job cannot be taken by someone else) and seats at
-schools (once a student takes a seat at a school, that particular
-opportunity is no longer there for another student). From a different
-perspective, employers may see workers as opportunities, so when a
-worker takes a job, this particular individual is no longer in the
-available pool of candidates for hiring. As we will show, spatial
-availability is a singly-constrained measure of accessibility.
-
-In the following sections we will describe and illustrate this new
-measure using simple numerical examples. First, we will describe the
-measure. Second, we will calculate the spatial availability of jobs from
-the perspective of the population. Then, we will calculate the spatial
-availability of workers from the perspective of employers. Next, we will
-illustrate how to calculate the spatial availability with catchment
-restrictions. Finally, we will compare conventional accessibility
-estimates to the proposed measure of spatial availability.
+Second, the calculated accessibilities do not take competition into
+account. For example, an individual at P5 in the example has
+accessibility to 680.6373657 jobs. But since this is also a large
+population center, there is potentially large competition for those
+accessible jobs. In other words, the value of \(A_i\) is not sensitive
+to the size of population at the origin seeking the opportunity (in this
+case jobs), let alone the population at other locations. This
+unfortunately limits the interpretability of the measure. Floating
+catchment areas purport to account for competition/congestion effects,
+but as discussed by Paez, Higgins, and Vivona (2019), they are
+vulnerable to inflation/deflation issues, which makes them prone to bias
+unless corrected. As an alternative, we propose a singly-constrained
+gravity measure that corresponds to the concept of \emph{spatial
+availability} or \emph{mismatch}.
 
 \hypertarget{spatial-availabilitymismatch}{%
 \section{Spatial
@@ -297,12 +384,10 @@ Availability/Mismatch}\label{spatial-availabilitymismatch}}
 \subsection{Definitions}\label{definitions}}
 
 As recent research on accessibility shows (see for instance Paez,
-Higgins, Vivona,
-\href{https://doi.org/10.1371/journal.pone.0218773}{2019} and Allen and
-Farber \href{https://doi.org/10.1111/gean.12188}{(2020)}), accounting
-for competitive access in a meaningful way requires the proportional
+Higgins, Vivona (2019) and Allen and Farber (2019)), accounting for
+competitive access in a meaningful way requires the proportional
 allocations of quantities in the accessibility calculations, or their
-normalization. At issue is the fact that that multiple-counting is
+normalization. At issue is the fact that multiple-counting is
 commonplace when calculating conventional accessibility \(A_i\) for
 \(i=1,\cdots,n\). This is easy to see once we realize that every
 opportunity enters the weighted sum once for every origin \(i\) that can
@@ -321,29 +406,38 @@ opportunities.
 
 We begin with allocation based on demand (the number of individuals in
 the population in the labor market who ``demand'' employment). Consider
-an employment center \(j\) with \(W_j^r\) jobs of type \(r\). In the
+an employment center \(j\) with \(O_j^r\) jobs of type \(r\). In the
 general case where there are \(K\) population centers in the region, the
 following factor can be defined to allocate the jobs proportionally
-based on the size of the population at each center: \[
+based on the size of the population at each center:
+
+\[
 f^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{k=1}^K P_{k\in r}^\alpha}
-\] \noindent where \(f^p_{ij}\) is a factor that proportionally
-allocates a share of the jobs at \(j\) to population center \(i\). On
-the right hand side of the equation, \(P_{k\in r}\) is the population at
-location \(k\) that is eligible for jobs of type \(r\) (maybe those with
-a certain level of training, or in a designated age group). Here we add
-an empirical parameter \(\alpha\) that can be used to modulate the
-effect of size in the calculations (i.e., if \(\alpha <1\) employment
-centers draw more rapidly from small centers than from large centers,
-and when \(\alpha>1\) employment centers draw more rapidly from large
-population centers). The summation in the bottom is over
-\(k=1,\cdots,K\), the number of population centers in the region. The
-factors \(f_{kj}^p\) satisfy the property that
-\(\sum_k^{K} f^p_{kj} = 1\).
+\]
+
+\noindent where \(f^p_{ij}\) is a factor that proportionally allocates a
+share of the jobs at \(j\) to population center \(i\). On the right hand
+side of the equation, \(P_{k\in r}\) is the population at location \(k\)
+that is eligible for jobs of type \(r\) (maybe those with a certain
+level of training, or in a designated age group). Here we add an
+empirical parameter \(\alpha\) that can be used to modulate the effect
+of size in the calculations (i.e., if \(\alpha <1\) employment centers
+draw more rapidly from small centers than from large centers, and when
+\(\alpha>1\) employment centers draw more rapidly from large population
+centers). The summation in the bottom is over \(k=1,\cdots,K\), the
+number of population centers in the region. The factors \(f_{kj}^p\)
+satisfy the property that \(\sum_k^{K} f^p_{kj} = 1\).
 
 The share of jobs at \(j\) allocated to (i.e., available to) each
-population center is: \[
+population center is:
+
+\[
 V_{kj} = W_jf^p_{kj}
-\] \noindent and since \(\sum_k^{K} f^p_{kj} = 1\) it follows that: \[
+\]
+
+\noindent and since \(\sum_k^{K} f^p_{kj} = 1\) it follows that:
+
+\[
 \sum_{k=1}^K V_{kj} = W_j 
 \]
 
@@ -353,7 +447,9 @@ As an example, consider an employment center \(j\) in a region with two
 population centers (say \(i\) and \(k\)). For simplicity, assume that
 the all the population in the region is eligible for these jobs, that
 is, that the entirety of the population is included in the set \(r\).
-The allocation factors for the jobs at \(j\) would be: \[
+The allocation factors for the jobs at \(j\) would be:
+
+\[
 \begin{array}{l}\
 f^p_{ij} = \frac{P_i ^\alpha}{P_i^\alpha + P_k^\alpha}\\
 f^p_{kj} = \frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha}\\
@@ -363,13 +459,17 @@ f^p_{kj} = \frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha}\\
 Suppose that there are three hundred jobs in the employment center
 (\(W_j = 300\)), and that the populations are \(P_j=240\) and
 \(P_k=120\). The jobs are allocated as follows (assuming that
-\(\alpha=1\)): \[
+\(\alpha=1\)):
+
+\[
 \begin{array}{l}\
 V_{ij} = W_j\frac{P_i^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{240}{240 + 120} = 300\frac{240}{360} = 200\\
 V_{kj} = W_j\frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{120}{240 + 120} = 300\frac{120}{360} = 100 \\
 \end{array}
-\] It can be seen that proportionally more jobs are allocated to the
-bigger center and also that the total number of jobs is preserved
+\]
+
+It can be seen that proportionally more jobs are allocated to the bigger
+center and also that the total number of jobs is preserved
 (\(\sum_{k=1}^K W_{kj} = W_j\)).
 
 The factors above account for the total number of opportunities at the
@@ -380,59 +480,81 @@ how far population center \(i\) is from employment center \(j\). To
 account for this effect we define a second set of allocation factors
 based on distance to the employment centers. These are defined as: \[
 f^c_{ij} = \frac{f(c_{ij})}{\sum_{k=1}^K f(c_{kj})}
-\] \noindent where \(c_{ij}\) is the cost (e.g., the distance, travel
-time, etc.) to employment center \(j\) from population center \(i\), and
+\]
+
+\noindent where \(c_{ij}\) is the cost (e.g., the distance, travel time,
+etc.) to employment center \(j\) from population center \(i\), and
 \(f(\cdot)\) is an impedance function, that is a monotonically
 decreasing function of \(c_{kj}\). The idea is that proportionally more
 jobs are allocated to closer locations. Assume that the impedance
 function is a negative exponential function as follows, and assume that
 \(\beta\) (which modulates the steepness of the impedance effect and is
-an empirical parameter) is one: \[
+an empirical parameter) is one:
+
+\[
 f(c_{ij}) = \exp(-\beta c_{ij})
-\] Continuing the example, suppose that the distance from population
-center \(i\) to employment center \(j\) is 0.6 km, and the distance from
+\]
+
+Continuing the example, suppose that the distance from population center
+\(i\) to employment center \(j\) is 0.6 km, and the distance from
 population center \(k\) to employment center \(j\) is 0.3 km. Being
 closer, we would expect more jobs to be allocated to the population of
-\(i\). The jobs would be sorted as follows: \[
+\(i\). The jobs would be sorted as follows:
+
+\[
 \begin{array}{l}\
 f^c_{ij} = \frac{\exp(-\beta D_{ij})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
 f^c_{kj} = \frac{\exp(-\beta D_{kj})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
 \end{array}
 \]
 
-Numerically, the jobs allocation is: \[
+Numerically, the jobs allocation is:
+
+\[
 \begin{array}{l}\
 V^d_{ij} = W_j\frac{\exp(-D_{ij})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.6)}{\exp(-0.6) + \exp(-0.3)} = 3\times 0.426 = 127.8\\
 V^d_{kj} = W_j\frac{\exp(-D_{kj})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.3)}{\exp(-0.6) + \exp(-0.3)} = 3\times  0.574 = 172.2\\
 \end{array}
-\] A larger share of jobs is allocated to the population center that is
+\]
+
+A larger share of jobs is allocated to the population center that is
 closest. As before, the sum of jobs allocated to the population centers
 matches the total number of jobs available.
 
 We can combine the proportional allocation factors by population and
-distance as follows: \[
+distance as follows:
+
+\[
 V_{ij} = W_i\frac{f^p_{ij} \cdot f^c_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^c_{kj}}
 \]
 
-In the example: \[
+In the example:
+
+\[
 \begin{array}{l}\
 V_{ij} = W_j\cdot \frac{f^o_{ij} \cdot f^c_{ij}}{f^o_{ij} \cdot f^c_{ij} + f^o_{kj} \cdot f^c_{kj}} = 300 \frac{\big(\frac{2}{3} \big) \big(0.426 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)} = \big(300 \big)\big(\frac{0.284}{0.475} \big)= 179.4\\
 V_{kj} = W_j\cdot \frac{f^o_{kj} \cdot f^c_{kj}}{f^o_{ij} \cdot f^c_{ij} + f^o_{ik} \cdot f^c_{ik}} = 300 \frac{\big(\frac{1}{3} \big) \big(0.574 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)}  = \big(300 \big)\big(\frac{0.191}{0.475} \big)= 120.6 \\
 \end{array}
-\] Notice how fewer jobs are allocated to population center \(i\)
-compared to the allocation by population only, to account for the higher
-cost of reaching the employment center. On the other hand, distance
-alone allocated more jobs to the closest population center (i.e.,
-\(k\)), but since it is smaller, it also get a smaller share of the jobs
-overall. Again, the sum of jobs at employment center \(j\) that are
-allocated to population centers \(i\) and \(k\) simultaneously based on
+\]
+
+Notice how fewer jobs are allocated to population center \(i\) compared
+to the allocation by population only, to account for the higher cost of
+reaching the employment center. On the other hand, distance alone
+allocated more jobs to the closest population center (i.e., \(k\)), but
+since it is smaller, it also get a smaller share of the jobs overall.
+Again, the sum of jobs at employment center \(j\) that are allocated to
+population centers \(i\) and \(k\) simultaneously based on
 \emph{population-} and \emph{distance-} based allocation is preserved
 (i.e., \(W_{ij} + W_{kj} = W_j\)).
 
-Availability is simply the sum of the above by origin: \[
+Availability is simply the sum of the above by origin:
+
+\[
 V_i = \sum_{j=1}^J V_{ij}
-\] This quantity represents opportunities (e.g., jobs) that can be
-reached from \(i\) (i.e., they are accessible), and that are \emph{not}
+\]
+
+This quantity represents opportunities (e.g., jobs) that can be reached
+from \(i\) (i.e., they are accessible), and that are \emph{not}
 allocated to a competitor: therefore the weighted sum of available
 opportunities. Compare \(V_i\) to the singly-constrained gravity model
 (see Wilson \href{https://doi.org/10.1068/a030001}{(1971)}). In essence,
@@ -442,16 +564,22 @@ opportunities.
 
 Since the sum of opportunities is preserved in the procedures above, it
 is possible to calculate a highly interpretable measure of spatial
-availability per capita (call it lower-case \(v_i\)) as follows: \[
+availability per capita (call it lower-case \(v_i\)) as follows:
+
+\[
 v_i = \frac{V_i}{P_i}
 \]
 
-In the example above: \[
+In the example above:
+
+\[
 \begin{array}{l}\
 v_{ij} = \frac{V_{ij}}{P_i} =  \frac{179.4}{240}\\
 v_{kj} =  \frac{V_{ik}}{P_k} =  \frac{120.6}{120}\\
 \end{array}
-\] Less competition (\(P_k\) is the smallest population center in the
+\]
+
+Less competition (\(P_k\) is the smallest population center in the
 region) and being closer to the jobs clearly works in favor of
 individuals at \(k\). Where the overall ratio of jobs to population in
 the region is \(300/(240 + 120)=\) 0.83, the spatially available jobs
@@ -668,6 +796,7 @@ availability illustrated above. To facilitate the comparison, we index
 the measures so that the lowest value corresponds to an index of 100:
 
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/indexed-measures-comparison-1}
+
 The figure suggests that high accessibility does not necessarily mean
 high availability.
 
@@ -721,6 +850,84 @@ Words go here.
 \hypertarget{references}{%
 \section*{References}\label{references}}
 \addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-allen2019}{}%
+Allen, J., Farber, S., 2019. A Measure of Competitive Access to
+Destinations for Comparing Across Multiple Study Regions. Geographical
+Analysis 52, 69--86.
+doi:\href{https://doi.org/10.1111/gean.12188}{10.1111/gean.12188}
+
+\leavevmode\hypertarget{ref-deboosere2018}{}%
+Deboosere, R., El-Geneidy, A.M., Levinson, D., 2018.
+Accessibility-oriented development. Journal of Transport Geography 70,
+11--20.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2018.05.015}{10.1016/j.jtrangeo.2018.05.015}
+
+\leavevmode\hypertarget{ref-geurs2004}{}%
+Geurs, K.T., van Wee, B., 2004. Accessibility evaluation of land-use and
+transport strategies: review and research directions. Journal of
+Transport Geography 12, 127--140.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2003.10.005}{10.1016/j.jtrangeo.2003.10.005}
+
+\leavevmode\hypertarget{ref-handy2020}{}%
+Handy, S., 2020. Is accessibility an idea whose time has finally come?
+Transportation Research Part D: Transport and Environment 83, 102319.
+doi:\href{https://doi.org/10.1016/j.trd.2020.102319}{10.1016/j.trd.2020.102319}
+
+\leavevmode\hypertarget{ref-hansen1959}{}%
+Hansen, W.G., 1959. How Accessibility Shapes Land Use. Journal of the
+American Institute of Planners 25, 73--76.
+doi:\href{https://doi.org/10.1080/01944365908978307}{10.1080/01944365908978307}
+
+\leavevmode\hypertarget{ref-joseph1984}{}%
+Joseph, A.E., Bantock, P.R., 1984. Rural Accessibility of General
+Practitioners: the Case of Bruce and Grey Counties, ONTARIO,
+1901{{}}1981. The Canadian Geographer/Le Géographe canadien 28,
+226--239.
+doi:\href{https://doi.org/10.1111/j.1541-0064.1984.tb00788.x}{10.1111/j.1541-0064.1984.tb00788.x}
+
+\leavevmode\hypertarget{ref-luo2003}{}%
+Luo, W., Wang, F., 2003. Measures of Spatial Accessibility to Health
+Care in a GIS Environment: Synthesis and a Case Study in the Chicago
+Region. Environment and Planning B: Planning and Design 30, 865--884.
+doi:\href{https://doi.org/10.1068/b29120}{10.1068/b29120}
+
+\leavevmode\hypertarget{ref-miller2018}{}%
+Miller, E.J., 2018. Accessibility: measurement and application in
+transportation planning. Transport Reviews 38, 551--555.
+doi:\href{https://doi.org/10.1080/01441647.2018.1492778}{10.1080/01441647.2018.1492778}
+
+\leavevmode\hypertarget{ref-paez2019}{}%
+Paez, A., Higgins, C.D., Vivona, S.F., 2019. Demand and level of service
+inflation in Floating Catchment Area (FCA) methods. PLOS ONE 14,
+e0218773.
+doi:\href{https://doi.org/10.1371/journal.pone.0218773}{10.1371/journal.pone.0218773}
+
+\leavevmode\hypertarget{ref-proffitt2017}{}%
+Proffitt, D.G., Bartholomew, K., Ewing, R., Miller, H.J., 2017.
+Accessibility planning in American metropolitan areas: Are we there yet?
+Urban Studies 56, 167--192.
+doi:\href{https://doi.org/10.1177/0042098017710122}{10.1177/0042098017710122}
+
+\leavevmode\hypertarget{ref-shen1998}{}%
+Shen, Q., 1998. Location characteristics of inner-city neighborhoods and
+employment accessibility of low-wage workers. Environment and Planning
+B: Planning and Design 25, 345--365.
+doi:\href{https://doi.org/10.1068/b250345}{10.1068/b250345}
+
+\leavevmode\hypertarget{ref-wilson1971}{}%
+Wilson, A.G., 1971. A Family of Spatial Interaction Models, and
+Associated Developments. Environment and Planning A: Economy and Space
+3, 1--32. doi:\href{https://doi.org/10.1068/a030001}{10.1068/a030001}
+
+\leavevmode\hypertarget{ref-yan2021}{}%
+Yan, X., 2021. Toward Accessibility-Based Planning. Journal of the
+American Planning Association 87, 409--423.
+doi:\href{https://doi.org/10.1080/01944363.2020.1850321}{10.1080/01944363.2020.1850321}
+
+\end{CSLReferences}
 
 
 \end{document}
