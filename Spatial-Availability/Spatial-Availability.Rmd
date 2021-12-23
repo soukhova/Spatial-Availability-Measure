@@ -63,6 +63,7 @@ A second approach is to impose constraints on the gravity model to ensure flows 
 In this paper we propose an alternative approach to measuring competitive accessibility. We call it a measure of *spatial availability*, and it aims to capture the number of indivisible opportunities that are not only _accessible_ but also _available_ to the opportunity-seeking population, in the sense that they have not been claimed by a competing seeker of the opportunity. As we will show, spatial availability is a singly-constrained measure of accessibility. By allocating opportunities in a proportional way based on demand and distance, this method avoids the issues of inflation that result from multiple counting of opportunities in traditional accessibility measures. The method returns meaningful accessibilities that correspond to the rate of available opportunities per person. Moreover, the method also returns a benchmark value for the region under study against which results for individual origins can be compared.
 
 In the following sections we will describe and illustrate this new measure using simple numerical examples. First, we will describe the measure. Second, we will calculate the spatial availability of jobs from the perspective of the population. Then, we will calculate the spatial availability of workers from the perspective of employers. Next, we will illustrate how to calculate the spatial availability with catchment restrictions. Finally, we will compare conventional accessibility estimates to the proposed measure of spatial availability.
+<!--- empirical example? maybe replace toy example with empirical?-->
 
 # Background
 
@@ -80,7 +81,7 @@ $$
 -   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$
 -   $f(\cdot)$ is an impedance (or distance-decay) function (a monotonically non-increasing or decreasing function of $c_{ij}$).
 
-The accessibility value $A_i$, it can be seen, is the weighted sum of opportunities that can be reached from location $i$, given the cost of travel $c_{ij}$ and an impedance function. Summing the opportunities in the neighborhood of $i$ (the neighborhood is defined by the impedance function) estimates of the total number of opportunities that can be reached from $i$ at a certain cost. Depending on the impedance function, the measure could be cumulative opportunities (if $f(\cdot)$ is a binary or indicator function) or a more traditional gravity measure, for instance with a Gaussian impedance function or an inverse cost impedance function.
+The accessibility value $A_i$, it can be seen, is the weighted sum of opportunities that can be reached from location $i$, given the cost of travel $c_{ij}$ and an impedance function. Summing the opportunities in the neighborhood of $i$ (the neighborhood is defined by the impedance function) estimates of the total number of opportunities that can be reached from $i$ at a certain cost. Depending on the impedance function, the measure could be cumulative opportunities (if $f(\cdot)$ is a binary or indicator function) or a more traditional gravity measure, for instance with a Gaussian impedance function or an inverse cost impedance function <!--- citation --> .
 
 We use a simple numerical example to introduce the key concepts, and we will use the usual accessibility measure for comparison. In this way, we aim to show the differences between accessibility and spatial availability, which helps to explain how spatial availability can improve interpretability in the analysis of spatially dispersed opportunities.
 
@@ -192,17 +193,21 @@ toy_c_access_jobs_plot <- ggplot() +
 toy_c_access_jobs_plot 
 ```
 
-Figure \ref{fig:toy-example-accessibility} shows the three employment centers (black circles), with the size of the symbol in proportion to the number of jobs there. We also see nine population centers (triangles), where the size of the symbol is proportional to the accessibility to jobs. At a quick glance:
+Figure \ref{fig:toy-example-accessibility} shows the three employment centers locations (black circles), where the size of the symbol is in proportion to the number of jobs at each location. We also see nine population centers (triangles), where the size of the symbol is proportional to the accessibility ($$A_i$$) to jobs. At a glance:
 
 -   Population centers (triangles) in the middle of the map are relatively close to all three employment centers and thus have the highest levels of job accessibility. Population center `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)` is relatively central and close to all employment centers, and it is the closest population to the second largest employment center in the region. Unsurprisingly, this population center has the highest accessibility `r  toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(A_i) %>% round(2)`);
 
--   Population centers (triangles) near the left edge of the map (only in proximity to the small employment center) have the lowest levels of job accessibility. Population center `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` is quite peripheral and the closest emplyment center is also the smallest one. Concequently, it has the lowest accessibility with $A_i=$ `r toy_sim_zones_access %>% slice_min(A_i, n=1, with_ties = F) %>% pull(A_i) %>% round(2)`);
+-   Population centers (triangles) near the left edge of the map (only in proximity to the small employment center) have the lowest levels of job accessibility. Population center `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` is quite peripheral and the closest employment center is also the smallest one. Consequently, it has the lowest accessibility with $A_i=$ `r toy_sim_zones_access %>% slice_min(A_i, n=1, with_ties = F) %>% pull(A_i) %>% round(2)`);
 
 ## What are the Issues?
 
-Accessibility measures such as that illustrated above are excellent indicators of the intersection between urban structure and transportation infrastructure. However, beyond enabling comparisons of cardinality (e.g., `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)` has higher accessibility than `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)`, which although low is still better than zero) they are not highly interpretable on their own. First, total accessibility $\sum_{i=1}^IA_i$, if calculated, depends on the number of origins: since every additional origin in the analysis makes at least one and possibly more opportunities at destinations to be multiple-counted, total accessibility does not match the total number of opportunities available in the study area. Moreover, this property means total accessibility is vulnerable to the modifiable areal unit problem.
+Accessibility measures are excellent indicators of the intersection between urban structure and transportation infrastructure. However, beyond enabling comparisons of relative values <!---replaced: cardinality --> they are not highly interpretable on their own. For instance, from Figure \ref{fig:toy-example-accessibility}, `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` has lower accessibility than `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)`, however, despite the accessibility value for `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` being low it is still better than _zero_. This evaluation leaves decision makers unclear on how to interpret accessibility values, particularly extreme values and particularly when comparing across scenarios or regions <!--- cite?-->. The obscurity in interpretation of accessibility values arises from the following two ways.  <!--- cite?--> 
 
-Second, the calculated accessibilities do not take competition into account. For example, an individual at `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)` in the example has accessibility to `r  max(toy_sim_zones_access$A_i, na.rm=T)` jobs. But since this is also a large population center, there is potentially large competition for those accessible jobs. In other words, the value of $A_i$ is not sensitive to the size of population at the origin seeking the opportunity (in this case jobs), let alone the population at other locations. This unfortunately limits the interpretability of the measure. Floating catchment areas purport to account for competition/congestion effects, but as discussed by Paez, Higgins, and Vivona [-@paez2019], they are vulnerable to inflation/deflation issues, which makes them prone to bias unless corrected. As an alternative, we propose a singly-constrained gravity measure that corresponds to the concept of *spatial availability* or *mismatch*.
+First, origins with accessibility to a high density of opportunities are susceptible to having disproportionately higher accessibility values than origins with a lower density of opportunities.  This occurs since total accessibility ($\sum_{i=1}^IA_i$) depends on the number of origins; every additional origin in the analysis causes at least one and possibly more opportunities at destinations to be multiple-counted. As opportunities are multiple-counted, origins which are in proximity to high density of opportunities have accessibility values which are relatively conglomerated compared to origins in proximity to a lower density of opportunities. This issue means total accessibility is vulnerable to the modifiable areal unit problem (MAUP) as opportunities and origins which are spatially aggregated are multiple-counted inconsistently. 
+
+Second, the calculated accessibilities do not take competition into account. For example, an individual at `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)` has accessibility to `r  max(toy_sim_zones_access$A_i, na.rm=T)` jobs. But since this is also a large population center, there is potentially large competition for those accessible jobs. In other words, the value of $A_i$ is not sensitive to the size of population at the origin seeking the opportunity (in this case jobs), let alone the population at other locations. This unfortunately limits the interpretability of the measure. Floating catchment areas purport to account for competition/congestion effects, but as discussed by Paez, Higgins, and Vivona [-@paez2019], they are vulnerable to conglomeration <!-- replaced: inflation/deflation -->, which makes them prone to bias unless corrected. 
+
+To address these two shortcomings of the accessibility measure, we propose a singly-constrained gravity measure that corresponds to the concept of *spatial availability*. It is a form of *spatial mismatch* and related to *balanced floating catchment?* approach. <!-- ? -->
 
 # Spatial Availability/Mismatch
 
@@ -212,7 +217,7 @@ As recent research on accessibility shows (see for instance Paez, Higgins, Vivon
 
 In the spatial availability framework proposed, and in line with the gravity tradition, we distinguish between opportunities at a destination and demand for opportunities at the origin. To explain the analytical framework, the example of accessibility to employment is illustrative, with "population" in the role of demand and "jobs" in the role of opportunities.
 
-### Step 1. Proportional Allocation of Opportunities based on Demand
+### Step 1. Proportional Allocation of Opportunities Based on Demand
 
 We begin with allocation based on demand (the number of individuals in the population in the labor market who "demand" employment). Consider an employment center $j$ with $O_j^r$ jobs of type $r$. In the general case where there are $K$ population centers in the region, the following factor can be defined:
 
@@ -765,6 +770,18 @@ We can see that when there are catchment restrictions population center 2, despi
 
 Words go here.
 
+<!--
+- GHA impedance function derivation
+
+- Toronto?, Accessibility vs. SA plot
+
+- Comparison of plots
+1. Accessibility - spatially biased due to density of opportunities; empirically land-use density does not necessarily impact access to opportunities? (Kockelman, 1997?)
+2. Accessibility - not interpetable, (XX accessible jobs per person.. so what?) vs. Availability (XX available jobs per person); if below XX per capita, it is unjust etc. 
+2. ..
+
+-->
+
 # Discussion
 
 ## Comparing Accessibility and Spatial Availability
@@ -844,8 +861,27 @@ However, ultimately if the global number of opportunities (jobs in our case) is 
 ```
 As a final point, we note that the measure proposed, by producing a concrete and interpretable number of opportunities available, can be meaningfully compared to the total number of opportunities in the region. Likewise for opportunities available per capita. This is an important topic in equity analysis. For instance, considering the two remote small population centers in the top left corner it is evident that for individuals in population center 2, despite facing low nominal accessibility, have a relatively high number of available jobs per capita.
 
+## Use Cases and Limitations for Spatial Availability 
+
+<!-- 
+This measure is a type of spatial mismatch and evolution on BFCA (how?).
+1. when opportunity is indivisible; 
+2. When an opportunity is not indivisible it can be used to calculate "peak" accessibility in transportation planning cases
+3. Accessibility is still a multi-scale problem; since the number of opportunities are preserved, different scales, populations, and time-windows can be incorporated within the measure without introducing additional spatial basis. 
+
+Limitations:
+1. still does not tell us how many accessible opportunities will lead to participation/positive outcomes; it does come closer.... 
+2..
+-->
+
 # Conclusion
 
 Words go here.
+
+<!-- 
+- This measure is a type of spatial mismatch and evolution on BFCA (how?).
+- Preserves the number of opportunities, this results in an interpretable measure which depicts spatial availability
+- Interpretable benchmark for the region and across regions (e.g., availability of jobs per person)
+-->
 
 # References {#references .unnumbered}
