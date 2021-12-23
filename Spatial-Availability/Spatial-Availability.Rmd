@@ -54,19 +54,19 @@ The concept of accessibility is a relatively simple one whose appeal derives fro
 
 Accessibility analysis is widely employed in transportation, geography, public health, and many other areas, and there is increasing emphasis on a shift from mobility-oriented to accessibility-oriented planning [@deboosere2018; @handy2020; @proffitt2017; @yan2021]. However, while these types of accessibility measures are excellent indicators of the intersection between urban structure and transportation infrastructure, they have been criticized in the past for not being highly interpretable. Previous research has highlighted how the weighting of opportunities using an impedance function can make gravity measures more difficult for planners and policymakers to interpret compared to simpler cumulative opportunity measures [@geurs2004; @miller2018]. Moreover, because place-based accessibility measures sensitive to the number of opportunities and the characteristics of the transportation network, raw accessibility values cannot be easily compared across study areas [@allen2019].
 
-It is also unclear what the highest and lowest levels of accessibility in the region actually represent. The "total accessibility" in the region is not a meaningful quantity since it is not constrained to resemble, let alone match the number of opportunities available in a region. Furthermore, while accessibility depends on the supply of destination opportunities weighted by the travel costs associated with reaching them, the calculated accessibilities are not sensitive to the demand for those opportunities at the origins. Put another way, traditional measures of place-based accessibility do not capture the competition for opportunities. This theoretical shortcoming [@geurs2004] is particularly problematic when those opportunities are "non-divisible" in the sense that, once they have been taken by someone, are no longer available to other members of the population. Examples of indivisible opportunities include jobs (when a person takes up a job, the same job cannot be taken by someone else) and seats at schools (once a student takes a seat at a school, that particular opportunity is no longer there for another student). From a different perspective, employers may see workers as opportunities, so when a worker takes a job, this particular individual is no longer in the available pool of candidates for hiring.
+Intra- and inter-regional comparisons are challenging because gravity-based accessibility indicators are spatially smoothed estimates of the total number of opportunities, however, the meaning of their magnitudes is unclear. This is evident when we consider the "total accessibility" in the region, a quantity that is not particularly meaningful since it is not constrained to resemble, let alone match the number of opportunities available. Furthermore, while accessibility depends on the supply of destination opportunities weighted by the travel costs associated with reaching them, the calculated accessibilities are not sensitive to the demand for those opportunities at the origins. Put another way, traditional measures of place-based accessibility do not capture the competition for opportunities. This theoretical shortcoming [@geurs2004] is particularly problematic when those opportunities are "non-divisible" in the sense that, once they have been taken by someone, are no longer available to other members of the population. Examples of indivisible opportunities include jobs (when a person takes up a job, the same job cannot be taken by someone else) and placements at schools (once a student takes a seat at a school, that particular opportunity is no longer there for another student). From a different perspective, employers may see workers as opportunities, so when a worker takes a job, this particular individual is no longer in the available pool of candidates for hiring.
 
-To remedy these issues, researchers have proposed several different approaches for calculating competitive accessibility measures. On the one hand, this includes several approaches that first normalize the number of opportunities available at a destination by the demand for them from the origin zones and, second, sum the demand-corrected opportunities reachable from the origins (e.g. @joseph1984; @shen1998). These advances were popularized in the family of two-step floating catchment area methods [@luo2003] that have found widespread adoption for calculating competitive accessibility to healthcare and other uses. However, while floating catchment areas purport to account for competition/congestion effects, but as discussed by Paez, Higgins, and Vivona [-@paez2019], they are vulnerable to inflation/deflation issues due to the multiple counting of demand and supply, which makes them prone to bias unless corrected.
+To remedy these issues, researchers have proposed several different approaches for calculating competitive accessibility measures. On the one hand, this includes several approaches that first normalize the number of opportunities available at a destination by the demand for them from the origin zones and, second, sum the demand-corrected opportunities reachable from the origins [e.g. @joseph1984; @shen1998]. These advances were popularized in the family of two-step floating catchment area methods [@luo2003] that have found widespread adoption for calculating competitive accessibility to healthcare and other uses. In principle floating catchment areas purport to account for competition/congestion effects, although in practice several researchers [e.g., @delamater2013spatial; @wan2012three] have found that they tend to over-estimate the level of demand and/or service. The underlying issue, as demonstrated by @paez2019, is the multiple counting of both population and level of service, which can lead to biased estimates if not corrected.
 
-A second approach is to impose constraints on the gravity model to ensure flows between zones are equal to the observed totals. Based on Wilson's [-@wilson1971] spatial interaction models, researchers can incorporate a single or pair of constraints that control the magnitude of flows from zone $i$ to $j$ are equal to the demand at $i$ and the number of opportunities at $j$. Allen and Farber [-@allen2019] recently incorporated a version of the doubly-constrained gravity model within the floating catchment area approach to calculate competitive accessibility to accessibility using transit across eight cities in Canada. But while such a model can account for competition, the mutual dependence of the balancing factors in a doubly-constrained model means they must be iteratively calculated and thus more computationally-intensive.
+A second approach is to impose constraints on the gravity model to ensure flows between zones are equal to the observed totals. Based on Wilson's [-@wilson1971] entropy-derived gravity model, researchers can incorporate constraints to ensure that the modelled flows match some known quantities in the data inputs. In this way, models can be singly-constrained to match the row- or column-marginals (the trips produced or attracted, respectively), whereas a doubly-constrained model is designed to match both marginals. Allen and Farber [-@allen2019] recently incorporated a version of the doubly-constrained gravity model within the floating catchment area approach to calculate competitive accessibility to employment using transit across eight cities in Canada. But while such a model can account for competition, the mutual dependence of the balancing factors in a doubly-constrained model means they must be iteratively calculated which makes them more computationally-intensive. Furthermore, the double constraint means that the sum of opportunity-seekers and the sum of opportunities must match, which is not necessarily true in every case (e.g., there might be more people searching for work than jobs exist in a region).
 
-As an alternative to place-based measures of competitive accessibility, we propose a measure of *spatial availability* to capture the number of indivisible opportunities that are realistically available to the opportunity-seeking population. As we will show, spatial availability is a singly-constrained measure of accessibility. By allocationg opportunities in a proportional way based on demand and distance, this method avoids the issues of inflation that result from multiple counting of opportunities in traditional accessibility measures. The method returns meaningful accessibilities that correspond to the rate of available opportunities per person. Moreover, the method also returns a benchmark value for the region under study against which results for individual origins can be compared.
+In this paper we propose an alternative approach to measuring competitive accessibility. We call it a measure of *spatial availability*, and it aims to capture the number of indivisible opportunities that are not only _accessible_ but also _available_ to the opportunity-seeking population, in the sense that they have not been claimed by a competing seeker of the opportunity. As we will show, spatial availability is a singly-constrained measure of accessibility. By allocating opportunities in a proportional way based on demand and distance, this method avoids the issues of inflation that result from multiple counting of opportunities in traditional accessibility measures. The method returns meaningful accessibilities that correspond to the rate of available opportunities per person. Moreover, the method also returns a benchmark value for the region under study against which results for individual origins can be compared.
 
 In the following sections we will describe and illustrate this new measure using simple numerical examples. First, we will describe the measure. Second, we will calculate the spatial availability of jobs from the perspective of the population. Then, we will calculate the spatial availability of workers from the perspective of employers. Next, we will illustrate how to calculate the spatial availability with catchment restrictions. Finally, we will compare conventional accessibility estimates to the proposed measure of spatial availability.
 
 # Background
 
-Most accessibility measures (excluding utility-based measures) are derived from the gravity model, and are known as *gravity-based* accessibility. Briefly, consider the following conventional accessibility measure $A_i$ : 
+Most accessibility measures (excluding utility-based measures) are derived from the gravity model, and are known as *gravity-based* accessibility. Briefly, consider the following accessibility measure $A_i$ : 
 
 $$
 A_i = \sum_{j=1}^JO_jf(c_{ij})
@@ -115,6 +115,7 @@ ggplot(data = toy_sim_zones) +
                nudge_y = -600) +
   scale_size(range = c(2, 7))  + 
   theme(legend.position = "none",
+        axis.title = element_blank(),
         axis.text = element_blank(),
         panel.grid = element_blank(),
         panel.background = element_rect(size = 1, 
@@ -135,7 +136,7 @@ toy_sim_zones %>%
         booktabs = TRUE,
         col.names = c("id", "number", "type", ""),
         caption = "\\label{tab:toy-example}Numerical example") %>%
-  kable_styling(latex_options = c("scale_down")) %>%
+  #kable_styling(latex_options = c("scale_down")) %>%
   column_spec(4, 
               image = "images/figure-1.png") %>%
   collapse_rows(columns = 4, 
@@ -178,6 +179,7 @@ toy_c_access_jobs_plot <- ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
             filter(type == "jobs"),
           aes(size = number)) +
+  scale_size(range = c(3, 7)) +
   scale_color_distiller(palette = "OrRd",
                         direction = 1) +
   guides(size = "none") + 
@@ -344,7 +346,7 @@ toy_od_table <- toy_od_table %>%
                          f = f))
 ```
 
-```{r toy-example-availability-jobs-verification}
+```{r toy-example-availability-jobs-verification, include=FALSE}
 # After calculating that spatial availability, we can verify that the sum of all available jobs  is consistent with the total number of jobs in the region:
 sum(toy_od_table$V_ij)
 
@@ -387,7 +389,8 @@ toy_avail_jobs_plot <- ggplot() +
           aes(size = number,
               shape = )) +
   scale_color_distiller(palette = "OrRd",
-                        direction = 1)+
+                        direction = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -400,7 +403,7 @@ toy_avail_jobs_plot
 
 We see that population center 5 has the highest level of spatial availability, due to being a large population center that is moreover relatively close to jobs. To improve the interpretability of this measure, we first note that the regional measure of jobs per capita is `r round((toy_sim_zones %>% filter(type == "jobs") %>% pull(number) %>% sum())/(toy_sim_zones %>% filter(type == "population") %>% pull(number) %>% sum()), 3)`. We then calculate the spatially available jobs per person at each population center:
 
-```{r toy-example-spatial-availability-jobs-per-capita-calculation}
+```{r toy-example-spatial-availability-jobs-per-capita-calculation, include=FALSE}
 toy_sim_zones_access <- toy_sim_zones_access %>%
   mutate(v_i = V_i/number)
 
@@ -425,8 +428,10 @@ toy_avail_jobs_person_plot <- ggplot() +
           shape = 2) +
   geom_sf(data = toy_sim_zones_access %>% 
             filter(type == "jobs"),
-          shape = 16) +
-  scale_color_gradient2(midpoint = 1)+
+          shape = 16,
+          size = 2) +
+  scale_color_gradient2(midpoint = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -457,7 +462,7 @@ toy_od_table <- toy_od_table %>%
                          f = f))
 ```
 
-```{r toy-example-availability-workers-verification}
+```{r toy-example-availability-workers-verification, include=FALSE}
 #Verify that the sum of all population allocated is consistent with the total number of population:
 sum(toy_od_table$W_ji)
 
@@ -473,7 +478,7 @@ toy_sim_zones %>%
 availability <- toy_od_table %>%
   group_by(Destination) %>%
   summarize(W_j = sum(W_ji))
-availability
+#availability
 
 # Join the availability to the toy_sim_zones_access:
 toy_sim_zones_access <- toy_sim_zones_access %>%
@@ -499,7 +504,8 @@ toy_avail_workers_plot <- ggplot() +
           aes(size = number),
           shape = 17) +
   scale_color_distiller(palette = "OrRd",
-                        direction = 1)+
+                        direction = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -510,7 +516,7 @@ toy_avail_workers_plot <- ggplot() +
 toy_avail_workers_plot
 ```
 
-```{r toy-example-spatial-availability-workers-per-job-calculation}
+```{r toy-example-spatial-availability-workers-per-job-calculation, include=FALSE}
 toy_sim_zones_access <- toy_sim_zones_access %>%
   mutate(w_j = W_j/number)
 
@@ -535,8 +541,10 @@ toy_avail_workers_job_plot <- ggplot() +
           shape = 1) +
   geom_sf(data = toy_sim_zones_access %>% 
             filter(type == "population"),
-          shape = 17) +
-  scale_color_gradient2(midpoint = 1)+
+          shape = 17,
+          size = 2) +
+  scale_color_gradient2(midpoint = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -628,7 +636,7 @@ toy_od_table <- toy_od_table %>%
                            f = f))
 ```
 
-```{r toy-example-availability-with-catchment-verification}
+```{r toy-example-availability-with-catchment-verification, include=FALSE}
 #Verify that the sum of all jobs allocated is consistent with the total number of jobs:
 sum(toy_od_table$V_ij_r)
 
@@ -641,7 +649,7 @@ sum(sum_jobs$Jobs, na.rm = T)
 availability <- toy_od_table %>%
   group_by(Origin) %>%
   summarize(V_i_r = sum(V_ij_r))
-availability
+#availability
 
 #Join the availability to the toy_sim_zones_access:
 toy_sim_zones_access <- toy_sim_zones_access %>%
@@ -685,7 +693,8 @@ toy_avail_r_plot <- ggplot() +
           aes(size = number,
               shape = )) +
   scale_color_distiller(palette = "OrRd",
-                        direction = 1)+
+                        direction = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -693,7 +702,7 @@ toy_avail_r_plot <- ggplot() +
                                         color = "black", 
                                         fill = NA))
 
-toy_avail_jobs_plot / toy_avail_r_plot
+toy_avail_r_plot
 ```
 
 Available jobs per person with catchment/eligibility conditions:
@@ -705,7 +714,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 
 The plot in Fig. \ref{fig:toy-example-availability-with-catchments-per-capita} shows the availability per person without and with catchment restrictions.
 
-```{r toy-example-availability-with-catchments-per-capita, fig.cap="\\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita with and without catchment restrictions "}
+```{r toy-example-availability-with-catchments-per-capita, fig.height=9, fig.cap="\\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita with and without catchment restrictions "}
 toy_avail_r_person_plot <- ggplot() +
   geom_sf(data = catchment_1,
           fill = "orange",
@@ -736,8 +745,10 @@ toy_avail_r_person_plot <- ggplot() +
           shape = 2) +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
-          shape = 16) +
-  scale_color_gradient2(midpoint = 1)+
+          shape = 16, 
+          size = 2) +
+  scale_color_gradient2(midpoint = 1) +
+  scale_size(range = c(3, 7)) +
   guides(size = "none") + 
   theme(legend.position = "bottom",axis.text = element_blank(),
         panel.grid = element_blank(),
@@ -760,7 +771,7 @@ Words go here.
 
 Below we compare accessibility and the first case of spatial availability illustrated above. To facilitate the comparison, we index the measures so that the lowest value corresponds to an index of 100:
 
-```{r indexed-measures-calculation}
+```{r indexed-measures-calculation, include=FALSE}
 indexed_measures <- toy_sim_zones_access %>%
   filter(type == "population") %>%
   mutate(A_indexed = A_i/(min(A_i)) * 100,
@@ -768,7 +779,7 @@ indexed_measures <- toy_sim_zones_access %>%
   select(id, id_short, A_indexed, V_indexed)
 ```
 
-```{r indexed-measures-comparison}
+```{r indexed-measures-comparison, include=FALSE}
 indexed_access <- ggplot() +
   geom_sf(data = indexed_measures,
           aes(color = A_indexed,
