@@ -40,6 +40,7 @@ knitr::opts_chunk$set(
 ```{r load-packages, include=FALSE, cache=FALSE}
 library(AccessPack)
 library(dplyr)
+library(fitdistrplus)
 library(ggplot2)
 library(kableExtra)
 library(patchwork)
@@ -130,7 +131,7 @@ ggsave("images/figure-1.png",
 ```{r toy-example-table}
 toy_sim_zones %>%
   st_drop_geometry() %>%
-  select(-id) %>%
+  dplyr::select(-id) %>%
   mutate(fig = "") %>%
   kable(format = "latex",
         booktabs = TRUE,
@@ -436,7 +437,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 toy_sim_zones_access %>% 
   st_drop_geometry() %>%
   filter(type == "population") %>%
-  select(id, v_i)
+  dplyr::select(id, v_i)
 ```
 
 Plot the spatial availability per person:
@@ -555,7 +556,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 toy_sim_zones_access %>% 
   st_drop_geometry() %>%
   filter(type == "jobs") %>%
-  select(id, w_j)
+  dplyr::select(id, w_j)
 ```
 
 Plot the spatial availability of workers per job:
@@ -810,9 +811,9 @@ For the reasons demonstrated in the hypothetical toy example; the spatial availa
 
 ## Data
 
-The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities contained within the the Greater Golden Horseshoe (GGH) area in the province of Ontario, Canada (43.6°N 79.73°W) is analysed (Figure \ref{fig:TTS-16-survey-area}). This dataset includes home origins and work destinations defined by centroids of Traffic Analysis Zones (TAZ) of varying areas (n=3764), the number of jobs (n=3081900) and workers (3446957) at each origin and destination, and the trips from origin to destination for the morning home-to-work commute (n=3069541). Also included are calculated travel times by car (calculated via [`r5r`](https://github.com/ipeaGIT/r5r)) and a derived impedance function values corresponding to the cost of travel based on the trip length distribution (TLD). The descriptive statistics are presented in Table \ref{tab:TTS-16-desc-stats} and a [data-package](https://github.com/soukhova/AccessPack) is available to explore the data in greater detail.
+The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities contained within the the Greater Golden Horseshoe (GGH) area in the province of Ontario, Canada (43.6°N 79.73°W) is analysed (Figure \ref{fig:TTS-16-survey-area}). This data set includes home origins and work destinations defined by centroids of Traffic Analysis Zones (TAZ) of varying areas (n=3764), the number of jobs (n=3081900) and workers (3446957) at each origin and destination, and the trips from origin to destination for the morning home-to-work commute (n=3069541). Also included are calculated travel times by car (calculated via [`r5r`](https://github.com/ipeaGIT/r5r)) and a derived impedance function values corresponding to the cost of travel based on the trip length distribution (TLD). The descriptive statistics are presented in Table \ref{tab:TTS-16-desc-stats} and a [data-package](https://github.com/soukhova/AccessPack) is available to explore the data in greater detail.
 
-```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.", out.height=400}
+```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada."}
 knitr::include_graphics("images/Greater-Golden-Horseshoe-Map.png")
 ```
 
@@ -821,66 +822,58 @@ knitr::include_graphics("images/Greater-Golden-Horseshoe-Map.png")
 #   rename(Trips = trips,
 #          Travel_Time = travel_time) %>% summary()
 
-od_ft_tt %>% select(trips, travel_time) %>% summary() %>%
+od_ft_tt %>% 
+  dplyr::select(trips, travel_time) %>% summary() %>%
   kable(format = "latex", 
         col.names = c("Trips", "Travel_Time"),
         caption = "\\label{tab:TTS-16-desc-stats}Descriptive statistics of the TTS 2016 dataset for the Greater Golden Horshoe Area")
 ```
 
-## Calibrating an Impedance Function 
-In the hypothetical toy data set, an arbitrary negative exponential function describing the increase in travel cost as distance increases was used as the impedance function to derive both accessibility and availability. In this dataset, an impedance function can be derived from the empirical trip length distribution (TLD) as the number of trips and their travel cost (in the case, travel time in minutes) are known (see black points in Figure \ref{fig:TLD-Gamma-plot}).
+## Calibrating an Impedance Function
+
+In the hypothetical toy data set, an arbitrary negative exponential function describing the increase in travel cost as distance increases was used as the impedance function to derive both accessibility and availability. In this data set, an impedance function can be derived from the empirical trip length distribution (TLD) as the number of trips and their travel cost (in the case, travel time in minutes) are known (see black points in Figure \ref{fig:TLD-Gamma-plot}).
 
 The TLD density plot appears to follow a gamma distribution, as such, this theoretical distribution along with other common TLD distributions such as log-normal and exponential distributions <!-- cite--> were fitted to the empirical TLD using the maximum likelihood estimation method and Nelder-Mead method for direct optimization available within the ['fitdistrplus' package] (https://cran.r-project.org/web/packages/fitdistrplus/fitdistrplus.pdf) in R <!-- cite, why this fitting method -->. Based on goodness-of-fit criteria, the gamma distribution was selected (see red line in Figure \ref{fig:TLD-Gamma-plot}) with the following shape and rate parameters (Table \ref{tab:gamma-param}) in the general form of: 
 $$ 
-f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-x / \beta }} { \beta ^{\alpha}\Gamma(\alpha)} \quad \text{for }	0 \leq x \leq \infty
+f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for }	0 \leq x \leq \infty
 $$
-where the estimated 'shape' is $\alpha$,the estimated 'rate' is $\beta$, and the $\Gamma(\alpha) $ is defined as:
+\noindent where the estimated 'shape' is $\alpha$,the estimated 'rate' is $\beta$, and the $\Gamma(\alpha)$ is defined as:
 
 $$
-\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx \
+\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx
 $$  
 
-```{r TLD-Gamma-plot, fig.height=6, fig.cap="\\label{fig:TLD-Gamma-plot}The trip distribution plot for the TTS 2016 data (black) and fitted gamma distribution impedance function (red)"}
-tld <- od_ft_tt %>%
-  mutate(tt_classes = cut(travel_time, 
-                          150,
-                          ordered_result = TRUE)) %>%
-  group_by(tt_classes) %>%
-  summarize(trips = sum(trips),
-            travel_time = mean(travel_time))
+```{r data-for-impedance}
+# remove all NA trips from dataset and set all 0min travel times to 0.1min
+od_ft_tt  <- od_ft_tt %>% 
+  filter( !is.na(travel_time)) %>% 
+  mutate(travel_time = ifelse(travel_time == 0, 0.1, travel_time))
+all_tt <- od_ft_tt  %>% 
+  dplyr::select(trips, travel_time)
 
-# remove all NA trips from dataset, set all 0 min travel times to 0.1min, and flatten trip data
-od_ft_tt  <- od_ft_tt %>% filter( !is.na(travel_time)) %>% mutate(travel_time = ifelse(travel_time == 0, 0.1, travel_time))
-all_tt <- od_ft_tt  %>% dplyr::select(trips, travel_time)
 all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$trips), 2]
-
-#generate gamma distribution fitted to flattened trip data
-#gamma_ <- fitdistrplus::fitdist(data = all_tt, "gamma", method="mle", optim.method="Nelder-Mead") 
-#save(gamma_, file = "data-inputs/gamma_.rda")
-load(file = "data-inputs/gamma_.rda")
-
-# Plot density as points
-ggplot() + 
-  geom_point(data = tld, aes(x = travel_time, y = trips/sum(trips)), color="black") +
-  geom_line(data = tld, aes(x=travel_time, y=dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"])), 
-            color="red", size = 1) + 
-  labs(x = "Travel time (in minutes)", y = "Proportion of home-based work trips") +
-  ylim(0, 0.07) +
-  theme_classic()
 ```
 
-```{r}
-gamma_ %>% coef() %>%
-  kable(format = "latex", 
-        col.names = c("Gamma Parameters"),
-        caption = "\\label{tab:gamma-param}Parameters for the fitted gamma distribution used as the impedance function")
+```{r fitting-impedance-function}
+# using fitdist function to fit a distribution using the default maximum likelihood estimation method and Nelder-Mead method for direct optimization
+gamma_ <- fitdistrplus::fitdist(data=all_tt, "gamma", method="mle", optim.method="Nelder-Mead") 
+#lnorm_ <- fitdistrplus::fitdist(data=all_tt, "lnorm", method="mle", optim.method="Nelder-Mead")
+#norm_ <-fitdistrplus::fitdist(data=all_tt, "norm", method="mle", optim.method="Nelder-Mead")
+#exp_ <- fitdistrplus::fitdist(data=all_tt, "exp", method="mle", optim.method="Nelder-Mead")
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-#dgamma is the density plot for gamma function; adding values as "f" our impedance function
-od_ft_tt <- od_ft_tt %>%
-  mutate(f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+```{r save-impedance-plot, include=FALSE}
+# For some reason plot(gamma_) does not play well with knitr, so instead we save the figure and then include it as a graphic in the following chunk
+png("images/impedance_function.png")
+plot(gamma_)
+dev.off()
 ```
+
+```{r plot-impedance-function, fig.cap="\\label{fig:impedance-function-plot}Impedance function and diagnostics."}
+knitr::include_graphics("images/impedance_function.png")
+```
+
+The calibrated impedance function has a shape parameter of `r round(gamma_$estimate[1], 3)` and a rate parameter of `r round(gamma_$estimate[2], 3)`. The function and diagnostics are plotted in Fig. \ref{fig:impedance-function-plot}.
 
 <!-- Still work to do!
 
@@ -927,7 +920,7 @@ indexed_measures <- toy_sim_zones_access %>%
   filter(type == "population") %>%
   mutate(A_indexed = A_i/(min(A_i)) * 100,
          V_indexed = V_i/(min(V_i)) * 100) %>%
-  select(id, id_short, A_indexed, V_indexed)
+  dplyr::select(id, id_short, A_indexed, V_indexed)
 ```
 
 ```{r indexed-measures-comparison, include=FALSE, fig.height=9}

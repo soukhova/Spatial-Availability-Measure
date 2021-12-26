@@ -1,6 +1,8 @@
-base
 AccessPack
 dplyr
+MASS
+survival
+fitdistrplus
 ggplot2
 kableExtra
 patchwork

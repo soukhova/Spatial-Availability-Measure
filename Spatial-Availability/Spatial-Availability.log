@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.22)  22 DEC 2021 19:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2021.12.22)  26 DEC 2021 13:33
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -440,26 +440,27 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 )
 \Hy@SectionHShift=\skip57
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 49.
+Package hyperref Info: Option `breaklinks' set `true' on input line 47.
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 49.
+(hyperref)                setting the option has no effect on input line 47.
 
-Package hyperref Info: Option `colorlinks' set `false' on input line 49.
+Package hyperref Info: Option `colorlinks' set `false' on input line 47.
 \cslhangindent=\skip58
 \csllabelwidth=\skip59
+\cslentryspacingunit=\skip60
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count296
 \calc@Bcount=\count297
 \calc@Adimen=\dimen164
 \calc@Bdimen=\dimen165
-\calc@Askip=\skip60
-\calc@Bskip=\skip61
+\calc@Askip=\skip61
+\calc@Bskip=\skip62
 LaTeX Info: Redefining \setlength on input line 80.
 LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count298
-\calc@Cskip=\skip62
+\calc@Cskip=\skip63
 )
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs
 .sty
@@ -485,10 +486,10 @@ Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.s
 ty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip63
-\LTright=\skip64
-\LTpre=\skip65
-\LTpost=\skip66
+\LTleft=\skip64
+\LTright=\skip65
+\LTpre=\skip66
+\LTpost=\skip67
 \LTchunksize=\count303
 \LTcapwidth=\dimen179
 \LT@head=\box58
@@ -507,16 +508,16 @@ Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
 \ar@mcellbox=\box63
 \extrarowheight=\dimen181
 \NC@list=\toks30
-\extratabsurround=\skip67
-\backup@length=\skip68
+\extratabsurround=\skip68
+\backup@length=\skip69
 \ar@cellbox=\box64
 )
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow
 .sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip69
+\multirow@colwidth=\skip70
 \multirow@cntb=\count308
-\multirow@dima=\skip70
+\multirow@dima=\skip71
 \bigstrutjot=\dimen182
 )
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.s
@@ -550,7 +551,7 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 Package color Info: Driver file: pdftex.def on input line 149.
 )
 \everycr=\toks34
-\minrowclearance=\skip71
+\minrowclearance=\skip72
 )
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflsca
 pe.sty
@@ -593,7 +594,7 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@arstrutbox=\box70
 \tabu@hleads=\box71
 \tabu@vleads=\box72
-\tabu@cellskip=\skip72
+\tabu@cellskip=\skip73
 )
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/th
 reeparttable.sty
@@ -612,11 +613,11 @@ Package: environ 2014/05/04 v0.3 A new way to define environments
 aces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip73
+\TPTL@width=\skip74
 ) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
 \UL@box=\box74
 \UL@hyphenbox=\box75
-\UL@skip=\skip74
+\UL@skip=\skip75
 \UL@hook=\toks37
 \UL@height=\dimen196
 \UL@pe=\count318
@@ -652,7 +653,7 @@ Package xcolor Info: Model `Gray' substituted by `gray' on input line 1374.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1375.
 )
 LaTeX Font Info:    Trying to load font information for T1+lmr on input line 10
-1.
+7.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -684,27 +685,30 @@ fined.
 LaTeX Warning: Label `fig:toy-example-availability-with-catchments-per-capita' 
 multiply defined.
 
+
+LaTeX Warning: Label `fig:TTS-16-survey-area' multiply defined.
+
 )
 \openout1 = `Spatial-Availability.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 101.
-LaTeX Font Info:    ... okay on input line 101.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 107.
+LaTeX Font Info:    ... okay on input line 107.
 
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epst
 opdf-base.sty
@@ -717,18 +721,18 @@ pdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Info: Redefining \microtypecontext on input line 101.
-Package microtype Info: Applying patch `item' on input line 101.
-Package microtype Info: Applying patch `toc' on input line 101.
-Package microtype Info: Applying patch `eqnum' on input line 101.
-Package microtype Info: Applying patch `footnote' on input line 101.
+LaTeX Info: Redefining \microtypecontext on input line 107.
+Package microtype Info: Applying patch `item' on input line 107.
+Package microtype Info: Applying patch `toc' on input line 107.
+Package microtype Info: Applying patch `eqnum' on input line 107.
+Package microtype Info: Applying patch `footnote' on input line 107.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 101.
+LaTeX Info: Redefining \showhyphens on input line 107.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -738,7 +742,7 @@ cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-Package hyperref Info: Link coloring OFF on input line 101.
+Package hyperref Info: Link coloring OFF on input line 107.
 
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.
 sty
@@ -754,40 +758,40 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 \c@section@level=\count321
 )
-LaTeX Info: Redefining \ref on input line 101.
-LaTeX Info: Redefining \pageref on input line 101.
-LaTeX Info: Redefining \nameref on input line 101.
+LaTeX Info: Redefining \ref on input line 107.
+LaTeX Info: Redefining \pageref on input line 107.
+LaTeX Info: Redefining \nameref on input line 107.
 (./Spatial-Availability.out) (./Spatial-Availability.out)
 \@outlinefile=\write4
 \openout4 = `Spatial-Availability.out'.
 
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 1
-19.
+27.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 1
-19.
+27.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-119.
+127.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-119.
+127.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 119.
+(Font)              <8> on input line 127.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 119.
+(Font)              <6> on input line 127.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 119.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 119
+(Font)              <5> on input line 127.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 127
 .
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
@@ -796,7 +800,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 119
+LaTeX Font Info:    Trying to load font information for U+msb on input line 127
 .
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -806,7 +810,7 @@ cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1
-19.
+27.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -815,200 +819,252 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 119.
+(Font)              <10> on input line 127.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 119.
+(Font)              <7> on input line 127.
 [1
 
 
 {c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdft
 ex.map}] [2] [3]
 LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 2
-54.
+65.
 (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<images/figure-1.png, id=95, 216.81pt x 144.54pt>
+<images/figure-1.png, id=123, 216.81pt x 144.54pt>
 File: images/figure-1.png Graphic file (type png)
 <use images/figure-1.png>
-Package pdftex.def Info: images/figure-1.png  used on input line 323.
+Package pdftex.def Info: images/figure-1.png  used on input line 334.
 (pdftex.def)             Requested size: 216.80946pt x 144.53963pt.
 
-Overfull \vbox (4.13966pt too high) detected at line 323
+Overfull \vbox (4.13966pt too high) detected at line 334
  []
 
 
-Overfull \hbox (11.64212pt too wide) in paragraph at lines 297--326
+Overfull \hbox (11.64212pt too wide) in paragraph at lines 308--337
  [][] 
  []
 
+[4]
 <Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf, 
-id=96, 469.755pt x 325.215pt>
+id=138, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.
 pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.p
 df>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-ac
-cessibility-plot-1.pdf  used on input line 336.
+cessibility-plot-1.pdf  used on input line 347.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[4] [5pdfTeX warning (ext4): destination with the same identifier (name{table.1
-}) has been already used, duplicate ignored
+[5pdfTeX warning (ext4): destination with the same identifier (name{table.1}) h
+as been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.344 
-      pdfTeX warning (ext4): destination with the same identifier (name{figure.
-1}) has been already used, duplicate ignored
+l.386 
+       <./images/figure-1.png>] [6pdfTeX warning (ext4): destination with the s
+ame identifier (name{figure.1}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.344 
-       <./images/figure-1.png> <./Spatial-Availability_files/figure-latex/toy-e
-xample-accessibility-plot-1.pdf>] [6] [7] [8] [9]
+l.412 
+       <./Spatial-Availability_files/figure-latex/toy-example-accessibility-plo
+t-1.pdf>] [7] [8]
+Overfull \hbox (24.83011pt too wide) detected at line 585
+[]
+ []
+
+[9] [10]
 <Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf, i
-d=148, 469.755pt x 325.215pt>
+d=185, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.p
 df Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pd
 f>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-jobs-1.pdf  used on input line 649.
+ailability-jobs-1.pdf  used on input line 703.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[10]
 <Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capi
-ta-1.pdf, id=155, 469.755pt x 325.215pt>
+ta-1.pdf, id=186, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per
 -capita-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-
 capita-1.pdf>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-jobs-per-capita-1.pdf  used on input line 662.
+ailability-jobs-per-capita-1.pdf  used on input line 716.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 <Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf
-, id=156, 469.755pt x 325.215pt>
+, id=187, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-workers-
 1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-workers-1
 .pdf>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-workers-1.pdf  used on input line 686.
+ailability-workers-1.pdf  used on input line 741.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 <Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-j
-ob-1.pdf, id=157, 469.755pt x 325.215pt>
+ob-1.pdf, id=188, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-workers-
 per-job-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-workers-p
 er-job-1.pdf>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-workers-per-job-1.pdf  used on input line 692.
+ailability-workers-per-job-1.pdf  used on input line 747.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[11pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
- has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.706 
-       <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs
--1.pdf>]
+[11]
 <Spatial-Availability_files/figure-latex/toy-example-plot-catchments-1.pdf, id=
-172, 469.755pt x 325.215pt>
+196, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-plot-catchments-1.pdf
  Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-plot-catchments-1.pdf>
 
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-pl
-ot-catchments-1.pdf  used on input line 708.
+ot-catchments-1.pdf  used on input line 767.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 <Spatial-Availability_files/figure-latex/toy-example-availability-with-catchmen
-ts-1.pdf, id=173, 469.755pt x 325.215pt>
+ts-1.pdf, id=197, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-with-cat
 chments-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-with-catc
 hments-1.pdf>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-with-catchments-1.pdf  used on input line 714.
+ailability-with-catchments-1.pdf  used on input line 773.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 <Spatial-Availability_files/figure-latex/toy-example-availability-with-catchmen
-ts-per-capita-1.pdf, id=175, 469.755pt x 650.43pt>
+ts-per-capita-1.pdf, id=199, 469.755pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-with-cat
 chments-per-capita-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-with-catc
 hments-per-capita-1.pdf>
 Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-av
-ailability-with-catchments-per-capita-1.pdf  used on input line 724.
+ailability-with-catchments-per-capita-1.pdf  used on input line 783.
 (pdftex.def)             Requested size: 345.0pt x 477.68813pt.
-[12pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
+[12pdfTeX warning (ext4): destination with the same identifier (name{figure.2})
  has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.750 
+l.804 
        <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs
--per-capita-1.pdf>] [13pdfTeX warning (ext4): destination with the same identif
+-1.pdf>]
+<images/Greater-Golden-Horseshoe-Map.png, id=217, 433.01775pt x 414.95026pt>
+File: images/Greater-Golden-Horseshoe-Map.png Graphic file (type png)
+<use images/Greater-Golden-Horseshoe-Map.png>
+Package pdftex.def Info: images/Greater-Golden-Horseshoe-Map.png  used on input
+ line 825.
+(pdftex.def)             Requested size: 345.0pt x 330.61201pt.
+
+LaTeX Warning: Reference `fig:TLD-Gamma-plot' on page 13 undefined on input lin
+e 861.
+
+[13pdfTeX warning (ext4): destination with the same identifier (name{figure.3})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.862 
+       <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs
+-per-capita-1.pdf>] [14pdfTeX warning (ext4): destination with the same identif
 ier (name{figure.4}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.785 
-       <./Spatial-Availability_files/figure-latex/toy-example-availability-work
-ers-1.pdf>] [14pdfTeX warning (ext4): destination with the same identifier (nam
-e{figure.5}) has been already used, duplicate ignored
+l.862 
+      pdfTeX warning (ext4): destination with the same identifier (name{table.2
+}) has been already used, duplicate ignored
 <argument> ...shipout:D \box_use:N \l_shipout_box 
                                                   \__shipout_drop_firstpage_...
-l.812 
+l.862 
        <./Spatial-Availability_files/figure-latex/toy-example-availability-work
-ers-per-job-1.pdf>]
-Overfull \hbox (38.58804pt too wide) in paragraph at lines 813--818
+ers-1.pdf>]
+
+LaTeX Warning: Reference `fig:TLD-Gamma-plot' on page 15 undefined on input lin
+e 871.
+
+
+LaTeX Warning: Reference `tab:gamma-param' on page 15 undefined on input line 8
+72.
+
+[15pdfTeX warning (ext4): destination with the same identifier (name{figure.5})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.880 \]
+         <./Spatial-Availability_files/figure-latex/toy-example-availability-wo
+rkers-per-job-1.pdf>]
+<images/impedance_function.png, id=257, 481.8pt x 481.8pt>
+File: images/impedance_function.png Graphic file (type png)
+<use images/impedance_function.png>
+Package pdftex.def Info: images/impedance_function.png  used on input line 883.
+
+(pdftex.def)             Requested size: 345.0pt x 345.00635pt.
+[16pdfTeX warning (ext4): destination with the same identifier (name{figure.6})
+ has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.919 T
+       he figure suggests that high accessibility does not necessarily mean <./
+Spatial-Availability_files/figure-latex/toy-example-plot-catchments-1.pdf>] [17
+pdfTeX warning (ext4): destination with the same identifier (name{figure.7}) ha
+s been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.953 
+       <./Spatial-Availability_files/figure-latex/toy-example-availability-with
+-catchments-1.pdf>] [18pdfTeX warning (ext4): destination with the same identif
+ier (name{figure.8}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.953 
+       <./Spatial-Availability_files/figure-latex/toy-example-availability-with
+-catchments-per-capita-1.pdf>] [19pdfTeX warning (ext4): destination with the s
+ame identifier (name{figure.9}) has been already used, duplicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.953 
+       <./images/Greater-Golden-Horseshoe-Map.png>] [20pdfTeX warning (ext4): d
+estination with the same identifier (name{figure.10}) has been already used, du
+plicate ignored
+<argument> ...shipout:D \box_use:N \l_shipout_box 
+                                                  \__shipout_drop_firstpage_...
+l.953 
+       <./images/impedance_function.png>]
+Overfull \hbox (38.58804pt too wide) in paragraph at lines 988--993
 \T1/lmr/m/n/10 (-20) op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. d
 oi:[]10.1016/j.jtrangeo.2018.05.015[] 
  []
 
 
-Overfull \hbox (60.37517pt too wide) in paragraph at lines 831--835
+Overfull \hbox (60.37517pt too wide) in paragraph at lines 1006--1010
 \T1/lmr/m/n/10 (-20) tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 1
 02319. doi:[]10.1016/j.trd.2020.102319[] 
  []
 
-[15pdfTeX warning (ext4): destination with the same identifier (name{figure.6})
- has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.853 
-       <./Spatial-Availability_files/figure-latex/toy-example-plot-catchments-1
-.pdf>]
-Overfull \hbox (2.75409pt too wide) in paragraph at lines 854--858
+
+Overfull \hbox (2.75409pt too wide) in paragraph at lines 1029--1033
 \T1/lmr/m/n/10 (-20) plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080
 /01441647.2018.1492778[] 
  []
 
-
-Overfull \hbox (26.34727pt too wide) in paragraph at lines 877--883
+[21]
+Overfull \hbox (26.34727pt too wide) in paragraph at lines 1052--1058
 \T1/lmr/m/n/10 (-20) Ge-o-graph-i-cal In-for-ma-tion Sci-ence 26, 1073--1089. d
 oi:[]10.1080/13658816.2011.624987[] 
  []
 
-[16pdfTeX warning (ext4): destination with the same identifier (name{figure.7})
- has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.897 \end{document}
-                     <./Spatial-Availability_files/figure-latex/toy-example-ava
-ilability-with-catchments-1.pdf>] [17pdfTeX warning (ext4): destination with th
-e same identifier (name{figure.8}) has been already used, duplicate ignored
-<argument> ...shipout:D \box_use:N \l_shipout_box 
-                                                  \__shipout_drop_firstpage_...
-l.897 \end{document}
-                     <./Spatial-Availability_files/figure-latex/toy-example-ava
-ilability-with-catchments-per-capita-1.pdf>] [18] (./Spatial-Availability.aux)
+[22] (./Spatial-Availability.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Spatial-Availability.out' has not changed.
-(rerunfilecheck)             Checksum: 5430152196385E776C4499E82F8156C4;3288.
+(rerunfilecheck)             Checksum: A2BB1EFB326B5A558378EFA3CC13585D;5221.
  ) 
 Here is how much of TeX's memory you used:
- 15093 strings out of 480313
- 248219 string characters out of 5895695
- 570862 words of memory out of 5000000
- 32434 multiletter control sequences out of 15000+600000
- 463520 words of font info for 143 fonts, out of 8000000 for 9000
+ 15179 strings out of 480313
+ 250282 string characters out of 5895695
+ 570753 words of memory out of 5000000
+ 32480 multiletter control sequences out of 15000+600000
+ 467212 words of font info for 152 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 70i,15n,76p,1017b,373s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,15n,76p,1017b,370s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.
 enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-r
 m.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm
@@ -1035,10 +1091,10 @@ ype1/public/lm/lmsy6.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fo
 nts/type1/public/lm/lmsy7.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-di
 st/fonts/type1/public/lm/lmtt10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/te
 xmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Spatial-Availability.pdf (18 pages, 415150 bytes).
+Output written on Spatial-Availability.pdf (22 pages, 571624 bytes).
 PDF statistics:
- 402 PDF objects out of 1000 (max. 8388607)
- 314 compressed objects within 4 object streams
- 78 named destinations out of 1000 (max. 500000)
- 31918 words of extra memory for PDF output out of 35830 (max. 10000000)
+ 472 PDF objects out of 1000 (max. 8388607)
+ 376 compressed objects within 4 object streams
+ 99 named destinations out of 1000 (max. 500000)
+ 34032 words of extra memory for PDF output out of 35830 (max. 10000000)
 
