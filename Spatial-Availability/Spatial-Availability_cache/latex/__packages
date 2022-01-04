@@ -7,3 +7,8 @@ ggplot2
 kableExtra
 patchwork
 sf
+AccessPack2
+scales
+ggpp
+ggpmisc
+ggrepel
