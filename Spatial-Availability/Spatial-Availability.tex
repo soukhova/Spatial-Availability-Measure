@@ -120,9 +120,22 @@ constrained accessibility measures}
       \cortext[1]{Corresponding Author}
   
   \begin{abstract}
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Accessibility measures are widely used in transportation, urban, and
+  health care planning, among other applications. By giving a weighted
+  sum of the opportunities that can be reached given the cost of
+  movement, they are interpreted as the potential for spatial
+  interaction. These measures are useful to understand spatial
+  structure. In recent years there have been efforts to increase the
+  interpretability of these measures, including balanced floating
+  catchment areas and competitive measures of accessibility. In this
+  research we propose a new measure of spatial availability calculated
+  by imposing a single constraint on traditional accessibility measures.
+  Similar to the gravity model from which it derives, a single
+  constraint ensures that the marginals at the origin and destination
+  are met. Spatial availability, by matching the total number of
+  opportunities, increases the interpretability of gravity-based
+  accessibility measures. A small R package with example datasets and
+  the implementation of spatial availability is presented.
   \end{abstract}
   
  \end{frontmatter}
@@ -297,8 +310,9 @@ availability, which helps to explain how spatial availability can
 improve interpretability in the analysis of spatially dispersed
 opportunities.
 
-\hypertarget{numerical-example}{%
-\subsection{Numerical Example}\label{numerical-example}}
+\hypertarget{accessibility-numerical-example}{%
+\subsection{Accessibility Numerical
+Example}\label{accessibility-numerical-example}}
 
 In this section we present a simple numerical example. The setup for the
 example is a system with three employment centers and nine population
@@ -340,14 +354,15 @@ P9 & 255 & population & \multirow{-12}{*}{\raggedright\arraybackslash \includegr
 \end{table}
 
 The accessibility to employment of each of the population centers can be
-calculated using the expression above for \(A_i\). As noted, this yields
-the number of jobs (opportunities) that are accessible (i.e., can be
-reached) from each population center, given the cost. In this example we
-use the straight line distance between the population and jobs for
-\(c_{ij}\), and a negative exponential function with \(\beta = 0.0015\).
+calculated using the expression above for the widely used accessibility
+measure \(A_i\). As noted, this yields the number of jobs
+(opportunities) that can be reached from each population center given
+the cost. In this numerical example we use the straight line distance
+between the population and jobs for \(c_{ij}\), and a negative
+exponential function with \(\beta = 0.0015\).
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1} \caption{\label{fig:toy-example-accessibility}Accessibility results using simple numerical example}\label{fig:toy-example-accessibility-plot}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1} \caption{\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple numerical example}\label{fig:toy-example-accessibility-plot}
 \end{figure}
 
 Figure \ref{fig:toy-example-accessibility} shows the three employment
@@ -372,8 +387,9 @@ proportional to the accessibility (\(A_i\)) to jobs. At a glance:
   has the lowest accessibility with \(A_i=\) 17.12);
 \end{itemize}
 
-\hypertarget{what-are-the-issues}{%
-\subsection{What are the Issues?}\label{what-are-the-issues}}
+\hypertarget{issues-with-the-widely-used-accessibility-measure}{%
+\subsection{Issues With the Widely Used Accessibility
+Measure}\label{issues-with-the-widely-used-accessibility-measure}}
 
 Accessibility measures are excellent indicators of the intersection
 between urban structure and transportation infrastructure. However,
@@ -384,7 +400,7 @@ however, despite the accessibility value for P1 being low it is still
 better than \emph{zero}. This evaluation leaves decision makers unclear
 on how to interpret accessibility values, particularly extreme values
 and particularly when comparing across scenarios or regions . The
-obscurity in interpretation of accessibility values arises from the
+obscurity in interpretation of accessibility values arise in the
 following two ways.
 
 First, origins with accessibility to a high density of opportunities are
@@ -417,13 +433,9 @@ To address these two shortcomings of the accessibility measure, we
 propose a singly-constrained gravity measure that corresponds to the
 concept of \emph{spatial availability}.
 
-\hypertarget{spatial-availability-proportional-allocation-of-opportunities-based-on-demand}{%
-\section{Spatial Availability: Proportional Allocation of Opportunities
-Based on
-Demand}\label{spatial-availability-proportional-allocation-of-opportunities-based-on-demand}}
-
-\hypertarget{analytical-framework}{%
-\subsection{Analytical Framework}\label{analytical-framework}}
+\hypertarget{spatial-availability-as-a-solution---analytical-framework}{%
+\subsection{Spatial Availability as a Solution - Analytical
+Framework}\label{spatial-availability-as-a-solution---analytical-framework}}
 
 As recent research on accessibility shows (see for instance Paez,
 Higgins, Vivona (2019) and Allen and Farber (2019)), accounting for
@@ -461,9 +473,9 @@ allocation factors in the final general form of spatial availability
 V_{ij} = O_j\frac{f^p_{ij} \cdot f^c_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^c_{kj}}
 \]
 
-\hypertarget{population-allocation-factor}{%
-\subsubsection{Population Allocation
-Factor}\label{population-allocation-factor}}
+\hypertarget{population-allocation-factor-fp_ij}{%
+\subsubsection{\texorpdfstring{Population Allocation Factor
+\(f^p_{ij}\)}{Population Allocation Factor f\^{}p\_\{ij\}}}\label{population-allocation-factor-fp_ij}}
 
 We begin with allocation based on demand; consider an employment center
 \(j\) with \(O_j^r\) jobs of type \(r\). In the general case where there
@@ -539,9 +551,9 @@ how far population centers \(i\) or \(k\) are from employment center
 \(j\). To account for this effect we define a second set of allocation
 factors based on distance to the employment centers.
 
-\hypertarget{travel-cost-allocation-factor}{%
-\subsubsection{Travel Cost Allocation
-Factor}\label{travel-cost-allocation-factor}}
+\hypertarget{travel-cost-allocation-factor-fc_ij}{%
+\subsubsection{\texorpdfstring{Travel Cost Allocation Factor
+\(f^c_{ij}\)}{Travel Cost Allocation Factor f\^{}c\_\{ij\}}}\label{travel-cost-allocation-factor-fc_ij}}
 
 These are defined as:
 
@@ -662,24 +674,32 @@ individuals at \(k\). Where the overall ratio of jobs to population in
 the region is \(300/(240 + 120)=\) 0.83, the spatially available jobs
 per capita at \(k\) is closer to unity.
 
-In the following sections we use the same numerical example presented
-above to illustrate how availability \(V_i\) is calculated. We conclude
-by contrasting the two measures in the final section.
+\hypertarget{spatial-availability-use-cases}{%
+\subsection{Spatial Availability Use
+Cases}\label{spatial-availability-use-cases}}
 
-\hypertarget{st-use-case-available-jobs-for-the-working-population}{%
-\subsection{1st Use Case: Available Jobs for The Working
-Population}\label{st-use-case-available-jobs-for-the-working-population}}
+With the analytical framework for spatial availability outlined, in the
+following sub-sections, we return to the numerical example which was
+introduced at the start of this
+\protect\hyperlink{accessibility-numerical-example}{section} and
+illustrate how spatial availability \(V_i\) can be calculated for three
+types of use cases.
 
-In the following examples we use the same impedance function that was
-used to illustrate the accessibility calculations in the numerical
-example. The spatial availability calculations are implemented in the
-function \texttt{sp\_avail}. The inputs are an Origin-Destination table
-with labels for the origins (\texttt{o\_id}), labels for the
-destinations (\texttt{d\_id}), the population (\texttt{pop)} and number
-of opportunities (\texttt{opp}), an indicator for catchments or other
-eligibility constraints (\texttt{r}), and a pre-calculated impedance
-function (\texttt{f}). For this example, we assume that there are no
-catchment restrictions by setting \texttt{r} to 1.
+\hypertarget{available-jobs-for-the-working-population}{%
+\subsubsection{Available Jobs for The Working
+Population}\label{available-jobs-for-the-working-population}}
+
+In this use case, we calculate the spatial availability of jobs using
+the same impedance function that was used to calculate job accessibility
+in Figure \ref{fig:toy-example-accessibility}. The spatial availability
+calculations are implemented in the function \texttt{sp\_avail}. The
+inputs are an Origin-Destination table with labels for the origins
+(\texttt{o\_id}), labels for the destinations (\texttt{d\_id}), the
+population (\texttt{pop)} and number of opportunities (\texttt{opp}), an
+indicator for catchments or other eligibility constraints (\texttt{r}),
+and a pre-calculated impedance function (\texttt{f}). For this example,
+we assume that there are no catchment restrictions by setting \texttt{r}
+to 1.
 
 The value of the function (its output) is a vector with \(V_ij\) given
 the inputs, that is, the opportunities available to \(i\) from \(j\):
@@ -688,7 +708,7 @@ Figure \ref{fig:toy-example-availability-jobs} shows the estimates of
 spatial availability:
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1} \caption{\label{fig:toy-example-availability-jobs}Spatial availability of jobs}\label{fig:toy-example-availability-jobs}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1} \caption{\label{fig:toy-example-availability-jobs}Spatial availability of jobs from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs}
 \end{figure}
 
 We see that population center 5 has the highest level of spatial
@@ -708,16 +728,16 @@ controlling for the cost of reaching jobs, they are worse off than those
 with more jobs spatially available.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita}\label{fig:toy-example-availability-jobs-per-capita}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs-per-capita}
 \end{figure}
 
-\hypertarget{nd-use-case-available-jobs-for-specialized-working-populations}{%
-\subsection{2nd Use Case: Available Jobs for Specialized Working
-Populations}\label{nd-use-case-available-jobs-for-specialized-working-populations}}
+\hypertarget{available-jobs-for-specialized-working-populations}{%
+\subsubsection{Available Jobs for Specialized Working
+Populations}\label{available-jobs-for-specialized-working-populations}}
 
-In this section we introduce catchment/eligibility constraints. Due to
-differences in educational achievement among the population, the jobs in
-Employment Center 1 can only be taken by individuals in population
+In this sub-section we introduce catchment/eligibility constraints. Due
+to differences in educational achievement among the population, the jobs
+in Employment Center 1 can only be taken by individuals in population
 centers 1 and 2. Jobs in Employment Center 2 can be taken by individuals
 in population centers 3, 4, 5, 7, and 8. Lastly, jobs in Employment
 Center 3 require qualifications available only among individuals in
@@ -730,7 +750,7 @@ this case as \(V_ij_r\)):
 Plot the availability estimates:
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs with catchment restrictions}\label{fig:toy-example-availability-with-catchments}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments}
 \end{figure}
 
 Available jobs per person with catchment/eligibility conditions:
@@ -740,7 +760,7 @@ The plot in Figure
 availability per person without and with catchment restrictions.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1} \caption{\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita with and without catchment restrictions }\label{fig:toy-example-availability-with-catchments-per-capita}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1} \caption{\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita of jobs from population centers with and without catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments-per-capita}
 \end{figure}
 
 We can see that when there are catchment restrictions population center
@@ -751,9 +771,9 @@ population here has skills required for jobs at a small employment
 center, where they face substantial competition from other population
 centers.
 
-\hypertarget{rd-use-case-available-workers-for-employment-centers}{%
-\subsection{3rd Use Case: Available Workers for Employment
-Centers}\label{rd-use-case-available-workers-for-employment-centers}}
+\hypertarget{available-workers-for-employment-centers}{%
+\subsubsection{Available Workers for Employment
+Centers}\label{available-workers-for-employment-centers}}
 
 We can also examine the pool of workers available to each employment
 center by considering the workers as the opportunities and the jobs as
@@ -806,7 +826,12 @@ are presented in Table \ref{tab:TTS-16-desc-stats} and a
 to explore the data in greater detail.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{images/Greater-Golden-Horseshoe-Map} \caption{\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.}\label{fig:TTS-16-survey-area}
+
+{\centering \includegraphics[width=0.7\linewidth]{images/Greater-Golden-Horseshoe-Map} 
+
+}
+
+\caption{\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.}\label{fig:TTS-16-survey-area}
 \end{figure}
 
 \begin{table}
@@ -851,11 +876,10 @@ this theoretical distribution along with other common TLD distributions
 such as log-normal and exponential distributions were fitted to the
 empirical TLD using the maximum likelihood estimation method and
 Nelder-Mead method for direct optimization available within the
-fitdistrplus package in R (Delignette-Muller and Dutang, 2015;
-\textbf{R\_2021?}) . Based on goodness-of-fit criteria, the gamma
-distribution was selected (see red line in Figure
-\ref{fig:TLD-Gamma-plot}). The gamma distribution function is given in
-the following general form: \[ 
+fitdistrplus package in R (Delignette-Muller and Dutang, 2015; R Core
+Team, 2021) . Based on goodness-of-fit criteria, the gamma distribution
+was selected (see red line in Figure \ref{fig:TLD-Gamma-plot}). The
+gamma distribution function is given in the following general form: \[ 
 f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty
 \] \noindent where the estimated `shape' is \(\alpha\),the estimated
 `rate' is \(\beta\), and \(\Gamma(\alpha)\) is defined as:
@@ -868,8 +892,12 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 \includegraphics[width=1\linewidth]{images/impedance_function} \caption{\label{fig:impedance-function-plot}Impedance function and diagnostics.}\label{fig:plot-impedance-function}
 \end{figure}
 
+\begin{verbatim}
+Warning: Removed 123 rows containing missing values (geom_point).
+\end{verbatim}
+
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1} \caption{\label{fig:TLD-Gamma-plot}Empirical trip length distribution (black) and calibrated gamma distribution impedance function (red)}\label{fig:TLD-Gamma-plot}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1} \caption{\label{fig:TLD-Gamma-plot}Empirical TTS 2016 home-based car trip length distribution (black) and calibrated gamma distribution impedance function (red)}\label{fig:TLD-Gamma-plot}
 \end{figure}
 
 The calibrated impedance function has a shape parameter of 2.019 and a
@@ -896,7 +924,7 @@ majority of TAZs in Toronto have high accessibility values and values
 decrease in TAZs which are further from the city boundary.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-accessibility-Toronto-TTS-1} \caption{\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto}\label{fig:plot-accessibility-Toronto-TTS}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-accessibility-Toronto-TTS-1} \caption{\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-accessibility-Toronto-TTS}
 \end{figure}
 
 Next, the spatial availability using the same impedance function is
@@ -930,9 +958,9 @@ TAZs outside of Toronto have low spatial availability values.
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
 
-\hypertarget{comparing-job-access-measures}{%
-\subsection{Comparing Job Access
-Measures}\label{comparing-job-access-measures}}
+\hypertarget{comparing-opportunity-access-measures}{%
+\subsection{Comparing Opportunity Access
+Measures}\label{comparing-opportunity-access-measures}}
 
 Accessibility and spatial availability in our example both measure
 \emph{access to jobs}. However, these two measures cannot be
@@ -955,10 +983,10 @@ quantile rank, the more pronounced the overestimation of \emph{job
 access} is in that TAZ when referring to the accessibility measure
 relative to the spatial availability measure. It should be noted that
 the 1.1\% of TAZs which experience a positive change between the
-rescaled measures are shown in grey.
+re-scaled measures are shown in grey.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1} \caption{\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negetative change between spatial availability and accessibility. TAZs with values which are higher than rescaled accessibility are shown in grey.}\label{fig:indexed-measures-comparison-plot}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1} \caption{\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey.}\label{fig:indexed-measures-comparison-plot}
 \end{figure}
 
 We can see from Figure \ref{fig:indexed-measures-comparison-plot} that
@@ -1170,6 +1198,10 @@ Proffitt, D.G., Bartholomew, K., Ewing, R., Miller, H.J., 2017.
 Accessibility planning in American metropolitan areas: Are we there yet?
 Urban Studies 56, 167--192.
 doi:\href{https://doi.org/10.1177/0042098017710122}{10.1177/0042098017710122}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R_2021}{}}%
+R Core Team, 2021. R: A language and environment for statistical
+computing. R Foundation for Statistical Computing, Vienna, Austria.
 
 \leavevmode\vadjust pre{\hypertarget{ref-shen1998}{}}%
 Shen, Q., 1998. Location characteristics of inner-city neighborhoods and

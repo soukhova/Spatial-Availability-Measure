@@ -15,9 +15,7 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: |
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Accessibility measures are widely used in transportation, urban, and health care planning, among other applications. By giving a weighted sum of the opportunities that can be reached given the cost of movement, they are interpreted as the potential for spatial interaction. These measures are useful to understand spatial structure. In recent years there have been efforts to increase the interpretability of these measures, including balanced floating catchment areas and competitive measures of accessibility. In this research we propose a new measure of spatial availability calculated by imposing a single constraint on traditional accessibility measures. Similar to the gravity model from which it derives, a single constraint ensures that the marginals at the origin and destination are met. Spatial availability, by matching the total number of opportunities, increases the interpretability of gravity-based accessibility measures. A small R package with example datasets and the implementation of spatial availability is presented.
 
 journal: "Journal of Transport Geography"
 date: "`r Sys.Date()`"
@@ -51,6 +49,11 @@ library(sf)
 library(scales)
 library(ggpmisc)
 library(ggrepel)
+library(cowplot)
+library(ggspatial)
+# library(extrafont)
+# font_import()
+# loadfonts(device = "win")
 
 options(scipen = 999)
 ```
@@ -95,7 +98,7 @@ The accessibility value $A_i$ is the weighted sum of opportunities that can be r
 
 We use a simple numerical example to introduce the key concepts, and we will use the usual accessibility measure for comparison. In this way, we aim to show the differences between accessibility and spatial availability, which helps to explain how spatial availability can improve interpretability in the analysis of spatially dispersed opportunities.
 
-## Accessibility Numerical Example
+## Accessibility Numerical Example {#accessibility-numerical-example}
 
 In this section we present a simple numerical example. The setup for the example is a system with three employment centers and nine population centers, as seen in Table \ref{tab:toy-example}.
 
@@ -155,7 +158,7 @@ toy_sim_zones %>%
                 valign = "middle")
 ```
 
-The accessibility to employment of each of the population centers can be calculated using the expression above for $A_i$. As noted, this yields the number of jobs (opportunities) that are accessible (i.e., can be reached) from each population center, given the cost. In this example we use the straight line distance between the population and jobs for $c_{ij}$, and a negative exponential function with $\beta = 0.0015$.
+The accessibility to employment of each of the population centers can be calculated using the expression above for the widely used accessibility measure $A_i$. As noted, this yields the number of jobs (opportunities) that can be reached from each population center given the cost. In this numerical example we use the straight line distance between the population and jobs for $c_{ij}$, and a negative exponential function with $\beta = 0.0015$. <!-- why? is this value within a common range--> 
 
 ```{r toy-example-accessibility}
 # Calculate impedance function
@@ -175,7 +178,7 @@ toy_sim_zones_access  <- toy_sim_zones %>%
             by = c("id" = "Origin")) 
 ```
 
-```{r toy-example-accessibility-plot, fig.cap="\\label{fig:toy-example-accessibility}Accessibility results using simple numerical example"}
+```{r toy-example-accessibility-plot, fig.cap="\\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple numerical example"}
 # Plot the accessibility to employment in the example;
 ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
@@ -184,19 +187,20 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
           aes(shape = type),
-          size = 9, fill = "black") +
+          size = 7, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(3,7), name = "Accessibility \n(A_i)") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous( range = c(3,7), name = "Accessibility \n(A_i)", guide = "none") +
   scale_fill_distiller(palette = "OrRd", direction = 1, name = "Accessibility \n(A_i)",
-                       limits = c(0, max(toy_sim_zones_access$A_i)) ) +
-  guides(size = "none") +
+                       limits = c(0, max(toy_sim_zones_access$A_i)),
+                       guide = guide_colorbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
 
 Figure \ref{fig:toy-example-accessibility} shows the three employment centers locations (black circles), where the size of the symbol is in proportion to the number of jobs at each location. We also see nine population centers (triangles), where the size of the symbol is proportional to the accessibility ($A_i$) to jobs. At a glance:
@@ -205,9 +209,9 @@ Figure \ref{fig:toy-example-accessibility} shows the three employment centers lo
 
 -   Population centers (triangles) near the left edge of the map (only in proximity to the small employment center) have the lowest levels of job accessibility. Population center `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` is quite peripheral and the closest employment center is also the smallest one. Consequently, it has the lowest accessibility with $A_i=$ `r toy_sim_zones_access %>% slice_min(A_i, n=1, with_ties = F) %>% pull(A_i) %>% round(2)`);
 
-## Issues With Accessibility
+## Issues With the Widely Used Accessibility Measure
 
-Accessibility measures are excellent indicators of the intersection between urban structure and transportation infrastructure. However, beyond enabling comparisons of relative values they are not highly interpretable on their own. For instance, from Figure \ref{fig:toy-example-accessibility}, `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` has lower accessibility than `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)`, however, despite the accessibility value for `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` being low it is still better than _zero_. This evaluation leaves decision makers unclear on how to interpret accessibility values, particularly extreme values and particularly when comparing across scenarios or regions <!--- cite?-->. The obscurity in interpretation of accessibility values arises from the following two ways.  <!--- cite?--> 
+Accessibility measures are excellent indicators of the intersection between urban structure and transportation infrastructure. However, beyond enabling comparisons of relative values they are not highly interpretable on their own. For instance, from Figure \ref{fig:toy-example-accessibility}, `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` has lower accessibility than `r toy_sim_zones_access %>% slice_max(A_i, n=1) %>% pull(id_short)`, however, despite the accessibility value for `r toy_sim_zones_access %>% slice_min(A_i, n=1) %>% pull(id_short)` being low it is still better than _zero_. This evaluation leaves decision makers unclear on how to interpret accessibility values, particularly extreme values and particularly when comparing across scenarios or regions <!--- cite?-->. The obscurity in interpretation of accessibility values arise in the following two ways.  <!--- cite?--> 
 
 First, origins with accessibility to a high density of opportunities are susceptible to having disproportionately higher accessibility values than origins with a lower density of opportunities.  This occurs since total accessibility ($\sum_{i=1}^IA_i$) depends on the number of origins; every additional origin in the analysis causes at least one and possibly more opportunities at destinations to be multiple-counted. As opportunities are multiple-counted, origins which are in proximity to high density of opportunities have accessibility values which are relatively conglomerated compared to origins in proximity to a lower density of opportunities. This issue means total accessibility is vulnerable to the modifiable areal unit problem (MAUP) as opportunities and origins which are spatially aggregated are multiple-counted inconsistently. 
 
@@ -221,13 +225,13 @@ As recent research on accessibility shows (see for instance Paez, Higgins, Vivon
 
 In the spatial availability framework proposed, and in line with the gravity tradition, we distinguish between opportunities at a destination and demand for opportunities at the origin. To explain the analytical framework, the example of access to employment is illustrative, with "population" in the role of demand (i.e., the number of individuals in the labour market who "demand" employment) and "jobs" in the role of opportunities.
 
-As an overview, spatial availability ($V_{ij}$) is the proportional allocation of opportunities ($O$) and allocation factor for population ($f^p$) and cost of travel ($f^c$). Since spatial availability ($V_{ij}$) consists of these two allocation factors, this example first details how the population allocation factor $f^p_{ij}$ produces $V^p_{ij}$, next details the role of travel cost allocation factor $f^c_{ij}$ in producing $V^c_{ij}$, and finally combines both allocation factors in the final general form of spatial availability $V_{ij}$ as follows:
+As an overview, spatial availability ($V_{ij}$) is the proportional allocation of opportunities ($O$) and allocation factor for population ($f^p$) and cost of travel ($f^c$). Since spatial availability ($V_{ij}$) consists of these two allocation factors, this example first details how the population allocation factor $f^p_{ij}$ produces $V^p_{ij}$, next details the role of travel cost allocation factor $f^c_{ij}$ in producing $V^c_{ij}$, and finally combines both allocation factors in the final general form of spatial availability $V_{ij}$ as follows: <!-- Is this correct? how do V^p and V^c interact?  -->
 
 $$
 V_{ij} = O_j\frac{f^p_{ij} \cdot f^c_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^c_{kj}}
 $$
 
-### Population Allocation Factor
+### Population Allocation Factor $f^p_{ij}$
 
 We begin with allocation based on demand; consider an employment center $j$ with $O_j^r$ jobs of type $r$. In the general case where there are $K$ population centers in the region, the following factor can be defined:
 
@@ -269,7 +273,7 @@ $$
 
 It can be seen that proportionally more jobs are allocated to the bigger center and also that the total number of jobs is preserved. However, the factors above account for the total number of opportunities at the destination (i.e., the number of jobs at the employment center), but they do not account for their location relative to the population centers. The proportional allocation procedure above is insensitive to how far population centers $i$ or $k$ are from employment center $j$. To account for this effect we define a second set of allocation factors based on distance to the employment centers. 
 
-### Travel Cost Allocation Factor
+### Travel Cost Allocation Factor $f^c_{ij}$ 
 
 These are defined as: 
 
@@ -347,9 +351,11 @@ $$
 
 Less competition ($P_k$ is the smallest population center in the region) and being closer to the jobs clearly works in favor of individuals at $k$. Where the overall ratio of jobs to population in the region is $300/(240 + 120)=$ `r round(300/(240 + 120), 2)`, the spatially available jobs per capita at $k$ is closer to unity.
 
+<!-- concluding sentences  -->
+
 ## Spatial Availability Use Cases
 
-With the analytical framework for spatial availability outlined, in the following sub-sections, we return to the numerical example which was introduced in the [Background](#background) and illustrate how spatial availability $V_i$ can be calculated for three types of use cases.
+With the analytical framework for spatial availability outlined, in the following sub-sections, we return to the numerical example which was introduced at the start of this [section](#accessibility-numerical-example) and illustrate how spatial availability $V_i$ can be calculated for three types of use cases.
 
 ### Available Jobs for The Working Population
 
@@ -401,33 +407,35 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 
 Figure \ref{fig:toy-example-availability-jobs} shows the estimates of spatial availability:
 
-```{r toy-example-availability-jobs, fig.cap="\\label{fig:toy-example-availability-jobs}Spatial availability of jobs"}
+```{r toy-example-availability-jobs, fig.cap="\\label{fig:toy-example-availability-jobs}Spatial availability of jobs from population centers for the simple numerical example"}
 ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
             filter(type == "population"),
-          aes(fill = V_i, size = V_i, shape = type)) +
+          aes(size = V_i, fill = V_i, shape = type)) +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
           aes(shape = type),
-          size = 9, fill = "black") +
+          size = 7, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(3,7), name = "Spatial Availability \n(V_i)") +
+  scale_size_continuous(range = c(3,7), name = "Spatial Availability \n(V_i)", guide = "none") +
   scale_fill_distiller(palette = "Greens", direction = 1, name = "Spatial Availability \n(V_i)",
-                       limits = c(0, max(toy_sim_zones_access$V_i)) ) +
-  guides(size = "none") +
+                       limits = c(0, max(toy_sim_zones_access$V_i)),
+                       guide = guide_colourbar(order = 1)) +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                       guide = guide_legend(order = 2)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
+
 We see that population center 5 has the highest level of spatial availability, due to being a large population center that is moreover relatively close to jobs. To improve the interpretability of this measure, we first note that the regional measure of jobs per capita is `r round((toy_sim_zones %>% filter(type == "jobs") %>% pull(number) %>% sum())/(toy_sim_zones %>% filter(type == "population") %>% pull(number) %>% sum()), 3)`. We then calculate the spatially available jobs per person by dividing each spatial availability value by the population at each population center (Figure \ref{fig:toy-example-availability-jobs-per-capita}).
 
 Some population centers have almost two jobs available per person (compared to the overall regional value of approximately one job per person), while others have less than one job available per person. This does not mean that people are not taking some of the jobs. It means that controlling for the cost of reaching jobs, they are worse off than those with more jobs spatially available.
 
-```{r toy-example-availability-jobs-per-capita, fig.cap="\\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita"}
+```{r toy-example-availability-jobs-per-capita, fig.cap="\\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example"}
 ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
             filter(type == "population"),
@@ -435,22 +443,25 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
           aes(shape = type),
-          size = 9, fill = "black") +
+          size = 7, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(3,7), name = "Spatial Availability \nper Capita (v_i)") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"), 
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous( range = c(3,7), name = "Spatial Availability \nper Capita (v_i)", guide = "none") +
   scale_fill_distiller(name = "Spatial Availability \nper Capita (v_i)",
                       palette = "Blues", direction = 1,
-                      limits = c(0, max(toy_sim_zones_access$v_i)) ) +
-  guides(size = "none") +
+                      limits = c(0, max(toy_sim_zones_access$v_i)),
+                      guide = guide_colorbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 
 ```
+
+
 ### Available Jobs for Specialized Working Populations
 
 In this sub-section we introduce catchment/eligibility constraints. Due to differences in educational achievement among the population, the jobs in Employment Center 1 can only be taken by individuals in population centers 1 and 2. Jobs in Employment Center 2 can be taken by individuals in population centers 3, 4, 5, 7, and 8. Lastly, jobs in Employment Center 3 require qualifications available only among individuals in population centers 5, 6, 8, and 9. 
@@ -521,7 +532,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 
 Plot the availability estimates:
 
-```{r toy-example-availability-with-catchments, fig.cap="\\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs with catchment restrictions"}
+```{r toy-example-availability-with-catchments, fig.cap="\\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple numerical example"}
 ggplot() +
   geom_sf(data = catchment_1,
           fill = "orange",
@@ -547,19 +558,20 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
           aes(shape = type),
-          size = 9, fill = "black") +
+          size = 7, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(3,7), name = "Spatial Availability \n(V_i_r)") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous(range = c(3,7), name = "Spatial Availability \n(V_i_r)", guide = "none") +
   scale_fill_distiller(palette = "Greens", direction = 1, name = "Spatial Availability \n(V_i_r)",
-                       limits = c(0, max(toy_sim_zones_access$V_i_r)) ) +
-  guides(size = "none") +
+                       limits = c(0, max(toy_sim_zones_access$V_i_r)),
+                       guide = guide_colorbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
 
 Available jobs per person with catchment/eligibility conditions:
@@ -571,7 +583,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 
 The plot in Figure \ref{fig:toy-example-availability-with-catchments-per-capita} shows the availability per person without and with catchment restrictions.
 
-```{r toy-example-availability-with-catchments-per-capita, fig.cap="\\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita with and without catchment restrictions "}
+```{r toy-example-availability-with-catchments-per-capita, fig.cap="\\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita of jobs from population centers with and without catchment restrictions for the simple numerical example"}
 ggplot() +
   geom_sf(data = catchment_1,
           fill = "orange",
@@ -597,19 +609,20 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "jobs"),
           aes(shape = type),
-          size = 9, fill = "black") +
+          size = 7, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(3,7), name = "Spatial Availability \nper Capita (v_i_r)") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                     guide = guide_legend(order=2)) +
+  scale_size_continuous( range = c(3,7), name = "Spatial Availability \nper Capita (v_i_r)", guide = "none") +
   scale_fill_distiller(palette = "Blues", direction = 1, name = "Spatial Availability \nper Capita (v_i_r)",
-                       limits = c(0, max(toy_sim_zones_access$v_i_r)) ) +
-  guides(size = "none") +
+                       limits = c(0, max(toy_sim_zones_access$v_i_r)),
+                       guide = guide_colorbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
 
 We can see that when there are catchment restrictions population center 2, despite being relatively peripheral, has higher spatial availability due to spatial specialization. With catchments, the spatial availability of jobs declines from the perspective of population center 4: the population here has skills required for jobs at a small employment center, where they face substantial competition from other population centers.
@@ -666,19 +679,20 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "population"),
           aes(shape = type),
-          size = 8, fill = "black") +
+          size = 6, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(6,11), name = "Spatial Availability \n(W_j)") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous(range = c(4,9), name = "Spatial Availability \n(W_j)", guide = "none") +
   scale_fill_distiller(palette = "Greens", direction = 1, name = "Spatial Availability \n(W_j)",
-                       limits = c(0, max(toy_sim_zones_access$W_j)) ) +
-  guides(size = "none") +
+                       limits = c(0, max(toy_sim_zones_access$W_j)),
+                       guide = guide_colourbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
 
 ```{r toy-example-spatial-availability-workers-per-job-calculation, include=FALSE}
@@ -701,18 +715,18 @@ ggplot() +
   geom_sf(data = toy_sim_zones_access %>%
             filter(type == "population"),
           aes(shape = type),
-          size = 8, fill = "black") +
+          size = 6, fill = "black") +
   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
                size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs")) +
-  scale_size_continuous( range = c(6,11), name = "Spatial Availability \nper Job (w_j)") +
-  scale_fill_distiller(palette = "Blues", direction = 1, name = "Spatial Availability \nper Job (w_j)" ) +
-  guides(size = "none") +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous( range = c(4,9), name = "Spatial Availability \nper Job (w_j)", guide = "none") +
+  scale_fill_distiller(palette = "Blues", direction = 1, name = "Spatial Availability \nper Job (w_j)", guide = guide_colorbar(order = 1)) +
   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
 ```
 
 # Empirical Example: Spatial Availability and Accessibility of Jobs in Toronto
@@ -723,7 +737,7 @@ For the reasons demonstrated in the hypothetical toy example; the spatial availa
 
 The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities contained within the the Greater Golden Horseshoe (GGH) area in the province of Ontario, Canada (43.6°N 79.73°W) is analysed (Figure \ref{fig:TTS-16-survey-area}). This data set includes home-based origins and employment destinations defined by centroids of Traffic Analysis Zones (TAZ) of varying areas (n=`r round(length(AccessPack::ggh_taz$GTA06), 3)`), the number of jobs (n=`r round(sum(AccessPack::ggh_taz$jobs), 3)`) and workers (n=`r round(sum(AccessPack::ggh_taz$workers), 3)`) at each origin and destination, and the trips from origin to destination for the morning home-to-work commute (n=`r round(sum(AccessPack::od_ft_tt$trips), 3)`). Also included are calculated travel times by car (calculated via [`r5r`](https://github.com/ipeaGIT/r5r)) and a derived impedance function values corresponding to the cost of travel based on the trip length distribution (TLD). The descriptive statistics are presented in Table \ref{tab:TTS-16-desc-stats} and a [data-package](https://github.com/soukhova/AccessPack) is available to explore the data in greater detail.
 
-```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada."}
+```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.", out.width="70%", fig.align='center'}
 knitr::include_graphics("images/Greater-Golden-Horseshoe-Map.png")
 ```
 
@@ -787,15 +801,38 @@ tld <- od_ft_tt %>%
   group_by(tt_classes) %>%
   summarize(trips = sum(trips),
             travel_time = mean(travel_time))
+
+# processing data for plot
+plot_data1 <- data.frame(estimate = "Empirical",
+                         travel_time = tld$travel_time,
+                         prop_trips = tld$trips/sum(tld$trips))
+plot_data2 <- data.frame(estimate = "Calibrated",
+                         travel_time = tld$travel_time,
+                         prop_trips = dgamma(tld$travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+plot_data3 <- rbind(plot_data1, plot_data2)
+plot_data3$estimate <- factor(plot_data3$estimate, levels=c("Empirical", "Calibrated"))
+
 ```
 
-```{r TLD-Gamma-plot, fig.cap="\\label{fig:TLD-Gamma-plot}Empirical trip length distribution (black) and calibrated gamma distribution impedance function (red)"}
+```{r TLD-Gamma-plot, fig.cap="\\label{fig:TLD-Gamma-plot}Empirical TTS 2016 home-based car trip length distribution (black) and calibrated gamma distribution impedance function (red)"}
 #dgamma is the density plot for gamma function
-ggplot(data = tld, aes(x = travel_time, y = trips/sum(trips))) + 
-  geom_point(size = 3) +     
-  geom_line(aes(x=travel_time, y=dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"])), 
-            color="red", size = 1) + 
-  theme_classic()
+ggplot(data = plot_data3, aes(x = travel_time, y = prop_trips, colour=estimate,linetype=estimate,shape=estimate)) + 
+  geom_point(size = 2) +
+  geom_line(size=1) +
+  labs(title = "Trip length distribution",
+       x = "Home-based car travel time to work (min)",
+       y = "Proportion of trips") + 
+      scale_color_manual("Distribution", 
+                         values = c("Empirical" = "Black",
+                                    "Calibrated" = "Red"))    +
+      scale_linetype_manual("Distribution",values=c(0,1)) +
+      scale_shape_manual("Distribution",values=c(16,NA))+
+  theme_light() +
+  theme(plot.title = element_text(hjust=0.5),
+        legend.position = c(0.85,0.80),
+        axis.line = element_line(colour = "black"),
+        panel.border = element_blank()) 
+  
 ```
 
 The calibrated impedance function has a shape parameter of `r round(gamma_$estimate[1], 3)` and a rate parameter of `r round(gamma_$estimate[2], 3)`. The function and diagnostics are plotted in Figure \ref{fig:impedance-function-plot} and the predicted values are plotted alongside the empirical TLD in Figure \ref{fig:TLD-Gamma-plot}. As a point of summary, values calculated by this calibrated impedance function captures our theoretical cost of travel (i.e. probability of travel based on the trip length distribution of empirical trips and associated travel time) within the following accessibility and spatial availability calculations.
@@ -838,21 +875,62 @@ TO_c_accessibility <- TO_od_ft %>%
 TO_taz_acc <- ggh_taz %>% merge(TO_c_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.y=T) 
 ```
 
-```{r plot-accessibility-Toronto-TTS, fig.cap="\\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto"}
-plot_c_access <- ggplot() +
-  geom_sf(data = TO_taz_acc, 
-          aes(fill= TO_A_i), color = NA) +
-    scale_fill_distiller(palette = "Spectral", trans="sqrt", name = "Accessibility \n(A_i)",
-                         limits = c(0, max(TO_taz_acc$TO_A_i)) )+ 
-  geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
-    guides(size = "none") + 
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
-plot_c_access
+```{r bbox-main-plot-accessibility-Toronto-TTS}
+bbox_new1 <- st_bbox(toronto_muni_bound) # current bounding box
+
+xrange <- bbox_new1$xmax - bbox_new1$xmin # range of x values
+yrange <- bbox_new1$ymax - bbox_new1$ymin # range of y values
+
+bbox_new1[1] <- bbox_new1[1] - (0.3 * xrange) # xmin - left
+bbox_new1[3] <- bbox_new1[3] + (0.2 * xrange) # xmax - right
+bbox_new1[2] <- bbox_new1[2] - (0.2 * yrange) # ymin - bottom
+bbox_new1[4] <- bbox_new1[4] + (0.3 * yrange) # ymax - top
+
+bbox_new <- bbox_new1 %>%  # take the bounding box ...
+  st_as_sfc()
 ```
+
+```{r plot-accessibility-Toronto-TTS, fig.cap="\\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+#creating the main plot
+mplot_access_TTS <- ggplot() +
+  geom_sf(data = TO_taz_acc, aes(fill= TO_A_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Accessibility \n(A_i)",
+                         limits = c(0, 25000), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_access_TTS <- ggdraw(mplot_access_TTS) +
+  draw_plot({mplot_access_TTS + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+mplot_access_TTS
+```
+
+
 ```{r calc-for-avail, include=FALSE, warning=FALSE, message=FALSE}
 #calculate spatial availability
 TO_od_ft <- TO_od_ft %>%
@@ -884,34 +962,83 @@ TO_taz_acc <- TO_taz_acc %>% merge(TO_availability, by.x=c("GTA06"), by.y=c("Ori
 
 Next, the spatial availability using the same impedance function is calculated for the same survey area; the higher the spatial availability value the more available employment destinations in Toronto are to any home-based origins in the GGH (Figure \ref{fig:plot-avail-Toronto-TTS}). If a TAZ has a spatial availability value which is higher or lower than `r round(mean(TO_taz_acc$TO_V_i), 3)` it has above or below average spatial availability of jobs relative to all job opportunities within the City of Toronto (for all origins in the GGH). Spatial availability can also be normalized per workers within each TAZ to provide meaningful insight on how many jobs are _available_ on average for each TAZ. This normalization, shown in Figure \ref{fig:plot-avail-Toronto-TTS-per-worker}, demonstrates which TAZ have above and below the average (`r round(mean(TO_taz_acc$TO_V_i)/mean(TO_taz_acc$worker), 3)`) available jobs per worker in the GGH (to jobs located within the city of Toronto). It can be briefly summarized that the spatial availability measure has a smaller and less pronounced radial impact than the accessibility measure; TAZs within and immediately outside the boundary of Toronto have above average spatial availability of jobs but at a lower relative intensity than compared to the availability measure. Additionally, more TAZs outside of Toronto have low spatial availability values.
 
-```{r plot-avail-Toronto-TTS, fig.cap="\\label{fig:plot-avail-Toronto-TTS}Calculated spatial availability of employment from origins in the GGH to destinations in the City of Toronto"}
-ggplot() +
-  geom_sf(data = TO_taz_acc,
-          aes(fill= TO_V_i), color = NA) +
-    scale_fill_distiller(palette = "Spectral",  trans = "sqrt", name = "Spatially Availability \n(V_i)", 
-                         limits = c(0, max(TO_taz_acc$TO_V_i)) ) +
-  geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
-    guides(size = "none") +
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+```{r plot-avail-Toronto-TTS, fig.cap="\\label{fig:plot-avail-Toronto-TTS}Calculated spatial availability of employment from origins in the GGH to destinations in the City of Toronto", fig.width=7}
+mplot_SA_TTS <- ggplot() +
+  geom_sf(data = TO_taz_acc, aes(fill= TO_V_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Spatially Availability \n(V_i)",
+                         limits = c(0, 15000), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_SA_TTS <- ggdraw(mplot_SA_TTS) +
+  draw_plot({mplot_SA_TTS + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+mplot_SA_TTS
 ```
 
-```{r plot-avail-Toronto-TTS-per-worker, fig.cap="\\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto."}
-ggplot() +
-  geom_sf(data = TO_taz_acc,
-          aes(fill= TO_V_i/workers), color = NA) +
-    scale_fill_distiller(palette = "Spectral", name = "Spatially Availability \n per Worker (v_i)",
-                         limits = c(0, max(TO_taz_acc$TO_V_i / TO_taz_acc$workers)))+
-  geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
-  guides(size = "none") + 
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+
+```{r plot-avail-Toronto-TTS-per-worker, fig.cap="\\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+mplot_SApW_TTS <- ggplot() +
+  geom_sf(data = TO_taz_acc, aes(fill= TO_V_i/workers), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Spatially Availability \n per Worker (v_i)",
+                         limits = c(0, max(TO_taz_acc$TO_V_i / TO_taz_acc$workers)), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_SApW_TTS <- ggdraw(mplot_SApW_TTS) +
+  draw_plot({mplot_SApW_TTS + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+mplot_SApW_TTS
 ```
 
 
@@ -935,10 +1062,10 @@ indexed_measures_neg <- TO_taz_acc %>%
   mutate(A_V_indexed_change_rank = ntile(A_V_indexed_change,5))
 ```
 
-Accessibility and spatial availability in our example both measure _access to jobs_. However, these two measures cannot be meaningfully compared through normalization on a per worker basis since the accessibility methodology inherently multiple-counts opportunities. We thus take a different approach to compare the relative magnitudes (within each measure) by re-scaling both measures from 0 to 100 where each value of the measure is divided by the maximum value. The percentage change between re-scaled spatial availability and accessibility for each TAZ is then calculated;`r round(length(indexed_measures_neg$GTA06)/(length(indexed_measures_neg$GTA06)+length(indexed_measures_pos$GTA06)),3)*100`% of TAZs have lower re-scaled spatial availability values than accessibility values and they are on average `r round(mean(indexed_measures_neg$A_V_indexed_change),4)*100`% different and range between `r round(max(indexed_measures_neg$A_V_indexed_change),4)*100`% to `r round(min(indexed_measures_neg$A_V_indexed_change),3)*100`% different than re-scaled accessibility. To simplify the presentation of percentage change in difference between measures, five quantiles are calculated and coloured to represent each TAZ in Figure \ref{fig:indexed-measures-comparison-plot}. The quantile ranks range from 1 to 5 where 1 represents the highest percentage difference between spatial availability and accessibility. In other words, the higher the quantile rank, the more pronounced the overestimation of _job access_ is in that TAZ when referring to the accessibility measure relative to the spatial availability measure. It should be noted that the `r round(length(indexed_measures_pos$GTA06)/(length(indexed_measures_neg$GTA06)+length(indexed_measures_pos$GTA06)),3)*100`% of TAZs which experience a positive change between the rescaled measures are shown in grey.
+Accessibility and spatial availability in our example both measure _access to jobs_. However, these two measures cannot be meaningfully compared through normalization on a per worker basis since the accessibility methodology inherently multiple-counts opportunities. We thus take a different approach to compare the relative magnitudes (within each measure) by re-scaling both measures from 0 to 100 where each value of the measure is divided by the maximum value. The percentage change between re-scaled spatial availability and accessibility for each TAZ is then calculated;`r round(length(indexed_measures_neg$GTA06)/(length(indexed_measures_neg$GTA06)+length(indexed_measures_pos$GTA06)),3)*100`% of TAZs have lower re-scaled spatial availability values than accessibility values and they are on average `r round(mean(indexed_measures_neg$A_V_indexed_change),4)*100`% different and range between `r round(max(indexed_measures_neg$A_V_indexed_change),4)*100`% to `r round(min(indexed_measures_neg$A_V_indexed_change),3)*100`% different than re-scaled accessibility. To simplify the presentation of percentage change in difference between measures, five quantiles are calculated and coloured to represent each TAZ in Figure \ref{fig:indexed-measures-comparison-plot}. The quantile ranks range from 1 to 5 where 1 represents the highest percentage difference between spatial availability and accessibility. In other words, the higher the quantile rank, the more pronounced the overestimation of _job access_ is in that TAZ when referring to the accessibility measure relative to the spatial availability measure. It should be noted that the `r round(length(indexed_measures_pos$GTA06)/(length(indexed_measures_neg$GTA06)+length(indexed_measures_pos$GTA06)),3)*100`% of TAZs which experience a positive change between the re-scaled measures are shown in grey.
 
 
-```{r indexed-measures-comparison-plot, fig.cap="\\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negetative change between spatial availability and accessibility. TAZs with values which are higher than rescaled accessibility are shown in grey."}
+```{r indexed-measures-comparison-plot, fig.cap="\\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey."}
 
 indexed_change <- ggplot() +
   geom_sf(data = indexed_measures_neg,
@@ -949,12 +1076,23 @@ Between Job Access
 Measures")+
   geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
   geom_sf(data = indexed_measures_pos, fill = "#999999") +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
   guides(fill = guide_legend(reverse = FALSE)) + 
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+  theme_void() + 
+  theme(legend.position = "right")
+
+
 
 ## I was attempting to insert a table on the plot which shows the ranges of the quantiles... thoughts? Ex. Quantile 1 represents a -100% to -95% difference, Quantile 2 represents.. etc.
 
@@ -978,32 +1116,81 @@ cor(t[, c('workers', 'jobs', "TO_A_i", "TO_V_i", "trips_i", "A_indexed", "V_inde
 
 We can see from Figure \ref{fig:indexed-measures-comparison-plot} that when we re-scale the accessibility values, they consistently overestimate  _job access_ compared to the re-scaled spatial availability measure. Overestimation ranges from  `r min(quantile_ranges$Upper)` to `r min(quantile_ranges$Lower)` and is on average `r percent(mean(indexed_measures_neg$A_V_indexed_change))`. However, while accessibility consistently overestimates _job access_ relative to spatial availability, it does so in a variable way. _Job access_ is more overestimated in TAZs that have a low number of workers and is less overestimated in TAZs with a high number of workers; the correlation between the number of workers and the percentage difference between measures is `r round(cor(t[, c('workers', "A_V_indexed_change")])[1,2],3)`. As such, the TAZs that have a relatively low number of workers are located between the border of the GGH and the City of Toronto and are also mostly coloured by red and orange indicating Quantiles 1 and 2 (highest percentage of overestimation) and vice versa. Both _job access_ measures are more similar when the number of workers correlates with travel cost and the number of jobs at the destination. However, when the calibrated travel cost outpaces the number of workers, as is the case for the low-worker TAZs within this empirical example, then these measures increasingly diverge. This difference emphasizes the importance in using an accurate and well-informed impedance function and origin-destination data. For reference to these trends, the plots for workers and impedance function values for all TAZs are presented in Figure \ref{fig:plot-workers-imp}.
 
-```{r plot-workers-imp, fig.cap="\\label{fig:plot-workers-imp}Number of workers (top) and average impedance function value (bottom) for each origin TAZ in the GGH."}
-plot_workers<- ggplot() +
-  geom_sf(data = indexed_measures_neg,
-          aes(fill= workers), color = NA) +
-    scale_fill_distiller(palette = "Spectral", name = "# of Workers",
-                         limits = c(0, max(indexed_measures_neg$workers)))+
-  geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
-  guides(size = "none") + 
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+```{r plot-workers-imp, fig.cap="\\label{fig:plot-workers-imp}Number of workers (top) and average impedance function value (bottom) for each origin TAZ in the GGH.", fig.height=9}
+plot_workers <- ggplot() +
+  geom_sf(data = indexed_measures_neg, aes(fill= workers), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "# of Workers",
+                         limits = c(0, max(indexed_measures_neg$workers)), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
 
-plot_imp<- ggplot() +
-  geom_sf(data = indexed_measures_neg,
-          aes(fill= TO_avg_f_i), color = NA) +
-    scale_fill_distiller(palette = "Spectral", name = "Travel Cost Value",
-                         limits = c(0, max(indexed_measures_neg$TO_avg_f_i)))+
-  geom_sf(data = toronto_muni_bound, colour="black", fill=NA) +
-  guides(size = "none") + 
-  theme(legend.position = "right",
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
+#main plot + adding the inset map. 
+ plot_workers <- ggdraw( plot_workers) +
+  draw_plot({ plot_workers + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+ 
+ 
+ 
+
+ plot_imp <- ggplot() +
+  geom_sf(data = indexed_measures_neg, aes(fill= TO_avg_f_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "# of Workers",
+                         limits = c(0, max(indexed_measures_neg$TO_avg_f_i)), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+ plot_imp <- ggdraw( plot_imp) +
+  draw_plot({ plot_imp + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
 
 plot_workers / plot_imp
 ```
