@@ -723,8 +723,8 @@ allocation factors are preserved (i.e., \(V_{2,1} + V_{3,1} = O_1\)).
 
 In the common case that population centers have multiple destination
 opportunities \(j\), availability is simply the sum of
-(\ref{eq:spatial-availability}) for all opportunities \(J\):
-\(V_i = \sum_{j=1}^J V_{ij}\). This quantity represents opportunities
+(\ref{eq:spatial-availability}) for all opportunities \(J\) (i.e.,
+\(V_i = \sum_{j=1}^J V_{ij}\)). This quantity represents opportunities
 (e.g., jobs) that can be accessed from \(i\) and that are \emph{not}
 allocated to a competitor: therefore the weighted sum of available
 opportunities. Compare \(V_i\) to the singly-constrained gravity model
@@ -754,39 +754,42 @@ v_{3,1} =  \frac{V_{3,1}}{P_3} =  \frac{120.6}{120} = 1.0\\
 \end{array}
 \end{equation}
 
-Less competition (\(P_k\) is the smallest population center in the
-region) and being closer to the jobs clearly works in favor of
-individuals at \(k\). Where the overall ratio of jobs to population in
-the region is \(300/(240 + 120)=\) 0.83, the spatially available jobs
-per capita at \(k\) is closer to unity.
+We can see that since \(P_3\) is closer to \(O_1\) and has less
+competition (as it has a smaller population than \(P_2\)), \(P_3\)
+benefits with a higher spatial availability of jobs per capita.
+
+Where the overall ratio of jobs to population in the region is
+\(300/(240 + 120)=\) 0.83, the spatially available jobs per capita at
+\(k\) is closer to unity.
 
 \hypertarget{empirical-example-spatial-availability-and-accessibility-of-jobs-in-toronto}{%
 \section{Empirical Example: Spatial Availability and Accessibility of
 Jobs in
 Toronto}\label{empirical-example-spatial-availability-and-accessibility-of-jobs-in-toronto}}
 
-For the reasons demonstrated in the hypothetical toy example; the
-spatial availability measure produces different and more interpretable
-results than accessibility. In this section we will demonstrate both
-measures and a comparison using empirical data for home-based work trips
-to places of employment in Toronto, Ontario.
+In this section, we calculate both spatial availability () and
+accessibility () using empirical data for home-based work trips in the
+Greater Golden Horseshoe (GGH) area. We first introduce the data used,
+then illustrate two cases in which the multiple-counting property of
+accessibility obscurs intrepretability and spatial availability
+addresses it.
 
 \hypertarget{data}{%
 \subsection{Data}\label{data}}
 
 The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities
-contained within the the Greater Golden Horseshoe (GGH) area in the
-province of Ontario, Canada (43.6°N 79.73°W) is analysed (Figure
-\ref{fig:TTS-16-survey-area}). This data set includes home-based origins
-and employment destinations defined by centroids of Traffic Analysis
-Zones (TAZ) of varying areas (n=3764), the number of jobs (n=3081900)
-and workers (n=3446957) at each origin and destination, and the trips
-from origin to destination for the morning home-to-work commute
-(n=3446957). Also included are calculated travel times by car
-(calculated via \href{https://github.com/ipeaGIT/r5r}{\texttt{r5r}}) and
-a derived impedance function values corresponding to the cost of travel
-based on the trip length distribution (TLD). The descriptive statistics
-are presented in Table \ref{tab:TTS-16-desc-stats} and a
+contained within the GGH area in the province of Ontario, Canada (43.6°N
+79.73°W) is analysed (Figure \ref{fig:TTS-16-survey-area}). This data
+set includes home-based origins and employment destinations defined by
+centroids of Traffic Analysis Zones (TAZ) of varying areas (n=3764), the
+number of jobs (n=3081900) and workers (n=3446957) at each origin and
+destination, and the trips from origin to destination for the morning
+home-to-work commute (n=3446957). Also included are calculated travel
+times by car (calculated via
+\href{https://github.com/ipeaGIT/r5r}{\texttt{r5r}}) and a derived
+impedance function values corresponding to the cost of travel based on
+the trip length distribution (TLD). The descriptive statistics are
+presented in Table \ref{tab:TTS-16-desc-stats} and a
 \href{https://github.com/soukhova/AccessPack}{data-package} is available
 to explore the data in greater detail.
 
@@ -1146,8 +1149,8 @@ With the analytical framework for spatial availability outlined, in the
 following sub-sections, we return to the numerical example which was
 introduced at the start of this
 \protect\hyperlink{accessibility-numerical-example}{section} and
-illustrate how spatial availability \(V_i\) can be calculated for three
-types of use cases.
+illustrate how spatial availability \(V_i\) can be used for two other
+use cases.
 
 \hypertarget{available-jobs-for-the-working-population}{%
 \subsubsection{Available Jobs for The Working
@@ -1195,9 +1198,10 @@ with more jobs spatially available.
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs-per-capita}
 \end{figure}
 
-\hypertarget{available-jobs-for-specialized-working-populations}{%
-\subsubsection{Available Jobs for Specialized Working
-Populations}\label{available-jobs-for-specialized-working-populations}}
+\hypertarget{alternative-use-case-2-available-jobs-for-specialized-working-populations}{%
+\subsubsection{Alternative Use Case 2: Available Jobs for Specialized
+Working
+Populations}\label{alternative-use-case-2-available-jobs-for-specialized-working-populations}}
 
 In this sub-section we introduce catchment/eligibility constraints. Due
 to differences in educational achievement among the population, the jobs
@@ -1235,9 +1239,9 @@ population here has skills required for jobs at a small employment
 center, where they face substantial competition from other population
 centers.
 
-\hypertarget{available-workers-for-employment-centers}{%
-\subsubsection{Available Workers for Employment
-Centers}\label{available-workers-for-employment-centers}}
+\hypertarget{alternative-use-case-3-available-workers-for-employment-centers}{%
+\subsubsection{Alternative Use Case 3: Available Workers for Employment
+Centers}\label{alternative-use-case-3-available-workers-for-employment-centers}}
 
 We can also examine the pool of workers available to each employment
 center by considering the workers as the opportunities and the jobs as
