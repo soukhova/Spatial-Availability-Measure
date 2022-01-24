@@ -389,12 +389,13 @@ values illustrates the following:
 
 \begin{itemize}
 \item
-  Population centers (triangles) in the middle of the map are relatively
-  close to all three employment centers and thus have the highest levels
-  of job accessibility. Population center P5 is relatively central and
-  close to all employment centers, and it is the closest population to
-  the second largest employment center in the region. Unsurprisingly,
-  this population center has the highest accessibility 680.64);
+  Population centers (triangles) in the middle of the plot are
+  relatively close to all three employment centers and thus have the
+  highest levels of job accessibility. Population center P5 is
+  relatively central and close to all employment centers, and it is the
+  closest population to the second largest employment center in the
+  region. Unsurprisingly, this population center has the highest
+  accessibility 680.64);
 \item
   Population centers (triangles) near the left edge of the map (only in
   proximity to the small employment center) have the lowest levels of
@@ -407,412 +408,357 @@ values illustrates the following:
 \subsubsection{Issues With the Conventional Accessibility
 Measure}\label{issues-with-the-conventional-accessibility-measure}}
 
-Access to opportunity measures such as conventional accessibility are
-excellent indicators of the intersection between urban structure and
-transportation infrastructure . However, beyond enabling comparisons of
-relative values they are not highly interpretable on their own. For
-instance, from Figure \ref{fig:toy-example-accessibility}, P1 has lower
-accessibility than P5, however, despite the accessibility value for P1
-being low it is still better than \emph{zero}. This evaluation leaves
-decision makers unclear on how to interpret accessibility values,
-particularly extreme values and particularly when comparing across
-scenarios or regions . The obscurity in interpretation of accessibility
-values arise in the following two ways.
+Accessibility measures are excellent indicators of the intersection
+between urban structure and transportation infrastructure . However,
+beyond enabling comparisons of relative values they are not highly
+interpretable on their own. For instance, from Figure
+\ref{fig:toy-example-accessibility}, P1 has lower accessibility than P5
+but despite the accessibility value for P1 being relatively low it is
+still better than \emph{zero}. To address this interpretability issue,
+previous research index and normalize values on a per-capita basis .
+However, as recent critical research on accessibility discusses (see for
+instance Paez, Higgins, Vivona (2019) and Allen and Farber (2019)),
+these steps do not address the bias introduced through the uneven
+multiple-counting of opportunities which are unconstrainted by
+demand-side competition. We call this issue the `conglomeration effect'
+and it arises as a result of the underlying mathematical assumption that
+for conventional accessibility \(A_i\) all opportunities for all origins
+\(i=1,\cdots,n\) are divisible and non-competitive. This results in
+every opportunity entering the weighted sum once for every origin \(i\)
+that can reach it. Put another way, if a densely populated population
+center pops up next to P5 this center too will have a high accessibility
+score since \(A_i\) does not consider competition of opportunities from
+neighbouring demand centers. This neglect to constraint opportunity
+counts (i.e., single-constraint) obscures the interpretability of
+accessibility which may manifests in the following two ways of biased
+estimation:
 
-First, origins with accessibility to a high density of opportunities are
-susceptible to having disproportionately higher accessibility values
-than origins with a lower density of opportunities. This occurs since
-total accessibility (\(\sum_{i=1}^IA_i\)) depends on the number of
-origins; every additional origin in the analysis causes at least one and
-possibly more opportunities at destinations to be multiple-counted. As
-opportunities are multiple-counted, origins which are in proximity to
-high density of opportunities have accessibility values which are
-relatively conglomerated compared to origins in proximity to a lower
-density of opportunities. This issue means total accessibility is
-vulnerable to the modifiable areal unit problem (MAUP) as opportunities
-and origins which are spatially aggregated are multiple-counted
-inconsistently. This issue is referred to as ``conglomeration bias''
-throughout this paper.
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\item
+  less dense urban periphery demand centers may be assigned
+  disproportionately \emph{high} accessibility values. These periphery
+  areas are traditionally located in proximity to more dense urban
+  demand centers and large urban opportunity centers and thus may have
+  low travel cost to these large opportunity centers. Accessibility
+  \(A_i\) does not consider opportunity-constraints and as such these
+  periphery demand centers benefit from the high accessibility to
+  opportunities without competition considerations from their more dense
+  and more centrally located neighbours.
+\item
+  remote/isolated areas which are still within the region of the
+  analysis and have regionally-relative low demand centers, opportunity
+  centers, and travel cost to opportunity centers, are assigned
+  disproportionately \emph{low} accessibility values. These
+  remote/isolated areas may be sufficiently supplied with opportunities
+  proportionate to their demand but is obscured by the artificially high
+  accessibility awarded to periphery/other areas in which conglomeration
+  disproportionally occurs.
+\end{enumerate}
 
-Second, the calculated accessibilities do not take competition into
-account. For example, an individual at P5 has accessibility to
-680.6373657 jobs. But since this is also a large population center,
-there is potentially large competition for those accessible jobs. In
-other words, the value of \(A_i\) is not sensitive to the size of
-population at the origin seeking the opportunity (in this case jobs),
-let alone the population at other locations. This unfortunately limits
-the interpretability of the measure. Floating catchment areas purport to
-account for competition/congestion effects, but as discussed by Paez,
-Higgins, and Vivona (2019), they are vulnerable to conglomeration, which
-makes them prone to bias unless corrected. This issue is referred to as
-``spatial bias'' throughout this paper.
+The spatially uneven multiple-counting of opportunities (i.e., the
+conglomeration effect) leave decision makers unclear on how to interpret
+resulting access values and all recent accessibility measures which seek
+to improve interpretability are either vulnerable to this impact or
+require potentially unrealistic assumptions . For instance, the floating
+catchment areas (FCA) method increases interpretability by purporting to
+account for competition, however, as discussed by Paez, Higgins, and
+Vivona (2019), FCA methods are vulnerable to conglomeration effect. On
+this same note, the doubly-constrained gravity model proposed by Allen
+and Farber (2019) which is based on the FCA method accounts for
+competition but requires that the magnitude of demand matches the
+opportunities. As already mentioned, this assumption is not always
+realistic for many opportunity types such as in the case of job seekers
+and jobs.
 
-To address these two shortcomings of the accessibility measure, we
-propose a singly-constrained gravity measure that corresponds to the
-concept of \textbf{spatial availability}.
+To address the conglomeration effect and introduce a more realistic
+assumption for opportunities, we propose a singly-constrained gravity
+measure called \textbf{spatial availability}. This measure fundamentally
+seeks to answer for a individual at a specific population center the
+following questions: \emph{``many jobs are accessible, but the same jobs
+are also accessible to my (possibly) numerous neighborus\ldots{} what
+does a high accessibility actually mean to me?''} and \emph{``few jobs
+are accessible but I am located in a remote area with proportionally few
+neighbours\ldots{} what does low accessibility mean to me?''}.
 
 \hypertarget{the-analytical-framework-of-spatial-availability}{%
 \subsection{The Analytical Framework of Spatial
 Availability}\label{the-analytical-framework-of-spatial-availability}}
 
-As recent research on accessibility shows (see for instance Paez,
-Higgins, Vivona (2019) and Allen and Farber (2019)), accounting for
-competitive access in a meaningful way requires the proportional
-allocations of quantities in the accessibility calculations, or their
-normalization. At issue is the fact that multiple-counting is
-commonplace when calculating conventional accessibility \(A_i\) for
-\(i=1,\cdots,n\) as every opportunity enters the weighted sum once for
-every origin \(i\) that can reach it. This has the unfortunate effect of
-obscuring the interpretability of \(A_i\) and fails to answer for a
-individual at a specific population center the question: \emph{``many
-jobs are accessible, but the same jobs are also accessible to my
-(possibly) numerous neighbors\ldots what does high accessibility
-actually mean to me?''}
-
-In the spatial availability framework proposed, and in line with the
-gravity tradition, we distinguish between opportunities at a destination
-and demand for opportunities at the origin. To explain the analytical
-framework, the example of access to employment is illustrative, with
-``population'' in the role of demand (i.e., the number of individuals in
-the labour market who ``demand'' employment) and ``jobs'' in the role of
-opportunities.
-
-As an overview, spatial availability (\(V_{ij}\)) is the proportional
-allocation of opportunities (\(O\)) and allocation factor for population
-(\(f^p\)) and cost of travel (\(f^c\)). Since spatial availability
-(\(V_{ij}\)) consists of these two allocation factors, this example
-first details how the population allocation factor \(f^p_{ij}\) produces
-\(V^p_{ij}\), next details the role of travel cost allocation factor
-\(f^c_{ij}\) in producing \(V^c_{ij}\), and finally combines both
-allocation factors in the final general form of spatial availability
-\(V_{ij}\) as follows in \ref{eq:spatial-availability}.
+Spatial availability \(V_{ij}\) is defined by opportunities \(O\) which
+are proportionally allocated based on the relative population allocation
+factor \(F^p_{ij}\) and cost of travel allocation factor \(F^c_{ij}\)
+for all origins \(i\) to all destinations \(j\) as detailed in
+(\ref{eq:spatial-availability}). In line with the gravity tradition, the
+proposed framework distinguishes between opportunities at a destination
+and demand for opportunities at the origin.
 
 \begin{equation}
 \label{eq:spatial-availability}
-V_{ij} = O_j\frac{f^p_{ij} \cdot f^c_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^c_{kj}}
+V_{ij} = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
 \end{equation}
 
-\hypertarget{population-allocation-factor-fp_ij}{%
-\subsubsection{\texorpdfstring{Population Allocation Factor
-\(f^p_{ij}\)}{Population Allocation Factor f\^{}p\_\{ij\}}}\label{population-allocation-factor-fp_ij}}
+\noindent where:
+
+\begin{itemize}
+\tightlist
+\item
+  \(V_{ij}\) is spatial availability.
+\item
+  \(i\) is a set of origin locations in the region \(K\).
+\item
+  \(j\) is a set of destination locations in the region \(K\).
+\item
+  \(O_j\) is the number of opportunities at location \(j\) in the region
+  \(K\).
+\item
+  \(F^p_{ij}\) is the proportional allocation factor of the population
+  in \(i\) relative to the population in region \(K\).
+\item
+  \(F^c_{ij}\) is the proportion allocation factor of travel cost for
+  \(i\) relative to the travel cost in region \(K\); it is a product of
+  a monotonically decreasing (i.e., impedance) function associated with
+  the cost of travel between \(i\) and \(j\).
+\end{itemize}
+
+To explain the analytical framework, the calculation of \emph{job
+access} is illustrated with a simple step-by-step example for two
+population centers (\(P_2\) and \(P_3\)) in the role of demand (i.e.,
+the number of individuals in the labour market who ``demand''
+employment) and one employment center (\(O_1\)) in the role of
+opportunities.
+
+Additionally, since spatial availability \(V_{ij}\) consists of these
+two allocation factors, we detail first how the role of population
+allocation factor \(F^p_{ij}\) in producing \(V^p_{ij}\), next the role
+of the travel cost allocation factor \(F^c_{ij}\) in producing
+\(V^c_{ij}\), and finally how both allocation factors in the final
+general form of spatial availability \(V_{ij}\) are combined.
+
+\hypertarget{population-and-travel-cost-allocation-factors}{%
+\subsubsection{Population and Travel Cost Allocation
+Factors}\label{population-and-travel-cost-allocation-factors}}
 
 We begin with allocation based on demand; consider an employment center
 \(j\) with \(O_j^r\) jobs of type \(r\). In the general case where there
 are \(K\) population centers in the region, the following factor can be
-defined:
+defined (\ref{eq:pop-alloc-factor}).
 
-\[
-f^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{k=1}^K P_{k\in r}^\alpha}
-\]
+\begin{equation}
+\label{eq:pop-alloc-factor}
+F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=1}^K P_{i\in r}^\alpha}
+\end{equation}
 
-\noindent On the right hand side of the equation, \(P_{i\in r}\) is the
-population at location \(i\) that is eligible for jobs of type \(r\)
-(maybe those with a certain level of training, or in a designated age
-group). The summation in the bottom is over \(k=1,\cdots,K\), the number
-of population centers in the region. The resulting factor \(f^p_{ij}\)
-corresponds to the proportion of the population in zone \(i\) relative
-to the rest of the region's population centres \(K\). The factors
-\(f^p_{ij}\) satisfy the property that \(\sum_i^{I} f^p_{ij} = 1\). We
-can also add an empirical parameter \(\alpha\) that can be used to
-modulate the effect of size in the calculations (i.e., \(\alpha <1\)
-places greater weight on smaller centres relative to larger ones while
-\(\alpha>1\) achieves the opposite effect).
+The population allocation factor \(F^p_{ij}\) corresponds to the
+proportion of the population in origin \(i\) relative to the rest of the
+region's population centres \(K\). On the right hand side of the
+equation, the numerator \(P_{i\in r}\) is the population at origin \(i\)
+that is eligible and `demand' jobs of type \(r\) (maybe those with a
+certain level of training or in a designated age group). The summation
+in the denominator is over \(i=1,\cdots,K\), the number of population at
+all origins \(i\) in the region \(K\). To modulate the effect of the
+size in from this factor we also add an empirical parameter \(\alpha\)
+(i.e., \(\alpha <1\) places greater weight on smaller centres relative
+to larger ones while \(\alpha>1\) achieves the opposite effect). This
+population allocation factor \(F^p_{ij}\) can now be used to
+proportionally allocate a share of the jobs at a destination \(j\) to
+all origin pairs.
 
-This factor (\(f^p_{ij}\)) can now be used to proportionally allocate a
-share of the jobs at the employment centre \(j\) to population center
-\(i\) and population center \(k\). The share of jobs at \(j\) allocated
-to (i.e., available to) each population center is:
+More broadly, since the factor \(F^p_{ij}\) is a proportion, when it is
+summed over \(i=1,\cdots,K\) it always equals to 1 (i.e.,
+\(\sum_i^{K} F^p_{ij} = 1\)). This is notable since the share of jobs
+(the spatial availability based on population \(V^p_{ij}\)) at each
+destination \(j\) allocated to (i.e., available to) each origin is equal
+to \(V^p_{ij} = O_j \cdot F^p_{ij}\) and since the sum of F\^{}p\_\{ij\}
+is equal to 1 it follows that \(\sum_{i=1}^I V_{ij} = O_j\). In other
+words, the number of jobs across the region is preserved. The result is
+a proportional allocation of jobs (opportunities) to origins based on
+population demand; this factor does not consider travel cost, that is
+defined in the travel cost allocation factor \(F^c_{ij}\) which is
+introduced shortly.
 
-\[
-V^p_{ij} = O_jf^p_{ij}\\
-\]
+To illustrate the population allocation factor, consider an employment
+center has 300 jobs (\(O_1= 300\)) in a region with two population
+centers which have 240 and 120 people, respectively, (\(P_2= 240\) and
+\(P_3 = 120\)). For simplicity, assume that all the population in the
+region is eligible for these jobs, that is, that the entirety of the
+population is included in the set \(r\). Also assume that \(\alpha=1\)
+meaning the only impact on value is the population size for each center.
+The population allocation factors \(F^p_{ij}\) for the jobs at \(O_1\)
+for each population center \(P_2\) and \(P_3\) would be defined as
+(\ref{eq:pop-alloc-factor-2populations}).
 
-\noindent and since \(\sum_i^{I} f^p_{ij} = 1\) it follows that:
-
-\[
-\sum_{i=1}^I V_{ij} = O_j 
-\]
-
-In other words, the number of jobs is preserved. The result is a
-proportional allocation of available jobs to population centres based on
-demand. As an example, consider an employment center \(j\) in a region
-with two population centers (say \(i\) and \(k\)). For simplicity,
-assume that the all the population in the region is eligible for these
-jobs, that is, that the entirety of the population is included in the
-set \(r\). The allocation factors for the jobs at \(j\) would be:
-
-\[
+\begin{equation}
+\label{eq:pop-alloc-factor-2populations}
 \begin{array}{l}\
-f^p_{ij} = \frac{P_i ^\alpha}{P_i^\alpha + P_k^\alpha}\\
-f^p_{kj} = \frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha}\\
+F^p_{2,1} = \frac{P_2 ^\alpha}{P_2^\alpha + P_3^\alpha} = \frac{240}{240 + 120} = \frac{240}{360}\\
+F^p_{3,1} = \frac{P_3^\alpha}{P_2^\alpha + P_3^\alpha}  = \frac{120}{240 + 120} = \frac{120}{360}\\
 \end{array}
-\]
+\end{equation}
 
-Suppose that there are three hundred jobs in the employment center
-(\(W_j = 300\)), and that the populations are \(P_i=240\) and
-\(P_k=120\). The jobs are allocated as follows (assuming that
-\(\alpha=1\)):
+The \(F^p_{ij}\) values can be used to find a \emph{partial} spatial
+availability of jobs which is only defined by the relative population
+demanding jobs; this partial spatial availability \(V^p_{ij}\) for each
+population center would be calculated as follows in
+(\ref{eq:pop-alloc-factor-SA-2populations}).
 
-\[
+\begin{equation}
+\label{eq:pop-alloc-factor-SA-2populations}
 \begin{array}{l}\
-V^p_{ij} = O_jf^p_{ij} = O_j\frac{P_i^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{240}{240 + 120} = 300\frac{240}{360} = 200\\
-V^p_{kj} = O_jf^p_{kj} = O_j\frac{P_k^\alpha}{P_i^\alpha + P_k^\alpha} = 300\frac{120}{240 + 120} = 300\frac{120}{360} = 100 \\
+V^p_{2,1} = O_1 \cdot F^p_{2,1} = 300 \cdot \frac{240}{360} = 200 \\
+V^p_{3,1} = O_1 \cdot F^p_{3,1} = 300 \cdot \frac{120}{360} = 100 \\
 \end{array}
-\]
+\end{equation}
 
-It can be seen that proportionally more jobs are allocated to the bigger
-center and also that the total number of jobs is preserved. However, the
-factors above account for the total number of opportunities at the
-destination (i.e., the number of jobs at the employment center), but
-they do not account for their location relative to the population
-centers. The proportional allocation procedure above is insensitive to
-how far population centers \(i\) or \(k\) are from employment center
-\(j\). To account for this effect we define a second set of allocation
-factors based on distance to the employment centers.
+It can be seen that when using only the proportional allocation factor
+\(F^p_{ij}\) to calculate spatial availability (differentiated here by
+being defined as \(V^p_{ij}\) instead of \(V_{ij}\)), proportionally
+more jobs are allocated to the bigger population center (i.e., 2 times
+more jobs as it is 2 times larger in population). We can also see that
+the sum of spatial availability for all population centers is equal to
+the sum of jobs, i.e., total opportunities are preserved. However, as
+mentioned, using only the proportional allocation factor \(F^p_{ij}\) to
+calculate spatial availability does not account for how far population
+centers \(P_2\) or \(P_3\) are from employment center \(O_1\). To
+account for this effect we introduce a second allocation factor
+\(F^c_{ij}\) based on distance to the employment centers defined in
+(\ref{eq:tcost-alloc-factor}).
 
-\hypertarget{travel-cost-allocation-factor-fc_ij}{%
-\subsubsection{\texorpdfstring{Travel Cost Allocation Factor
-\(f^c_{ij}\)}{Travel Cost Allocation Factor f\^{}c\_\{ij\}}}\label{travel-cost-allocation-factor-fc_ij}}
+\begin{equation}
+\label{eq:tcost-alloc-factor}
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^K f(c_{ij})}\\
+\end{equation}
 
-These are defined as:
-
-\[
-f^c_{ij} = \frac{f(c_{ij})}{\sum_{k=1}^K f(c_{ij})}\\
-\]
-
-\noindent where \(c_{ij}\) is the cost (e.g., the distance, travel time,
-etc.) from population center \(i\) to employment center \(j\), and
+Where \(c_{ij}\) is the cost (e.g., the distance, travel time, etc.)
+from population center \(i\) to employment center \(j\), and
 \(f(\cdot)\) is an impedance function that is a monotonically decreasing
-function of cost (\(c_{ij}\)); in other words, this allocation factor
-(\(f^c_{ij}\)) serves to proportionally allocates more jobs to closer
-locations through an impedance function. To illustrate, assume that the
-impedance function is a negative exponential function as follows, and
-assume that \(\beta\) (which modulates the steepness of the impedance
-effect and is an empirical parameter) is the value of 1:
+function of cost (\(c_{ij}\)); in other words, the travel cost
+allocation factor \(F^c_{ij}\) serves to proportionally allocates more
+jobs to closer locations through an impedance function. To continue
+illustrating, assume that the impedance function is a negative
+exponential function and assume that \(\beta\) (which modulates the
+steepness of the impedance effect and is an empirical parameter) is the
+value of 1 for simplicity. Also suppose that the distance from
+population center \(P_2\) to employment center \(O_1\) is 0.6 km, and
+the distance from population center \(P_3\) to employment center \(O_1\)
+is 0.3 km. The proportional allocation factor \(F^p_{ij}\) for the jobs
+at \(O_1\) for both population centers \(P_2\) and \(P_3\) is defined as
+follows (\ref{eq:tcost-allocation-factor-2populations}).
 
-\[
-f(c_{ij}) = \exp(-\beta c_{ij})\\
-\]
-
-Continuing the example, suppose that the distance from population center
-\(i\) to employment center \(j\) is 0.6 km, and the distance from
-population center \(k\) to employment center \(j\) is 0.3 km. Being
-closer, we would expect more jobs to be allocated to the population of
-\(k\). The jobs would be sorted as follows:
-
-\[
+\begin{equation}
+\label{eq:tcost-allocation-factor-2populations}
 \begin{array}{l}\
-f^c_{ij} = \frac{\exp(-\beta D_{ij})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
-f^c_{kj} = \frac{\exp(-\beta D_{kj})}{\exp(-\beta D_{ij}) + \exp(-\beta D_{kj})}\\
+F^c_{2,1} = \frac{\exp(-\beta \cdot D_{2,1})}{\exp(-\beta \cdot D_{2,1}) + \exp(-\beta \cdot D_{3,1})} = \frac{\exp(-0.6)}{\exp(-0.6) + \exp(-0.3)} = 0.426\\
+F^c_{3,1} = \frac{\exp(-\beta \cdot D_{3,1})}{\exp(-\beta \cdot D_{2,1}) + \exp(-\beta \cdot D_{3,1})}  = \frac{\exp(-0.3)}{\exp(-0.6) + \exp(-0.3)} = 0.574\\
 \end{array}
-\]
+\end{equation}
 
-This step normalizes the impedance between \(i\) and \(j\) and \(k\) and
-\(j\) by the total impedance in the study area. Numerically, the jobs
-allocation is:
+We can see that the proportional allocation factor for \(P_3\) is larger
+than \(P_2\) since the distance to \(O_1\) is shorter. Using the travel
+cost proportional allocation factors \(F^c_{ij}\) as defined in
+(\ref{eq:tcost-allocation-factor-2populations}), we can now calculate
+the spatial availability of jobs for each population center based only
+on \(F^c_{ij}\) and the jobs available \(O_1\) to these two competing
+population centers (note: \(V^c_{ij}\) not the complete \(V_{ij}\)) as
+follows in (\ref{eq:tcost-allocation-factor-SA-2populations}).
 
-\[
+\begin{equation}
+\label{eq:tcost-allocation-factor-SA-2populations}
 \begin{array}{l}\
-V^c_{ij} = O_jf^c_{ij} = O_j\frac{\exp(-D_{ij})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.6)}{\exp(-0.6) + \exp(-0.3)} = 3\times 0.426 = 127.8\\
-V^c_{kj} = O_jf^c_{kj} =  O_j\frac{\exp(-D_{kj})}{\exp(-D_{ij}) + \exp(-D_{kj})} = 300\frac{\exp(-0.3)}{\exp(-0.6) + \exp(-0.3)} = 3\times  0.574 = 172.2\\
+V^c_{2,1} = O_1 \cdot F^c_{2,1} = 300 \times 0.426 = 127.8\\
+V^c_{3,1} = O_1 \cdot F^c_{3,1} = 300 \times  0.574 = 172.2\\
 \end{array}
-\]
+\end{equation}
 
-A larger share of jobs (172.2 jobs) is allocated to the population
-center (\(k\)) that is closest as assumed. As before, the sum of jobs
-allocated to the population centers matches the total number of jobs
-available. Nevertheless, in isolation, this step does not account for
-the allocation of jobs based on demand.
+As shown, the spatial availability defined by \(F^c_{ij}\) (i.e.,
+\(V^c_{ij}\)) allocates \(P_3\) a larger share of jobs since the
+population center is closer to \(O_1\). However, as previously
+discussed, \(P_3\) has a smaller population than \(P_2\), so \(P_2\)
+receives a larger share of jobs when spatial availability when it is
+defined by \(F^p_{ij}\) (i.e., \(V^p_{ij}\)). It is necessary to combine
+both population and travel cost factors to accurate reflect demand;
+these two components are in line with how demand is conventionally
+modelled in accessibility calculations. Fortunately, since both
+\(F^c_{ij}\) and \(F^p_{ij}\) preserve the total number of opportunities
+(jobs) as they independently sum to 1, they can be combined
+multiplicatively to calculate the proposed spatial availability
+(\(V_{ij}\)) which considers demand to be based on both population and
+travel cost.
 
 \hypertarget{putting-spatial-availability-together}{%
 \subsubsection{Putting Spatial Availability
 Together}\label{putting-spatial-availability-together}}
 
-We can combine the proportional allocation factors by population and
-distance and calculated spatial availability (\(V_{ij}\)) as follows:
+We can combine the proportional allocation factors by population
+\(F^p_{ij}\) and travel cost \(F^c_{ij}\) and calculate spatial
+availability \(V_{ij}\) as introduced in (\ref{eq:spatial-availability})
+and repeated below:
 
 \[
-V_{ij} = O_j\frac{f^p_{ij} \cdot f^c_{ij}}{\sum_{k=1}^K f^p_{kj} \cdot f^c_{kj}}
+V_{ij} = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
 \]
 
-When applied to the example of population center \(i\) and \(k\) (i.e.,
-the demand) traveling to employment center \(j\) (i.e., the opportunity
-\(O\)):
+To complete the illustrative example of employment center \(O_1\) and
+population centers \(P_2\) and \(P_3\), the resulting spatial
+availability \(V_{ij}\) is calculated for both population centers is
+calculated in (\ref{eq:SA-2populations}).
 
-\[
+\begin{equation}
+\label{eq:SA-2populations}
 \begin{array}{l}\
-V_{ij} = O_j\cdot \frac{f^p_{ij} \cdot f^c_{ij}}{f^p_{ij} \cdot f^c_{ij} + f^p_{kj} \cdot f^c_{kj}} = 300 \frac{\big(\frac{2}{3} \big) \big(0.426 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)} = \big(300 \big)\big(\frac{0.284}{0.475} \big)= 179.4\\
-V_{kj} = O_j\cdot \frac{f^p_{kj} \cdot f^c_{kj}}{f^p_{ij} \cdot f^c_{ij} + f^p_{ik} \cdot f^c_{ik}} = 300 \frac{\big(\frac{1}{3} \big) \big(0.574 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)}  = \big(300 \big)\big(\frac{0.191}{0.475} \big)= 120.6 \\
+V_{2,1} = O_1\cdot \frac{F^p_{2,1} \cdot F^c_{2,1}}{F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 300 \frac{\big(\frac{2}{3} \big) \big(0.426 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)} = 179.4\\
+V_{3,1} = O_1\cdot \frac{F^p_{3,1} \cdot F^c_{3,1}}{F^p_{2,1} \cdot F^c_{2,1} + F^p_{ik} \cdot F^c_{ik}} = 300 \frac{\big(\frac{1}{3} \big) \big(0.574 \big)}{\big(\frac{2}{3} \big) \big(0.426 \big) + \big(\frac{1}{3} \big) \big(0.574 \big)}  =  120.6 \\
 \end{array}
-\]
+\end{equation}
 
-Notice how fewer jobs are allocated to population center \(i\) compared
-to the allocation by population only, to account for the higher cost of
-reaching the employment center. On the other hand, distance alone
-allocated more jobs to the closest population center (i.e., \(k\)), but
-since it is smaller, it also gets a smaller share of the jobs overall.
-Again, the sum of jobs at employment center \(j\) that are allocated to
-population centers \(i\) and \(k\) simultaneously based on
-\emph{population-} and \emph{distance-} based allocation is preserved
-(i.e., \(W_{ij} + W_{kj} = W_j\)).
+As can be seen, fewer number of jobs are allocated to population center
+\(P_2\) compared to the allocation by population only, to account for
+the higher cost of reaching the employment center. On the other hand,
+distance alone allocated more jobs to the closest population center
+(i.e., \(P_3\)), but since it is smaller, it also gets a smaller share
+of the jobs overall. To reiterate, the sum of jobs at employment center
+\(O_1\) that are allocated to population centers \(P_2\) and \(P_3\)
+simultaneously based on \emph{population-} and \emph{travel cost}
+allocation factors are preserved (i.e., \(V_{2,1} + V_{3,1} = O_1\)).
 
-Availability is simply the sum of the above by origin:
-
-\[
-V_i = \sum_{j=1}^J V_{ij}
-\]
-
-This quantity represents opportunities (e.g., jobs) that can be reached
-from \(i\) (i.e., they are accessible), and that are \emph{not}
+In the common case that population centers have multiple destination
+opportunities \(j\), availability is simply the sum of
+(\ref{eq:spatial-availability}) for all opportunities \(J\):
+\(V_i = \sum_{j=1}^J V_{ij}\). This quantity represents opportunities
+(e.g., jobs) that can be accessed from \(i\) and that are \emph{not}
 allocated to a competitor: therefore the weighted sum of available
 opportunities. Compare \(V_i\) to the singly-constrained gravity model
-(see Wilson (1971)). In essence, \(V_i\) is the result of constraining
+(see Wilson (1971)) . In essence, \(V_i\) is the result of constraining
 \(A_i\) to match one of the marginals in the origin-destination table,
 the known total of opportunities.
 
 Since the sum of opportunities is preserved in the procedures above, it
 is possible to calculate a highly interpretable measure of spatial
-availability per capita (call it lower-case \(v_i\)) as follows:
+availability per capita (lower-case \(v_i\)) as follows in
+(\ref{eq:SA-per-capita}).
 
-\[
+\begin{equation}
+\label{eq:SA-per-capita}
 v_i = \frac{V_i}{P_i}
-\]
+\end{equation}
 
-In the example above:
+To complete the illustrative example, the per capita spatial
+availability of jobs would be calculated as follows in
+(\ref{eq:SA-per-capita-2populations}).
 
-\[
+\begin{equation}
+\label{eq:SA-per-capita-2populations}
 \begin{array}{l}\
-v_{ij} = \frac{V_{ij}}{P_i} =  \frac{179.4}{240}\\
-v_{kj} =  \frac{V_{ik}}{P_k} =  \frac{120.6}{120}\\
+v_{2,1} = \frac{V_{2,1}}{P_2} =  \frac{179.4}{240} = 0.8\\
+v_{3,1} =  \frac{V_{3,1}}{P_3} =  \frac{120.6}{120} = 1.0\\
 \end{array}
-\]
+\end{equation}
 
 Less competition (\(P_k\) is the smallest population center in the
 region) and being closer to the jobs clearly works in favor of
 individuals at \(k\). Where the overall ratio of jobs to population in
 the region is \(300/(240 + 120)=\) 0.83, the spatially available jobs
 per capita at \(k\) is closer to unity.
-
-\hypertarget{spatial-availability-use-cases}{%
-\subsection{Spatial Availability Use
-Cases}\label{spatial-availability-use-cases}}
-
-With the analytical framework for spatial availability outlined, in the
-following sub-sections, we return to the numerical example which was
-introduced at the start of this
-\protect\hyperlink{accessibility-numerical-example}{section} and
-illustrate how spatial availability \(V_i\) can be calculated for three
-types of use cases.
-
-\hypertarget{available-jobs-for-the-working-population}{%
-\subsubsection{Available Jobs for The Working
-Population}\label{available-jobs-for-the-working-population}}
-
-In this use case, we calculate the spatial availability of jobs using
-the same impedance function that was used to calculate job accessibility
-in Figure \ref{fig:toy-example-accessibility}. The spatial availability
-calculations are implemented in the function \texttt{sp\_avail}. The
-inputs are an Origin-Destination table with labels for the origins
-(\texttt{o\_id}), labels for the destinations (\texttt{d\_id}), the
-population (\texttt{pop)} and number of opportunities (\texttt{opp}), an
-indicator for catchments or other eligibility constraints (\texttt{r}),
-and a pre-calculated impedance function (\texttt{f}). For this example,
-we assume that there are no catchment restrictions by setting \texttt{r}
-to 1.
-
-The value of the function (its output) is a vector with \(V_ij\) given
-the inputs, that is, the opportunities available to \(i\) from \(j\):
-
-Figure \ref{fig:toy-example-availability-jobs} shows the estimates of
-spatial availability:
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1} \caption{\label{fig:toy-example-availability-jobs}Spatial availability of jobs from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs}
-\end{figure}
-
-We see that population center 5 has the highest level of spatial
-availability, due to being a large population center that is moreover
-relatively close to jobs. To improve the interpretability of this
-measure, we first note that the regional measure of jobs per capita is
-0.994. We then calculate the spatially available jobs per person by
-dividing each spatial availability value by the population at each
-population center (Figure
-\ref{fig:toy-example-availability-jobs-per-capita}).
-
-Some population centers have almost two jobs available per person
-(compared to the overall regional value of approximately one job per
-person), while others have less than one job available per person. This
-does not mean that people are not taking some of the jobs. It means that
-controlling for the cost of reaching jobs, they are worse off than those
-with more jobs spatially available.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs-per-capita}
-\end{figure}
-
-\hypertarget{available-jobs-for-specialized-working-populations}{%
-\subsubsection{Available Jobs for Specialized Working
-Populations}\label{available-jobs-for-specialized-working-populations}}
-
-In this sub-section we introduce catchment/eligibility constraints. Due
-to differences in educational achievement among the population, the jobs
-in Employment Center 1 can only be taken by individuals in population
-centers 1 and 2. Jobs in Employment Center 2 can be taken by individuals
-in population centers 3, 4, 5, 7, and 8. Lastly, jobs in Employment
-Center 3 require qualifications available only among individuals in
-population centers 5, 6, 8, and 9.
-
-Calculate the spatial availability by proportionally allocating
-\emph{specialized} workers to jobs (we refer to spatial availability in
-this case as \(V_ij_r\)):
-
-Plot the availability estimates:
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments}
-\end{figure}
-
-Available jobs per person with catchment/eligibility conditions:
-
-The plot in Figure
-\ref{fig:toy-example-availability-with-catchments-per-capita} shows the
-availability per person without and with catchment restrictions.
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1} \caption{\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita of jobs from population centers with and without catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments-per-capita}
-\end{figure}
-
-We can see that when there are catchment restrictions population center
-2, despite being relatively peripheral, has higher spatial availability
-due to spatial specialization. With catchments, the spatial availability
-of jobs declines from the perspective of population center 4: the
-population here has skills required for jobs at a small employment
-center, where they face substantial competition from other population
-centers.
-
-\hypertarget{available-workers-for-employment-centers}{%
-\subsubsection{Available Workers for Employment
-Centers}\label{available-workers-for-employment-centers}}
-
-We can also examine the pool of workers available to each employment
-center by considering the workers as the opportunities and the jobs as
-the population.
-
-Calculate the spatial availability by proportionally allocating jobs to
-workers (we refer to spatial availability in this case as \(W_ji\)) as
-follows:
-
-Plot the availability estimates:
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-1} \caption{\label{fig:toy-example-availability-workers}Spatial availability of workers}\label{fig:toy-example-availability-workers}
-\end{figure}
-
-Plot the spatial availability of workers per job:
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1} \caption{\label{fig:toy-example-availability-workers-per-job}Spatial availability of workers per job}\label{fig:toy-example-availability-workers-per-job}
-\end{figure}
 
 \hypertarget{empirical-example-spatial-availability-and-accessibility-of-jobs-in-toronto}{%
 \section{Empirical Example: Spatial Availability and Accessibility of
@@ -1115,6 +1061,8 @@ GGH}\label{comparing-opportunities-access-measures---all-ggh}}
 \subsection{Contextualizing Spatial Availability Use
 Cases}\label{contextualizing-spatial-availability-use-cases}}
 
+Note: \(A_i\) is vulnerable to the modifiable areal unit problem (MAUP)
+
 With the toy and empirical example presented, we propose that spatial
 availability be seen as a type of \emph{spatial mismatch} and an
 evolution of the \emph{balanced floating catchment} approach (BFCA) .
@@ -1189,6 +1137,127 @@ calculate the \emph{opportunity access} in which the report values are
 numerically meaningful, the MUAP is potentially addressed, and
 \emph{opportunity access} values across regions, neighbourhoods, and
 spatial scales can be compared.
+
+\hypertarget{spatial-availability-use-cases}{%
+\subsection{Spatial Availability Use
+Cases}\label{spatial-availability-use-cases}}
+
+With the analytical framework for spatial availability outlined, in the
+following sub-sections, we return to the numerical example which was
+introduced at the start of this
+\protect\hyperlink{accessibility-numerical-example}{section} and
+illustrate how spatial availability \(V_i\) can be calculated for three
+types of use cases.
+
+\hypertarget{available-jobs-for-the-working-population}{%
+\subsubsection{Available Jobs for The Working
+Population}\label{available-jobs-for-the-working-population}}
+
+In this use case, we calculate the spatial availability of jobs using
+the same impedance function that was used to calculate job accessibility
+in Figure \ref{fig:toy-example-accessibility}. The spatial availability
+calculations are implemented in the function \texttt{sp\_avail}. The
+inputs are an Origin-Destination table with labels for the origins
+(\texttt{o\_id}), labels for the destinations (\texttt{d\_id}), the
+population (\texttt{pop)} and number of opportunities (\texttt{opp}), an
+indicator for catchments or other eligibility constraints (\texttt{r}),
+and a pre-calculated impedance function (\texttt{f}). For this example,
+we assume that there are no catchment restrictions by setting \texttt{r}
+to 1.
+
+The value of the function (its output) is a vector with \(V_ij\) given
+the inputs, that is, the opportunities available to \(i\) from \(j\):
+
+Figure \ref{fig:toy-example-availability-jobs} shows the estimates of
+spatial availability:
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1} \caption{\label{fig:toy-example-availability-jobs}Spatial availability of jobs from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs}
+\end{figure}
+
+We see that population center 5 has the highest level of spatial
+availability, due to being a large population center that is moreover
+relatively close to jobs. To improve the interpretability of this
+measure, we first note that the regional measure of jobs per capita is
+0.994. We then calculate the spatially available jobs per person by
+dividing each spatial availability value by the population at each
+population center (Figure
+\ref{fig:toy-example-availability-jobs-per-capita}).
+
+Some population centers have almost two jobs available per person
+(compared to the overall regional value of approximately one job per
+person), while others have less than one job available per person. This
+does not mean that people are not taking some of the jobs. It means that
+controlling for the cost of reaching jobs, they are worse off than those
+with more jobs spatially available.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example}\label{fig:toy-example-availability-jobs-per-capita}
+\end{figure}
+
+\hypertarget{available-jobs-for-specialized-working-populations}{%
+\subsubsection{Available Jobs for Specialized Working
+Populations}\label{available-jobs-for-specialized-working-populations}}
+
+In this sub-section we introduce catchment/eligibility constraints. Due
+to differences in educational achievement among the population, the jobs
+in Employment Center 1 can only be taken by individuals in population
+centers 1 and 2. Jobs in Employment Center 2 can be taken by individuals
+in population centers 3, 4, 5, 7, and 8. Lastly, jobs in Employment
+Center 3 require qualifications available only among individuals in
+population centers 5, 6, 8, and 9.
+
+Calculate the spatial availability by proportionally allocating
+\emph{specialized} workers to jobs (we refer to spatial availability in
+this case as \(V_ij_r\)):
+
+Plot the availability estimates:
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments}
+\end{figure}
+
+Available jobs per person with catchment/eligibility conditions:
+
+The plot in Figure
+\ref{fig:toy-example-availability-with-catchments-per-capita} shows the
+availability per person without and with catchment restrictions.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1} \caption{\label{fig:toy-example-availability-with-catchments-per-capita}Spatial availability of jobs per capita of jobs from population centers with and without catchment restrictions for the simple numerical example}\label{fig:toy-example-availability-with-catchments-per-capita}
+\end{figure}
+
+We can see that when there are catchment restrictions population center
+2, despite being relatively peripheral, has higher spatial availability
+due to spatial specialization. With catchments, the spatial availability
+of jobs declines from the perspective of population center 4: the
+population here has skills required for jobs at a small employment
+center, where they face substantial competition from other population
+centers.
+
+\hypertarget{available-workers-for-employment-centers}{%
+\subsubsection{Available Workers for Employment
+Centers}\label{available-workers-for-employment-centers}}
+
+We can also examine the pool of workers available to each employment
+center by considering the workers as the opportunities and the jobs as
+the population.
+
+Calculate the spatial availability by proportionally allocating jobs to
+workers (we refer to spatial availability in this case as \(W_ji\)) as
+follows:
+
+Plot the availability estimates:
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-1} \caption{\label{fig:toy-example-availability-workers}Spatial availability of workers}\label{fig:toy-example-availability-workers}
+\end{figure}
+
+Plot the spatial availability of workers per job:
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1} \caption{\label{fig:toy-example-availability-workers-per-job}Spatial availability of workers per job}\label{fig:toy-example-availability-workers-per-job}
+\end{figure}
 
 \hypertarget{limitations}{%
 \subsection{Limitations}\label{limitations}}
