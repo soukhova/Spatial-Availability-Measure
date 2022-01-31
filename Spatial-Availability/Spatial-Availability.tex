@@ -327,7 +327,7 @@ improve interpretability in the analysis of spatially dispersed
 opportunities.
 
 \hypertarget{accessibility-numerical-example}{%
-\subsection{Accessibility Numerical
+\subsection{Numerical Accessibility
 Example}\label{accessibility-numerical-example}}
 
 The setup for the simple numerical example is a system with three
@@ -436,11 +436,11 @@ estimation:
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \item
-  less dense urban periphery demand centers may be assigned
-  disproportionately \emph{high} accessibility values. These periphery
-  areas are traditionally located in proximity to more dense urban
-  demand centers and large urban opportunity centers and thus may have
-  low travel cost to these large opportunity centers. Accessibility
+  Demand centers in the less dense outer limits of the urban core may be
+  assigned disproportionately \emph{high} accessibility values. These
+  periphery areas are traditionally located in proximity to more dense
+  urban demand centers and large urban opportunity centers and thus may
+  have low travel cost to these large opportunity centers. Accessibility
   \(A_i\) does not consider opportunity-constraints and as such these
   periphery demand centers benefit from the high accessibility to
   opportunities without competition considerations from their more dense
@@ -453,7 +453,7 @@ estimation:
   remote/isolated areas may be sufficiently supplied with opportunities
   proportionate to their demand but is obscured by the artificially high
   accessibility awarded to periphery/other areas in which conglomeration
-  disproportionally occurs.
+  disproportionately occurs.
 \end{enumerate}
 
 The spatially uneven multiple-counting of opportunities (i.e., the
@@ -762,36 +762,56 @@ Where the overall ratio of jobs to population in the region is
 \(300/(240 + 120)=\) 0.83, the spatially available jobs per capita at
 \(k\) is closer to unity.
 
-\hypertarget{empirical-example-spatial-availability-and-accessibility-of-jobs-in-toronto}{%
+\hypertarget{empirical-example-spatial-availability-and-accessibility-of-jobs-in-the-ggh}{%
 \section{Empirical Example: Spatial Availability and Accessibility of
-Jobs in
-Toronto}\label{empirical-example-spatial-availability-and-accessibility-of-jobs-in-toronto}}
+Jobs in the
+GGH}\label{empirical-example-spatial-availability-and-accessibility-of-jobs-in-the-ggh}}
 
-In this section, we calculate both spatial availability () and
-accessibility () using empirical data for home-based work trips in the
-Greater Golden Horseshoe (GGH) area. We first introduce the data used,
-then illustrate two cases in which the multiple-counting property of
-accessibility obscurs intrepretability and spatial availability
-addresses it.
+In this section, we use two empirical examples to demonstrate how the
+spatially uneven multiple-counting of opportunities (i.e.,
+conglomeration effect) inherent to the accessibility measure
+(\ref{eq:conventional-accessibility}) introduces spatial bias and
+obscures interpretability. This conglomeration effect is highlighted by
+calculating spatial availability (\ref{eq:spatial-availability}) and
+comparing the relative difference between the two measures. The first
+example demonstrates how accessibility broadly overestimates \emph{job
+access} (relative to spatial availability) and particularly
+overestimates job access for areas in the less dense outer limits of the
+urban core. The second example demonstrates how accessibility
+underestimates job access for areas in the urban periphery. Both
+examples are based on the same empirical data set for home-based work
+trips in the Greater Golden Horseshoe (GGH) area. We first introduce the
+data used, then calibrate the impedance function, and finally illustrate
+the two examples.
 
 \hypertarget{data}{%
 \subsection{Data}\label{data}}
 
 The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities
 contained within the GGH area in the province of Ontario, Canada (43.6°N
-79.73°W) is analysed (Figure \ref{fig:TTS-16-survey-area}). This data
-set includes home-based origins and employment destinations defined by
-centroids of Traffic Analysis Zones (TAZ) of varying areas (n=3764), the
-number of jobs (n=3081900) and workers (n=3446957) at each origin and
-destination, and the trips from origin to destination for the morning
-home-to-work commute (n=3446957). Also included are calculated travel
-times by car (calculated via
-\href{https://github.com/ipeaGIT/r5r}{\texttt{r5r}}) and a derived
-impedance function values corresponding to the cost of travel based on
-the trip length distribution (TLD). The descriptive statistics are
-presented in Table \ref{tab:TTS-16-desc-stats} and a
-\href{https://github.com/soukhova/AccessPack}{data-package} is available
-to explore the data in greater detail.
+79.73°W) is used within this section (Figure
+\ref{fig:TTS-16-survey-area}). This data set includes home-based origins
+and employment destinations defined by centroids of Traffic Analysis
+Zones (TAZ) (n=3764), the number of jobs (n=3081900) and workers
+(n=3446957) at each origin and destination, and the trips from origin to
+destination for the morning home-to-work commute (n=3446957).
+
+Also included are travel times and cost of travel from origin to
+destination by car; travel times are calculated using the R package
+\texttt{r5r} (Rafael H. M. Pereira et al., 2021) and an impedance
+function based on these travel times is derived. It is important to note
+that for simplicity, all trips within this data set are assumed to be
+taken by car, and the travel time is calculated from an origin TAZ
+centroid to a destination TAZ centroid. The centroid is snapped to the
+nearest street line by \texttt{r5r} and the travel time is calculated
+for all trips assuming a car travel mode and a department of 7:00am on
+Wednesday October 2021, an arbitrary date selected by the authors.
+Additionally, only travel times less than or equal to 180 mins (3 hrs);
+this threshold represents 99\% of trip's travel times which are
+summarized in the descriptive statistics in Table
+\ref{tab:TTS-16-desc-stats}. All data and data preparation steps can be
+freely explored in companion R data-package
+\href{https://github.com/soukhova/AccessPack}{\texttt{AccessPack}}.
 
 \begin{figure}
 
@@ -831,91 +851,101 @@ to explore the data in greater detail.
 \subsection{Calibrating an Impedance
 Function}\label{calibrating-an-impedance-function}}
 
-In the hypothetical toy data set, an arbitrary negative exponential
-function describing the increase in travel cost as distance increases
-was used as the impedance function to derive both accessibility and
-availability. In this data set, an impedance function can be derived
-from the empirical trip length distribution (TLD) as the number of trips
-and their travel cost (in the case, travel time in minutes) are known
-(see black data points in Figure \ref{fig:TLD-Gamma-plot}).
+In the toy data set introduced in the
+\protect\hypertarget{accessibility-numerical-example}{}{Numerical
+Accessibility Example} section, an arbitrary negative exponential
+function describing travel cost (as a function of distance) was used as
+the impedance function to derive both accessibility and spatial
+availability. In this empirical data set, since the travel time is
+calculated based on the existing street network in the GGH, an empirical
+trip length distribution (TLD) is defined and used to derive an
+impedance function. For background, a TLD is the representation of the
+likelihood that a proportion of trips are taken at a specific travel
+cost and are widely used to derive impedance functions in accessibility
+research .
 
-The TLD density plot appears to follow a gamma distribution, as such,
-this theoretical distribution along with other common TLD distributions
-such as log-normal and exponential distributions were fitted to the
-empirical TLD using the maximum likelihood estimation method and
-Nelder-Mead method for direct optimization available within the
-fitdistrplus package in R (Delignette-Muller and Dutang, 2015; R Core
-Team, 2021) . Based on goodness-of-fit criteria, the gamma distribution
-was selected (see red line in Figure \ref{fig:TLD-Gamma-plot}). The
-gamma distribution function is given in the following general form: \[ 
-f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty
-\] \noindent where the estimated `shape' is \(\alpha\),the estimated
-`rate' is \(\beta\), and \(\Gamma(\alpha)\) is defined as:
-
-\[
-\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx
-\]
-
-\begin{figure}
-\includegraphics[width=1\linewidth]{images/impedance_function} \caption{\label{fig:impedance-function-plot}Impedance function and diagnostics.}\label{fig:plot-impedance-function}
-\end{figure}
-
-\begin{verbatim}
-Warning: Removed 123 rows containing missing values (geom_point).
-\end{verbatim}
+The empirical TLD for this data set is represented by black data points
+in Figure \ref{fig:TLD-Gamma-plot}). As can be observed, this empirical
+distribution appears to follow a gamma distribution, as such, this
+theoretical distribution along with other common TLD distributions such
+as log-normal and exponential distributions were fitted to the empirical
+TLD. The maximum likelihood estimation method and Nelder-Mead method for
+direct optimization available within the \texttt{fitdistrplus} package
+(Delignette-Muller and Dutang, 2015) was used . Based on goodness-of-fit
+criteria and diagnostics presented in Appendix Figure
+\ref{fig:impedance-function-plot} and \ref{fig:plot-cullen-frey}, the
+gamma distribution was selected and is represented as a red line in
+Figure \ref{fig:TLD-Gamma-plot}.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1} \caption{\label{fig:TLD-Gamma-plot}Empirical TTS 2016 home-based car trip length distribution (black) and calibrated gamma distribution impedance function (red)}\label{fig:TLD-Gamma-plot}
 \end{figure}
 
-The calibrated impedance function has a shape parameter of 2.019 and a
-rate parameter of 0.094. The function and diagnostics are plotted in
-Figure \ref{fig:impedance-function-plot} and the predicted values are
-plotted alongside the empirical TLD in Figure \ref{fig:TLD-Gamma-plot}.
-As a point of summary, values calculated by this calibrated impedance
-function captures our theoretical cost of travel (i.e.~probability of
-travel based on the trip length distribution of empirical trips and
-associated travel time) within the following accessibility and spatial
-availability calculations.
+The resulting calibrated gamma distribution, which serves as the
+impedance function for the empirical data set, is given in the following
+general form where the estimated `shape' is \(\alpha\), the estimated
+`rate' is \(\beta\), and \(\Gamma(\alpha)\) is defined in
+(\ref{gamma-dist}). The calculated shape and rate parameter is 2.019 and
+0.094 respectively. We would like to reiterate that this impedance
+function, though it is derived using empirical data, assumes all
+home-to-work trips in the 2016 TTS data set are all taken by car. In
+reality there is a modal split but for illustrative purposes, the same
+impedance function is used to calculate accessibility and spatial
+availability in the following examples.
 
-\hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
-\subsection{Accessibility and Spatial Availability of Jobs in
-Toronto}\label{accessibility-and-spatial-availability-of-jobs-in-toronto}}
+\begin{equation}
+\label{gamma-dist}
+\begin{array}{l}\ 
+f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\
 
-In this section we calculate \emph{job access} for subset of jobs and
-workers in the GGH to demonstrate the first property of the spatial
-availability measure: not including a the single-constraint in
-accessibility overestimates \emph{job access} for TAZ with a low
-proportion of workers (relative to TAZs with higher jobs). This is
-demonstrated by using the impedance function defined in the previous
-section and calculating accessibility and spatial availability to
-employment destinations only within the boundaries of Toronto from
-home-based origins anywhere in the GGH. It should be noted that Toronto
-represents a significant subset of workers and jobs in the GGH; 50\% of
-workers in the GGH travel to jobs in Toronto and 72\% of jobs are
-located within Toronto.
+\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx\\
+\end{array}
+\end{equation}
 
-Accessibility is first calculated in which the higher the accessibility
+\hypertarget{access-to-jobs-in-toronto}{%
+\subsection{Access to jobs in Toronto}\label{access-to-jobs-in-toronto}}
+
+In this section we calculate \emph{job access} using both accessibility
+and spatial availability measures for jobs in city of Toronto and all
+origins in the GGH using the impedance function defined in the previous
+section. Toronto is the largest city in the GGH and represents a
+significant subset of workers and jobs in the GGH; 50\% of workers in
+the GGH travel to jobs in Toronto and 72\% of jobs are located within
+Toronto. As it will be later discussed, this example demonstrates the
+first issue in accessibility: neglecting to include the
+single-constraint overestimates \emph{job access} for TAZ with a low
+proportion of workers that are next to TAZs with a high proportion of
+jobs and workers.
+
+Accessibility is first calculated and presented in Figure
+\ref{fig:plot-access-SA-Toronto-TTS}. The higher the accessibility
 value, the more accessible places of employment are to home-based
-origins as seen in Figure \ref{fig:plot-accessibility-Toronto-TTS}. It
-can be briefly summarized that the accessibility values follow a radial
-trend where the majority of TAZs in Toronto have high accessibility
-values and values decrease in TAZs which are further from the city
-boundary.
+origins. It can be briefly summarized that the accessibility values
+follow a radial trend where the majority of TAZs in Toronto have high
+accessibility values and values decrease in TAZs which are further from
+the city boundary.
 
-Next, the spatial availability using the same impedance function is
-calculated for the same survey area; the higher the spatial availability
-value the more available employment destinations in Toronto are to any
-home-based origins in the GGH (Figure \ref{fig:plot-avail-Toronto-TTS}).
-If a TAZ has a spatial availability value which is higher or lower than
-NA it has above or below average spatial availability of jobs relative
-to all job opportunities within the City of Toronto (for all origins in
-the GGH). Spatial availability can also be normalized per workers within
-each TAZ to provide meaningful insight on how many jobs are
-\emph{available} on average for each TAZ. This normalization, shown in
-Figure \ref{fig:plot-avail-Toronto-TTS-per-worker}, demonstrates which
-TAZ have above and below the average (NA) available jobs per worker in
-the GGH (to jobs located within the city of Toronto). It can be briefly
+Next, the spatial availability is calculated and also presented in
+Figure \ref{fig:plot-access-SA-Toronto-TTS}. It can be observed that the
+higher the spatial availability value the more available employment
+destinations in Toronto are to any home-based origins in the GGH. If a
+TAZ has a spatial availability value which is higher or lower than NA it
+has above or below average spatial availability of jobs relative to all
+job opportunities within the City of Toronto (for all origins in the
+GGH).
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1} \caption{\label{fig:plot-access-SA-Toronto-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-access-SA-Toronto-TTS}
+\end{figure}
+
+\newpage
+
+Spatial availability can also be normalized per workers within each TAZ
+to provide meaningful insight on how many jobs are \emph{available} on
+average for each TAZ. This normalization, shown in Figure
+\ref{fig:plot-avail-Toronto-TTS-per-worker}, demonstrates which TAZ have
+above and below the average (0.422) available jobs per worker in the GGH
+(to jobs located within the city of Toronto). It can be briefly
 summarized that the spatial availability measure has a smaller and less
 pronounced radial impact than the accessibility measure; TAZs within and
 immediately outside the boundary of Toronto have above average spatial
@@ -924,51 +954,58 @@ the availability measure. Additionally, more TAZs outside of Toronto
 have low spatial availability values.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1} \caption{\label{fig:plot-access-SA-Toronto-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-access-SA-Toronto-TTS}
-\end{figure}
-
-\begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1} \caption{\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-avail-Toronto-TTS-per-worker}
 \end{figure}
 
-\hypertarget{accessibility-and-spatial-availabiltiy-of-all-jobs-in-ggh}{%
-\subsection{Accessibility and Spatial Availabiltiy of all jobs in
-GGH}\label{accessibility-and-spatial-availabiltiy-of-all-jobs-in-ggh}}
+\newpage
 
-In this section we calculate \emph{job access} for the entire GGH to
-demonstrate the second property of the spatial availability measure: not
-including a the single-constraint in accessibility underestimates
-\emph{job access} for TAZ with a low proportion of workers (relative to
-TAZs with higher jobs), meaning less populous TAZ areas accessibility
-underestimates \emph{job access}. This is demonstrated by using the
-impedance function defined and calculating accessibility and spatial
-availability to employment destinations in Toronto from home-based
-origins anywhere in the GGH.
+\hypertarget{access-to-jobs-in-the-ggh}{%
+\subsection{Access to jobs in the GGH}\label{access-to-jobs-in-the-ggh}}
 
-Accessibility is first calculated in which the higher the accessibility
-value, the more accessible places of employment are to home-based
-origins as seen in Figure \ref{fig:plot-accessibility-GGH-TTS}. It can
-be briefly summarized that the accessibility values follow a radial
-trend where the majority of TAZs in Toronto have high accessibility
-values and values decrease in TAZs which are further from the city
-boundary.
+In this section we calculate job access for all jobs in the GGH for all
+origins in the GGH using both accessibility and spatial availability
+measures. As will be later elaborated, this example demonstrates the
+second issue in the accessibility measure: neglecting to include the
+single-constraint underestimates job access for TAZ which are on the
+periphery of the GGH and have relatively-low proportion of workers.
+These TAZs are relatively isolated (by travel cost) from the city of
+Toronto which has the highest density of opportunities (jobs). The first
+issue, namely the over estimation of the TAZs which are on the outer
+limits outside the Toronto border is also observed.
 
-\begin{verbatim}
-old-style crs object detected; please recreate object with a recent sf::st_crs()
-old-style crs object detected; please recreate object with a recent sf::st_crs()
-\end{verbatim}
+Accessibility and spatial availability are both calculated and presented
+in Figure \ref{fig:plot-access-SA-GGH-TTS}. Interestingly, despite the
+majority of jobs being located within Toronto - general trends are
+similar for both accessibility plots but not for both spatial
+availability plots. For instance, the accessibility values follow a
+radial trend where the majority of TAZs in Toronto have high
+accessibility values and values decrease in TAZs which are further from
+the city boundary. However, it can be seen that the radial effect is
+less pronounced and TAZs outside of Toronto appear to have a higher
+accessibility score. Conversely, spatial availability does not appear to
+follow a radial trend as depicted in the previous plot in Figure
+\ref{fig:plot-access-SA-Toronto-TTS}. Job access, as measured by spatial
+availability, appears much more even throughout the GGH (in comparison
+to job access as measured by accessibility). This can be noted in higher
+values around the north east and south west periphery TAZs and more
+moderate values in and around Toronto.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-GGH-1} \caption{\label{fig:plot-access-SA-GGH-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the GGH.}\label{fig:plot-access-SA-GGH}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1} \caption{\label{fig:plot-access-SA-GGH-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the GGH.}\label{fig:plot-access-SA-GGH-TTS}
 \end{figure}
 
-\begin{verbatim}
-old-style crs object detected; please recreate object with a recent sf::st_crs()
-\end{verbatim}
+\newpage
+
+Spatial availability within this example can also be represented on a
+per-worker basis and a similar difference in trend between the previous
+plot in Figure \ref{fig:plot-avail-Toronto-TTS-per-worker} can be seen
+in the plot for all GGH jobs in Figure
+\ref{fig:plot-avail-GGH-TTS-per-worker}.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1} \caption{\label{fig:plot-avail-GGH-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-avail-GGH-TTS-per-worker}
 \end{figure}
+\newpage
 
 \hypertarget{discussion}{%
 \section{Discussion}\label{discussion}}
@@ -999,10 +1036,6 @@ access} is in that TAZ when referring to the accessibility measure
 relative to the spatial availability measure. It should be noted that
 the 1.1\% of TAZs which experience a positive change between the
 re-scaled measures are shown in grey.
-
-\begin{verbatim}
-Warning: Duplicated aesthetics after name standardisation: colour
-\end{verbatim}
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1} \caption{\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey.}\label{fig:indexed-measures-comparison-plot}
@@ -1142,7 +1175,7 @@ numerically meaningful, the MUAP is potentially addressed, and
 spatial scales can be compared.
 
 \hypertarget{spatial-availability-use-cases}{%
-\subsection{Spatial Availability Use
+\section{Spatial Availability Use
 Cases}\label{spatial-availability-use-cases}}
 
 With the analytical framework for spatial availability outlined, in the
@@ -1153,7 +1186,7 @@ illustrate how spatial availability \(V_i\) can be used for two other
 use cases.
 
 \hypertarget{available-jobs-for-the-working-population}{%
-\subsubsection{Available Jobs for The Working
+\subsection{Available Jobs for The Working
 Population}\label{available-jobs-for-the-working-population}}
 
 In this use case, we calculate the spatial availability of jobs using
@@ -1199,7 +1232,7 @@ with more jobs spatially available.
 \end{figure}
 
 \hypertarget{alternative-use-case-2-available-jobs-for-specialized-working-populations}{%
-\subsubsection{Alternative Use Case 2: Available Jobs for Specialized
+\subsection{Alternative Use Case 2: Available Jobs for Specialized
 Working
 Populations}\label{alternative-use-case-2-available-jobs-for-specialized-working-populations}}
 
@@ -1264,7 +1297,7 @@ Plot the spatial availability of workers per job:
 \end{figure}
 
 \hypertarget{limitations}{%
-\subsection{Limitations}\label{limitations}}
+\section{Limitations}\label{limitations}}
 
 still does not tell us how many accessible opportunities will lead to
 participation/positive outcomes; it does come closer\ldots{} this is an
@@ -1274,6 +1307,28 @@ important question for equity analysis.
 \section{Conclusion}\label{conclusion}}
 
 Words go here.
+
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-cullen-frey-1} \caption{\label{fig:plot-cullen-frey}Cullen and frey graphy for the complete empirical 2016 TTS travel time data set.}\label{fig:plot-cullen-frey}
+\end{figure}
+
+\begin{verbatim}
+summary statistics
+------
+min:  0.1   max:  179 
+median:  18 
+mean:  21.4344 
+estimated sd:  14.61254 
+estimated skewness:  1.703326 
+estimated kurtosis:  8.353363 
+\end{verbatim}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{images/impedance_function} \caption{\label{fig:impedance-function-plot}Diagnostics associated with the fitted gamma distribution.}\label{fig:plot-impedance-function}
+\end{figure}
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
@@ -1350,9 +1405,11 @@ Accessibility planning in American metropolitan areas: Are we there yet?
 Urban Studies 56, 167--192.
 doi:\href{https://doi.org/10.1177/0042098017710122}{10.1177/0042098017710122}
 
-\leavevmode\vadjust pre{\hypertarget{ref-R_2021}{}}%
-R Core Team, 2021. R: A language and environment for statistical
-computing. R Foundation for Statistical Computing, Vienna, Austria.
+\leavevmode\vadjust pre{\hypertarget{ref-r5r_2021}{}}%
+Rafael H. M. Pereira, Marcus Saraiva, Daniel Herszenhut, Carlos Kaue
+Vieira Braga, Matthew Wigginton Conway, 2021. r5r: Rapid realistic
+routing on multimodal transport networks with R5 in r. Findings.
+doi:\href{https://doi.org/10.32866/001c.21262}{10.32866/001c.21262}
 
 \leavevmode\vadjust pre{\hypertarget{ref-shen1998}{}}%
 Shen, Q., 1998. Location characteristics of inner-city neighborhoods and
