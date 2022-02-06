@@ -13,3 +13,8 @@ ggpmisc
 ggrepel
 cowplot
 ggspatial
+sp
+spData
+spdep
+RColorBrewer
+reshape2

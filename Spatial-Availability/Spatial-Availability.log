@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.1.27)  31 JAN 2022 10:46
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.2.1)  5 FEB 2022 16:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -542,28 +542,16 @@ LaTeX Warning: Label `fig:plot-access-SA-GGH-TTS' multiply defined.
 LaTeX Warning: Label `fig:plot-avail-GGH-TTS-per-worker' multiply defined.
 
 
-LaTeX Warning: Label `fig:indexed-measures-comparison-plot' multiply defined.
+LaTeX Warning: Label `fig:plot-local-i-Toronto' multiply defined.
 
 
-LaTeX Warning: Label `fig:plot-workers-imp' multiply defined.
-
-
-LaTeX Warning: Label `fig:indexed-measures-comparison-plot-GGH' multiply defined.
-
-
-LaTeX Warning: Label `fig:toy-example-availability-jobs' multiply defined.
-
-
-LaTeX Warning: Label `fig:toy-example-availability-jobs-per-capita' multiply defined.
+LaTeX Warning: Label `fig:plot-difference-GGH' multiply defined.
 
 
 LaTeX Warning: Label `fig:toy-example-availability-with-catchments' multiply defined.
 
 
-LaTeX Warning: Label `fig:toy-example-availability-with-catchments-per-capita' multiply defined.
-
-
-LaTeX Warning: Label `fig:toy-example-availability-workers' multiply defined.
+LaTeX Warning: Label `fig:toy-example-availability-jobs-per-capita' multiply defined.
 
 
 LaTeX Warning: Label `fig:toy-example-availability-workers-per-job' multiply defined.
@@ -675,185 +663,155 @@ LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 29
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [4]
-<images/figure-1.png, id=144, 216.81pt x 144.54pt>
+<images/figure-1.png, id=132, 216.81pt x 144.54pt>
 File: images/figure-1.png Graphic file (type png)
 <use images/figure-1.png>
-Package pdftex.def Info: images/figure-1.png  used on input line 374.
+Package pdftex.def Info: images/figure-1.png  used on input line 373.
 (pdftex.def)             Requested size: 216.80946pt x 144.53963pt.
 
-Overfull \vbox (4.13966pt too high) detected at line 374
+Overfull \vbox (4.13966pt too high) detected at line 373
  []
 
 
-Overfull \hbox (11.64212pt too wide) in paragraph at lines 348--377
+Overfull \hbox (11.64212pt too wide) in paragraph at lines 347--376
  [][] 
  []
 
-<Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf, id=145, 469.755pt x 325.215pt>
+<Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf, id=133, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf  used on input line 380.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf  used on input line 379.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 [5 <./images/figure-1.png>] [6 <./Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf>] [7] [8] [9] [10] [11]
-<images/Greater-Golden-Horseshoe-Map.png, id=225, 433.01775pt x 414.95026pt>
+<images/Greater-Golden-Horseshoe-Map.png, id=213, 433.01775pt x 414.95026pt>
 File: images/Greater-Golden-Horseshoe-Map.png Graphic file (type png)
 <use images/Greater-Golden-Horseshoe-Map.png>
-Package pdftex.def Info: images/Greater-Golden-Horseshoe-Map.png  used on input line 818.
+Package pdftex.def Info: images/Greater-Golden-Horseshoe-Map.png  used on input line 817.
 (pdftex.def)             Requested size: 241.49895pt x 231.4208pt.
 pdfTeX warning (ext4): destination with the same identifier (name{accessibility-numerical-example}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.855 ...target{accessibility-numerical-example}{}
+l.854 ...target{accessibility-numerical-example}{}
                                                   {Numerical [12]
-<Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf, id=240, 469.755pt x 325.215pt>
+<Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf, id=228, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf  used on input line 881.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf  used on input line 880.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 [13 <./images/Greater-Golden-Horseshoe-Map.png>] [14 <./Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf, id=266, 505.89pt x 650.43pt>
+<Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf, id=254, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf  used on input line 938.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf  used on input line 937.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
 [15] [16 <./Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf, id=283, 505.89pt x 325.215pt>
+<Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf, id=273, 505.89pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf  used on input line 957.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf  used on input line 971.
 (pdftex.def)             Requested size: 345.0pt x 221.78838pt.
 [17 <./Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf, id=297, 505.89pt x 650.43pt>
+<Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf, id=287, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf  used on input line 994.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf  used on input line 1013.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
 [18] [19 <./Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf, id=319, 505.89pt x 325.215pt>
+<Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf, id=311, 505.89pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf  used on input line 1006.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf  used on input line 1055.
 (pdftex.def)             Requested size: 345.0pt x 221.78838pt.
-[20 <./Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>]
-<Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1.pdf, id=332, 469.755pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1.pdf  used on input line 1041.
+[20] [21 <./Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>]
+<Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf, id=333, 469.755pt x 325.215pt>
+File: Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf Graphic file (type pdf)
+<use Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf>
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf  used on input line 1118.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability_files/figure-latex/plot-workers-imp-1.pdf, id=335, 469.755pt x 650.43pt>
-File: Spatial-Availability_files/figure-latex/plot-workers-imp-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/plot-workers-imp-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-workers-imp-1.pdf  used on input line 1069.
-(pdftex.def)             Requested size: 345.0pt x 477.68813pt.
-
-LaTeX Warning: Reference `fig:plot-accessibility-Toronto-TTS' on page 21 undefined on input line 1074.
-
-
-LaTeX Warning: Reference `fig:plot-avail-Toronto-TTS' on page 21 undefined on input line 1075.
-
-[21] [22 <./Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-1.pdf>] [23 <./Spatial-Availability_files/figure-latex/plot-workers-imp-1.pdf>]
-<Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-GGH-1.pdf, id=364, 469.755pt x 505.89pt>
-File: Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-GGH-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-GGH-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-GGH-1.pdf  used on input line 1093.
-(pdftex.def)             Requested size: 345.0pt x 371.5352pt.
-[24] [25 <./Spatial-Availability_files/figure-latex/indexed-measures-comparison-plot-GGH-1.pdf>]
-<Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf, id=385, 469.755pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf  used on input line 1211.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[26]
-<Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf, id=393, 469.755pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf  used on input line 1231.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-
-Overfull \hbox (4.53914pt too wide) in paragraph at lines 1247--1250
-[]\T1/lmr/m/n/10 Calculate the spa-tial avail-abil-ity by pro-por-tion-ally al-lo-cat-ing \T1/lmr/m/it/10 spe-cial-ized \T1/lmr/m/n/10 work-
- []
-
-<Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf, id=394, 469.755pt x 325.215pt>
+[22 <./Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf>]
+<Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf, id=349, 505.89pt x 650.43pt>
+File: Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf Graphic file (type pdf)
+<use Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf>
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf  used on input line 1174.
+(pdftex.def)             Requested size: 345.0pt x 443.57677pt.
+[23] [24 <./Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf>] [25]pdfTeX warning (ext4): destination with the same identifier (name{background}) has been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.1263 \protect\hypertarget{background}{}
+                                         {Background} section.
+<Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf, id=381, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf  used on input line 1254.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf  used on input line 1285.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[27 <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs-1.pdf>]
-<Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1.pdf, id=409, 469.755pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1.pdf  used on input line 1264.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf, id=410, 469.755pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf  used on input line 1290.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf, id=411, 469.755pt x 325.215pt>
+<Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf, id=382, 505.89pt x 650.43pt>
+File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf Graphic file (type pdf)
+<use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf  used on input line 1289.
+(pdftex.def)             Requested size: 345.0pt x 443.57677pt.
+[26]
+<Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf, id=396, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf  used on input line 1296.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[28 <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>] [29 <./Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf> <./Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-per-capita-1.pdf>] [30 <./Spatial-Availability_files/figure-latex/toy-example-availability-workers-1.pdf> <./Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf, id=467, 469.755pt x 433.62pt>
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf  used on input line 1332.
+(pdftex.def)             Requested size: 345.0pt x 443.57677pt.
+[27 <./Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf>] [28 <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>] [29 <./Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>] [30]
+<Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf, id=442, 469.755pt x 433.62pt>
 File: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf  used on input line 1315.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf  used on input line 1426.
 (pdftex.def)             Requested size: 345.0pt x 318.45876pt.
-<images/impedance_function.png, id=468, 481.8pt x 481.8pt>
+[31 <./Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>]
+<images/impedance_function.png, id=455, 481.8pt x 481.8pt>
 File: images/impedance_function.png Graphic file (type png)
 <use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 1330.
+Package pdftex.def Info: images/impedance_function.png  used on input line 1441.
 (pdftex.def)             Requested size: 345.0pt x 345.00635pt.
-[31 <./Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>] [32 <./images/impedance_function.png>]
-Overfull \hbox (58.21326pt too wide) in paragraph at lines 1345--1350
+[32 <./images/impedance_function.png>]
+Overfull \hbox (58.21326pt too wide) in paragraph at lines 1460--1465
 \T1/lmr/m/n/10 vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. doi:[]10.1016/j.jtrangeo.2018.05.015[] 
  []
 
 
-Overfull \hbox (91.81992pt too wide) in paragraph at lines 1368--1372
+Overfull \hbox (91.81992pt too wide) in paragraph at lines 1483--1487
 \T1/lmr/m/n/10 porta-tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 102319. doi:[]10.1016/j.trd.2020.102319[] 
  []
 
 
-Overfull \hbox (9.50491pt too wide) in paragraph at lines 1391--1395
+Overfull \hbox (9.50491pt too wide) in paragraph at lines 1506--1510
 \T1/lmr/m/n/10 plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080/01441647.2018.1492778[] 
  []
 
 
-Overfull \hbox (14.53242pt too wide) in paragraph at lines 1408--1413
+Overfull \hbox (14.53242pt too wide) in paragraph at lines 1523--1528
 \T1/lmr/m/n/10 mul-ti-modal trans-port net-works with R5 in r. Find-ings. doi:[]10.32866/001c.21262[] 
  []
 
 
-Overfull \hbox (44.13885pt too wide) in paragraph at lines 1420--1426
+Overfull \hbox (44.13885pt too wide) in paragraph at lines 1535--1541
 \T1/lmr/m/n/10 of Ge-o-graph-i-cal In-for-ma-tion Sci-ence 26, 1073--1089. doi:[]10.1080/13658816.2011.624987[] 
  []
 
-[33] [34] (./Spatial-Availability.aux)
-
-LaTeX Warning: There were undefined references.
-
+[33] (./Spatial-Availability.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Spatial-Availability.out' has not changed.
-(rerunfilecheck)             Checksum: AC56E748BE4A7BB4C5005387E7F27E42;5474.
+(rerunfilecheck)             Checksum: 56633E3B66CD3EDD06DB29F141BC7F8E;4679.
  ) 
 Here is how much of TeX's memory you used:
- 14377 strings out of 480247
- 243728 string characters out of 5894228
- 518587 words of memory out of 5000000
- 31879 multiletter control sequences out of 15000+600000
+ 14321 strings out of 480247
+ 239890 string characters out of 5894557
+ 518323 words of memory out of 5000000
+ 31837 multiletter control sequences out of 15000+600000
  528826 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 70i,15n,76p,811b,434s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,15n,76p,801b,480s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Spatial-Availability.pdf (34 pages, 14982799 bytes).
+Output written on Spatial-Availability.pdf (33 pages, 15349444 bytes).
 PDF statistics:
- 658 PDF objects out of 1000 (max. 8388607)
- 521 compressed objects within 6 object streams
- 137 named destinations out of 1000 (max. 500000)
- 288 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 628 PDF objects out of 1000 (max. 8388607)
+ 503 compressed objects within 6 object streams
+ 129 named destinations out of 1000 (max. 500000)
+ 244 words of extra memory for PDF output out of 10000 (max. 10000000)
 
