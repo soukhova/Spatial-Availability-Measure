@@ -40,7 +40,7 @@
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
-            pdftitle={Estimating spatial availability/mismatch using singly constrained accessibility measures},
+            pdftitle={Improving interpretability and spatial mismatch estimates: Introducing spatial availability, a singly-constrained accessibility measure},
             colorlinks=false,
             urlcolor=blue,
             linkcolor=magenta,
@@ -110,8 +110,9 @@
 
 \begin{frontmatter}
 
-  \title{Estimating spatial availability/mismatch using singly
-constrained accessibility measures}
+  \title{Improving interpretability and spatial mismatch estimates:
+Introducing spatial availability, a singly-constrained accessibility
+measure}
     \author[Some School]{Author One}
    \ead{author.1@example.com} 
     \author[Some School]{Author Two\corref{Corresponding Author}}
@@ -133,16 +134,15 @@ constrained accessibility measures}
   constraint on the conventional accessibility measure. Similar to the
   gravity model from which it is derived, a single constraint ensures
   that the marginals at the origin and destination are met and thus the
-  number of opportunities are preserved. In this paper, we detail the
-  formulation of the proposed spatial availability measure, use-cases of
-  the measure using a simple toy data set, and contrast how the access
-  to jobs changes between spatial availability and conventional
-  accessibility measure using empirical 2016 travel survey data in the
-  City of Toronto, Canada. We show that measure of spatial availability
-  should be used for opportunities which are individible\ldots. the
-  values are more interpretable, less baisised than conventional
-  accessibility measure. All data presented and original manuscript are
-  openly available.
+  number of opportunities are preserved. Through examples, we detail the
+  formulation of the proposed spatial availability measure, use cases of
+  the measure using a simple toy data set, and contrast how conventional
+  accessibility overestimates and underestimates \emph{job access}
+  values on an empirical 2016 travel survey data in the City of Toronto,
+  Canada. Overall, we how spatial availability is a more meaningful and
+  interpretable measure of opportunity access in relation to
+  conventional accessibility. All data presented and original manuscript
+  are openly available.
   \end{abstract}
   
  \end{frontmatter}
@@ -159,50 +159,53 @@ accessibility have been proposed that can be broadly organized into
 infrastructure-, place-, person-, and utility-based measures (Geurs and
 van Wee, 2004). Of these, the place-based family of measures is arguably
 the most common, capturing the number of opportunities reachable from an
-origin using the transportation network. This type of measure is also
-referred to as a gravity-based measure of accessibility that captures
-the potential for interaction.
+origin using the transportation network. A common type of placed-based
+measure is the gravity measure of accessibility that captures the
+potential for interaction; since it was first developed by -Hansen
+(1959) it has been widely adopted by literature in many forms (e.g.,
+Cervero et al., 2002; Geurs and van Wee, 2004; Handy and Niemeier, 1997;
+Levinson, 1998).
 
-What accessibility measures is sometimes referred to as
-\emph{opportunity access} and the analysis of opportunity access is
-widely employed in transportation, geography, public health, and many
-other areas, and there is increasing emphasis on a shift from
-mobility-oriented to access-oriented planning (Deboosere et al., 2018;
-Handy, 2020; Proffitt et al., 2017; Yan, 2021). However, while these
-types of opportunity access measures are excellent indicators of the
-intersection between urban structure and transportation infrastructure,
-they have been criticized in the past for not being highly
-interpretable. Previous research has highlighted how the weighting of
-opportunities using an impedance function can make gravity measures more
-difficult for planners and policymakers to interpret compared to simpler
-cumulative opportunity measures (Geurs and van Wee, 2004; Miller, 2018).
-Moreover, because place-based measures are sensitive to the number of
-opportunities and the characteristics of the transportation network, raw
-values cannot be easily compared across study areas (Allen and Farber,
-2019).
+The analysis of accessibility is widely employed in transportation,
+geography, public health, and many other areas, and there is increasing
+emphasis on a shift from mobility-oriented to access-oriented planning
+(Deboosere et al., 2018; Handy, 2020; Proffitt et al., 2017; Yan, 2021).
+However, while these types of opportunity access measures are excellent
+indicators of the intersection between urban structure and
+transportation infrastructure, they have been criticized in the past for
+not being highly interpretable. Previous research has highlighted how
+the weighting of opportunities using an impedance function can make
+gravity measures more difficult for planners and policymakers to
+interpret compared to simpler cumulative opportunity measures (Geurs and
+van Wee, 2004; Miller, 2018). Moreover, because place-based measures are
+sensitive to the number of opportunities and the supply of the
+opportunity-seeking population (e.g., a large city has more nearby jobs
+and more job-seeking population than a smaller city) raw values cannot
+be easily compared across study areas (Allen and Farber, 2019).
 
-Intra- and inter-regional comparisons are challenging because
-gravity-based accessibility indicators are spatially smoothed estimates
-of the total number of opportunities, however, the meaning of their
-magnitudes is unclear. This is evident when we consider the ``total
-accessibility'' in the region, a quantity that is not particularly
-meaningful since it is not constrained to resemble, let alone match the
-number of opportunities available. Furthermore, while accessibility
-depends on the supply of destination opportunities weighted by the
-travel costs associated with reaching them, the calculated
-accessibilities are not sensitive to the demand for those opportunities
-at the origins. Put another way, traditional measures of place-based
-accessibility do not capture the competition for opportunities. This
-theoretical shortcoming (Geurs and van Wee, 2004) is particularly
-problematic when those opportunities are ``non-divisible'' in the sense
-that, once they have been taken by someone, are no longer available to
-other members of the population. Examples of indivisible opportunities
-include jobs (when a person takes up a job, the same job cannot be taken
-by someone else) and placements at schools (once a student takes a seat
-at a school, that particular opportunity is no longer there for another
-student). From a different perspective, employers may see workers as
-opportunities, so when a worker takes a job, this particular individual
-is no longer in the available pool of candidates for hiring.
+For this reason, place-based intra- and inter-regional comparisons are
+challenging because gravity-based accessibility indicators are spatially
+smoothed estimates of the total number of opportunities, however, the
+meaning of their magnitudes is unclear. This is evident when we consider
+the ``total accessibility'' in the region, a quantity that is not
+particularly meaningful since it is not constrained to resemble, let
+alone match the number of opportunities available. Furthermore, while
+accessibility depends on the supply of destination opportunities
+weighted by the travel costs associated with reaching them, the
+calculated accessibilities are not sensitive to the demand for those
+opportunities at the origins. Put another way, traditional measures of
+place-based accessibility do not capture the competition for
+opportunities. This theoretical shortcoming (Geurs and van Wee, 2004) is
+particularly problematic when those opportunities are ``non-divisible''
+in the sense that, once they have been taken by someone, are no longer
+available to other members of the population. Examples of indivisible
+opportunities include jobs (when a person takes up a job, the same job
+cannot be taken by someone else) and placements at schools (once a
+student takes a seat at a school, that particular opportunity is no
+longer there for another student). From a different perspective,
+employers may see workers as opportunities, so when a worker takes a
+job, this particular individual is no longer in the available pool of
+candidates for hiring.
 
 To remedy these issues, researchers have proposed several different
 approaches for calculating competitive accessibility values. On the one
@@ -212,11 +215,13 @@ the origin zones and, second, sum the demand-corrected opportunities
 which can be reached from the origins (e.g. Joseph and Bantock, 1984;
 Shen, 1998). These advances were popularized in the family of two-step
 floating catchment area methods (Luo and Wang, 2003) that have found
-widespread adoption for calculating competitive accessibility to
-healthcare and other uses. In principle floating catchment areas purport
-to account for competition/congestion effects, although in practice
-several researchers (e.g., Delamater, 2013; Wan et al., 2012) have found
-that they tend to over-estimate the level of demand and/or service. The
+widespread adoption for calculating competitive accessibility to a
+variety of opportunities such as healthcare, education, and food access
+(B. Y. Chen et al., 2020; Chen, 2019; Z. Chen et al., 2020; Yang et al.,
+2006; Ye et al., 2018). In principle floating catchment areas purport to
+account for competition/congestion effects, although in practice several
+researchers (e.g., Delamater, 2013; Wan et al., 2012) have found that
+they tend to over-estimate the level of demand and/or service. The
 underlying issue, as demonstrated by Paez et al. (2019), is the multiple
 counting of both population and level of service, which can lead to
 biased estimates if not corrected.
@@ -237,48 +242,55 @@ dependence of the balancing factors in a doubly-constrained model means
 they must be iteratively calculated which makes them more
 computationally-intensive. Furthermore, the double constraint means that
 the sum of opportunity-seekers and the sum of opportunities must match,
-which is not necessarily true in every case (e.g., there might be more
-people searching for work than jobs exist in a region).
+which is not necessarily true in every potential use case (e.g., there
+might be more people searching for work than jobs exist in a region).
 
 In this paper we propose an alternative approach to measuring
 competitive accessibility. We call it a measure of \textbf{spatial
-availability} (SA), and it aims to capture the number of indivisible
+availability} , and it aims to capture the number of indivisible
 opportunities that are not only \emph{accessible} but also
 \emph{available} to the opportunity-seeking population, in the sense
 that they have not been claimed by a competing seeker of the
 opportunity. As we will show, spatial availability is a
 singly-constrained measure of accessibility. By allocating opportunities
 in a proportional way based on demand and distance, this method avoids
-the issues of conglomeration that result from multiple counting of
+the issues of conglomeration that results from multiple counting of
 opportunities in traditional accessibility measures. The method returns
 meaningful accessibilities that correspond to the rate of available
-opportunities per person. Moreover, the method also returns a benchmark
-value for the region under study against which results for individual
-origins can be compared.
+opportunities per opportunity-seeking population. Moreover, the method
+also returns a benchmark value for the region under study against which
+results for individual origins can be compared both inter- and
+intra-regionally.
 
 In the following sections we will describe and illustrate this new
-measure using simple toy data sets. First, we will describe the measure.
-Second, we will calculate the SA using a simple hypothetical population
-and employment centers data set for three use-cases: one of jobs from
-the perspective of the population, another considering catchment
-restrictions, and another of workers from the perspective of employers.
-Thirdly, we calculate the SA using real world data for the
-Transportation Tomorrow Survey (TTS) home-to-work commute in 2016 for
-the Greater Golden Horseshoe (GGH) area in Ontario, Canada. Finally, we
-discuss the differences between accessibility estimates to the proposed
-measure of SA and the potential range of uses of the SA measure.
+measure using an empirical and a toy data set. First, we will describe
+the analytical framework of the measure. Second, we calculate the SA
+using data from the Transportation Tomorrow Survey (TTS) home-to-work
+commute in 2016 for the Greater Golden Horseshoe (GGH) area in Ontario,
+Canada and discuss differences between the conventional unconstrained
+accessibility measure. Thirdly, we will calculate the SA using a simple
+hypothetical population and employment centers data set for two
+additional employment use-cases: one of jobs from the perspective of the
+population considering catchment restrictions and another of workers
+from the perspective of employers. Finally, we conclude by discussing
+the advantages of the spatial availability measure and the breadth of
+potential uses.
 
 \hypertarget{background}{%
 \section{Background}\label{background}}
 
 Most accessibility measures (excluding utility-based measures) are
 derived from the gravity model and follow the widely used formulation in
-(\ref{eq:conventional-accessibility}). A thorough explanation of this
-conventional accessibility measure through a toy data set and its
-limitations are detailed in this section. The limitations of the
-conventional accessibility measure, namely issues in interpretation and
-basis, are the motivation for the \emph{spatial availability} measure
-which we propose and describe in the following sections.
+(\ref{eq:conventional-accessibility}). The limitations associated with
+this conventional and widely used measure, namely issues in
+interpretation and bias, are the motivation for the \emph{spatial
+availability} measure which we propose and describe in the following
+sections. We use a simple toy data set to introduce the key concepts,
+and we will use the conventional accessibility measure for comparison.
+In this way, we aim to show the differences between accessibility and
+spatial availability, which helps to explain how spatial availability
+can improve interpretability in the analysis of spatially dispersed
+opportunities.
 
 \begin{equation}
 \label{eq:conventional-accessibility}
@@ -303,8 +315,7 @@ A_i = \sum_{j=1}^JO_jf(c_{ij})
   \(c_{ij}\) is a measure of the cost of moving between \(i\) and \(j\)
 \item
   \(f(\cdot)\) is an impedance function of \(c_{ij}\); it can take the
-  form of any monotonically decreasing function (e.g., negative
-  exponential distribution) .
+  form of any monotonically decreasing function.
 \end{itemize}
 
 The accessibility value \(A_i\) is the weighted sum of opportunities
@@ -315,27 +326,24 @@ defined by the impedance function) estimates of the total number of
 opportunities that can be reached from \(i\) at a certain cost. The type
 of accessibility value \(A_i\) can be changed depending on the impedance
 function, the measure could be cumulative opportunities (if \(f(\cdot)\)
-is a binary or indicator function e.g., {[}XX{]}) or a more traditional
-gravity measure (e.g., a Gaussian impedance function {[}XX{]}, inverse
-cost impedance function {[}XX{]}, ..). .
-
-We use a simple toy data set to introduce the key concepts, and we will
-use the usual accessibility measure for comparison. In this way, we aim
-to show the differences between accessibility and spatial availability,
-which helps to explain how spatial availability can improve
-interpretability in the analysis of spatially dispersed opportunities.
+is a binary or indicator function e.g., Rosik et al. (2021);El-Geneidy
+et al. (2016);Geurs and van Wee (2004);Qi et al. (2018)) or a gravity
+measure using an impedance function modeled after any monotonically
+decreasing function (e.g., Gaussian, inverse power, negative
+exponential, log-normal (Kwan, 1998; Li et al., 2020; Reggiani et al.,
+2011; Vale and Pereira, 2017)).
 
 \hypertarget{accessibility-numerical-example}{%
-\subsection{Numerical Accessibility
-Example}\label{accessibility-numerical-example}}
+\subsection{Accessibility for a toy data
+set}\label{accessibility-numerical-example}}
 
 The setup for the simple toy data set is a system with three employment
 centers and nine population centers, as summarized in Table
 \ref{tab:toy-example}. The access to jobs for each population center is
-calculated using the conventional accessibility measure \(A_i\)
+calculated using the unconstrained accessibility measure \(A_i\)
 (\ref{eq:conventional-accessibility}). In this toy data set we use the
 straight line distance between the population and jobs for \(c_{ij}\)
-and a negative exponential function with \(\beta = 0.0015\). . As noted,
+and a negative exponential function with \(\beta = 0.0015\). As noted,
 \(A_i\) represents the number of jobs (i.e., opportunities) that can be
 reached from each population center given the estimated cost as depicted
 in Figure \ref{fig:toy-example-accessibility}.
@@ -403,22 +411,24 @@ values illustrates the following:
   has the lowest accessibility with \(A_i=\) 17.12);
 \end{itemize}
 
-\hypertarget{issues-with-the-conventional-accessibility-measure}{%
-\subsubsection{Issues With the Conventional Accessibility
-Measure}\label{issues-with-the-conventional-accessibility-measure}}
+\hypertarget{issues-with-accessibility-the-conglomeration-effect}{%
+\subsubsection{Issues with accessibility: the conglomeration
+effect}\label{issues-with-accessibility-the-conglomeration-effect}}
 
 Accessibility measures are excellent indicators of the intersection
-between urban structure and transportation infrastructure . However,
-beyond enabling comparisons of relative values they are not highly
-interpretable on their own. For instance, from Figure
+between urban structure and transportation infrastructure (Kwan, 1998;
+Reggiani et al., 2011; Shi et al., 2020). However, beyond enabling
+comparisons of relative values they are not highly interpretable on
+their own (Miller, 2018). For instance, from Figure
 \ref{fig:toy-example-accessibility}, P1 has lower accessibility than P5
 but despite the accessibility value for P1 being relatively low it is
 still better than \emph{zero}. To address this interpretability issue,
-previous research index and normalize values on a per-capita basis .
-However, as recent critical research on accessibility discusses (see for
-instance Paez, Higgins, Vivona (2019) and Allen and Farber (2019)),
-these steps do not address the bias introduced through the uneven
-multiple-counting of opportunities which are unconstrainted by
+previous research index and normalize values on a per demand-population
+basis (e.g., Barboza et al., 2021; Pereira et al., 2019; Wang et al.,
+2021). However, as recent critical research on accessibility discusses
+(see for instance Paez, Higgins, Vivona (2019) and Allen and Farber
+(2019)), these steps do not address the bias introduced through the
+uneven multiple-counting of opportunities which are unconstrained by
 demand-side competition. We call this issue the `conglomeration effect'
 and it arises as a result of the underlying mathematical assumption that
 for conventional accessibility \(A_i\) all opportunities for all origins
@@ -445,49 +455,53 @@ estimation:
   opportunities without competition considerations from their more dense
   and more centrally located neighbours.
 \item
-  remote/isolated areas which are still within the region of the
-  analysis and have regionally-relative low demand centers, opportunity
-  centers, and travel cost to opportunity centers, are assigned
-  disproportionately \emph{low} accessibility values. These
-  remote/isolated areas may be sufficiently supplied with opportunities
-  proportionate to their demand but is obscured by the artificially high
-  accessibility awarded to periphery/other areas in which conglomeration
-  disproportionately occurs.
+  Remote areas which are still within the region of the analysis and
+  have regionally-relative low demand centers, opportunity centers, and
+  travel cost to opportunity centers, are assigned disproportionately
+  \emph{low} accessibility values. These more remote areas may be
+  sufficiently supplied with opportunities proportionate to their demand
+  but this relationship is obscured by the artificially high
+  accessibility awarded to demand and opportunity rich areas in which
+  conglomeration disproportionately occurs.
 \end{enumerate}
 
 The spatially uneven multiple-counting of opportunities (i.e., the
 conglomeration effect) leave decision makers unclear on how to interpret
 resulting access values and all recent accessibility measures which seek
 to improve interpretability are either vulnerable to this impact or
-require potentially unrealistic assumptions . For instance, the floating
+require potentially unrealistic assumptions. For instance, the floating
 catchment areas (FCA) method increases interpretability by purporting to
 account for competition, however, as discussed by Paez, Higgins, and
 Vivona (2019), FCA methods are vulnerable to conglomeration effect. On
 this same note, the doubly-constrained gravity model proposed by Allen
 and Farber (2019) which is based on the FCA method accounts for
 competition but requires that the magnitude of demand matches the
-opportunities. As already mentioned, this assumption is not always
-realistic for many opportunity types such as in the case of job seekers
-and jobs.
+opportunities or be re-scaled to match. As already mentioned, this
+assumption is not always realistic for many opportunity types such as in
+the case of job seekers and jobs.
 
 To address the conglomeration effect and introduce a more realistic
 assumption for opportunities, we propose a singly-constrained gravity
 measure called \textbf{spatial availability}. This measure fundamentally
-seeks to answer for a individual at a specific population center the
-following questions: \emph{``many jobs are accessible, but the same jobs
-are also accessible to my (possibly) numerous neighborus\ldots{} what
-does a high accessibility actually mean to me?''} and \emph{``few jobs
-are accessible but I am located in a remote area with proportionally few
-neighbours\ldots{} what does low accessibility mean to me?''}.
+seeks to answer for an individual at a specific demand center the
+following questions: \emph{``many opportunities are accessible, but the
+same opportunities are also accessible to my (possibly) numerous
+neighbours\ldots{} what does a high accessibility actually mean to
+me?''} and \emph{``a few opportunities are accessible to me but I am
+located in a remote area with proportionally few neighbours relative to
+the region\ldots{} what does low access mean to me?''}. Beyond the
+individual, spatial availability, can also be used as-is to evaluate the
+\emph{spatial mismatch} of accessible opportunities and demand-seeking
+population within regions and between regions.
 
 \hypertarget{the-analytical-framework-of-spatial-availability}{%
-\subsection{The Analytical Framework of Spatial
-Availability}\label{the-analytical-framework-of-spatial-availability}}
+\subsection{The analytical framework of spatial
+availability}\label{the-analytical-framework-of-spatial-availability}}
 
 Spatial availability \(V_{ij}\) is defined by opportunities \(O\) which
 are proportionally allocated based on the relative population allocation
 factor \(F^p_{ij}\) and cost of travel allocation factor \(F^c_{ij}\)
-for all origins \(i\) to all destinations \(j\) as detailed in
+for all origins \(i\) to all destinations \(j\) as detailed in Equation
 (\ref{eq:spatial-availability}). In line with the gravity tradition, the
 proposed framework distinguishes between opportunities at a destination
 and demand for opportunities at the origin.
@@ -520,12 +534,12 @@ V_{ij} = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
   the cost of travel between \(i\) and \(j\).
 \end{itemize}
 
-To explain the analytical framework, the calculation of \emph{job
-access} is illustrated with a simple step-by-step example for two
-population centers (\(P_2\) and \(P_3\)) in the role of demand (i.e.,
-the number of individuals in the labour market who ``demand''
-employment) and one employment center (\(O_1\)) in the role of
-opportunities.
+To explain the analytical framework, the calculation of opportunity
+access to jobs (i.e., \emph{job access} ) is illustrated with a
+step-by-step example for two population centers (\(P_2\) and \(P_3\)) in
+the role of demand (i.e., the number of individuals in the labour market
+who ``demand'' employment) and one employment center (\(O_1\)) in the
+role of opportunities.
 
 Additionally, since spatial availability \(V_{ij}\) consists of these
 two allocation factors, we detail first how the role of population
@@ -535,13 +549,13 @@ of the travel cost allocation factor \(F^c_{ij}\) in producing
 general form of spatial availability \(V_{ij}\) are combined.
 
 \hypertarget{population-and-travel-cost-allocation-factors}{%
-\subsubsection{Population and Travel Cost Allocation
-Factors}\label{population-and-travel-cost-allocation-factors}}
+\subsubsection{Population and travel cost allocation
+factors}\label{population-and-travel-cost-allocation-factors}}
 
 We begin with allocation based on demand; consider an employment center
 \(j\) with \(O_j^r\) jobs of type \(r\). In the general case where there
 are \(K\) population centers in the region, the following factor can be
-defined (\ref{eq:pop-alloc-factor}).
+defined in Equation (\ref{eq:pop-alloc-factor}).
 
 \begin{equation}
 \label{eq:pop-alloc-factor}
@@ -552,16 +566,16 @@ The population allocation factor \(F^p_{ij}\) corresponds to the
 proportion of the population in origin \(i\) relative to the rest of the
 region's population centres \(K\). On the right hand side of the
 equation, the numerator \(P_{i\in r}\) is the population at origin \(i\)
-that is eligible and `demand' jobs of type \(r\) (maybe those with a
-certain level of training or in a designated age group). The summation
-in the denominator is over \(i=1,\cdots,K\), the number of population at
-all origins \(i\) in the region \(K\). To modulate the effect of the
-size in from this factor we also add an empirical parameter \(\alpha\)
-(i.e., \(\alpha <1\) places greater weight on smaller centres relative
-to larger ones while \(\alpha>1\) achieves the opposite effect). This
-population allocation factor \(F^p_{ij}\) can now be used to
-proportionally allocate a share of the jobs at a destination \(j\) to
-all origin pairs.
+that is eligible and `demand' jobs of type \(r\) (e.g., those with a
+certain level of training or in a designated age group, etc.). The
+summation in the denominator is over \(i=1,\cdots,K\), the number of
+population at all origins \(i\) in the region \(K\). To modulate the
+effect of the size in from this factor we also add an empirical
+parameter \(\alpha\) (i.e., \(\alpha <1\) places greater weight on
+smaller centres relative to larger ones while \(\alpha>1\) achieves the
+opposite effect). This population allocation factor \(F^p_{ij}\) can now
+be used to proportionally allocate a share of the jobs at a destination
+\(j\) to all origin pairs.
 
 More broadly, since the factor \(F^p_{ij}\) is a proportion, when it is
 summed over \(i=1,\cdots,K\) it always equals to 1 (i.e.,
@@ -584,8 +598,8 @@ region is eligible for these jobs, that is, that the entirety of the
 population is included in the set \(r\). Also assume that \(\alpha=1\)
 meaning the only impact on value is the population size for each center.
 The population allocation factors \(F^p_{ij}\) for the jobs at \(O_1\)
-for each population center \(P_2\) and \(P_3\) would be defined as
-(\ref{eq:pop-alloc-factor-2populations}).
+for each population center \(P_2\) and \(P_3\) would be defined as shown
+in Equation (\ref{eq:pop-alloc-factor-2populations}).
 
 \begin{equation}
 \label{eq:pop-alloc-factor-2populations}
@@ -598,7 +612,7 @@ F^p_{3,1} = \frac{P_3^\alpha}{P_2^\alpha + P_3^\alpha}  = \frac{120}{240 + 120} 
 The \(F^p_{ij}\) values can be used to find a \emph{partial} spatial
 availability of jobs which is only defined by the relative population
 demanding jobs; this partial spatial availability \(V^p_{ij}\) for each
-population center would be calculated as follows in
+population center would be calculated as follows in Equation
 (\ref{eq:pop-alloc-factor-SA-2populations}).
 
 \begin{equation}
@@ -621,7 +635,7 @@ calculate spatial availability does not account for how far population
 centers \(P_2\) or \(P_3\) are from employment center \(O_1\). To
 account for this effect we introduce a second allocation factor
 \(F^c_{ij}\) based on distance to the employment centers defined in
-(\ref{eq:tcost-alloc-factor}).
+Equation (\ref{eq:tcost-alloc-factor}).
 
 \begin{equation}
 \label{eq:tcost-alloc-factor}
@@ -642,7 +656,7 @@ population center \(P_2\) to employment center \(O_1\) is 0.6 km, and
 the distance from population center \(P_3\) to employment center \(O_1\)
 is 0.3 km. The proportional allocation factor \(F^p_{ij}\) for the jobs
 at \(O_1\) for both population centers \(P_2\) and \(P_3\) is defined as
-follows (\ref{eq:tcost-allocation-factor-2populations}).
+follows in Equation (\ref{eq:tcost-allocation-factor-2populations}).
 
 \begin{equation}
 \label{eq:tcost-allocation-factor-2populations}
@@ -654,12 +668,12 @@ F^c_{3,1} = \frac{\exp(-\beta \cdot D_{3,1})}{\exp(-\beta \cdot D_{2,1}) + \exp(
 
 We can see that the proportional allocation factor for \(P_3\) is larger
 than \(P_2\) since the distance to \(O_1\) is shorter. Using the travel
-cost proportional allocation factors \(F^c_{ij}\) as defined in
+cost proportional allocation factors \(F^c_{ij}\) as defined in Equation
 (\ref{eq:tcost-allocation-factor-2populations}), we can now calculate
 the spatial availability of jobs for each population center based only
 on \(F^c_{ij}\) and the jobs available \(O_1\) to these two competing
 population centers (note: \(V^c_{ij}\) not the complete \(V_{ij}\)) as
-follows in (\ref{eq:tcost-allocation-factor-SA-2populations}).
+follows in Equation (\ref{eq:tcost-allocation-factor-SA-2populations}).
 
 \begin{equation}
 \label{eq:tcost-allocation-factor-SA-2populations}
@@ -677,10 +691,12 @@ receives a larger share of jobs when spatial availability when it is
 defined by \(F^p_{ij}\) (i.e., \(V^p_{ij}\)). It is necessary to combine
 both population and travel cost factors to accurate reflect demand;
 these two components are in line with how demand is conventionally
-modelled in accessibility calculations. Fortunately, since both
-\(F^c_{ij}\) and \(F^p_{ij}\) preserve the total number of opportunities
-(jobs) as they independently sum to 1, they can be combined
-multiplicatively to calculate the proposed spatial availability
+modelled in accessibility calculations which are re-scale on a per
+demand-population basis or also consider competition (e.g., Allen and
+Farber (2019); Yang et al. (2006);Barboza et al. (2021)). Fortunately,
+since both \(F^c_{ij}\) and \(F^p_{ij}\) preserve the total number of
+opportunities (jobs) as they independently sum to 1, they can be
+combined multiplicatively to calculate the proposed spatial availability
 (\(V_{ij}\)) which considers demand to be based on both population and
 travel cost.
 
@@ -690,8 +706,8 @@ Together}\label{putting-spatial-availability-together}}
 
 We can combine the proportional allocation factors by population
 \(F^p_{ij}\) and travel cost \(F^c_{ij}\) and calculate spatial
-availability \(V_{ij}\) as introduced in (\ref{eq:spatial-availability})
-and repeated below:
+availability \(V_{ij}\) as introduced in Equation
+(\ref{eq:spatial-availability}) and repeated below:
 
 \[
 V_{ij} = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
@@ -700,7 +716,7 @@ V_{ij} = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
 To complete the illustrative example of employment center \(O_1\) and
 population centers \(P_2\) and \(P_3\), the resulting spatial
 availability \(V_{ij}\) is calculated for both population centers is
-calculated in (\ref{eq:SA-2populations}).
+calculated in Equation (\ref{eq:SA-2populations}).
 
 \begin{equation}
 \label{eq:SA-2populations}
@@ -721,19 +737,21 @@ simultaneously based on \emph{population-} and \emph{travel cost}
 allocation factors are preserved (i.e., \(V_{2,1} + V_{3,1} = O_1\)).
 
 In the common case that population centers have multiple destination
-opportunities \(j\), availability is simply the sum of
+opportunities \(j\), spatial availability is simply the sum of Equation
 (\ref{eq:spatial-availability}) for all opportunities \(J\) (i.e.,
-\(V_i = \sum_{j=1}^J V_{ij}\)). This quantity represents opportunities
-(e.g., jobs) that can be accessed from \(i\) and that are \emph{not}
-allocated to a competitor: therefore the weighted sum of available
-opportunities. Compare \(V_i\) to the singly-constrained gravity model
-(see Wilson (1971)) . In essence, \(V_i\) is the result of constraining
-\(A_i\) to match one of the marginals in the origin-destination table,
-the known total of opportunities.
+\(V_i = \sum_{j=1}^J V_{ij}\)). The resulting value of \(V_i\)
+represents opportunities (e.g., jobs) that can be accessed from origin
+\(i\) and that are \emph{not} allocated to any other competing origin:
+\(V_i\) is thus the weighted sum of available opportunities and is the
+\emph{opportunity access} for that origin \(i\) considering constrained
+opportunity availability. When comparing \(V_i\) to the
+singly-constrained gravity model (see Wilson (1971)), \(V_i\) is the
+result of constraining \(A_i\) to match one of the marginals in the
+origin-destination table, the known total of opportunities.
 
 Since the sum of opportunities is preserved in the procedures above, it
 is possible to calculate a highly interpretable measure of spatial
-availability per capita (lower-case \(v_i\)) as follows in
+availability per capita (lower-case \(v_i\)) as follows in Equation
 (\ref{eq:SA-per-capita}).
 
 \begin{equation}
@@ -742,7 +760,7 @@ v_i = \frac{V_i}{P_i}
 \end{equation}
 
 To complete the illustrative example, the per capita spatial
-availability of jobs would be calculated as follows in
+availability of jobs would be calculated as follows in Equation
 (\ref{eq:SA-per-capita-2populations}).
 
 \begin{equation}
@@ -755,33 +773,34 @@ v_{3,1} =  \frac{V_{3,1}}{P_3} =  \frac{120.6}{120} = 1.0\\
 
 We can see that since \(P_3\) is closer to \(O_1\) and has less
 competition (as it has a smaller population than \(P_2\)), \(P_3\)
-benefits with a higher spatial availability of jobs per capita.
+benefits with a higher spatial availability of jobs per demand
+population. We can also compare these values to the overall ratio of
+jobs-to-population in this region of one job center and two population
+centers is \(300/(240 + 120)=\) 0.83.
 
-Where the overall ratio of jobs to population in the region is
-\(300/(240 + 120)=\) 0.83, the spatially available jobs per capita at
-\(k\) is closer to unity.
+\hypertarget{empirical-data-set-measuring-spatial-availability-and-accessibility-of-jobs-in-the-ggh}{%
+\section{Empirical data set: measuring spatial availability and
+accessibility of jobs in the
+GGH}\label{empirical-data-set-measuring-spatial-availability-and-accessibility-of-jobs-in-the-ggh}}
 
-\hypertarget{empirical-example-spatial-availability-and-accessibility-of-jobs-in-the-ggh}{%
-\section{Empirical Example: Spatial Availability and Accessibility of
-Jobs in the
-GGH}\label{empirical-example-spatial-availability-and-accessibility-of-jobs-in-the-ggh}}
-
-In this section, we use two empirical examples to demonstrate how the
-spatially uneven multiple-counting of opportunities (i.e.,
-conglomeration effect) inherent to the accessibility measure
+Applying the spatial availability and the the conventional accessibility
+measure described in the \protect\hypertarget{background}{}{Background},
+in this section, we use an empirical data set and two examples to
+demonstrate how the spatially uneven multiple-counting of opportunities
+(i.e., conglomeration effect) inherent to the accessibility measure
 (\ref{eq:conventional-accessibility}) introduces spatial bias and
 obscures interpretability. This conglomeration effect is highlighted by
 calculating spatial availability (\ref{eq:spatial-availability}) and
-comparing the relative difference between the two measures. The first
-example demonstrates how accessibility broadly overestimates \emph{job
-access} (relative to spatial availability) and particularly
+comparing the relative difference between the two measures.
+
+The first example demonstrates how accessibility broadly overestimates
+\emph{job access} (relative to spatial availability) and particularly
 overestimates job access for areas in the less dense outer limits of the
 urban core. The second example demonstrates how accessibility
 underestimates job access for areas in the urban periphery. Both
-examples are based on the same empirical data set for home-based work
-trips in the Greater Golden Horseshoe (GGH) area. We first introduce the
-data used, then calibrate the impedance function, and finally illustrate
-the two examples.
+examples are based on the home-based work trips in the Greater Golden
+Horseshoe (GGH) area. We first introduce the data used, then calibrate
+the impedance function, and finally illustrate the two examples.
 
 \hypertarget{data}{%
 \subsection{Data}\label{data}}
@@ -789,11 +808,12 @@ the two examples.
 The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities
 contained within the GGH area in the province of Ontario, Canada (43.6°N
 79.73°W) is used within this section (Figure
-\ref{fig:TTS-16-survey-area}). This data set includes home-based origins
-and employment destinations defined by centroids of Traffic Analysis
-Zones (TAZ) (n=3764), the number of jobs (n=3081900) and workers
-(n=3446957) at each origin and destination, and the trips from origin to
-destination for the morning home-to-work commute (n=3446957).
+\ref{fig:TTS-16-survey-area}) (Data Management Group, 2018). This data
+set includes home-based origins and employment destinations defined by
+centroids of Traffic Analysis Zones (TAZ) (n=3764), the number of jobs
+(n=3081900) and workers (n=3446957) at each origin and destination, and
+the trips from origin to destination for the morning home-to-work
+commute (n=3446957).
 
 Also included are travel times and cost of travel from origin to
 destination by car; travel times are calculated using the R package
@@ -851,30 +871,29 @@ freely explored in companion R data-package
 Function}\label{calibrating-an-impedance-function}}
 
 In the toy data set introduced in the
-\protect\hypertarget{accessibility-numerical-example}{}{Numerical
-Accessibility Example} section, an arbitrary negative exponential
-function describing travel cost (as a function of distance) was used as
-the impedance function to derive both accessibility and spatial
-availability. In this empirical data set, since the travel time is
+\protect\hypertarget{accessibility-numerical-example}{}{Accessibility
+for a toy data set} section, an arbitrary negative exponential function
+describing travel cost (as a function of distance) was used as the
+impedance function. In this empirical data set, since the travel time is
 calculated based on the existing street network in the GGH, an empirical
 trip length distribution (TLD) is defined and used to derive an
 impedance function. For background, a TLD is the representation of the
 likelihood that a proportion of trips are taken at a specific travel
 cost and are widely used to derive impedance functions in accessibility
-research .
+research (Batista et al., 2019; Horbachov and Svichynskyi, 2018).
 
 The empirical TLD for this data set is represented by black data points
 in Figure \ref{fig:TLD-Gamma-plot}). As can be observed, this empirical
 distribution appears to follow a gamma distribution, as such, this
 theoretical distribution along with other common TLD distributions such
-as log-normal and exponential distributions were fitted to the empirical
-TLD. The maximum likelihood estimation method and Nelder-Mead method for
-direct optimization available within the \texttt{fitdistrplus} package
-(Delignette-Muller and Dutang, 2015) was used . Based on goodness-of-fit
-criteria and diagnostics presented in Appendix Figure
-\ref{fig:impedance-function-plot} and \ref{fig:plot-cullen-frey}, the
-gamma distribution was selected and is represented as a red line in
-Figure \ref{fig:TLD-Gamma-plot}.
+as log-normal and exponential distributions (Wilson, 1971) were fitted
+to the empirical TLD. The widely deployed maximum likelihood estimation
+method and the Nelder-Mead method for direct optimization available
+within the \texttt{fitdistrplus} package (Delignette-Muller and Dutang,
+2015) was used. Based on goodness-of-fit criteria and diagnostics
+presented in Appendix Figure \ref{fig:impedance-function-plot} and
+\ref{fig:plot-cullen-frey}, the gamma distribution was selected and is
+represented as a red line in Figure \ref{fig:TLD-Gamma-plot}.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/TLD-Gamma-plot-1} \caption{\label{fig:TLD-Gamma-plot}Empirical TTS 2016 home-based car trip length distribution (black) and calibrated gamma distribution impedance function (red)}\label{fig:TLD-Gamma-plot}
@@ -886,11 +905,13 @@ general form where the estimated `shape' is \(\alpha\), the estimated
 `rate' is \(\beta\), and \(\Gamma(\alpha)\) is defined in
 (\ref{gamma-dist}). The calculated shape and rate parameter is 2.019 and
 0.094 respectively. We would like to reiterate that this impedance
-function, though it is derived using empirical data, assumes all
-home-to-work trips in the 2016 TTS data set are all taken by car. In
-reality there is a modal split but for illustrative purposes, the same
-impedance function is used to calculate accessibility and spatial
-availability in the following examples.
+function, though it is derived using empirical home-to-work data,
+assumes all trips in the 2016 TTS data set are all taken by car and are
+taken from the centroids of the TAZ. In reality there is a modal split
+and travel times be estimated through other methods (e.g., Allen and
+Farber (2021)) but for illustrative purposes, this proposed impedance
+function is used to calculate accessibility and spatial availability in
+the following examples.
 
 \begin{equation}
 \label{gamma-dist}
@@ -901,8 +922,9 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 \end{array}
 \end{equation}
 
-\hypertarget{access-to-jobs-in-toronto}{%
-\subsection{Access to jobs in Toronto}\label{access-to-jobs-in-toronto}}
+\hypertarget{measuring-access-to-jobs-in-toronto}{%
+\subsection{Measuring access to jobs in
+Toronto}\label{measuring-access-to-jobs-in-toronto}}
 
 Toronto is the largest city in the GGH and represents a significant
 subset of workers and jobs in the GGH; 50\% of workers in the GGH travel
@@ -917,21 +939,23 @@ Accessibility is first calculated and presented in Figure
 \ref{fig:plot-access-SA-Toronto-TTS}. The higher the accessibility
 value, the more accessible places of employment are to home-based
 origins. It can be briefly summarized that the accessibility values
-follow a radial trend where the majority of TAZs in Toronto have high
-accessibility values and values decrease in TAZs which are further from
-the city boundary. This finding is echoed in many studies and indicates
-that the closer one lives to Toronto, the more opportunities for
-employment they will have access to.
+follow a radial trend where the majority of TAZs in the core of Toronto
+have high accessibility values and values decrease in TAZs which are
+further from the city boundary. This general trend is echoed in
+qualitative studies which find the further from Toronto the longer the
+employment commute (Axisa et al., 2012) and the closer to the Toronto
+core the more opportunities are accessible (for some to certain types of
+jobs (Páez et al., 2013).
 
 Next, job access is calculated using the spatial availability measure
-and is present alongside the accessibility plot in Figure
+and is presented alongside the accessibility plot in Figure
 \ref{fig:plot-access-SA-Toronto-TTS}. Similar to the accessibility plot,
-the higher the value the more the more access that TAZ has to jobs in
-the city of Toronto. However, since spatial availability constraints the
-total number of opportunities counted, high values of spatial
-availability can be seen as higher access to \emph{available} jobs and
-we can observe which TAZs have job access values which are above or
-below the regional average of 638.
+the higher the value the more access that TAZ has to jobs in the city of
+Toronto. However, since spatial availability constraints the total
+number of opportunities counted, high values of spatial availability can
+be seen as higher access to \emph{available} jobs and we can observe
+which TAZs have job access values which are above or below the regional
+average of 638.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1} \caption{\label{fig:plot-access-SA-Toronto-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-access-SA-Toronto-TTS}
@@ -945,27 +969,20 @@ within and 10-20 km outside of Toronto's boundary have relatively lower
 access values (i.e., fewer reds and oranges) as measured by spatial
 availability than as measured by accessibility. There are also more
 pockets of low job access (i.e., blues) within the city of Toronto when
-measured by spatial availability; this observation is in line with
-empirical quantitative work describing the spatially uneven job
-accessibility landscape in Toronto .
+measured by spatial availability.
 
 To enhance the interpretability of spatial availability, job access can
 be normalized to provide more meaningful insight on how many jobs are
 \emph{available} on average for each TAZ. This normalization, shown in
 Figure \ref{fig:plot-avail-Toronto-TTS-per-worker}, demonstrates which
 TAZ have above (reds) and below (blue) the average (0.38) available jobs
-per worker in the GGH to jobs located within the city of Toronto.
-Overall, similar to the non-normalized spatial availability measure,
-this figure demonstrates that job access is lower within and around
-Toronto than the accessibility measure. We can also observe a similar
-uneven spatial distribution of job access within Toronto (as also shown
-in the spatial availability plot in Figure
+per worker in the GGH to jobs located within the city of Toronto. We can
+also observe a similar uneven spatial distribution of job access within
+Toronto (as also shown in the spatial availability plot in Figure
 \ref{fig:plot-access-SA-Toronto-TTS}) where job access is consistently
 far about the average and often greater than 1 job per worker for the
-soouth-central and south-west TAZ in Toronto, this trend is not as
-pronounced in the south-east and other pockets in the City. This uneven
-distribution of job access has been explained by some studies to be a
-result of\ldots{} .
+south-central and south-west TAZ in Toronto, this trend is not as
+pronounced in the south-east and other pockets in the City.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1} \caption{\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-avail-Toronto-TTS-per-worker}
@@ -973,41 +990,37 @@ result of\ldots{} .
 
 \newpage
 
-\hypertarget{access-to-jobs-in-the-ggh}{%
-\subsection{Access to jobs in the GGH}\label{access-to-jobs-in-the-ggh}}
+\hypertarget{measuring-access-to-jobs-in-the-ggh}{%
+\subsection{Measuring access to jobs in the
+GGH}\label{measuring-access-to-jobs-in-the-ggh}}
 
-In this section we calculate job access for \emph{all} jobs in the GGH
-for all origins in the GGH using both accessibility and spatial
-availability measures. As will be later elaborated, the full TTS data
-set demonstrates the second issue associated with the conglomeration
-effect expressed by the accessibility measure. More specifically, this
-issue underestimates job access for TAZ which are on located in the
-periphery of the GGH and have relatively-low proportion of workers and
-are relatively isolated (by travel cost) from the Toronto which has the
-highest density of jobs. The first issue, namely the over estimation of
-the TAZs which are on the outer limits outside the Toronto border can
-also be observed.
+Next, we calculate job access for all origins to \emph{all} jobs in the
+GGH using both accessibility and spatial availability measures. As will
+be later elaborated, the full TTS data set demonstrates the second issue
+associated with the conglomeration effect expressed by the accessibility
+measure. More specifically, this issue underestimates job access for TAZ
+which are on located in the periphery of the GGH and have relatively-low
+proportion of workers and are relatively isolated (by travel cost) from
+the Toronto which has the highest density of jobs. The first issue,
+namely the over estimation of the TAZ which are on the outer limits
+outside the Toronto border can also be observed.
 
 Accessibility and spatial availability are both calculated and presented
 in Figure \ref{fig:plot-access-SA-GGH-TTS}. Interestingly, despite the
 majority of jobs being located within Toronto - general trends are
 similar for both accessibility plots but not for both spatial
 availability plots. For instance, the accessibility values follow a
-radial trend where the majority of TAZs in Toronto have high
-accessibility values and values decrease in TAZs which are further from
+radial trend where the majority of TAZ in Toronto have high
+accessibility values and values decrease in TAZ which are further from
 the city boundary. However, it can be seen that the radial effect is
-less pronounced and TAZs outside of Toronto appear to have a higher
-accessibility score. Conversely, spatial availability does not appear to
+less pronounced and TA outside of Toronto appear to have a higher
+accessibility value. Conversely, spatial availability does not appear to
 follow a radial trend as depicted in the previous plot in Figure
 \ref{fig:plot-access-SA-Toronto-TTS}. Job access, as measured by spatial
 availability, appears much more even throughout the GGH (in comparison
 to job access as measured by accessibility). This can be noted in higher
-values around the north east and south west periphery TAZs and more
-moderate values in and around Toronto. This distribution of job access
-in the GGH may be more realistic as qualitative and quantitative studies
-have demonstrated that as operating costs continue to increase in
-Toronto, more and different types of employment centers are operating in
-the periphery of the GGH .
+values around the north east and south west periphery TAZ and more
+moderate values in and around Toronto.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1} \caption{\label{fig:plot-access-SA-GGH-TTS}Calculated accessibility (top) and spatial availability (bottom) of employment from origins in the GGH to destinations in the GGH.}\label{fig:plot-access-SA-GGH-TTS}
@@ -1015,41 +1028,39 @@ the periphery of the GGH .
 
 \newpage
 
-Similar to the per capita spatial availability figure for jobs in the
-Toronto (Figure \ref{fig:plot-avail-Toronto-TTS-per-worker}), Figure
-\ref{fig:plot-avail-GGH-TTS-per-worker} depicts which TAZs have above
-average, below average, and average (0.89) access to jobs per capita
-considering all jobs and workers in the GGH. We can some similar general
-trends, such as a higher concentration of jobs per capita are available
-in TAZs which are within the city of Toronto. However, the plot is
-distinct and more similar to the spatial availability plot for this data
-set, where we can see the jobs per capita values are more evenly
-distributed throughout the GGH, relative to the trends in the
-accessibility plot. We can also see higher jobs per capita in employment
+Similar to the per worker spatial availability plot for jobs in Toronto
+(Figure \ref{fig:plot-avail-Toronto-TTS-per-worker}), Figure
+\ref{fig:plot-avail-GGH-TTS-per-worker} depicts which TAZ have above or
+below average job access (i.e., 0.89 jobs per worker) considering all
+jobs and workers in the GGH. We can discern some similar general trends,
+such as a higher concentration of jobs per worker in TAZ which are
+within Toronto, however, the plot is distinct and more similar to the
+spatial availability plot where the jobs per worker values are more
+evenly distributed throughout the GGH, relative to the trends in the
+accessibility plot. We can also see higher jobs per worker in employment
 areas in different cites such as Mississauga and Burlington (south-west
 of Toronto), Waterloo and Brantford (even more south-west of Toronto),
-and Hamilton and Niagra (south of Toronto).
+and Hamilton and Niagara (south of Toronto).
 
-Again, spatial availability can also be represented on a per-worker
+Again, spatial availability can also be represented on a per worker
 basis and a similar trend between spatial availability in Figure
 \ref{fig:plot-avail-Toronto-TTS-per-worker} can be seen for all GGH jobs
 in Figure \ref{fig:plot-avail-GGH-TTS-per-worker}. Interestingly, when
 considering the jobs which are \emph{available}, many areas outside of
-Toronto have similar jobs per capita values as TAZ in Toronto. This is
+Toronto have similar jobs per worker values as TAZ in Toronto. This is
 contrary to the common belief that Toronto is one of the only hubs for
-employment opportunities . Urban centers in Brantford, Guelph, Missauga,
-Burlington, and Niagra have TAZs which are far above the the average
-jobs per capita and compare to TAZ within Toronto. This suggests that
-these less densely populated areas may have sufficient employment
-opportunities for their population and this finding is obscured when
-only considering the accessibility measure for job access.
+employment opportunities . Urban centers in Brantford, Guelph,
+Mississauga, Burlington, and Niagara have TAZs which are far above the
+the average jobs per worker and compare to TAZ within Toronto. This
+suggests that these less densely populated areas may have sufficient
+employment opportunities for their population and this finding is
+obscured when only considering the accessibility measure for job access.
 
 It is also worth noting that within the full sample of the GGH, there is
-almost two times more jobs per capita than the rate for Toronto jobs per
-GGH capita. This suggests that all GGH people who work in the city of
+almost two times more jobs per worker than the rate for Toronto jobs per
+GGH worker This suggests that all GGH people who work in the city of
 Toronto, on average, face more competition for jobs than all GGH people
-who work anywhere in the GGH. The causes for this trend are numerous and
-can include \ldots. as mentioned by study .
+who work anywhere in the GGH. .
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1} \caption{\label{fig:plot-avail-GGH-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.}\label{fig:plot-avail-GGH-TTS-per-worker}
@@ -1099,53 +1110,52 @@ Dif_{ij} = \frac{V^I_{ij} - A^I_{ij}}{A^I_{ij}}\cdot100
 1)}\label{overestimating-jobs-access-issue-1}}
 
 For the subset of jobs in Toronto and all origins in the GGH, 98.9\% of
-TAZ have re-scaled spatial availability values whcih are lower than
+TAZ have re-scaled spatial availability values which are lower than
 re-scaled accessibility values. Of this 98.9\%, the spatial availability
 value is on average -80.64\% different than the accessibility value and
 the difference ranges between -2.95\% to -99.9\%. Furthermore, to
-emphasis the similarity of this difference measure between neighbourhing
-TAZs, the spatial autocorrelation is calculated using Moran's I
-statistic (Anselin, 1995) and TAZ with a significant p-value
-(\(p\le 0.10\)) are more vividly presented. Figure
-\ref{fig:plot-local-i-Toronto} displays the described plotted
-comparison, where the more negative the value, the more the
-accessibility measure overestimation job access relative to spatial
-availability for each TAZ. It should be noted that although the majority
-of TAZ job access values are overestimated by accessibility, the 23 TAZ
-which are underestimated are shown in grey.
+emphasis the similarity of this difference measure between neighbouring
+TAZ, the spatial autocorrelation is calculated using Moran's I statistic
+(Anselin, 1995) and TAZ with a significant p-value (\(p\le 0.10\)) are
+more vividly presented. Figure \ref{fig:plot-local-i-Toronto} displays
+the described plotted comparison, where the more negative the value, the
+more the accessibility measure overestimation job access relative to
+spatial availability for each TAZ. It should be noted that although the
+majority of TAZ job access values are overestimated by accessibility,
+the 23 TAZ which are underestimated are shown in grey.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1} \caption{\label{fig:plot-local-i-Toronto}Difference between re-scaled the accessibility and the spatial availability job access measure in the context of employment from origins in the GGH to destinations in the City of Toronto. Values are expressed in five quantile ranges. Vivid TAZs represent a significant spatial autocorrelation and dimmed TAZs represent a non-signficant autocorrelation as measured by Local Moran's I. TAZs with values which are higher than re-scaled accessibility (positive difference) are shown fully in grey.}\label{fig:plot-local-i-Toronto}
 \end{figure}
 
 We can see from Figure \ref{fig:plot-local-i-Toronto} that when we
-re-scale both job access values, accessibility consistently overestimate
-job access compared to the spatial availability measure for jobs within
-the city of Toronto and all people within the GGH who travel to Toronto
-for work. Overestimation ranges from -100\% to -3\% and is on average
--81\%. However, while job access is consistently overestimated, it is
-overestimated in a variable way. The TAZs with the largest difference in
-measure are depicted in red and orange (quantiles 1 and 2) and can be
-seen, in sometimes concentrated clusters (as indicated by the 2044 TAZs
-with a significant Moran I's statistic) approximately 10-20 kms outside
-of Toronto city border and along the south side of the GGH. These TAZs
-also have a relatively low density of people who work in Toronto and as
-such the difference between measures has a significant correlation (
-0.877) with the number of workers in each TAZ.
+re-scale both job access values, accessibility consistently
+overestimates job access compared to the spatial availability measure
+for jobs within the city of Toronto and all people within the GGH who
+travel to Toronto for work. Overestimation ranges from -100\% to -3\%
+and is on average -81\%. However, while job access is consistently
+overestimated, it is overestimated in a variable way. The TAZ with the
+largest difference in measure are depicted in red and orange (quantiles
+1 and 2) and can be seen, in sometimes concentrated clusters (as
+indicated by the 2044 TAZ with a significant Moran I's statistic)
+approximately 10-20 kms outside of Toronto city border and along the
+south side of the GGH. These TAZ also have a relatively low density of
+people who work in Toronto and as such the difference between measures
+has a significant correlation ( 0.877) with the number of workers in
+each TAZ.
 
-Nonetheless, the density of workers within each TAZs alone does not
-fully explain the variation in overestimation. The number of
-opportunities and the travel cost also factors in the calculation of
-both accessibility and spatial availability. From the perspective of
-accessibility \(A_i\), job access does not consider
-opportunity-constraints and as such the extensively overestimated TAZs
-benefit from overestimated job access without any competition
-considerations from their more dense and more centrally located
-neighbours (within the city of Toronto) and their more peripherally
-located but more relatively more worker-dense peripheral neighbours.
-Spatial availability \(V_i\) considers this competition by
-proportionally allocating jobs to these TAZs relative to their travel
-cost and worker population. In other words, these overestimated TAZs
+Nonetheless, the density of workers within each TAZ alone does not fully
+explain the variation in overestimation. The number of opportunities and
+the travel cost also factors in the calculation of both accessibility
+and spatial availability. From the perspective of accessibility \(A_i\),
+job access does not consider opportunity-constraints and as such the
+extensively overestimated TAZ benefit from overestimated job access
+without any competition considerations from their more dense and more
+centrally located neighbours (within the city of Toronto) and their more
+peripherally located but more relatively more worker-dense peripheral
+neighbours. Spatial availability \(V_i\) considers this competition by
+proportionally allocating jobs to these TAZ relative to their travel
+cost and worker population. In other words, these overestimated TAZ
 reflect the incident in which travel cost outpaced the number of workers
 and thus the proportionately allocated opportunities are significantly
 fewer when measured by spatial availability \(V_i\) instead of
@@ -1160,15 +1170,15 @@ for the full data set, namely, all jobs within the GGH and all workers
 within the GGH. While the majority of TAZ have difference values which
 correspond to accessibility being overestimated relative to spatial
 availability, 17\%\% of TAZ are underestimated. These underestimated TAZ
-are plotted in figure \ldots{} alongsie the overestimated TAZ for
-comparison. Of the underestimated TAZ, the spatial availability value is
-on average 214.7\% different than the accessibility value and the
-difference ranges between 0\% to -99.9\%. The overestimated TAZ have a
-spatial availability value that is on average 214.7\% different than the
+are plotted in Figure \ref{fig:plot-difference-GGH} alongside the
+overestimated TAZ for comparison. Of the underestimated TAZ, the spatial
+availability value is on average 214.7\% different than the
 accessibility value and the difference ranges between 0\% to -99.9\%.
-Moran's I is not plotted but the statistics is significant (i.e., there
-is spatial autocorrelation) for the full data set (\(p< 0.001\) for all
-difference values).
+The overestimated TAZ have a spatial availability value that is on
+average 214.7\% different than the accessibility value and the
+difference ranges between 0\% to -99.9\%. Moran's I is not plotted but
+the statistics is significant (i.e., there is spatial autocorrelation)
+for the full data set (\(p< 0.001\) for all difference values).
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-difference-GGH-1} \caption{\label{fig:plot-difference-GGH}Difference between re-scaled the accessibility and the spatial availability job access measure in the context of employment from origins in the GGH to destinations in the City of Toronto. Values are expressed in five quantile ranges. Vivid TAZs represent a significant spatial autocorrelation and dimmed TAZs represent a non-signficant autocorrelation as measured by Local Moran's I only for underestimated TAZs. TAZs with values which are higher than re-scaled accessibility (positive difference) are shown fully in grey.}\label{fig:plot-difference-GGH}
@@ -1192,8 +1202,8 @@ of this multiple-counting is starkly apparent when compared to the
 re-scaled spatial availability measure since spatial availability
 allocates jobs proportionally based on workers and travel cost, TAZ do
 not multiple-counting of jobs and TAZ which are not in the position to
-multiple-count are not deflated as a consequence . This is supported by
-viewing the spatial availability of jobs per capita (Figure
+multiple-count are not deflated as a consequence. This is supported by
+viewing the spatial availability of jobs per worker (Figure
 \ref{fig:plot-avail-GGH-TTS-per-worker}) where we can see that
 commercial areas throughout the GGH have similar job access values as
 within some commercial areas in the GTA; this is not the case for the
@@ -1219,13 +1229,13 @@ these peripheral TAZ as represented in Figure
 \ref{fig:plot-difference-GGH}. Since more workers (more competition) and
 more jobs with lower travel costs (less competition) are introduced, it
 can be inferred that these peripheral TAZ experience moderately higher
-job access (compare spatial availability per capita within these
+job access (compare spatial availability per worker within these
 periphery TAZ in Figure \ref{fig:plot-avail-Toronto-TTS-per-worker} and
 Figure \ref{fig:plot-avail-GGH-TTS-per-worker}). Conversely, for the
 accessibility measure, the introduction of additional workers does not
 meter the accessibility gained by the introduction of additional jobs
 and as such, the re-scaled accessibility values are \emph{higher} than
-than the spatial availability resulting in underestimated TAZ.
+the spatial availability resulting in underestimated TAZ.
 
 It is also worth noting that the right panel of Figure
 \ref{fig:plot-difference-GGH}, by contrast, depicts all the TAZ with
@@ -1240,9 +1250,9 @@ competition. Overall, within the full set of jobs in the GGH, the first
 and second issue associated with accessibility's conglomeration effect
 are observed.
 
-\hypertarget{contextualizing-spatial-availability-use-cases}{%
-\section{Contextualizing Spatial Availability Use
-Cases}\label{contextualizing-spatial-availability-use-cases}}
+\hypertarget{contextualizing-additional-spatial-availability-use-cases}{%
+\section{Contextualizing additional spatial availability use
+cases}\label{contextualizing-additional-spatial-availability-use-cases}}
 
 In addition to measuring access to jobs for workers, spatial
 availability can be used to measure many other opportunity types and
@@ -1263,22 +1273,22 @@ set initially introduced in
 \protect\hypertarget{background}{}{Background} section.
 
 \hypertarget{available-jobs-for-specialized-working-populations}{%
-\subsection{Available Jobs for Specialized Working
-Populations}\label{available-jobs-for-specialized-working-populations}}
+\subsection{Available jobs for specialized working
+populations}\label{available-jobs-for-specialized-working-populations}}
 
-Suppose that population centers 1 through 8 are not all eligible for
-employment at the three employment centers 1, 2, and 3. This can be due
-to education attainment or more simply a geographic barrier (i.e., river
-without a road) making it impossible for certain populations to be
+Suppose that population centers P1 through P8 are not all eligible for
+employment at the three employment centers E1, E2, and E3. This can be
+due to education attainment or more simply a geographic barrier (i.e.,
+river without a road) making it impossible for certain populations to be
 employed at certain employment centers. In this toy data set, we
-consider that only population center 1 and 2 are eligible for employment
-at Employment Center 1. Next assume that jobs in employment center 2 can
-be taken by individuals in population centers 3, 4, 5, 7, and 8. Lastly,
-jobs in Employment Center 3 require qualifications available only among
-individuals in population centers 5, 6, 8, and 9. In essence,
-eligibility criteria create catchments which can be easily considered
-within the spatial availability measure and this specialized job access
-is presented in Figure
+consider that only population center P1 and P2 are eligible for
+employment at employment center E1. Next assume that jobs in employment
+center E2 can be taken by individuals in population centers P3, P4, P5,
+P7, and P8. Lastly, jobs in employment center E3 require qualifications
+available only among individuals in population centers P5, P6, P8, and
+P9. In essence, eligibility criteria create catchments which can be
+easily considered within the spatial availability measure and this
+specialized job access is presented in Figure
 \ref{fig:toy-example-availability-with-catchments}.
 
 \begin{figure}
@@ -1297,7 +1307,7 @@ opportunities and population but no catchments.
 
 In the bottom plot of Figure
 \ref{fig:toy-example-availability-jobs-per-capita}, we see that
-population center 5 has the highest level of spatial availability, due
+population center P5 has the highest level of spatial availability, due
 to being a large population center that is more relatively close to
 jobs. We also see population centers which are further from employment
 centers have low spatial availability (P1, P3, P6, P7, P9) and
@@ -1315,49 +1325,75 @@ regional spatial availability per capita increases slightly to 0.964.
 \subsubsection{Alternative Use Case 3: Available Workers for Employment
 Centers}\label{alternative-use-case-3-available-workers-for-employment-centers}}
 
-Moving away from catchments in this next use case, we can easily switch
-the demand and opportunity roles of the employment centers and
-population centers. In this way, this use cases examines the pool of
-workers available (demand) to each employment center by considering the
-workers as the opportunities. We caculate spatial availability in the
-same way by proportionally allocating jobs to workers based on travel
-cost and numbers of jobs. Figure
-\ref{fig:toy-example-availability-workers-per-job} presents the spatial
-availability generally and per capita.
-
-Plot the spatial availability of workers per job in Figure
-\ref{fig:toy-example-availability-workers-per-job}
+In this use case, we remove the catchments and switch the demand and
+opportunity roles of the employment centers and population centers. In
+this way, the spatial availability measure reflects \emph{worker access}
+by proportionally allocating \emph{workers} to employment centers based
+on travel cost (i.e., distance) and population (i.e., jobs at each
+employment center). Figure
+\ref{fig:toy-example-availability-workers-per-job} presents spatial
+availability generally and per capita for this use case.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1} \caption{\label{fig:toy-example-availability-workers-per-job} Spatial availability of workers for each employment center (top) and the spatial availability of workers per job for each employment center (bottom) for the simple toy data set}\label{fig:toy-example-availability-workers-per-job}
 \end{figure}
 
-\hypertarget{conclusing-remarks}{%
-\section{Conclusing remarks}\label{conclusing-remarks}}
+As shown in Figure \ref{fig:toy-example-availability-workers-per-job},
+the top plot demonstrates the spatial availability which measures
+\emph{worker access} for the three employment centers. As with all
+spatial availability calculations, the number of all opportunities (in
+this case \emph{workers}) are proportionally allocated to each
+employment center so employment center E3, E2 and E1 have access to
+2205.19, 1709.52, and 610.29 workers respectively. Again, this totals to
+4500 workers in the area. In the bottom plot, these spatial availability
+values are normalized per job (i.e.~the `population' of the employment
+centers) and we can see that employment center E3 has an above average
+worker access of 1.47 workers per job while E2 and E1 have 0.76 and 0.81
+workers per job respectively.
 
-we argue that the proposed measure offers higher interpretability as it
-opportunity per capita values can be derived to benchmark regional
-results and per capita values can be compared across regions more
-meaningfully.
+\hypertarget{concluding-remarks-and-future-applications}{%
+\section{Concluding remarks and future
+applications}\label{concluding-remarks-and-future-applications}}
 
-Words go here.
+In this paper, we propose \emph{spatial availability} as an alternative
+to conventional accessibility which measures opportunity access which
+addressed the \emph{conglomeration effect} and thus produces a
+meaningful opportunity access measure which can be normalized per demand
+population and used to compare access across regions. As a reminder, the
+conglomeration effect results in the over and under estimation of
+opportunity access, under specific conditions, due to the
+multiple-counting of opportunities which is embedded in accessibility's
+method and thus makes comparing accessibility across regions potentially
+biased . Spatial availability, however, proportionally allocates
+opportunities based on the demand population and travel cost thus
+constraining the number of opportunities allocated across the measured
+region to the number of opportunities available. This single-sided
+opportunity constraint can be said to only consider opportunity
+competition for any magnitude of demand population (i.e., when measuring
+job access per worker the number of workers (demanding population) does
+not need to match the number of jobs (opportunities). We demonstrate the
+use of this measure and how it compares with accessibility in an
+empirical example of workers and jobs in the GGH. We also demonstrate
+two additional employment use cases for this versatile measure in a
+hypothetical toy data set. These data sets and examples highlight how
+intuitive the per demand population access values are and captures some
+of the extent to which accessibility overestimates and underestimates
+access.
 
-still does not tell us how many accessible opportunities will lead to
-participation/positive outcomes; it does come closer\ldots{} this is an
-important question for equity analysis.
-
-we propose that spatial availability be seen as a type of \emph{spatial
-mismatch} and an evolution of the \emph{balanced floating catchment}
-approach (BFCA) . Historically, literature has iteratively improved
-measures assessing access to opportunities. In the context of employment
-and healthcare opportunities, simple container counting solutions such
-as the population-to-provider ratio (PPR) for healthcare services and
-jobs to housing ratio were implemented. This approach, while straight
-forward, is highly suspitable to the modifiable unit area problem
-(MUAP). Recognizing this and harnessing the computation power and access
-to finer resolution data as it became available, scholars proposed the
-next evolution, namely the accessibility measure which is widely used
-today and we implemented in our examples for comparison. It partially
+We acknowledge recent work to address limitations associated with the
+accessibility measure; in this light, we propose that spatial
+availability be seen as a type of \emph{spatial mismatch} and an
+evolution of the \emph{balanced floating catchment} approach (BFCA) .
+Historically, literature has iteratively improved measures assessing
+access to opportunities. In the context of employment and healthcare
+opportunities, simple container counting solutions such as the
+population-to-provider ratio (PPR) for healthcare services and jobs to
+housing ratio were implemented. This approach, while straight forward,
+is highly susceptible to the modifiable unit area problem (MUAP).
+Recognizing this and harnessing the computation power and access to
+finer resolution data as it became available, scholars proposed the next
+evolution, namely the accessibility measure which is widely used today
+and we implemented in our examples for comparison. It partially
 addresses the MUAP by considering opportunities outside of the
 conventional `containers' which represented opportunities in a census
 areas/neighbourhoods by counting opportunities informed by an impedance
@@ -1370,54 +1406,42 @@ of the self-contained unit which is \emph{not} limited to a zoning
 system proposed; the pros of accessibility solution in using the
 impedance function and pros of the container solutions.
 
-Similar to the accessibility measure, it should be noted that spatial
-availability is only as robust to the MUAP as the input data allows. For
-instance, in the empirical example present, the measure of \emph{job
-access} still only considers population, opportunities, and travel times
-from the centroids of TAZs. However, unlike the accessibility measure,
-spatial availability can be meaningful calculated on a per population
-basis at higher resolutions because of the proportionality property.
-
-Further, the measure of spatial availability can be a useful way to
-distinguish between low accessibility/low population centers, which may
-enjoy higher availability than the accessibility value may suggest, and
-contrariwise, high accessibility/high population centers (which
-potentially can result in lower availability due to competition). For
-instance, as presented in the toy data set, more remote, smaller
-population centers can have sufficient spatial availability by being in
-close proximity to the smaller employment centers; however this
-sufficiency is obscured by accessibility measure by conglomerating
-accessibly of population centers which are more central to more (and
-larger) employment centers. Conversely, referring to the empirical GGH
-example, the TAZs that are relatively close to the Toronto job
-destinations but have a relatively low number of workers receive
-sufficiently high values of accessibility and signficantly lower spatial
-availability values; this trend is opposite to what is experienced in
-the toy data set and is a result of higher job competition (i.e.~job
-opportunities are more highly allocated to TAZs with lower travel costs
-and higher worker populations). Measuring access to opportunities is a
-multi-scale problem; since the number of opportunities are preserved,
-different scales, populations, and time-windows can be incorporated
-within the measure without introducing additional spatial basis.
+However, similar to the accessibility measure, it should be noted that
+spatial availability is only as robust to the MUAP as the input data
+allows. For instance, in the empirical TTS data sett, job access
+calculated using accessibility and spatial availability still only
+considers population, opportunities, and travel times from the centroids
+of TAZ and those TAZ are vulnerable to MUAP. Even though spatial
+availability can be can be meaningful calculated on a per population
+basis because of the proportionality property (unlike accessibility) it
+will still include issues of MUAP because of the input data. That said,
+since spatial availability does not inconsistently multiple-counts
+opportunities (like accessibility) it is not prone to replicating
+existing MUAP issues. For this reason, spatial availability is more
+robust to MUAP than the accessibility measure and this idea along with
+other multi-scale dimensions of access such as scales, populations, and
+time-windows, will be explored in future papers.
 
 Fundamentally, accessibility measure's methodology results in the
-overestimation of \emph{jobs access} since it simply sums the count of
-destination opportunities based on travel cost to opportunities; the
-measure does not include factors to bound the summation so origins,
-hypothetically, can have infinite \emph{opportunity access}. This
-property can be practical for calculating \emph{opportunity access} for
-opportunities which have large capacities and are \emph{non-competitive}
-such as large natural parks and beaches. These non-competitive
-opportunities can be considered infinitely divisible as they offer more
-`spots' at any given time than the population. However, often times
-opportunities are not divisible but are in fact indivisible and
-competitive meaning, such as the numerical and GGH empirical example of
-\emph{jobs access}, where only 1 worker can access 1 job at any given
-time. In these cases, spatial availability measure can be used to
-calculate the \emph{opportunity access} in which the report values are
-numerically meaningful, the MUAP is potentially addressed, and
-\emph{opportunity access} values across regions, neighbourhoods, and
-spatial scales can be compared.
+overestimation or underestimation of opportunity access as a result of
+the conglomeration effect. Accessibility does not include factors to
+bound the summation so origins, hypothetically, can have infinite
+\emph{opportunity access}. Spatial availability includes a single-sided
+opportunity constraint so it can be used to calculate access to any
+opportunity type, whether competitive or non-competitive in natural. In
+this paper, we only examined access to employment (or access to workers
+from the perspective of employment centers), but any opportunities which
+are competitive (i.e., a finite number of seats or capacity is available
+at any given time) such as schools, hospitals, and other essential
+services can be measured. Additional, opportunities which are
+non-competitive in the sense that they have always larger capacities
+than population can still benefit from this measure as access will not
+be over or underestimated as a result of the conglomeration effect seen
+in accessibility; non-competitive opportunities can include large
+natural parks and beaches. As such, all access values measured for all
+opportunities can benefit from spatial availability measure through the
+reduction in conglomeration effect (from accessibility) and a meaningful
+per demand population benchmark.
 
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
@@ -1453,9 +1477,63 @@ Destinations for Comparing Across Multiple Study Regions. Geographical
 Analysis 52, 69--86.
 doi:\href{https://doi.org/10.1111/gean.12188}{10.1111/gean.12188}
 
+\leavevmode\vadjust pre{\hypertarget{ref-allen_suburbanization_2021}{}}%
+Allen, J., Farber, S., 2021. Suburbanization of {Transport} {Poverty}.
+Annals of the American Association of Geographers 111, 18.
+
 \leavevmode\vadjust pre{\hypertarget{ref-anselin1995local}{}}%
 Anselin, L., 1995. Local indicators of spatial association - LISA.
 Geographical Analysis 27, 93--115.
+
+\leavevmode\vadjust pre{\hypertarget{ref-axisa_factors_2012}{}}%
+Axisa, J.J., Scott, D.M., Bruce Newbold, K., 2012. Factors influencing
+commute distance: A case study of {Toronto}'s commuter shed. Journal of
+Transport Geography 24, 123--129.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2011.10.005}{10.1016/j.jtrangeo.2011.10.005}
+
+\leavevmode\vadjust pre{\hypertarget{ref-barboza_balancing_2021}{}}%
+Barboza, M.H.C., Carneiro, M.S., Falavigna, C., Luz, G., Orrico, R.,
+2021. Balancing time: {Using} a new accessibility measure in {Rio} de
+{Janeiro}. Journal of Transport Geography 90, 102924.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102924}{10.1016/j.jtrangeo.2020.102924}
+
+\leavevmode\vadjust pre{\hypertarget{ref-batista_estimation_2019}{}}%
+Batista, S.F.A., Leclercq, L., Geroliminis, N., 2019. Estimation of
+regional trip length distributions for the calibration of the aggregated
+network traffic models. Transportation Research Part B: Methodological
+122, 192--217.
+doi:\href{https://doi.org/10.1016/j.trb.2019.02.009}{10.1016/j.trb.2019.02.009}
+
+\leavevmode\vadjust pre{\hypertarget{ref-cervero_transportation_2002}{}}%
+Cervero, R., Sandoval, O., Landis, J., 2002. Transportation as a
+{Stimulus} of {Welfare}-to-{Work}: {Private} versus {Public} {Mobility}.
+Journal of Planning Education and Research 22, 50--63.
+doi:\href{https://doi.org/10.1177/0739456X0202200105}{10.1177/0739456X0202200105}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_evaluating_2020}{}}%
+Chen, B.Y., Cheng, X.-P., Kwan, M.-P., Schwanen, T., 2020. Evaluating
+spatial accessibility to healthcare services under travel time
+uncertainty: {A} reliability-based floating catchment area approach.
+Journal of Transport Geography 87, 102794.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102794}{10.1016/j.jtrangeo.2020.102794}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_enhancing_2019}{}}%
+Chen, X., 2019. Enhancing the {Two}-{Step} {Floating} {Catchment} {Area}
+{Model} for {Community} {Food} {Access} {Mapping}: {Case} of the
+{Supplemental} {Nutrition} {Assistance} {Program}. The Professional
+Geographer 71, 668--680.
+doi:\href{https://doi.org/10.1080/00330124.2019.1578978}{10.1080/00330124.2019.1578978}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_spatial_2020}{}}%
+Chen, Z., Zhou, X., Yeh, A.G., 2020. Spatial accessibility to
+kindergartens using a spectrum combinational approach: {Case} study of
+{Shanghai} using cellphone data. Environment and Planning B: Urban
+Analytics and City Science 239980832095422.
+doi:\href{https://doi.org/10.1177/2399808320954221}{10.1177/2399808320954221}
+
+\leavevmode\vadjust pre{\hypertarget{ref-data_management_group_tts_2018}{}}%
+Data Management Group, 2018. {TTS} - {Transportation} {Tomorrow}
+{Survey} 2016.
 
 \leavevmode\vadjust pre{\hypertarget{ref-deboosere2018}{}}%
 Deboosere, R., El-Geneidy, A.M., Levinson, D., 2018.
@@ -1474,6 +1552,13 @@ Delignette-Muller, M.L., Dutang, C., 2015. {fitdistrplus}: An {R}
 package for fitting distributions. Journal of Statistical Software 64,
 1--34.
 
+\leavevmode\vadjust pre{\hypertarget{ref-elgeneidy_cost_2016}{}}%
+El-Geneidy, A., Levinson, D., Diab, E., Boisjoly, G., Verbich, D.,
+Loong, C., 2016. The cost of equity: {Assessing} transit accessibility
+and social disparity using total travel cost. Transportation Research
+Part A: Policy and Practice 91, 302--316.
+doi:\href{https://doi.org/10.1016/j.tra.2016.07.003}{10.1016/j.tra.2016.07.003}
+
 \leavevmode\vadjust pre{\hypertarget{ref-geurs2004}{}}%
 Geurs, K.T., van Wee, B., 2004. Accessibility evaluation of land-use and
 transport strategies: review and research directions. Journal of
@@ -1485,10 +1570,21 @@ Handy, S., 2020. Is accessibility an idea whose time has finally come?
 Transportation Research Part D: Transport and Environment 83, 102319.
 doi:\href{https://doi.org/10.1016/j.trd.2020.102319}{10.1016/j.trd.2020.102319}
 
+\leavevmode\vadjust pre{\hypertarget{ref-handy_measuring_1997}{}}%
+Handy, S.L., Niemeier, D.A., 1997. Measuring {Accessibility}: {An}
+{Exploration} of {Issues} and {Alternatives}. Environment and Planning
+A: Economy and Space 29, 1175--1194.
+doi:\href{https://doi.org/10.1068/a291175}{10.1068/a291175}
+
 \leavevmode\vadjust pre{\hypertarget{ref-hansen1959}{}}%
 Hansen, W.G., 1959. How Accessibility Shapes Land Use. Journal of the
 American Institute of Planners 25, 73--76.
 doi:\href{https://doi.org/10.1080/01944365908978307}{10.1080/01944365908978307}
+
+\leavevmode\vadjust pre{\hypertarget{ref-horbachov_theoretical_2018}{}}%
+Horbachov, P., Svichynskyi, S., 2018. Theoretical substantiation of trip
+length distribution for home-based work trips in urban transit systems.
+Journal of Transport and Land Use 11, 593--632.
 
 \leavevmode\vadjust pre{\hypertarget{ref-joseph1984}{}}%
 Joseph, A.E., Bantock, P.R., 1984. Rural Accessibility of General
@@ -1496,6 +1592,23 @@ Practitioners: the Case of Bruce and Grey Counties, ONTARIO,
 1901{\textendash}1981. The Canadian Geographer/Le Géographe canadien 28,
 226--239.
 doi:\href{https://doi.org/10.1111/j.1541-0064.1984.tb00788.x}{10.1111/j.1541-0064.1984.tb00788.x}
+
+\leavevmode\vadjust pre{\hypertarget{ref-kwan_spacetime_1998}{}}%
+Kwan, M.-P., 1998. Space-{Time} and {Integral} {Measures} of
+{Individual} {Accessibility}: {A} {Comparative} {Analysis} {Using} a
+{Point}-based {Framework}. Geographical Analysis 30, 191--216.
+doi:\href{https://doi.org/10.1111/j.1538-4632.1998.tb00396.x}{10.1111/j.1538-4632.1998.tb00396.x}
+
+\leavevmode\vadjust pre{\hypertarget{ref-levinson_accessibility_1998}{}}%
+Levinson, D.M., 1998. Accessibility and the journey to work. Journal of
+Transport Geography 6, 11--21.
+doi:\href{https://doi.org/10.1016/S0966-6923(97)00036-7}{10.1016/S0966-6923(97)00036-7}
+
+\leavevmode\vadjust pre{\hypertarget{ref-li_approach_2020}{}}%
+Li, A., Huang, Y., Axhausen, K.W., 2020. An approach to imputing
+destination activities for inclusion in measures of bicycle
+accessibility. Journal of Transport Geography 82, 102566.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2019.102566}{10.1016/j.jtrangeo.2019.102566}
 
 \leavevmode\vadjust pre{\hypertarget{ref-luo2003}{}}%
 Luo, W., Wang, F., 2003. Measures of Spatial Accessibility to Health
@@ -1514,11 +1627,31 @@ inflation in Floating Catchment Area (FCA) methods. PLOS ONE 14,
 e0218773.
 doi:\href{https://doi.org/10.1371/journal.pone.0218773}{10.1371/journal.pone.0218773}
 
+\leavevmode\vadjust pre{\hypertarget{ref-paez_jobs_2013}{}}%
+Páez, A., Farber, S., Mercado, R., Roorda, M., Morency, C., 2013. Jobs
+and the {Single} {Parent}: {An} {Analysis} of {Accessibility} to
+{Employment} in {Toronto}. Urban Geography 34, 815--842.
+doi:\href{https://doi.org/10.1080/02723638.2013.778600}{10.1080/02723638.2013.778600}
+
+\leavevmode\vadjust pre{\hypertarget{ref-pereira_distributional_2019}{}}%
+Pereira, R.H.M., Banister, D., Schwanen, T., Wessel, N., 2019.
+Distributional effects of transport policies on inequalities in access
+to opportunities in {Rio} de {Janeiro}. Journal of Transport and Land
+Use 12.
+doi:\href{https://doi.org/10.5198/jtlu.2019.1523}{10.5198/jtlu.2019.1523}
+
 \leavevmode\vadjust pre{\hypertarget{ref-proffitt2017}{}}%
 Proffitt, D.G., Bartholomew, K., Ewing, R., Miller, H.J., 2017.
 Accessibility planning in American metropolitan areas: Are we there yet?
 Urban Studies 56, 167--192.
 doi:\href{https://doi.org/10.1177/0042098017710122}{10.1177/0042098017710122}
+
+\leavevmode\vadjust pre{\hypertarget{ref-qi_decadelong_2018}{}}%
+Qi, Y., Fan, Y., Sun, T., Hu, L.(Ivy)., 2018. Decade-long changes in
+spatial mismatch in {Beijing}, {China}: {Are} disadvantaged populations
+better or worse off? Environment and Planning A: Economy and Space 50,
+848--868.
+doi:\href{https://doi.org/10.1177/0308518X18755747}{10.1177/0308518X18755747}
 
 \leavevmode\vadjust pre{\hypertarget{ref-r5r_2021}{}}%
 Rafael H. M. Pereira, Marcus Saraiva, Daniel Herszenhut, Carlos Kaue
@@ -1526,11 +1659,38 @@ Vieira Braga, Matthew Wigginton Conway, 2021. r5r: Rapid realistic
 routing on multimodal transport networks with R5 in r. Findings.
 doi:\href{https://doi.org/10.32866/001c.21262}{10.32866/001c.21262}
 
+\leavevmode\vadjust pre{\hypertarget{ref-reggiani_accessibility_2011}{}}%
+Reggiani, A., Bucci, P., Russo, G., 2011. Accessibility and {Impedance}
+{Forms}: {Empirical} {Applications} to the {German} {Commuting}
+{Network}. International Regional Science Review 34, 230--252.
+doi:\href{https://doi.org/10.1177/0160017610387296}{10.1177/0160017610387296}
+
+\leavevmode\vadjust pre{\hypertarget{ref-rosik_forecast_2021}{}}%
+Rosik, P., Goliszek, S., Komornicki, T., Duma, P., 2021. Forecast of the
+{Impact} of {Electric} {Car} {Battery} {Performance} and
+{Infrastructural} and {Demographic} {Changes} on {Cumulative}
+{Accessibility} for the {Five} {Most} {Populous} {Cities} in {Poland}.
+Energies 14, 8350.
+doi:\href{https://doi.org/10.3390/en14248350}{10.3390/en14248350}
+
 \leavevmode\vadjust pre{\hypertarget{ref-shen1998}{}}%
 Shen, Q., 1998. Location characteristics of inner-city neighborhoods and
 employment accessibility of low-wage workers. Environment and Planning
 B: Planning and Design 25, 345--365.
 doi:\href{https://doi.org/10.1068/b250345}{10.1068/b250345}
+
+\leavevmode\vadjust pre{\hypertarget{ref-shi_literature_2020}{}}%
+Shi, Y., Blainey, S., Sun, C., Jing, P., 2020. A literature review on
+accessibility using bibliometric analysis techniques. Journal of
+Transport Geography 87, 102810.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102810}{10.1016/j.jtrangeo.2020.102810}
+
+\leavevmode\vadjust pre{\hypertarget{ref-vale_influence_2017}{}}%
+Vale, D.S., Pereira, M., 2017. The influence of the impedance function
+on gravity-based pedestrian accessibility measures: {A} comparative
+analysis. Environment and Planning B: Urban Analytics and City Science
+44, 740--763.
+doi:\href{https://doi.org/10.1177/0265813516641685}{10.1177/0265813516641685}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wan2012three}{}}%
 Wan, N., Zou, B., Sternberg, T., 2012. A three-step floating catchment
@@ -1538,6 +1698,12 @@ area method for analyzing spatial access to health services.
 International Journal of Geographical Information Science 26,
 1073--1089.
 doi:\href{https://doi.org/10.1080/13658816.2011.624987}{10.1080/13658816.2011.624987}
+
+\leavevmode\vadjust pre{\hypertarget{ref-wang_access_2021}{}}%
+Wang, S., Wang, M., Liu, Y., 2021. Access to urban parks: {Comparing}
+spatial accessibility measures using three {GIS}-based approaches.
+Computers, Environment and Urban Systems 90, 101713.
+doi:\href{https://doi.org/10.1016/j.compenvurbsys.2021.101713}{10.1016/j.compenvurbsys.2021.101713}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wilson1971}{}}%
 Wilson, A.G., 1971. A Family of Spatial Interaction Models, and
@@ -1548,6 +1714,19 @@ Associated Developments. Environment and Planning A: Economy and Space
 Yan, X., 2021. Toward Accessibility-Based Planning. Journal of the
 American Planning Association 87, 409--423.
 doi:\href{https://doi.org/10.1080/01944363.2020.1850321}{10.1080/01944363.2020.1850321}
+
+\leavevmode\vadjust pre{\hypertarget{ref-yang_comparing_2006}{}}%
+Yang, D.-H., Goerge, R., Mullner, R., 2006. Comparing {GIS}-{Based}
+{Methods} of {Measuring} {Spatial} {Accessibility} to {Health}
+{Services}. Journal of Medical Systems 30, 23--32.
+doi:\href{https://doi.org/10.1007/s10916-006-7400-5}{10.1007/s10916-006-7400-5}
+
+\leavevmode\vadjust pre{\hypertarget{ref-ye_spatial_2018}{}}%
+Ye, C., Zhu, Y., Yang, J., Fu, Q., 2018. Spatial equity in accessing
+secondary education: {Evidence} from a gravity-based model: {Spatial}
+equity in accessing secondary education. The Canadian Geographer / Le
+Géographe canadien 62, 452--469.
+doi:\href{https://doi.org/10.1111/cag.12482}{10.1111/cag.12482}
 
 \end{CSLReferences}
 
