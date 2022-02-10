@@ -15,7 +15,7 @@ footnote:
   - code: 1
     text: "Corresponding Author"
 abstract: |
-  Accessibility measures are widely used in transportation, urban, and health care planning, among other applications. By giving a weighted sum of the opportunities that can be reached given the cost of movement and are interpreted as the potential for spatial interaction. While these measures are useful to understand spatial structure there are issues in interpretability and spatial biasis which have been partially addressed in recently introduced measures such as the balanced floating catchment areas (BFCA) and competitive measures of accessibility. In following this spirit, we propose a new measure of _spatial availability_ which is calculated by imposing a single constraint on the conventional accessibility measure. Similar to the gravity model from which it is derived, a single constraint ensures that the marginals at the origin and destination are met and thus the number of opportunities are preserved. Through examples, we detail the formulation of the proposed spatial availability measure, use cases of the measure using a simple toy data set, and contrast how conventional accessibility overestimates and underestimates _job access_ values on an empirical 2016 travel survey data in the City of Toronto, Canada. Overall, we how  spatial availability is a more meaningful and interpretable measure of opportunity access in relation to conventional accessibility.  All data presented and original manuscript are openly available.
+  Accessibility measures are widely used in transportation, urban, and health care planning, among other applications. By giving a weighted sum of the opportunities that can be reached given the cost of movement and are interpreted as the potential for spatial interaction. While these measures are useful to understand spatial structure there are issues in interpretability and spatial biasis which have been partially addressed in recently introduced measures such as the balanced floating catchment areas (BFCA) and competitive measures of accessibility. In following this spirit, we propose a new measure of _spatial availability_ which is calculated by imposing a single constraint on the conventional accessibility measure. Similar to the gravity model from which it is derived, a single constraint ensures that the marginals at the origin and destination are met and thus the number of opportunities are preserved and opportunities are not multiple-counted (i.e., the conglomeration effect). Through examples, we detail the formulation of the proposed spatial availability measure, use cases of the measure using a simple toy data set, and contrast how conventional accessibility overestimates and underestimates _job access_ values on an empirical 2016 travel survey data in the City of Toronto, Canada. Overall, we show how spatial availability is a more meaningful and interpretable measure of opportunity access in relation to conventional accessibility.  All data presented and original manuscript are openly available.
 
 journal: "Journal of Transport Geography"
 date: "`r Sys.Date()`"
@@ -35,8 +35,7 @@ knitr::opts_chunk$set(
   cache = TRUE,
   warning = FALSE,
   comment = '', 
-  out.width = "1\\linewidth"
-)
+  out.width = "1\\linewidth")
 ```
 
 ```{r load-packages, include=FALSE, cache=FALSE}
@@ -143,7 +142,7 @@ ggplot() +
                nudge_y = -600) +
   scale_size(range = c(2, 4))  + 
   theme(legend.position = "none",
-        axis.text = element_blank(),
+        axis.text = element_blank(), axis.title = element_blank(),
         panel.grid = element_blank(),
         panel.background = element_rect(size = 1, 
                                         color = "black", 
@@ -160,8 +159,8 @@ toy_sim_zones %>%
   mutate(fig = "") %>%
   kable(format = "latex",
         booktabs = TRUE,
-        col.names = c("id", "number", "type", ""),
-        caption = "\\label{tab:toy-example}toy data set") %>%
+        col.names = c("ID", "Number", "Location Type", " "),
+        caption = "\\label{tab:toy-example}Description of toy data set") %>%
   #kable_styling(latex_options = c("scale_down")) %>%
   column_spec(4, 
               image = "images/figure-1.png") %>%
@@ -374,17 +373,70 @@ The 2016 Transportation Tomorrow Survey (TTS) data for 20 municipalities contain
 
 Also included are travel times and cost of travel from origin to destination by car; travel times are calculated using the R package `r5r` [@r5r_2021] and an impedance function based on these travel times is derived. It is important to note that for simplicity, all trips within this data set are assumed to be taken by car, and the travel time is calculated from an origin TAZ centroid to a destination TAZ centroid. The centroid is snapped to the nearest street line by `r5r` and the travel time is calculated for all trips assuming a car travel mode and a department of 7:00am on Wednesday October 2021, an arbitrary date selected by the authors. Additionally, only travel times less than or equal to 180 mins (3 hrs); this threshold represents 99% of trip's travel times which are summarized in the descriptive statistics in Table \ref{tab:TTS-16-desc-stats}. All data and data preparation steps can be freely explored in companion R data-package [`AccessPack`](https://github.com/soukhova/AccessPack).
 
-```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.", out.width="70%", fig.align='center'}
+```{r TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}The TTS 2016 study area within the Greater Golden Horseshoe in Ontario, Canada.", out.width="80%", fig.align='center'}
 knitr::include_graphics("images/Greater-Golden-Horseshoe-Map.png")
 ```
 
-```{r}
-od_ft_tt %>% 
-  dplyr::select(trips, travel_time) %>% summary() %>%
-  kable(format = "latex", 
-        col.names = c("Trips", "Travel_Time"),
-        caption = "\\label{tab:TTS-16-desc-stats}Descriptive statistics of the TTS 2016 dataset for the Greater Golden Horshoe Area")
+```{r creating-desc-stats-table}
+#forming a complete descriptive statistic table
+
+Statistics <- data.frame("Statistics" = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's"))
+
+Trips <- data.frame("OD_Trips" = c(summary(od_ft_tt$trips)[[1]] %>% round(), 
+                                   summary(od_ft_tt$trips)[[2]] %>% round(),  
+                                   summary(od_ft_tt$trips)[[3]] %>% round(), 
+                                   summary(od_ft_tt$trips)[[4]] %>% round(), 
+                                   summary(od_ft_tt$trips)[[5]] %>% round(),
+                                   summary(od_ft_tt$trips)[[6]]%>% round(),
+                                   NA))
+
+Travel_time <- data.frame("OD_Travel_time" = c(summary(od_ft_tt$travel_time)[[1]] %>% round(), 
+                                               summary(od_ft_tt$travel_time)[[2]] %>% round(),  
+                                               summary(od_ft_tt$travel_time)[[3]] %>% round(), 
+                                               summary(od_ft_tt$travel_time)[[4]] %>% round(), 
+                                               summary(od_ft_tt$travel_time)[[5]] %>% round(), 
+                                               summary(od_ft_tt$travel_time)[[6]] %>% round(),  
+                                               3507)) 
+
+TAZ_Area <- data.frame("TAZ_Area" = c(summary(ggh_taz$AREA)[[1]] %>% round(), 
+                                      summary(ggh_taz$AREA)[[2]] %>% round(), 
+                                      summary(ggh_taz$AREA)[[3]] %>% round(), 
+                                      summary(ggh_taz$AREA)[[4]] %>% round(), 
+                                      summary(ggh_taz$AREA)[[5]] %>% round(), 
+                                      summary(ggh_taz$AREA)[[6]] %>% round(), 
+                                      NA))
+
+Workers <- data.frame("Workers" = c(summary(ggh_taz$workers)[[1]] %>% round(), 
+                                    summary(ggh_taz$workers)[[2]] %>% round(), 
+                                    summary(ggh_taz$workers)[[3]] %>% round(), 
+                                    summary(ggh_taz$workers)[[4]] %>% round(), 
+                                    summary(ggh_taz$workers)[[5]] %>% round(), 
+                                    summary(ggh_taz$workers)[[6]] %>% round(), 
+                                    NA))
+
+Jobs <- data.frame("Jobs" = c(summary(ggh_taz$jobs)[[1]] %>% round(), 
+                              summary(ggh_taz$jobs)[[2]] %>% round(), 
+                              summary(ggh_taz$jobs)[[3]] %>% round(), 
+                              summary(ggh_taz$jobs)[[4]] %>% round(), 
+                              summary(ggh_taz$jobs)[[5]] %>% round(), 
+                              summary(ggh_taz$jobs)[[6]] %>% round(), 
+                              NA)) 
+
+desc_stats <- cbind(Statistics, Trips, Travel_time, TAZ_Area, Workers, Jobs)
+
+#kable tabling 
+desc_stats %>%
+  kable(format = "latex",
+        align="lrrrrrr",
+        booktabs = T,
+        col.names = c(" ", "(#)", "(min)", "(km^2)", "(#)", "(#)"),
+        caption = "\\label{tab:TTS-16-desc-stats}Descriptive statistics of the trips, workers, and jobs for the traffic analysis zones (TAZ) from the TTS 2016 dataset along with estimated car origin-destination travel times.") %>%
+  add_header_above(c(" ", "Trips", "Car Travel Time", "Area", "Workers", "Jobs"), align = "r")%>%
+  kable_styling(full_width = "T", 
+                latex_options = c("scale_down"),
+                position = "center")
 ```
+
 
 ## Calibrating an Impedance Function
 

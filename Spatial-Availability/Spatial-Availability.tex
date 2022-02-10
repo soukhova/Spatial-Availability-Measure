@@ -134,15 +134,16 @@ measure}
   constraint on the conventional accessibility measure. Similar to the
   gravity model from which it is derived, a single constraint ensures
   that the marginals at the origin and destination are met and thus the
-  number of opportunities are preserved. Through examples, we detail the
-  formulation of the proposed spatial availability measure, use cases of
-  the measure using a simple toy data set, and contrast how conventional
-  accessibility overestimates and underestimates \emph{job access}
-  values on an empirical 2016 travel survey data in the City of Toronto,
-  Canada. Overall, we how spatial availability is a more meaningful and
-  interpretable measure of opportunity access in relation to
-  conventional accessibility. All data presented and original manuscript
-  are openly available.
+  number of opportunities are preserved and opportunities are not
+  multiple-counted (i.e., the conglomeration effect). Through examples,
+  we detail the formulation of the proposed spatial availability
+  measure, use cases of the measure using a simple toy data set, and
+  contrast how conventional accessibility overestimates and
+  underestimates \emph{job access} values on an empirical 2016 travel
+  survey data in the City of Toronto, Canada. Overall, we show how
+  spatial availability is a more meaningful and interpretable measure of
+  opportunity access in relation to conventional accessibility. All data
+  presented and original manuscript are openly available.
   \end{abstract}
   
  \end{frontmatter}
@@ -350,11 +351,11 @@ in Figure \ref{fig:toy-example-accessibility}.
 
 \begin{table}
 
-\caption{\label{tab:toy-example-table}\label{tab:toy-example}toy data set}
+\caption{\label{tab:toy-example-table}\label{tab:toy-example}Description of toy data set}
 \centering
 \begin{tabular}[t]{lrl>{}l}
 \toprule
-id & number & type & \\
+ID & Number & Location Type &  \\
 \midrule
 E1 & 750 & jobs & \\
 
@@ -834,7 +835,7 @@ freely explored in companion R data-package
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{images/Greater-Golden-Horseshoe-Map} 
+{\centering \includegraphics[width=0.8\linewidth]{images/Greater-Golden-Horseshoe-Map} 
 
 }
 
@@ -843,27 +844,25 @@ freely explored in companion R data-package
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-1}\label{tab:TTS-16-desc-stats}Descriptive statistics of the TTS 2016 dataset for the Greater Golden Horshoe Area}
+\caption{\label{tab:creating-desc-stats-table}\label{tab:TTS-16-desc-stats}Descriptive statistics of the trips, workers, and jobs for the traffic analysis zones (TAZ) from the TTS 2016 dataset along with estimated car origin-destination travel times.}
 \centering
-\begin{tabular}[t]{l|l|l}
-\hline
-  & Trips & Travel\_Time\\
-\hline
- & Min.   :   1.00 & Min.   :  0.00\\
-\hline
- & 1st Qu.:  14.00 & 1st Qu.: 13.00\\
-\hline
- & Median :  22.00 & Median : 20.00\\
-\hline
- & Mean   :  33.44 & Mean   : 23.39\\
-\hline
- & 3rd Qu.:  38.00 & 3rd Qu.: 30.00\\
-\hline
- & Max.   :1129.00 & Max.   :179.00\\
-\hline
- & NA & NA's   :3507\\
-\hline
-\end{tabular}
+\resizebox{\linewidth}{!}{
+\begin{tabu} to \linewidth {>{\raggedright}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X}
+\toprule
+\multicolumn{1}{r}{ } & \multicolumn{1}{r}{Trips} & \multicolumn{1}{r}{Car Travel Time} & \multicolumn{1}{r}{Area} & \multicolumn{1}{r}{Workers} & \multicolumn{1}{r}{Jobs} \\
+\cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-3} \cmidrule(l{3pt}r{3pt}){4-4} \cmidrule(l{3pt}r{3pt}){5-5} \cmidrule(l{3pt}r{3pt}){6-6}
+  & (\#) & (min) & (km\textasciicircum{}2) & (\#) & (\#)\\
+\midrule
+Min. & 1 & 0 & 0 & 0 & 0\\
+1st Qu. & 14 & 13 & 1 & 25 & 64\\
+Median & 22 & 20 & 1 & 464 & 244\\
+Mean & 33 & 23 & 7 & 916 & 819\\
+3rd Qu. & 38 & 30 & 3 & 1378 & 700\\
+\addlinespace
+Max. & 1129 & 179 & 879 & 8491 & 41821\\
+NA's & NA & 3507 & NA & NA & NA\\
+\bottomrule
+\end{tabu}}
 \end{table}
 
 \hypertarget{calibrating-an-impedance-function}{%
@@ -1382,18 +1381,17 @@ access.
 
 We acknowledge recent work to address limitations associated with the
 accessibility measure; in this light, we propose that spatial
-availability be seen as a type of \emph{spatial mismatch} and an
-evolution of the \emph{balanced floating catchment} approach (BFCA) .
-Historically, literature has iteratively improved measures assessing
-access to opportunities. In the context of employment and healthcare
-opportunities, simple container counting solutions such as the
-population-to-provider ratio (PPR) for healthcare services and jobs to
-housing ratio were implemented. This approach, while straight forward,
-is highly susceptible to the modifiable unit area problem (MUAP).
-Recognizing this and harnessing the computation power and access to
-finer resolution data as it became available, scholars proposed the next
-evolution, namely the accessibility measure which is widely used today
-and we implemented in our examples for comparison. It partially
+availability be seen as a type of spatial mismatch and an evolution of
+the BFCA approach. Historically, literature has iteratively improved
+measures assessing access to opportunities. In the context of employment
+and healthcare opportunities, simple container counting solutions such
+as the population-to-provider ratio (PPR) for healthcare services and
+jobs to housing ratio were implemented. This approach, while straight
+forward, is highly susceptible to the modifiable unit area problem
+(MUAP). Recognizing this and harnessing the computation power and access
+to finer resolution data as it became available, scholars proposed the
+next evolution, namely the accessibility measure which is widely used
+today and we implemented in our examples for comparison. It partially
 addresses the MUAP by considering opportunities outside of the
 conventional `containers' which represented opportunities in a census
 areas/neighbourhoods by counting opportunities informed by an impedance
