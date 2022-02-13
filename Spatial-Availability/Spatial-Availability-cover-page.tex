@@ -6,8 +6,6 @@
 
 
 \usepackage{lineno} % add
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 \usepackage{graphicx}
 %%%%%%%%%%%%%%%% end my additions to header
@@ -42,7 +40,7 @@
 \hypersetup{breaklinks=true,
             bookmarks=true,
             pdfauthor={},
-            pdftitle={Estimating spatial availability/mismatch using singly constrained accessibility measures},
+            pdftitle={Introducing spatial availability, a singly-constrained competitive-access accessibility measure},
             colorlinks=false,
             urlcolor=blue,
             linkcolor=magenta,
@@ -53,17 +51,23 @@
 % Pandoc toggle for numbering sections (defaults to be off)
 \setcounter{secnumdepth}{0}
 
-% Pandoc citation processing
 
-% Pandoc header
+% tightlist command for lists without linebreak
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
 
 
 
 \begin{document}
+
+
 \begin{frontmatter}
 
-  \title{Estimating spatial availability/mismatch using singly
-constrained accessibility measures}
+  \title{Introducing spatial availability, a singly-constrained
+competitive-access accessibility measure}
     \author[SEES]{Anastasia Soukhov}
    \ead{soukhoa@mcmaster.ca} 
     \author[SEES]{Antonio Paez\corref{Corresponding Author}}
@@ -82,9 +86,29 @@ Hamilton, ON, L8S 4K1, Canada}
       \cortext[1]{Corresponding Author}
   
   \begin{abstract}
-  This is the abstract.
-
-  It consists of two paragraphs.
+  Accessibility measures are widely used in transportation, urban, and
+  health care planning, among other applications. These measures are
+  weighted sums of the opportunities that can be reached given the cost
+  of movement and are interpreted as the potential for spatial
+  interaction. These measures are useful to understand spatial structure
+  but double counting of opportunities leads to interpretability issues,
+  as noted in recent research on balanced floating catchment areas
+  (BFCA) and competitive measures of accessibility. In this paper we
+  propose a new measure of \emph{spatial availability} which is
+  calculated by imposing a single constraint on conventional
+  gravity-based accessibility. Similar to the gravity model from which
+  it is derived, a single constraint ensures that the marginals at the
+  destination are met and thus the number of opportunities are
+  preserved. Through examples, we detail the formulation of the proposed
+  measure. Further, we use data from the 2016 travel survey in the
+  Greater Toronto and Hamilton Area in Canada to contrast how
+  conventional accessibility overestimates and underestimates the number
+  of jobs \emph{available} to workers. We conclude with some discussion
+  of the possible uses of spatial availability. Overall, we argue that
+  spatial availability can be a more meaningful and interpretable
+  measure of opportunity access in relation to conventional
+  accessibility. All data and code used in this research are openly
+  available.
   \end{abstract}
   
  \end{frontmatter}
