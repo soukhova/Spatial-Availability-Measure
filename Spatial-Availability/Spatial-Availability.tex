@@ -353,11 +353,11 @@ in Figure \ref{fig:toy-example-accessibility}.
 
 \begin{table}
 
-\caption{\label{tab:toy-example-table}\label{tab:toy-example}toy data set}
+\caption{\label{tab:toy-example-table}\label{tab:toy-example}Description of toy data set}
 \centering
 \begin{tabular}[t]{lrl>{}l}
 \toprule
-id & number & type & \\
+ID & Number & Location Type &  \\
 \midrule
 E1 & 750 & jobs & \\
 
@@ -825,7 +825,7 @@ set includes home-based origins and employment destinations defined by
 centroids of Traffic Analysis Zones (TAZ) (n=3,764), the number of jobs
 (n=3,081,900) and workers (n=3,446,957) at each origin and destination,
 and the trips from origin to destination for the morning home-to-work
-commute (n=3,069,541).
+commute (n=3,446,957).
 
 Also included are travel times and cost of travel from origin to
 destination by car; travel times are calculated using the R package
@@ -846,7 +846,7 @@ freely explored in companion open data product
 
 \begin{figure}
 
-{\centering \includegraphics[width=0.7\linewidth]{images/Greater-Golden-Horseshoe-Map} 
+{\centering \includegraphics[width=0.8\linewidth]{images/Greater-Golden-Horseshoe-Map} 
 
 }
 
@@ -855,25 +855,25 @@ freely explored in companion open data product
 
 \begin{table}
 
-\caption{\label{tab:unnamed-chunk-1}\label{tab:TTS-16-desc-stats}Descriptive statistics of the TTS 2016 dataset for the Greater Golden Horshoe Area}
+\caption{\label{tab:creating-desc-stats-table}\label{tab:TTS-16-desc-stats}Descriptive statistics of the trips, workers, and jobs for the traffic analysis zones (TAZ) from the TTS 2016 dataset along with estimated car origin-destination travel times.}
 \centering
-\begin{tabular}[t]{l|l|l}
-\hline
-  & Trips & Travel\_Time\\
-\hline
- & Min.   :   1.00 & Min.   :  0.10\\
-\hline
- & 1st Qu.:  14.00 & 1st Qu.: 13.00\\
-\hline
- & Median :  22.00 & Median : 20.00\\
-\hline
- & Mean   :  30.83 & Mean   : 23.39\\
-\hline
- & 3rd Qu.:  37.00 & 3rd Qu.: 30.00\\
-\hline
- & Max.   :1129.00 & Max.   :179.00\\
-\hline
-\end{tabular}
+\resizebox{\linewidth}{!}{
+\begin{tabu} to \linewidth {>{\raggedright}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X>{\raggedleft}X}
+\toprule
+\multicolumn{1}{r}{ } & \multicolumn{1}{r}{Trips} & \multicolumn{1}{r}{Car Travel Time} & \multicolumn{1}{r}{Area} & \multicolumn{1}{r}{Workers} & \multicolumn{1}{r}{Jobs} \\
+\cmidrule(l{3pt}r{3pt}){2-2} \cmidrule(l{3pt}r{3pt}){3-3} \cmidrule(l{3pt}r{3pt}){4-4} \cmidrule(l{3pt}r{3pt}){5-5} \cmidrule(l{3pt}r{3pt}){6-6}
+  & (\#) & (min) & (km\textasciicircum{}2) & (\#) & (\#)\\
+\midrule
+Min. & 1 & 0 & 0 & 0 & 0\\
+1st Qu. & 14 & 13 & 1 & 25 & 64\\
+Median & 22 & 20 & 1 & 464 & 244\\
+Mean & 33 & 23 & 7 & 916 & 819\\
+3rd Qu. & 38 & 30 & 3 & 1378 & 700\\
+\addlinespace
+Max. & 1129 & 179 & 879 & 8491 & 41821\\
+NA's & NA & 3507 & NA & NA & NA\\
+\bottomrule
+\end{tabu}}
 \end{table}
 
 \hypertarget{calibrating-an-impedance-function}{%
