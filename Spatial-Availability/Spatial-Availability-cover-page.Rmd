@@ -7,7 +7,7 @@ author:
   - name: "Antonio Paez"
     email: "paezha@mcmaster.ca"
     affiliation: SEES
-    footnote: "Corresponding Author"
+    footnote: 1
   - name: "Christopher D. Higgins"
     email: "cd.higgins@utoronto.ca"
     affiliation: UofTS
@@ -17,10 +17,10 @@ author:
 address:
   - code: SEES
     address: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
-  - code: University of Toronto Scarborough
+  - code: UofTS
     address: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4"
   - code: CIVENG
-    address: "Dept. of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+    address: "Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
 footnote:
   - code: 1
     text: "Corresponding Author"

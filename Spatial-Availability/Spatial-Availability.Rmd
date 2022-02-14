@@ -1,16 +1,26 @@
 ---
 title: "Introducing spatial availability, a singly-constrained competitive-access accessibility measure"
 author:
-  - name: "Author One"
-    email: "author.1@example.com"
-    affiliation: Some School
-  - name: "Author Two"
-    email: "author.2@example.com"
-    affiliation: Some School
-    footnote: "Corresponding Author"
+  - name: "Anastasia Soukhov"
+    email: "soukhoa@mcmaster.ca"
+    affiliation: SEES
+  - name: "Antonio Paez"
+    email: "paezha@mcmaster.ca"
+    affiliation: SEES
+    footnote: 1
+  - name: "Christopher D. Higgins"
+    email: "cd.higgins@utoronto.ca"
+    affiliation: UofTS
+  - name: "Moataz Mohamed"
+    email: "mmohame@mcmaster.ca"
+    affiliation: CIVENG
 address:
-  - code: Some School
-    address: "Address"
+  - code: SEES
+    address: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - code: UofTS
+    address: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4"
+  - code: CIVENG
+    address: "Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
 footnote:
   - code: 1
     text: "Corresponding Author"
@@ -83,7 +93,7 @@ A second approach is to impose constraints on the gravity model to ensure flows 
 
 In this paper we propose an alternative approach to measuring competitive accessibility. We call it a measure of **spatial availability** , and it aims to capture the number of indivisible opportunities that are not only _accessible_ but also _available_ to the opportunity-seeking population, in the sense that they have not been claimed by a competing seeker of the opportunity. As we will show, spatial availability is a singly-constrained measure of accessibility. By allocating opportunities in a proportional way based on demand and distance, this method avoids the issues that result from multiple counting of opportunities in conventional accessibility analysis. The method returns meaningful accessibility estimates that correspond to the rate of available opportunities per opportunity-seeking population. Moreover, the method also returns a benchmark value for the region under study against which results for individual origins can be compared both inter- and intra-regionally.
 
-In the following sections we will describe and illustrate this new measure using a toy data set and an empirical example. First, we will describe the analytical framework of the measure. Second, we calculate the spatial availability (SA) using data from the Transportation Tomorrow Survey (TTS) home-to-work commute in 2016 for the Greater Toronto and Hamilton Area (GTHA) in Ontario, Canada, and discuss differences with conventional unconstrained accessibility analysis Thirdly, we will calculate the SA using a simple hypothetical population and employment centers data set for two additional use-cases: one of jobs from the perspective of the population considering catchment restrictions and another of workers from the perspective of employers. Finally, we conclude by discussing the advantages of the spatial availability measure and the breadth of potential uses.
+In the following sections we will describe and illustrate this new measure using a synthetic example and an empirical example. First, we will describe the analytical framework of the measure. Second, we calculate the spatial availability (SA) using data from the Transportation Tomorrow Survey (TTS) home-to-work commute in 2016 for the Greater Toronto and Hamilton Area (GTHA) in Ontario, Canada, and discuss differences with conventional unconstrained accessibility analysis Thirdly, we will calculate the SA using a simple hypothetical population and employment centers data set for two additional use-cases: one of jobs from the perspective of the population considering catchment restrictions and another of workers from the perspective of employers. Finally, we conclude by discussing the advantages of the spatial availability measure and the breadth of potential uses.
 
 In the spirit of openness of research in the spatial sciences [@brunsdon2021opening; @paez2021open] this paper has a companion open data product [@arribas2021Open], and all code will be available for repeatability and reproducibility purposes.
 
@@ -168,7 +178,7 @@ toy_sim_zones %>%
   kable(format = "latex",
         booktabs = TRUE,
         col.names = c("ID", "Number", "Location Type", " "),
-        caption = "\\label{tab:toy-example}Description of toy data set") %>%
+        caption = "\\label{tab:toy-example}Description of synthetic example") %>%
   #kable_styling(latex_options = c("scale_down")) %>%
   column_spec(4, 
               image = "images/figure-1.png") %>%
@@ -195,7 +205,7 @@ toy_sim_zones_access  <- toy_sim_zones %>%
             by = c("id" = "Origin")) 
 ```
 
-```{r toy-example-accessibility-plot, fig.cap="\\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple toy data set"}
+```{r toy-example-accessibility-plot, fig.cap="\\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple synthetic example"}
 # Plot the accessibility to employment in the example;
 ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
@@ -446,7 +456,7 @@ desc_stats %>%
 
 ## Calibrating an Impedance Function
 
-In the synthetic example introduced in a [preceding section]{#accessibility-numerical-example}, an arbitrary negative exponential function describing travel cost (as a function of distance) was used as the impedance function. In this empirical example, the travel time is calculated based on the existing street network in the GTHA and an impedance function callibrated based on the trip length distribution (TLD). For background, a TLD is the representation of the likelihood that a proportion of trips are taken at a specific travel cost; this distribution is commonly used to derive impedance functions in accessibility research [@horbachov_theoretical_2018; @batista_estimation_2019].
+In the synthetic example introduced in a [preceding section]{#accessibility-numerical-example}, an arbitrary negative exponential function describing travel cost (as a function of distance) was used as the impedance function. In this empirical example, the travel time is calculated based on the existing street network in the GTHA and an impedance function calibrated based on the trip length distribution (TLD). For background, a TLD is the representation of the likelihood that a proportion of trips are taken at a specific travel cost; this distribution is commonly used to derive impedance functions in accessibility research [@horbachov_theoretical_2018; @batista_estimation_2019].
 
 The empirical and theoretical TLD for this data set are represented in the top-left panel of Figure \ref{fig:TLD-Gamma-plot}. Maximum likelihood estimation and the Nelder-Mead method for direct optimization available within the `fitdistrplus` package [@fitdistrplus_2015] were used. Based on goodness-of-fit criteria and diagnostics seen in Figure \ref{fig:TLD-Gamma-plot}, the gamma distribution was selected (also see Figure \ref{fig:plot-cullen-frey} in the Appendix).  
 
@@ -552,7 +562,7 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 \end{array}
 \end{equation}
 
-The shape and rate parameters were empirically estimated and their values are `r round(gamma_$estimate[1], 3)` and `r round(gamma_$estimate[2], 3)` respectively. It is important to reiterate that this impedance function is derived using empirical home-to-work data, after selecting trips in the 2016 TTS data set taken by car. Modal split and travel times can be estimated through other methods [e.g., @allen_suburbanization_2021; @higgins2021changes] but for illustrative purposes, this example considers only travel by car and jobs reached by car. 
+The shape and rate parameters were empirically estimated and their values are `r round(gamma_$estimate[1], 3)` and `r round(gamma_$estimate[2], 3)` respectively. It is important to reiterate that this impedance function is derived using all home-to-work trips from the 2016 TTS data set and assumes all trips are made only by car. Modal split and travel times can be estimated through other methods [e.g., @allen_suburbanization_2021; @higgins2021changes] but for illustrative purposes, this example assumes a 100% car travel and one departure time for all origins. 
 
 ## Measuring access to jobs in Toronto
 
@@ -981,7 +991,7 @@ V^I_{ij} = \frac{V_{ij}}{\max(V_{ij})}\cdot100\\
 Dif_{ij} = \frac{V^I_{ij} - A^I_{ij}}{A^I_{ij}}\cdot100
 \end{equation}
 
-## Overestimating jobs access (issue 1)
+## Overestimating jobs access: first issue with accessibility
 
 ```{r indexed-measures-calculation-Toronto}
 #here we index (re-scale) the accessibility and spatial availability measures and split up the objects into POSITIVE change (i.e. when SA is higher than accessibility) and NEGATIVE change (i.e. when SA is lower than accessibility)
@@ -1111,7 +1121,7 @@ data <- melt(x)
 ggplot(data,aes(x=value, fill=variable)) + geom_density(alpha=0.25)
 ```
 
-## Underestimating jobs access (issue 2)
+## Underestimating jobs access: second issue with accessibility
 
 ```{r indexed-measures-calculation-GGH}
 #here we index (re-scale) the accessibility and spatial availability measures and split up the objects into POSITIVE change (i.e. when SA is higher than accessibility) and NEGATIVE change (i.e. when SA is lower than accessibility)
@@ -1254,11 +1264,11 @@ It is also worth noting that the right panel of Figure \ref{fig:plot-difference-
 
 In addition to measuring access to jobs for workers, spatial availability can be used to measure many other opportunity types and scenarios. In this section we demonstrate two additional ways in which spatial availability can be applied. Since spatial availability singly-constraints opportunities which are allocated to the demand seeking population, opportunities or demand seeking populations can be subset while the resulting access measure does not lose any interpretability. As such, we firstly present a practical application is calculating job access for a specialized subset of population to specialized employment centers. We then present an application where the roles of workers and employers are reversed and employers are the demand seeking population. These two additional use cases are non-exhaust and applications outside of employment are tenable and warranted. 
 
-To illustrate these two additional examples, we return to the toy data set initially introduced in [Background]{#background} section.
+To illustrate these two additional examples, we return to the synthetic example initially introduced in [Background]{#background} section.
 
-## Available jobs for specialized working populations
+## Measuring access to jobs for specialized working populations
 
-Suppose that population centers P1 through P8 are not all eligible for employment at the three employment centers E1, E2, and E3. This can be due to education attainment or more simply a geographic barrier (i.e., river without a road) making it impossible for certain populations to be employed at certain employment centers. In this toy data set, we consider that only population center P1 and P2 are eligible for employment at employment center E1. Next assume that jobs in employment center E2 can be taken by individuals in population centers P3, P4, P5, P7, and P8. Lastly, jobs in employment center E3 require qualifications available only among individuals in population centers P5, P6, P8, and P9. In essence, eligibility criteria create catchments which can be easily considered within the spatial availability measure and this specialized job access is presented in Figure \ref{fig:toy-example-availability-with-catchments}.
+Suppose that population centers P1 through P8 are not all eligible for employment at the three employment centers E1, E2, and E3. This can be due to education attainment or more simply a geographic barrier (i.e., river without a road) making it impossible for certain populations to be employed at certain employment centers. In this synthetic example, we consider that only population center P1 and P2 are eligible for employment at employment center E1. Next assume that jobs in employment center E2 can be taken by individuals in population centers P3, P4, P5, P7, and P8. Lastly, jobs in employment center E3 require qualifications available only among individuals in population centers P5, P6, P8, and P9. In essence, eligibility criteria create catchments which can be easily considered within the spatial availability measure and this specialized job access is presented in Figure \ref{fig:toy-example-availability-with-catchments}.
  
 ```{r toy-example-create-catchments}
 # Create catchments for visualization:
@@ -1323,7 +1333,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 ```
 
 
-```{r toy-example-availability-with-catchments, fig.cap="\\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple toy data set"}
+```{r toy-example-availability-with-catchments, fig.cap="\\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple synthetic example"}
 ggplot() +
   geom_sf(data = catchment_1,
           fill = "orange",
@@ -1413,7 +1423,7 @@ toy_sim_zones_access <- toy_sim_zones_access %>%
 
 ```
 
-```{r toy-example-availability-jobs-per-capita, fig.cap="\\label{fig:toy-example-availability-jobs-per-capita} Spatial availability of jobs per capita for each population centers with catchment restrictions (top) and without catchment restrictions (bottom) for the simple toy data set", fig.width=7, fig.height=9, message=FALSE}
+```{r toy-example-availability-jobs-per-capita, fig.cap="\\label{fig:toy-example-availability-jobs-per-capita} Spatial availability of jobs per capita for each population centers with catchment restrictions (top) and without catchment restrictions (bottom) for the synthetic example", fig.width=7, fig.height=9, message=FALSE}
 
 plot_toy_SA_catch <- ggplot() +
   geom_sf(data = catchment_1,
@@ -1487,7 +1497,7 @@ For higher interpretability, we can view Figure \ref{fig:toy-example-availabilit
 
 In the bottom plot of Figure \ref{fig:toy-example-availability-jobs-per-capita}, we see that population center P5 has the highest level of spatial availability, due to being a large population center that is more relatively close to jobs. We also see population centers which are further from employment centers have low spatial availability (P1, P3, P6, P7, P9) and population centers which are more central have, evidently, higher job access. We can also discern that the regional spatial availability per capita is `r round(mean(toy_sim_zones_access$v_i, na.rm = TRUE),3)`.  In contrast, when catchments are introduced as shown in the top plot of Figure \ref{fig:toy-example-availability-jobs-per-capita}, we see that the job access for population centers in the blue catchment decrease as job competition increases. However, we also observe that access marginally increases for the population centers in the yellow catchment and the regional spatial availability per capita increases slightly to `r round(mean(toy_sim_zones_access$v_i_r, na.rm = TRUE),3)`. 
 
-## Alternative Use Case 3: Available Workers for Employment Centers
+## Measuring access to workers for employment centers
 
 In this use case, we remove the catchments and switch the demand and opportunity roles of the employment centers and population centers. In this way, the spatial availability measure reflects _worker access_ by proportionally allocating _workers_ to employment centers based on travel cost (i.e., distance) and population (i.e., jobs at each employment center). Figure \ref{fig:toy-example-availability-workers-per-job} presents spatial availability generally and per capita for this use case. 
 
@@ -1538,7 +1548,7 @@ toy_sim_zones_access %>%
   dplyr::select(id, w_j)
 ```
 
-```{r toy-example-availability-workers-per-job, fig.cap= "\\label{fig:toy-example-availability-workers-per-job} Spatial availability of workers for each employment center (top) and the spatial availability of workers per job for each employment center (bottom) for the simple toy data set", fig.width=7, fig.height=9, message=FALSE}
+```{r toy-example-availability-workers-per-job, fig.cap= "\\label{fig:toy-example-availability-workers-per-job} Spatial availability of workers for each employment center (top) and the spatial availability of workers per job for each employment center (bottom) for the simple synthetic example", fig.width=7, fig.height=9, message=FALSE}
 
 plot_toy_SA_workers <- ggplot() +
   geom_sf(data = toy_sim_zones_access %>% 
@@ -1594,7 +1604,7 @@ As shown in Figure \ref{fig:toy-example-availability-workers-per-job}, the top p
 
 # Concluding remarks and future applications
 
-In this paper, we propose  _spatial availability_ as an alternative to conventional accessibility which measures opportunity access which addressed the _competition effect_ and thus produces a meaningful opportunity access measure which can be normalized per demand population and used to compare access across regions. As a reminder, the competition effect results in the over and under estimation of opportunity access, under specific conditions, due to the multiple-counting of opportunities which is embedded in accessibility's method and thus makes comparing accessibility across regions potentially biased <!-- cite -->. Spatial availability, however, proportionally allocates opportunities based on the demand population and travel cost thus constraining the number of opportunities allocated across the measured region to the number of opportunities available. This single-sided opportunity constraint can be said to only consider opportunity competition for any magnitude of demand population (i.e., when measuring job access per worker the number of workers (demanding population) does not need to match the number of jobs (opportunities). We demonstrate the use of this measure and how it compares with accessibility in an empirical example of workers and jobs in the GTHA. We also demonstrate two additional employment use cases for this versatile measure in a hypothetical toy data set. These data sets and examples highlight how intuitive the per demand population access values are and captures some of the extent to which accessibility overestimates and underestimates access.
+In this paper, we propose  _spatial availability_ as an alternative to conventional accessibility which measures opportunity access which addressed the _competition effect_ and thus produces a meaningful opportunity access measure which can be normalized per demand population and used to compare access across regions. As a reminder, the competition effect results in the over and under estimation of opportunity access, under specific conditions, due to the multiple-counting of opportunities which is embedded in accessibility's method and thus makes comparing accessibility across regions potentially biased <!-- cite -->. Spatial availability, however, proportionally allocates opportunities based on the demand population and travel cost thus constraining the number of opportunities allocated across the measured region to the number of opportunities available. This single-sided opportunity constraint can be said to only consider opportunity competition for any magnitude of demand population (i.e., when measuring job access per worker the number of workers (demanding population) does not need to match the number of jobs (opportunities). We demonstrate the use of this measure and how it compares with accessibility in an empirical example of workers and jobs in the GTHA. We also demonstrate two additional employment use cases for this versatile measure in a hypothetical synthetic example. These data sets and examples highlight how intuitive the per demand population access values are and captures some of the extent to which accessibility overestimates and underestimates access.
 
 We acknowledge recent work to address limitations associated with the accessibility measure; in this light, we propose that spatial availability be seen as a type of spatial mismatch and an evolution of the BFCA approach. Historically, literature has iteratively improved measures assessing access to opportunities. In the context of employment and healthcare opportunities, simple container counting solutions such as the population-to-provider ratio (PPR) for healthcare services and jobs to housing ratio were implemented. This approach, while straight forward, is highly susceptible to the modifiable unit area problem (MUAP). Recognizing this and harnessing the computation power and access to finer resolution data as it became available, scholars proposed the next evolution, namely the accessibility measure which is widely used today and we implemented in our examples for comparison. It partially addresses the MUAP by considering opportunities outside of the conventional 'containers' which represented opportunities in a census areas/neighbourhoods by counting opportunities informed by an impedance function based on travel cost. Our measure, spatial availability, iterates on the accessibility measure by proportionally allocating travel cost and population (workers) of origins to opportunities at destinations. This single-constrained approach ensures that the population is mutually exclusive in essence replicating the properties of the self-contained unit which is _not_ limited to a zoning system proposed; the pros of accessibility solution in using the impedance function and pros of the container solutions.
 
@@ -1602,6 +1612,8 @@ However, similar to the accessibility measure, it should be noted that spatial a
 
 
 Fundamentally, accessibility measure's methodology results in the overestimation or underestimation of opportunity access as a result of the competition effect. Accessibility does not include factors to bound the summation so origins, hypothetically, can have infinite _opportunity access_. Spatial availability includes a single-sided opportunity constraint so it can be used to calculate access to any opportunity type, whether competitive or non-competitive in natural. In this paper, we only examined access to employment (or access to workers from the perspective of employment centers), but any opportunities which are competitive (i.e., a finite number of seats or capacity is available at any given time) such as schools, hospitals, and other essential services can be measured. Additional, opportunities which are non-competitive in the sense that they have always larger capacities than population can still benefit from this measure as access will not be over or underestimated as a result of the competition effect seen in accessibility; non-competitive opportunities can include large natural parks and beaches. As such, all access values measured for all opportunities can benefit from spatial availability measure through the reduction in competition effect (from accessibility) and a meaningful per demand population benchmark. 
+
+\newpage
 
 # Appendix
 
@@ -1612,9 +1624,11 @@ all_tt <- od_ft_tt  %>% dplyr::select(trips, travel_time)
 all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$trips), 2]
 ```
 
-```{r plot-cullen-frey, message = FALSE, fig.height=6, fig.cap="\\label{fig:plot-cullen-frey}Cullen and frey graphy for the complete empirical 2016 TTS travel time data set."}
+```{r plot-cullen-frey, message = FALSE, fig.height=6, fig.cap="\\label{fig:plot-cullen-frey}Cullen and frey graphy for the 2016 TTS calculated travel times."}
 fitdistrplus::descdist(data=all_tt) 
 ```
+
+\newpage
 
 # References {#references .unnumbered}
 

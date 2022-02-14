@@ -112,11 +112,20 @@
 
   \title{Introducing spatial availability, a singly-constrained
 competitive-access accessibility measure}
-    \author[Some School]{Author One}
-   \ead{author.1@example.com} 
-    \author[Some School]{Author Two\corref{Corresponding Author}}
-   \ead{author.2@example.com} 
-      \address[Some School]{Address}
+    \author[SEES]{Anastasia Soukhov}
+   \ead{soukhoa@mcmaster.ca} 
+    \author[SEES]{Antonio Paez\corref{1}}
+   \ead{paezha@mcmaster.ca} 
+    \author[UofTS]{Christopher D. Higgins}
+   \ead{cd.higgins@utoronto.ca} 
+    \author[CIVENG]{Moataz Mohamed}
+   \ead{mmohame@mcmaster.ca} 
+      \address[SEES]{School of Earth, Environment and Society, McMaster
+University, Hamilton, ON, L8S 4K1, Canada}
+    \address[UofTS]{Department of Geography \& Planning, University of
+Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4}
+    \address[CIVENG]{Department of Civil Engineering, McMaster
+University, Hamilton, ON, L8S 4K1, Canada}
       \cortext[1]{Corresponding Author}
   
   \begin{abstract}
@@ -261,15 +270,15 @@ results for individual origins can be compared both inter- and
 intra-regionally.
 
 In the following sections we will describe and illustrate this new
-measure using a toy data set and an empirical example. First, we will
-describe the analytical framework of the measure. Second, we calculate
-the spatial availability (SA) using data from the Transportation
-Tomorrow Survey (TTS) home-to-work commute in 2016 for the Greater
-Toronto and Hamilton Area (GTHA) in Ontario, Canada, and discuss
-differences with conventional unconstrained accessibility analysis
-Thirdly, we will calculate the SA using a simple hypothetical population
-and employment centers data set for two additional use-cases: one of
-jobs from the perspective of the population considering catchment
+measure using a synthetic example and an empirical example. First, we
+will describe the analytical framework of the measure. Second, we
+calculate the spatial availability (SA) using data from the
+Transportation Tomorrow Survey (TTS) home-to-work commute in 2016 for
+the Greater Toronto and Hamilton Area (GTHA) in Ontario, Canada, and
+discuss differences with conventional unconstrained accessibility
+analysis Thirdly, we will calculate the SA using a simple hypothetical
+population and employment centers data set for two additional use-cases:
+one of jobs from the perspective of the population considering catchment
 restrictions and another of workers from the perspective of employers.
 Finally, we conclude by discussing the advantages of the spatial
 availability measure and the breadth of potential uses.
@@ -353,7 +362,7 @@ in Figure \ref{fig:toy-example-accessibility}.
 
 \begin{table}
 
-\caption{\label{tab:toy-example-table}\label{tab:toy-example}Description of toy data set}
+\caption{\label{tab:toy-example-table}\label{tab:toy-example}Description of synthetic example}
 \centering
 \begin{tabular}[t]{lrl>{}l}
 \toprule
@@ -387,7 +396,7 @@ P9 & 255 & population & \multirow{-12}{*}{\raggedright\arraybackslash \includegr
 \end{table}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1} \caption{\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple toy data set}\label{fig:toy-example-accessibility-plot}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1} \caption{\label{fig:toy-example-accessibility}Accessibility of jobs from population centers for the simple synthetic example}\label{fig:toy-example-accessibility-plot}
 \end{figure}
 
 Figure \ref{fig:toy-example-accessibility} shows the locations of the
@@ -885,11 +894,11 @@ In the synthetic example introduced in a
 section}, an arbitrary negative exponential function describing travel
 cost (as a function of distance) was used as the impedance function. In
 this empirical example, the travel time is calculated based on the
-existing street network in the GTHA and an impedance function
-callibrated based on the trip length distribution (TLD). For background,
-a TLD is the representation of the likelihood that a proportion of trips
-are taken at a specific travel cost; this distribution is commonly used
-to derive impedance functions in accessibility research (Batista et al.,
+existing street network in the GTHA and an impedance function calibrated
+based on the trip length distribution (TLD). For background, a TLD is
+the representation of the likelihood that a proportion of trips are
+taken at a specific travel cost; this distribution is commonly used to
+derive impedance functions in accessibility research (Batista et al.,
 2019; Horbachov and Svichynskyi, 2018).
 
 The empirical and theoretical TLD for this data set are represented in
@@ -922,12 +931,12 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 
 The shape and rate parameters were empirically estimated and their
 values are 2.019 and 0.094 respectively. It is important to reiterate
-that this impedance function is derived using empirical home-to-work
-data, after selecting trips in the 2016 TTS data set taken by car. Modal
-split and travel times can be estimated through other methods (e.g.,
-Allen and Farber, 2021; Higgins et al., 2021) but for illustrative
-purposes, this example considers only travel by car and jobs reached by
-car.
+that this impedance function is derived using all home-to-work trips
+from the 2016 TTS data set and assumes all trips are made only by car.
+Modal split and travel times can be estimated through other methods
+(e.g., Allen and Farber, 2021; Higgins et al., 2021) but for
+illustrative purposes, this example assumes a 100\% car travel and one
+departure time for all origins.
 
 \hypertarget{measuring-access-to-jobs-in-toronto}{%
 \subsection{Measuring access to jobs in
@@ -1111,9 +1120,9 @@ V^I_{ij} = \frac{V_{ij}}{\max(V_{ij})}\cdot100\\
 Dif_{ij} = \frac{V^I_{ij} - A^I_{ij}}{A^I_{ij}}\cdot100
 \end{equation}
 
-\hypertarget{overestimating-jobs-access-issue-1}{%
-\subsection{Overestimating jobs access (issue
-1)}\label{overestimating-jobs-access-issue-1}}
+\hypertarget{overestimating-jobs-access-first-issue-with-accessibility}{%
+\subsection{Overestimating jobs access: first issue with
+accessibility}\label{overestimating-jobs-access-first-issue-with-accessibility}}
 
 For the subset of jobs in Toronto and all origins in the GTHA, 98.9\% of
 TAZ have re-scaled spatial availability values which are lower than
@@ -1167,9 +1176,9 @@ and thus the proportionately allocated opportunities are significantly
 fewer when measured by spatial availability \(V_i\) instead of
 accessibility \(A_i\).
 
-\hypertarget{underestimating-jobs-access-issue-2}{%
-\subsection{Underestimating jobs access (issue
-2)}\label{underestimating-jobs-access-issue-2}}
+\hypertarget{underestimating-jobs-access-second-issue-with-accessibility}{%
+\subsection{Underestimating jobs access: second issue with
+accessibility}\label{underestimating-jobs-access-second-issue-with-accessibility}}
 
 Next, we demonstrate the difference between the two job access values
 for the full data set, namely, all jobs within the GTHA and all workers
@@ -1274,19 +1283,19 @@ roles of workers and employers are reversed and employers are the demand
 seeking population. These two additional use cases are non-exhaust and
 applications outside of employment are tenable and warranted.
 
-To illustrate these two additional examples, we return to the toy data
-set initially introduced in
+To illustrate these two additional examples, we return to the synthetic
+example initially introduced in
 \protect\hypertarget{background}{}{Background} section.
 
-\hypertarget{available-jobs-for-specialized-working-populations}{%
-\subsection{Available jobs for specialized working
-populations}\label{available-jobs-for-specialized-working-populations}}
+\hypertarget{measuring-access-to-jobs-for-specialized-working-populations}{%
+\subsection{Measuring access to jobs for specialized working
+populations}\label{measuring-access-to-jobs-for-specialized-working-populations}}
 
 Suppose that population centers P1 through P8 are not all eligible for
 employment at the three employment centers E1, E2, and E3. This can be
 due to education attainment or more simply a geographic barrier (i.e.,
 river without a road) making it impossible for certain populations to be
-employed at certain employment centers. In this toy data set, we
+employed at certain employment centers. In this synthetic example, we
 consider that only population center P1 and P2 are eligible for
 employment at employment center E1. Next assume that jobs in employment
 center E2 can be taken by individuals in population centers P3, P4, P5,
@@ -1298,11 +1307,11 @@ specialized job access is presented in Figure
 \ref{fig:toy-example-availability-with-catchments}.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple toy data set}\label{fig:toy-example-availability-with-catchments}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1} \caption{\label{fig:toy-example-availability-with-catchments}Spatial availability of jobs from population centers assuming catchment restrictions for the simple synthetic example}\label{fig:toy-example-availability-with-catchments}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita} Spatial availability of jobs per capita for each population centers with catchment restrictions (top) and without catchment restrictions (bottom) for the simple toy data set}\label{fig:toy-example-availability-jobs-per-capita}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1} \caption{\label{fig:toy-example-availability-jobs-per-capita} Spatial availability of jobs per capita for each population centers with catchment restrictions (top) and without catchment restrictions (bottom) for the synthetic example}\label{fig:toy-example-availability-jobs-per-capita}
 \end{figure}
 
 For higher interpretability, we can view Figure
@@ -1327,9 +1336,9 @@ competition increases. However, we also observe that access marginally
 increases for the population centers in the yellow catchment and the
 regional spatial availability per capita increases slightly to 0.964.
 
-\hypertarget{alternative-use-case-3-available-workers-for-employment-centers}{%
-\subsection{Alternative Use Case 3: Available Workers for Employment
-Centers}\label{alternative-use-case-3-available-workers-for-employment-centers}}
+\hypertarget{measuring-access-to-workers-for-employment-centers}{%
+\subsection{Measuring access to workers for employment
+centers}\label{measuring-access-to-workers-for-employment-centers}}
 
 In this use case, we remove the catchments and switch the demand and
 opportunity roles of the employment centers and population centers. In
@@ -1341,7 +1350,7 @@ employment center). Figure
 availability generally and per capita for this use case.
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1} \caption{\label{fig:toy-example-availability-workers-per-job} Spatial availability of workers for each employment center (top) and the spatial availability of workers per job for each employment center (bottom) for the simple toy data set}\label{fig:toy-example-availability-workers-per-job}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1} \caption{\label{fig:toy-example-availability-workers-per-job} Spatial availability of workers for each employment center (top) and the spatial availability of workers per job for each employment center (bottom) for the simple synthetic example}\label{fig:toy-example-availability-workers-per-job}
 \end{figure}
 
 As shown in Figure \ref{fig:toy-example-availability-workers-per-job},
@@ -1381,10 +1390,10 @@ not need to match the number of jobs (opportunities). We demonstrate the
 use of this measure and how it compares with accessibility in an
 empirical example of workers and jobs in the GTHA. We also demonstrate
 two additional employment use cases for this versatile measure in a
-hypothetical toy data set. These data sets and examples highlight how
-intuitive the per demand population access values are and captures some
-of the extent to which accessibility overestimates and underestimates
-access.
+hypothetical synthetic example. These data sets and examples highlight
+how intuitive the per demand population access values are and captures
+some of the extent to which accessibility overestimates and
+underestimates access.
 
 We acknowledge recent work to address limitations associated with the
 accessibility measure; in this light, we propose that spatial
@@ -1448,11 +1457,13 @@ opportunities can benefit from spatial availability measure through the
 reduction in competition effect (from accessibility) and a meaningful
 per demand population benchmark.
 
+\newpage
+
 \hypertarget{appendix}{%
 \section{Appendix}\label{appendix}}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-cullen-frey-1} \caption{\label{fig:plot-cullen-frey}Cullen and frey graphy for the complete empirical 2016 TTS travel time data set.}\label{fig:plot-cullen-frey}
+\includegraphics[width=1\linewidth]{Spatial-Availability_files/figure-latex/plot-cullen-frey-1} \caption{\label{fig:plot-cullen-frey}Cullen and frey graphy for the 2016 TTS calculated travel times.}\label{fig:plot-cullen-frey}
 \end{figure}
 
 \begin{verbatim}
@@ -1465,6 +1476,8 @@ estimated sd:  14.61254
 estimated skewness:  1.703326 
 estimated kurtosis:  8.353363 
 \end{verbatim}
+
+\newpage
 
 \hypertarget{references}{%
 \section*{References}\label{references}}
