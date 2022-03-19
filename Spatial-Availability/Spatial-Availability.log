@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.2.14)  17 FEB 2022 18:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (TeX Live 2021/W32TeX) (preloaded format=pdflatex 2022.3.1)  12 MAR 2022 22:03
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Spatial-Availability.tex
 (./Spatial-Availability.tex
 LaTeX2e <2021-11-15> patch level 1
-L3 programming layer <2022-02-05> (./elsarticle.cls
+L3 programming layer <2022-02-24> (./elsarticle.cls
 Document Class: elsarticle 2008/05/22, 1.0.1: Elsevier Science
 \@bls=\dimen138
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
@@ -218,7 +218,7 @@ Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks26
 \inpenc@posthook=\toks27
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2021-06-07 v7.00m Hypertext links for LaTeX
+Package: hyperref 2022-02-21 v7.00n Hypertext links for LaTeX
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
@@ -248,11 +248,9 @@ Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
 \Hy@linkcounter=\count285
 \Hy@pagecounter=\count286
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2021-06-07 v7.00m Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2022-02-21 v7.00n Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def
-File: hyperref-langpatches.def 2021-06-07 v7.00m Hyperref: patches for babel languages
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
@@ -260,20 +258,20 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count287
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2021-06-07 v7.00m Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2022-02-21 v7.00n Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
-Package hyperref Info: Option `unicode' set `true' on input line 4073.
-Package hyperref Info: Hyper figures OFF on input line 4192.
-Package hyperref Info: Link nesting OFF on input line 4197.
-Package hyperref Info: Hyper index ON on input line 4200.
-Package hyperref Info: Plain pages OFF on input line 4207.
-Package hyperref Info: Backreferencing OFF on input line 4212.
+Package hyperref Info: Option `unicode' set `true' on input line 4018.
+Package hyperref Info: Hyper figures OFF on input line 4137.
+Package hyperref Info: Link nesting OFF on input line 4142.
+Package hyperref Info: Hyper index ON on input line 4145.
+Package hyperref Info: Plain pages OFF on input line 4152.
+Package hyperref Info: Backreferencing OFF on input line 4157.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4445.
+Package hyperref Info: Bookmarks ON on input line 4390.
 \c@Hy@tempcnt=\count288
-LaTeX Info: Redefining \url on input line 4804.
+LaTeX Info: Redefining \url on input line 4749.
 \XeTeXLinkMargin=\dimen160
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
@@ -283,15 +281,15 @@ Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 \Fld@menulength=\count289
 \Field@Width=\dimen161
 \Fld@charsize=\dimen162
-Package hyperref Info: Hyper figures OFF on input line 6076.
-Package hyperref Info: Link nesting OFF on input line 6081.
-Package hyperref Info: Hyper index ON on input line 6084.
-Package hyperref Info: backreferencing OFF on input line 6091.
-Package hyperref Info: Link coloring OFF on input line 6096.
-Package hyperref Info: Link coloring with OCG OFF on input line 6101.
-Package hyperref Info: PDF/A mode OFF on input line 6106.
-LaTeX Info: Redefining \ref on input line 6146.
-LaTeX Info: Redefining \pageref on input line 6150.
+Package hyperref Info: Hyper figures OFF on input line 6027.
+Package hyperref Info: Link nesting OFF on input line 6032.
+Package hyperref Info: Hyper index ON on input line 6035.
+Package hyperref Info: backreferencing OFF on input line 6042.
+Package hyperref Info: Link coloring OFF on input line 6047.
+Package hyperref Info: Link coloring with OCG OFF on input line 6052.
+Package hyperref Info: PDF/A mode OFF on input line 6057.
+LaTeX Info: Redefining \ref on input line 6097.
+LaTeX Info: Redefining \pageref on input line 6101.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
@@ -302,7 +300,7 @@ package with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2021-06-07 v7.00m Hyperref driver for pdfTeX
+File: hpdftex.def 2022-02-21 v7.00n Hyperref driver for pdfTeX
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
@@ -340,16 +338,17 @@ LaTeX Info: Redefining \addtolength on input line 81.
 \calc@Ccount=\count297
 \calc@Cskip=\skip62
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
-Package: caption 2020/10/26 v3.5g Customizing captions (AR)
+Package: caption 2022/02/28 v3.6a Customizing captions (AR)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
-Package: caption3 2020/10/21 v2.2e caption3 kernel (AR)
-\captionmargin=\dimen165
-\captionmargin@=\dimen166
-\captionwidth=\dimen167
-\caption@tempdima=\dimen168
-\caption@indent=\dimen169
-\caption@parindent=\dimen170
-\caption@hangindent=\dimen171
+Package: caption3 2022/02/28 v2.3a caption3 kernel (AR)
+\caption@tempdima=\dimen165
+\captionmargin=\dimen166
+\caption@leftmargin=\dimen167
+\caption@rightmargin=\dimen168
+\caption@width=\dimen169
+\caption@indent=\dimen170
+\caption@parindent=\dimen171
+\caption@hangindent=\dimen172
 Package caption Info: elsarticle document class detected.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption-elsarticle.sto
 File: caption-elsarticle.sto 2020/08/22 v2.0 Adaption of the caption package to the elsarticle document class (AR)
@@ -359,23 +358,23 @@ File: caption-elsarticle.sto 2020/08/22 v2.0 Adaption of the caption package to 
 Package caption Info: hyperref package is loaded.
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen172
-\lightrulewidth=\dimen173
-\cmidrulewidth=\dimen174
-\belowrulesep=\dimen175
-\belowbottomsep=\dimen176
-\aboverulesep=\dimen177
-\abovetopsep=\dimen178
-\cmidrulesep=\dimen179
-\cmidrulekern=\dimen180
-\defaultaddspace=\dimen181
+\heavyrulewidth=\dimen173
+\lightrulewidth=\dimen174
+\cmidrulewidth=\dimen175
+\belowrulesep=\dimen176
+\belowbottomsep=\dimen177
+\aboverulesep=\dimen178
+\abovetopsep=\dimen179
+\cmidrulesep=\dimen180
+\cmidrulekern=\dimen181
+\defaultaddspace=\dimen182
 \@cmidla=\count300
 \@cmidlb=\count301
-\@aboverulesep=\dimen182
-\@belowrulesep=\dimen183
+\@aboverulesep=\dimen183
+\@belowrulesep=\dimen184
 \@thisruleclass=\count302
 \@lastruleclass=\count303
-\@thisrulewidth=\dimen184
+\@thisrulewidth=\dimen185
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTleft=\skip63
@@ -383,7 +382,7 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTpre=\skip65
 \LTpost=\skip66
 \LTchunksize=\count304
-\LTcapwidth=\dimen185
+\LTcapwidth=\dimen186
 \LT@head=\box57
 \LT@firsthead=\box58
 \LT@foot=\box59
@@ -396,9 +395,9 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LT@p@ftn=\toks28
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2021/10/04 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen186
+\col@sep=\dimen187
 \ar@mcellbox=\box62
-\extrarowheight=\dimen187
+\extrarowheight=\dimen188
 \NC@list=\toks29
 \extratabsurround=\skip67
 \backup@length=\skip68
@@ -408,10 +407,10 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip69
 \multirow@cntb=\count309
 \multirow@dima=\skip70
-\bigstrutjot=\dimen188
+\bigstrutjot=\dimen189
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen189
-\WF@size=\dimen190
+\wrapoverhang=\dimen190
+\WF@size=\dimen191
 \c@WF@wrappedlines=\count310
 \WF@box=\box64
 \WF@everypar=\toks30
@@ -446,8 +445,8 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box67
 \sift@deathcycles=\count312
-\@vwid@loff=\dimen191
-\@vwid@roff=\dimen192
+\@vwid@loff=\dimen192
+\@vwid@roff=\dimen193
 )
 \c@taburow=\count313
 \tabu@nbcols=\count314
@@ -455,15 +454,15 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@Xcol=\count316
 \tabu@alloc=\count317
 \tabu@nested=\count318
-\tabu@target=\dimen193
-\tabu@spreadtarget=\dimen194
-\tabu@naturalX=\dimen195
-\tabucolX=\dimen196
-\tabu@Xsum=\dimen197
-\extrarowdepth=\dimen198
-\abovetabulinesep=\dimen199
-\belowtabulinesep=\dimen256
-\tabustrutrule=\dimen257
+\tabu@target=\dimen194
+\tabu@spreadtarget=\dimen195
+\tabu@naturalX=\dimen196
+\tabucolX=\dimen197
+\tabu@Xsum=\dimen198
+\extrarowdepth=\dimen199
+\abovetabulinesep=\dimen256
+\belowtabulinesep=\dimen257
+\tabustrutrule=\dimen258
 \tabu@thebody=\toks34
 \tabu@footnotes=\toks35
 \tabu@box=\box68
@@ -487,15 +486,15 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \UL@hyphenbox=\box74
 \UL@skip=\skip74
 \UL@hook=\toks36
-\UL@height=\dimen258
+\UL@height=\dimen259
 \UL@pe=\count319
-\UL@pixel=\dimen259
+\UL@pixel=\dimen260
 \ULC@box=\box75
 Package: ulem 2019/11/18
-\ULdepth=\dimen260
+\ULdepth=\dimen261
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen261
+\rotheadsize=\dimen262
 \c@nlinenum=\count320
 \TeXr@lab=\toks37
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
@@ -531,9 +530,6 @@ LaTeX Warning: Label `fig:TLD-Gamma-plot' multiply defined.
 
 
 LaTeX Warning: Label `fig:plot-access-SA-Toronto-TTS' multiply defined.
-
-
-LaTeX Warning: Label `fig:plot-avail-Toronto-TTS-per-worker' multiply defined.
 
 
 LaTeX Warning: Label `fig:plot-access-SA-GGH-TTS' multiply defined.
@@ -607,7 +603,7 @@ Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: longtable package is loaded.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
-Package: ltcaption 2020/05/30 v1.4b longtable captions (AR)
+Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
@@ -664,163 +660,175 @@ Overfull \hbox (3.72264pt too wide) in paragraph at lines 219--237
  []
 
 [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 319.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 318.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [4]
 <images/figure-1.png, id=134, 216.81pt x 144.54pt>
 File: images/figure-1.png Graphic file (type png)
 <use images/figure-1.png>
-Package pdftex.def Info: images/figure-1.png  used on input line 396.
+Package pdftex.def Info: images/figure-1.png  used on input line 398.
 (pdftex.def)             Requested size: 216.80946pt x 144.53963pt.
 
-Overfull \vbox (4.13966pt too high) detected at line 396
+Overfull \vbox (4.13966pt too high) detected at line 398
  []
 
 
-Overfull \hbox (30.94798pt too wide) in paragraph at lines 370--399
+Overfull \hbox (30.94798pt too wide) in paragraph at lines 372--401
  [][] 
  []
 
 <Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf, id=135, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf  used on input line 402.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf  used on input line 404.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[5 <./images/figure-1.png>] [6 <./Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf>] [7] [8] [9] [10] [11] [12]
-<images/Greater-Golden-Horseshoe-Map.png, id=221, 433.01775pt x 414.95026pt>
-File: images/Greater-Golden-Horseshoe-Map.png Graphic file (type png)
-<use images/Greater-Golden-Horseshoe-Map.png>
-Package pdftex.def Info: images/Greater-Golden-Horseshoe-Map.png  used on input line 857.
-(pdftex.def)             Requested size: 276.00105pt x 264.49088pt.
-pdfTeX warning (ext4): destination with the same identifier (name{accessibility-numerical-example}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.892 ...target{accessibility-numerical-example}{}
-                                                  {preceding
-<images/impedance_function.png, id=226, 481.8pt x 481.8pt>
+[5 <./images/figure-1.png>] [6 <./Spatial-Availability_files/figure-latex/toy-example-accessibility-plot-1.pdf>] [7] [8] [9] [10] [11]
+
+LaTeX Warning: Reference `tab:TTS-16-desc-stats' on page 12 undefined on input line 838.
+
+<images/TTS16-survey-area.png, id=210, 505.89pt x 505.89pt>
+File: images/TTS16-survey-area.png Graphic file (type png)
+<use images/TTS16-survey-area.png>
+Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 853.
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+[12] [13 <./images/TTS16-survey-area.png>]
+<images/impedance_function.png, id=231, 481.8pt x 481.8pt>
 File: images/impedance_function.png Graphic file (type png)
 <use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 912.
-(pdftex.def)             Requested size: 345.0pt x 345.00635pt.
-[13 <./images/Greater-Golden-Horseshoe-Map.png>] [14] [15 <./images/impedance_function.png>]
-<Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf, id=253, 505.89pt x 650.43pt>
-File: Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf  used on input line 967.
-(pdftex.def)             Requested size: 345.0pt x 443.57677pt.
-[16] [17 <./Spatial-Availability_files/figure-latex/plot-access-SA-Toronto-TTS-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf, id=272, 505.89pt x 325.215pt>
-File: Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf Graphic file (type pdf)
-<use Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf  used on input line 995.
-(pdftex.def)             Requested size: 345.0pt x 221.78838pt.
-[18 <./Spatial-Availability_files/figure-latex/plot-avail-Toronto-TTS-per-worker-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf, id=289, 505.89pt x 650.43pt>
+Package pdftex.def Info: images/impedance_function.png  used on input line 885.
+(pdftex.def)             Requested size: 276.00105pt x 276.01096pt.
+[14 <./images/impedance_function.png>]
+<images/allplot_access_TTS.png, id=244, 520.8258pt x 491.1951pt>
+File: images/allplot_access_TTS.png Graphic file (type png)
+<use images/allplot_access_TTS.png>
+Package pdftex.def Info: images/allplot_access_TTS.png  used on input line 945.
+(pdftex.def)             Requested size: 276.00105pt x 260.30217pt.
+<images/allplot_SA_TTS.png, id=245, 520.8258pt x 491.1951pt>
+File: images/allplot_SA_TTS.png Graphic file (type png)
+<use images/allplot_SA_TTS.png>
+Package pdftex.def Info: images/allplot_SA_TTS.png  used on input line 945.
+(pdftex.def)             Requested size: 276.00105pt x 260.30217pt.
+
+LaTeX Warning: Float too large for page by 4.60434pt on input line 950.
+
+[15] [16 <./images/allplot_access_TTS.png> <./images/allplot_SA_TTS.png>]
+<Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf, id=266, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf  used on input line 1035.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf  used on input line 995.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
-[19] [20 <./Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf, id=312, 505.89pt x 325.215pt>
+[17] [18 <./Spatial-Availability_files/figure-latex/plot-access-SA-GGH-TTS-1.pdf>]
+
+LaTeX Warning: Reference `fig:plot-avail-Toronto-TTS-per-worker' on page 19 undefined on input line 1003.
+
+<Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf, id=287, 505.89pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf  used on input line 1073.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf  used on input line 1047.
 (pdftex.def)             Requested size: 345.0pt x 221.78838pt.
-[21] [22 <./Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf, id=335, 469.755pt x 325.215pt>
+[19] [20 <./Spatial-Availability_files/figure-latex/plot-avail-GGH-TTS-per-worker-1.pdf>]
+<Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf, id=312, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf  used on input line 1129.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf  used on input line 1104.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[23 <./Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf>]
-<Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf, id=351, 505.89pt x 650.43pt>
+[21 <./Spatial-Availability_files/figure-latex/plot-local-i-Toronto-1.pdf>]
+<Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf, id=328, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf  used on input line 1188.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf  used on input line 1163.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
-[24] [25 <./Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf>] [26]pdfTeX warning (ext4): destination with the same identifier (name{background}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.1277 \protect\hypertarget{background}{}
-                                         {Background} section.
-<Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf, id=383, 469.755pt x 325.215pt>
+[22] [23 <./Spatial-Availability_files/figure-latex/plot-difference-GGH-1.pdf>]
+
+LaTeX Warning: Reference `fig:plot-avail-Toronto-TTS-per-worker' on page 24 undefined on input line 1212.
+
+[24]
+<Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf, id=358, 469.755pt x 325.215pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf  used on input line 1299.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf  used on input line 1273.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf, id=384, 505.89pt x 650.43pt>
+<Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf, id=359, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf  used on input line 1303.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf  used on input line 1277.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
-[27]
-<Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf, id=397, 505.89pt x 650.43pt>
+[25]
+<Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf, id=373, 505.89pt x 650.43pt>
 File: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf  used on input line 1342.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf  used on input line 1316.
 (pdftex.def)             Requested size: 345.0pt x 443.57677pt.
-[28 <./Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf>] [29 <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>] [30 <./Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>] [31] [32]
-<Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf, id=449, 469.755pt x 433.62pt>
+[26 <./Spatial-Availability_files/figure-latex/toy-example-availability-with-catchments-1.pdf>] [27 <./Spatial-Availability_files/figure-latex/toy-example-availability-jobs-per-capita-1.pdf>] [28 <./Spatial-Availability_files/figure-latex/toy-example-availability-workers-per-job-1.pdf>] [29] [30]
+<Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf, id=424, 469.755pt x 433.62pt>
 File: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf Graphic file (type pdf)
 <use Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>
-Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf  used on input line 1455.
+Package pdftex.def Info: Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf  used on input line 1429.
 (pdftex.def)             Requested size: 345.0pt x 318.45876pt.
-[33 <./Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>]
-Overfull \hbox (89.35191pt too wide) in paragraph at lines 1535--1541
+[31 <./Spatial-Availability_files/figure-latex/plot-cullen-frey-1.pdf>]
+Overfull \hbox (89.35191pt too wide) in paragraph at lines 1509--1515
 \T1/lmr/m/n/10 sis-tance Pro-gram. The Pro-fes-sional Ge-og-ra-pher 71, 668--680. doi:[]10.1080/00330124.2019.1578978[] 
  []
 
 
-Overfull \hbox (58.21326pt too wide) in paragraph at lines 1553--1558
+Overfull \hbox (58.21326pt too wide) in paragraph at lines 1527--1532
 \T1/lmr/m/n/10 vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. doi:[]10.1016/j.jtrangeo.2018.05.015[] 
  []
 
-[34]
-Overfull \hbox (91.81992pt too wide) in paragraph at lines 1583--1587
+[32]
+Overfull \hbox (91.81992pt too wide) in paragraph at lines 1557--1561
 \T1/lmr/m/n/10 porta-tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 102319. doi:[]10.1016/j.trd.2020.102319[] 
  []
 
 
-Overfull \hbox (9.50491pt too wide) in paragraph at lines 1641--1645
+Overfull \hbox (9.50491pt too wide) in paragraph at lines 1619--1623
 \T1/lmr/m/n/10 plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080/01441647.2018.1492778[] 
  []
 
-[35]
-Overfull \hbox (14.53242pt too wide) in paragraph at lines 1693--1698
+[33]
+Overfull \hbox (14.53242pt too wide) in paragraph at lines 1671--1676
 \T1/lmr/m/n/10 mul-ti-modal trans-port net-works with R5 in r. Find-ings. doi:[]10.32866/001c.21262[] 
  []
 
 
-Overfull \hbox (44.13885pt too wide) in paragraph at lines 1732--1738
+Overfull \hbox (10.31226pt too wide) in paragraph at lines 1691--1695
+\T1/lmr/m/n/10 Ac-ces-si-bil-ity Mea-sures: Which One to Use? Find-ings. doi:[]10.32866/001c.32444[] 
+ []
+
+
+Overfull \hbox (44.13885pt too wide) in paragraph at lines 1715--1721
 \T1/lmr/m/n/10 of Ge-o-graph-i-cal In-for-ma-tion Sci-ence 26, 1073--1089. doi:[]10.1080/13658816.2011.624987[] 
  []
 
 
-Overfull \hbox (28.48636pt too wide) in paragraph at lines 1739--1744
+Overfull \hbox (28.48636pt too wide) in paragraph at lines 1722--1727
 \T1/lmr/m/n/10 ron-ment and Ur-ban Sys-tems 90, 101713. doi:[]10.1016/j.compenvurbsys.2021.101713[] 
  []
 
-[36] [37] (./Spatial-Availability.aux)
+[34] [35] (./Spatial-Availability.aux)
+
+LaTeX Warning: There were undefined references.
+
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Spatial-Availability.out' has not changed.
-(rerunfilecheck)             Checksum: 465701D90A6E592B3DE5F3A80366C223;5390.
+(rerunfilecheck)             Checksum: 4B33E0F1CD851A8A853DEFDD562D97CC;5390.
  ) 
 Here is how much of TeX's memory you used:
- 14376 strings out of 480238
- 240586 string characters out of 5894353
- 519888 words of memory out of 5000000
- 31866 multiletter control sequences out of 15000+600000
+ 14361 strings out of 480236
+ 239637 string characters out of 5894297
+ 516609 words of memory out of 5000000
+ 31858 multiletter control sequences out of 15000+600000
  528826 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 70i,16n,76p,783b,540s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 70i,15n,76p,783b,402s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt8.pfb>
-Output written on Spatial-Availability.pdf (37 pages, 15355897 bytes).
+Output written on Spatial-Availability.pdf (35 pages, 7769658 bytes).
 PDF statistics:
- 708 PDF objects out of 1000 (max. 8388607)
- 581 compressed objects within 6 object streams
- 165 named destinations out of 1000 (max. 500000)
+ 685 PDF objects out of 1000 (max. 8388607)
+ 563 compressed objects within 6 object streams
+ 163 named destinations out of 1000 (max. 500000)
  239 words of extra memory for PDF output out of 10000 (max. 10000000)
 

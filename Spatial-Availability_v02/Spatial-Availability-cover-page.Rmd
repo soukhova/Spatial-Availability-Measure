@@ -1,0 +1,37 @@
+---
+title: "Introducing spatial availability, a singly-constrained competitive-access accessibility measure"
+author:
+  - name: "Anastasia Soukhov"
+    email: "soukhoa@mcmaster.ca"
+    affiliation: SEES
+  - name: "Antonio Paez"
+    email: "paezha@mcmaster.ca"
+    affiliation: SEES
+    footnote: 1
+  - name: "Christopher D. Higgins"
+    email: "cd.higgins@utoronto.ca"
+    affiliation: UofTS
+  - name: "Moataz Mohamed"
+    email: "mmohame@mcmaster.ca"
+    affiliation: CIVENG
+address:
+  - code: SEES
+    address: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - code: UofTS
+    address: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C1A4"
+  - code: CIVENG
+    address: "Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+footnote:
+  - code: 1
+    text: "Corresponding Author"
+abstract: |
+  Accessibility measures are widely used in transportation, urban, and health care planning, among other applications. These measures are weighted sums of the opportunities that can be reached given the cost of movement and are interpreted as the potential for spatial interaction. These measures are useful to understand spatial structure but double counting of opportunities leads to interpretability issues, as noted in recent research on balanced floating catchment areas (BFCA) and competitive measures of accessibility. In this paper we propose a new measure of _spatial availability_ which is calculated by imposing a single constraint on conventional gravity-based accessibility. Similar to the gravity model from which it is derived, a single constraint ensures that the marginals at the destination are met and thus the number of opportunities are preserved. Through examples, we detail the formulation of the proposed measure. Further, we use data from the 2016 travel survey in the Greater Toronto and Hamilton Area in Canada to contrast how conventional accessibility overestimates and underestimates the number of jobs _available_ to workers. We conclude with some discussion of the possible uses of spatial availability. Overall, we argue that spatial availability can be a more meaningful and interpretable measure of opportunity access in relation to conventional accessibility. All data and code used in this research are openly available.
+
+journal: "Journal of Transport Geography"
+date: "`r Sys.Date()`"
+bibliography: bibliography.bib
+#linenumbers: true
+#numbersections: true
+csl: elsevier-harvard.csl
+output: rticles::elsevier_article
+---
