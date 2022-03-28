@@ -112,38 +112,27 @@
 
   \title{Introducing spatial availability, a singly-constrained
 competitive-access accessibility measure}
-    \author[SEES]{Anastasia Soukhov}
-   \ead{soukhoa@mcmaster.ca} 
-    \author[SEES]{Antonio Paez\corref{1}}
-   \ead{paezha@mcmaster.ca} 
-    \author[UofTS]{Christopher D. Higgins}
-   \ead{cd.higgins@utoronto.ca} 
-    \author[CIVENG]{Moataz Mohamed}
-   \ead{mmohame@mcmaster.ca} 
-      \address[SEES]{School of Earth, Environment and Society, McMaster
-University, Hamilton, ON, L8S 4K1, Canada}
-    \address[UofTS]{Department of Human Geography, University of Toronto
-Scarborough, 1265 Military Trail, Toronto, ON M1C1A4}
-    \address[CIVENG]{Department of Civil Engineering, McMaster
-University, Hamilton, ON, L8S 4K1, Canada}
+    \author[School]{Author 1\corref{1}}
+   \ead{a1@address.edu} 
+    \author[School]{Author 2}
+   \ead{a2@address.edu} 
+      \address[School]{Some School}
       \cortext[1]{Corresponding Author}
   
   \begin{abstract}
-  Accessibility measures are widely used in transportation, urban and
+  Accessibility measures are widely used in transportation, urban, and
   healthcare planning, among other applications. These measures are
   weighted sums of the opportunities that can be reached given the cost
   of movement and are interpreted to represent the potential for spatial
-  interaction. Though these measures are useful in understanding spatial
-  structure, their methodologies suffer from some limitations. This
-  leads to interpretability issues, as noted in recent research on
-  balanced floating catchment areas (BFCA) and competitive measures of
-  accessibility. In this paper, we respond to the limitations of the
-  accessibility measure by proposing a new measure of \emph{spatial
-  availability} which is calculated by imposing a single constraint on
-  the conventional gravity-based accessibility. Similar to the gravity
+  interaction. Though useful to understanding spatial structure, recent
+  research on balanced floating catchment areas (BFCA) and competitive
+  measures of accessibility raises questions about their
+  interpretability. In this paper, we propose a new measure of
+  \emph{spatial availability} which is calculated by imposing a single
+  constraint on gravity-based accessibility. Similar to the gravity
   model from which spatial availability is derived, a single constraint
-  ensures that the marginals at the destination are met and thus the
-  number of opportunities are preserved. Through examples, we detail the
+  ensures that a single set of marginals are met and thus the number of
+  opportunities are preserved. Through examples, we detail the
   formulation of the proposed measure. Further, we use data from the
   2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe
   area in southern Ontario, Canada, to contrast how the conventional
@@ -342,17 +331,16 @@ on the impedance function; for example, the measure could be cumulative
 opportunities (if \(f(\cdot)\) is a binary or indicator function e.g.,
 El-Geneidy et al., 2016; Geurs and van Wee, 2004; Qi et al., 2018; Rosik
 et al., 2021) or a gravity measure using an impedance function modeled
-after any monotonically decreasing function (e.g., Gaussian, inverse
+after any monotonically decreasing function {[}e.g., Gaussian, inverse
 power, negative exponential, or log-normal, among others; see,
-\emph{inter alia}, Kwan, 1998; Li et al., 2020; Reggiani et al., 2011;
-Vale and Pereira, 2017). In practice, the accessibility measures derived
-from many cumulative and gravity formulations tend to be highly
+\emph{inter alia}, Kwan (1998); Vale and Pereira (2017); Reggiani et al.
+(2011); Li et al. (2020){]}. In practice, the accessibility measures
+derived from many cumulative and gravity formulations tend to be highly
 correlated with one another (Higgins, 2019; Santana Palacios and
 El-geneidy, 2022).
 
 \hypertarget{accessibility-numerical-example}{%
-\subsection{Introducing the synthetic
-example}\label{accessibility-numerical-example}}
+\subsection{Synthetic example}\label{accessibility-numerical-example}}
 
 The setup for our synthetic example is a system with three employment
 centers and nine population centers, as summarized in Table
@@ -429,7 +417,7 @@ values illustrates the following:
 \end{itemize}
 
 \hypertarget{the-effect-of-competition-for-opportunities}{%
-\subsubsection{The effect of competition for
+\subsection{The effect of competition for
 opportunities}\label{the-effect-of-competition-for-opportunities}}
 
 Accessibility measures are excellent indicators of the intersection
@@ -515,9 +503,8 @@ the individual, spatial availability, can also be used as-is to evaluate
 the \emph{spatial mismatch} of accessible opportunities and
 demand-seeking population within regions and between regions.
 
-\hypertarget{the-analytical-framework-of-spatial-availability}{%
-\subsection{The analytical framework of spatial
-availability}\label{the-analytical-framework-of-spatial-availability}}
+\hypertarget{analytical-framework}{%
+\section{Analytical framework}\label{analytical-framework}}
 
 Formally, spatial availability \(V_{ij}\) is defined by opportunities
 \(O\) which are proportionally allocated based on a population
@@ -1079,7 +1066,7 @@ between the number of workers and travel time partially explain the
 overestimation, with TAZs that have a lower number of workers and higher
 travel time having a larger overestimation. Specifically, the
 correlations between workers and overestimation, and travel time and
-overestimation is -0.16 and 0.08 respectively.
+overestimation is -0.17 and 0.13 respectively.
 
 Nonetheless, the TAZ-specific density of workers and travel time does
 not fully explain the variation in overestimation; the number of
@@ -1205,9 +1192,9 @@ accessibility. Overall, within the full set of jobs in the GGH, the
 first and second issue associated with accessibility's competition
 effect are observed.
 
-\hypertarget{contextualizing-additional-spatial-availability-use-cases}{%
-\section{Contextualizing additional spatial availability use
-cases}\label{contextualizing-additional-spatial-availability-use-cases}}
+\hypertarget{other-use-cases-of-spatial-availability}{%
+\section{Other use cases of spatial
+availability}\label{other-use-cases-of-spatial-availability}}
 
 In addition to measuring access to jobs for workers, spatial
 availability can be used to measure many other opportunity types and
@@ -1226,9 +1213,9 @@ and applications outside of employment are tenable and warranted.
 To illustrate these two additional examples, we return to the synthetic
 example initially introduced in Background section.
 
-\hypertarget{measuring-access-to-jobs-for-specialized-working-populations}{%
-\subsection{Measuring access to jobs for specialized working
-populations}\label{measuring-access-to-jobs-for-specialized-working-populations}}
+\hypertarget{specialized-employment-opportunities}{%
+\subsection{Specialized employment
+opportunities}\label{specialized-employment-opportunities}}
 
 Suppose that population centers P1 through P8 are not all eligible for
 employment at the three employment centers E1, E2, and E3. This can be
@@ -1275,9 +1262,9 @@ competition increases. However, we also observe that access marginally
 increases for the population centers in the yellow catchment and the
 regional spatial availability per capita increases slightly to 0.964.
 
-\hypertarget{measuring-access-to-workers-for-employment-centers}{%
-\subsection{Measuring access to workers for employment
-centers}\label{measuring-access-to-workers-for-employment-centers}}
+\hypertarget{spatial-availability-of-labor-pool}{%
+\subsection{Spatial availability of labor
+pool}\label{spatial-availability-of-labor-pool}}
 
 In this use case, we remove the catchments and switch the demand and
 opportunity roles of the employment centers and population centers. In
@@ -1469,8 +1456,9 @@ Analytics and City Science 239980832095422.
 doi:\href{https://doi.org/10.1177/2399808320954221}{10.1177/2399808320954221}
 
 \leavevmode\vadjust pre{\hypertarget{ref-data_management_group_tts_2018}{}}%
-Data Management Group, 2018. {TTS} - {Transportation} {Tomorrow}
-{Survey} 2016.
+Data Management Group, 2018.
+\href{http://dmg.utoronto.ca/transportation-tomorrow-survey/tts-introduction}{{TTS}
+- {Transportation} {Tomorrow} {Survey} 2016}.
 
 \leavevmode\vadjust pre{\hypertarget{ref-deboosere2018}{}}%
 Deboosere, R., El-Geneidy, A.M., Levinson, D., 2018.
@@ -1485,9 +1473,10 @@ health care systems: A modified two-step floating catchment area
 doi:\href{https://doi.org/10.1016/j.healthplace.2013.07.012}{10.1016/j.healthplace.2013.07.012}
 
 \leavevmode\vadjust pre{\hypertarget{ref-fitdistrplus_2015}{}}%
-Delignette-Muller, M.L., Dutang, C., 2015. {fitdistrplus}: An {R}
-package for fitting distributions. Journal of Statistical Software 64,
-1--34.
+Delignette-Muller, M.L., Dutang, C., 2015.
+\href{https://www.jstatsoft.org/article/view/v064i04}{{fitdistrplus}: An
+{R} package for fitting distributions}. Journal of Statistical Software
+64, 1--34.
 
 \leavevmode\vadjust pre{\hypertarget{ref-elgeneidy_cost_2016}{}}%
 El-Geneidy, A., Levinson, D., Diab, E., Boisjoly, G., Verbich, D.,
@@ -1530,9 +1519,10 @@ Science \& Medicine 114442.
 doi:\href{https://doi.org/10.1016/j.socscimed.2021.114442}{10.1016/j.socscimed.2021.114442}
 
 \leavevmode\vadjust pre{\hypertarget{ref-horbachov_theoretical_2018}{}}%
-Horbachov, P., Svichynskyi, S., 2018. Theoretical substantiation of trip
-length distribution for home-based work trips in urban transit systems.
-Journal of Transport and Land Use 11, 593--632.
+Horbachov, P., Svichynskyi, S., 2018.
+\href{https://www.jstor.org/stable/26622420}{Theoretical substantiation
+of trip length distribution for home-based work trips in urban transit
+systems}. Journal of Transport and Land Use 11, 593--632.
 
 \leavevmode\vadjust pre{\hypertarget{ref-joseph1984}{}}%
 Joseph, A.E., Bantock, P.R., 1984. Rural Accessibility of General
