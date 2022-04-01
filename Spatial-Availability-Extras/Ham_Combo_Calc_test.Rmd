@@ -1,0 +1,933 @@
+---
+title: "test"
+output: html_document
+---
+
+```{r calc-for-accessibility}
+#transform CRS
+hamilton_cma <- st_transform(hamilton_cma, crs=32617)
+
+#select only zones within Toronto Municipality
+
+HO_taz <- ggh_taz %>%
+  filter(st_intersects(., hamilton_cma, sparse = FALSE)[,1]) %>% dplyr::select(GTA06, AREA, jobs)
+
+# transfer calibrated impedance function values to OD matrix
+od_ft_tt <- od_ft_tt %>%
+  mutate(f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+
+#add the number of jobs and workers to the od_ft_tt matrix
+od_ft <- od_ft_tt %>% merge(ggh_taz %>% dplyr::select(GTA06, workers) %>% st_drop_geometry(),
+                   by.x = "Origin", by.y="GTA06", all.x = TRUE)
+
+od_ft <- od_ft %>% merge(ggh_taz %>% dplyr::select(GTA06, jobs) %>% st_drop_geometry(),
+                   by.x = "Destination", by.y="GTA06", all.x = TRUE)
+
+#jobs at destinations IN Toronto and origins from anywhere; workers are associated with the origin (ggh) and jobs with the destination (Toronto)
+HO_od_ft <- od_ft %>% filter(Destination %in% HO_taz$GTA06)
+
+#calculate accessibility for workers from any origin to jobs in Toronto 
+HO_c_accessibility <- HO_od_ft %>% 
+  mutate(HO_A_ij = f * jobs) %>%
+  group_by(Origin) %>%
+  summarise(HO_A_i = sum(HO_A_ij, na.rm = T),
+            trips_i = sum(trips, na.rm = T))
+
+#Merge TO accessibly calculation to the ggh_taz:
+HO_taz_acc <- ggh_taz %>% merge(HO_c_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.y=T) 
+```
+```{r bbox-main-plot-accessibility-Ham-TTS}
+bbox_new2 <- st_bbox(hamilton_cma) # current bounding box
+
+xrange <- bbox_new2$xmax - bbox_new2$xmin # range of x values
+yrange <- bbox_new2$ymax - bbox_new2$ymin # range of y values
+
+bbox_new2[1] <- bbox_new2[1] - (-0.3 * xrange) # xmin - left
+bbox_new2[3] <- bbox_new2[3] + (-0.2 * xrange) # xmax - right
+bbox_new2[2] <- bbox_new2[2] - (-0.2 * yrange) # ymin - bottom
+bbox_new2[4] <- bbox_new2[4] + (-0.3 * yrange) # ymax - top
+
+bbox_new22 <- bbox_new2 %>%  # take the bounding box ...
+  st_as_sfc()
+```
+
+```{r plot-accessibility-Toronto-TTS, fig.cap="\\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+#creating the main plot
+mplot_access_TTS_HAM <- ggplot() +
+  geom_sf(data = HO_taz_acc, aes(fill= HO_A_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Accessibility \n(A_i)",
+                         na.value = "grey80") + 
+  geom_sf(data = hamilton_cma, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+              aes(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, 
+                  xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_access_TTS_HAM <- ggdraw(mplot_access_TTS_HAM) +
+  draw_plot({mplot_access_TTS_HAM + coord_sf(xlim = st_coordinates(bbox_new22)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new22)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+mplot_access_TTS_HAM
+```
+
+now SA:
+```{r calc-for-avail, include=FALSE, warning=FALSE, message=FALSE}
+#calculate spatial availability
+HO_od_ft <- HO_od_ft %>%
+  mutate(catch = 1) %>%
+  mutate(HO_V_ij = sp_avail(., 
+                         o_id = Origin,
+                         d_id = Destination,
+                         pop = workers,
+                         opp = jobs,
+                         r = catch,
+                         f = f))
+
+#verify that the sum of all jobs is consistent with the number of jobs
+sum(HO_od_ft$HO_V_ij, na.rm=T)
+sum_jobs <- HO_od_ft %>% group_by(Destination) %>% summarise(jobs = mean(jobs))
+sum(sum_jobs$jobs, na.rm = T)
+
+#aggregating spatial availability  
+HO_availability <- HO_od_ft %>%
+  group_by(Origin) %>%
+  summarize(HO_V_i = sum(HO_V_ij),
+            HO_avgtt_i = mean(travel_time),
+            HO_avg_f_i = mean(f)) 
+
+#Merge TO availability calculation to the TAZ sf object created for accessibility above:
+HO_taz_acc <- HO_taz_acc %>% merge(HO_availability, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
+```
+
+
+```{r plot-avail-Toronto-TTS, fig.cap="\\label{fig:plot-avail-Toronto-TTS}Calculated spatial availability of employment from origins in the GGH to destinations in the City of Toronto", fig.width=7}
+mplot_SA_TTS_HAM <- ggplot() +
+  geom_sf(data = HO_taz_acc, aes(fill= HO_V_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Spatially Availability \n(V_i)",
+                         na.value = "grey80") + 
+  geom_sf(data = hamilton_cma, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+              aes(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, 
+                  xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_SA_TTS_HAM <- ggdraw(mplot_SA_TTS_HAM) +
+  draw_plot({mplot_SA_TTS_HAM + coord_sf(xlim = st_coordinates(bbox_new22)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new22)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+
+mplot_SA_TTS_HAM
+```
+
+```{r plot-avail-Toronto-TTS-per-worker, fig.cap="\\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+
+benchmark_HO_V_i_workers <- HO_taz_acc %>% st_drop_geometry() %>% summarise(avg_VO = sum(HO_V_i)/sum(workers)) %>% as.numeric()
+
+mplot_SApW_TTS_HAM <- ggplot() +
+  geom_sf(data = HO_taz_acc, aes(fill= HO_V_i/workers), color = NA) + #data
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = "Spatially Availability \n per Worker (v_i)",
+                         limits = c(0, max(HO_taz_acc$HO_V_i/HO_taz_acc$workers)), 
+                         midpoint= benchmark_HO_V_i_workers, #average V_i per capita
+                         ) + 
+  geom_sf(data = hamilton_cma, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  geom_rect(data = data.frame(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+              aes(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, 
+                  xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+mplot_SApW_TTS_HAM <- ggdraw(mplot_SApW_TTS_HAM) +
+  draw_plot({mplot_SApW_TTS_HAM + coord_sf(xlim = st_coordinates(bbox_new22)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new22)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+
+mplot_SApW_TTS_HAM
+```
+
+## Comparing Opportunity Access Measures for Hamilton jobs only 
+
+```{r indexed-measures-calculation}
+HO_indexed_measures_pos <- HO_taz_acc %>%
+  mutate(A_indexed = HO_A_i/(max(HO_A_i))*100,
+         V_indexed = HO_V_i/(max(HO_V_i))*100,
+         A_V_indexed_change = (V_indexed - A_indexed)/A_indexed) %>%
+  filter(A_V_indexed_change >= 0) %>%
+  mutate(A_V_indexed_change_rank = ntile(A_V_indexed_change,5))
+
+HO_indexed_measures_neg <- HO_taz_acc %>%
+  mutate(A_indexed = HO_A_i/(max(HO_A_i))*100,
+         V_indexed = HO_V_i/(max(HO_V_i))*100,
+         A_V_indexed_change = (V_indexed - A_indexed)/A_indexed) %>% 
+  filter(A_V_indexed_change < 0) %>%
+  mutate(A_V_indexed_change_rank = ntile(A_V_indexed_change,5))
+```
+
+
+```{r indexed-measures-comparison-plot, fig.cap="\\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey."}
+
+HO_indexed_change <- ggplot() +
+  geom_sf(data = HO_indexed_measures_neg,
+          aes(fill = A_V_indexed_change_rank),  color = NA) +
+  scale_fill_distiller(palette = "Spectral", direction = 1, name = "Quantile Ranks 
+of the % Difference
+Between Job Access 
+Measures")+
+  geom_sf(data = HO_indexed_measures_pos, fill = "#999999") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+              aes(xmin = bbox_new2$xmin, ymin = bbox_new2$ymin, 
+                  xmax = bbox_new2$xmax, ymax = bbox_new2$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+HO_indexed_change <- ggdraw(HO_indexed_change) +
+  draw_plot({HO_indexed_change + coord_sf(xlim = st_coordinates(bbox_new22)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new22)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+
+HO_indexed_change
+```
+```{r calculating-correlation}
+t <- HO_indexed_measures_neg %>% st_drop_geometry()
+cor(t[, c('workers', 'jobs', "HO_A_i", "HO_V_i", "trips_i", "A_indexed", "V_indexed", "A_V_indexed_change", "HO_avgtt_i")])
+```
+
+#FOR both Hamilton and Toronto
+Add the two boundaries together
+```{r calc-for-accessibility}
+#select only zones within Toronto Municipality or Hamilton CMA
+TOHO_taz <- rbind(TO_taz, HO_taz) 
+
+# transfer calibrated impedance function values to OD matrix
+od_ft_tt <- od_ft_tt %>%
+  mutate(f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+
+#add the number of jobs and workers to the od_ft_tt matrix
+od_ft <- od_ft_tt %>% merge(ggh_taz %>% dplyr::select(GTA06, workers) %>% st_drop_geometry(),
+                   by.x = "Origin", by.y="GTA06", all.x = TRUE)
+
+od_ft <- od_ft %>% merge(ggh_taz %>% dplyr::select(GTA06, jobs) %>% st_drop_geometry(),
+                   by.x = "Destination", by.y="GTA06", all.x = TRUE)
+
+#jobs at destinations IN Toronto and origins from anywhere; workers are associated with the origin (ggh) and jobs with the destination (Toronto)
+TOHO_od_ft <- od_ft %>% filter(Destination %in% TOHO_taz$GTA06)
+
+#calculate accessibility for workers from any origin to jobs in Toronto 
+TOHO_c_accessibility <- TOHO_od_ft %>% 
+  mutate(TOHO_A_ij = f * jobs) %>%
+  group_by(Origin) %>%
+  summarise(TOHO_A_i = sum(TOHO_A_ij, na.rm = T),
+            trips_i = sum(trips, na.rm = T))
+
+#Merge TO accessibly calculation to the ggh_taz:
+TOHO_taz_acc <- ggh_taz %>% merge(TOHO_c_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.y=T) 
+```
+
+```{r plot-accessibility-Toronto-TTS, fig.cap="\\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+#creating the main plot
+mplot_access_TTS_TOHAM <- ggplot() +
+  geom_sf(data = TOHO_taz_acc, aes(fill= TOHO_A_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Accessibility \n(A_i)",
+                         na.value = "grey80") +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Hamilton CMA
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+
+mplot_access_TTS_TOHAM
+```
+now SA:
+```{r calc-for-avail, include=FALSE, warning=FALSE, message=FALSE}
+#calculate spatial availability
+TOHO_od_ft <- TOHO_od_ft %>%
+  mutate(catch = 1) %>%
+  mutate(TOHO_V_ij = sp_avail(., 
+                         o_id = Origin,
+                         d_id = Destination,
+                         pop = workers,
+                         opp = jobs,
+                         r = catch,
+                         f = f))
+
+#verify that the sum of all jobs is consistent with the number of jobs
+sum(TOHO_od_ft$TOHO_V_ij, na.rm=T)
+sum_jobs <- TOHO_od_ft %>% group_by(Destination) %>% summarise(jobs = mean(jobs))
+sum(sum_jobs$jobs, na.rm = T)
+
+#aggregating spatial availability  
+TOHO_availability <- TOHO_od_ft %>%
+  group_by(Origin) %>%
+  summarize(TOHO_V_i = sum(TOHO_V_ij),
+            TOHO_avgtt_i = mean(travel_time),
+            TOHO_avg_f_i = mean(f)) 
+
+#Merge TO availability calculation to the TAZ sf object created for accessibility above:
+TOHO_taz_acc <- TOHO_taz_acc %>% merge(TOHO_availability, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
+```
+
+
+```{r plot-avail-Toronto-TTS, fig.cap="\\label{fig:plot-avail-Toronto-TTS}Calculated spatial availability of employment from origins in the GGH to destinations in the City of Toronto", fig.width=7}
+mplot_SA_TTS_TOHAM <- ggplot() +
+  geom_sf(data = TOHO_taz_acc, aes(fill= TOHO_V_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Spatially Availability \n(V_i)",
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+mplot_SA_TTS_TOHAM
+```
+
+```{r plot-avail-Toronto-TTS-per-worker, fig.cap="\\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+
+benchmark_TOHO_V_i_workers <- TOHO_taz_acc %>% st_drop_geometry() %>% summarise(avg_VO = sum(TOHO_V_i)/sum(workers)) %>% as.numeric()
+
+mplot_SApW_TTS_TOHAM <- ggplot() +
+  geom_sf(data = TOHO_taz_acc, aes(fill= TOHO_V_i/workers), color = NA) + #data
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = "Spatially Availability \n per Worker (v_i)",
+                         limits = c(0, max(TOHO_taz_acc$TOHO_V_i/TOHO_taz_acc$workers)), 
+                         midpoint= benchmark_TOHO_V_i_workers, #average V_i per capita
+                         ) + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Hamilton
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80))# positing legend and clipping out white space
+
+mplot_SApW_TTS_TOHAM
+```
+
+
+## for full GGH
+```{r calc-for-accessibility}
+# transfer calibrated impedance function values to OD matrix
+od_ft_tt <- od_ft_tt %>%
+  mutate(f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+
+#add the number of jobs and workers to the od_ft_tt matrix
+od_ft <- od_ft_tt %>% merge(ggh_taz %>% dplyr::select(GTA06, workers) %>% st_drop_geometry(),
+                   by.x = "Origin", by.y="GTA06", all.x = TRUE)
+
+od_ft <- od_ft %>% merge(ggh_taz %>% dplyr::select(GTA06, jobs) %>% st_drop_geometry(),
+                   by.x = "Destination", by.y="GTA06", all.x = TRUE)
+
+#calculate accessibility for workers from any origin to jobs in Toronto 
+GGH_c_accessibility <- od_ft %>% 
+  mutate(GGH_A_ij = f * jobs) %>%
+  group_by(Origin) %>%
+  summarise(GGH_A_i = sum(GGH_A_ij, na.rm = T),
+            trips_i = sum(trips, na.rm = T))
+
+#Merge TO accessibly calculation to the ggh_taz:
+GGH_taz_acc <- ggh_taz %>% merge(GGH_c_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.y=T) 
+```
+
+```{r plot-accessibility-Toronto-TTS, fig.cap="\\label{fig:plot-accessibility-Toronto-TTS}Calculated accessibility of employment from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+#creating the main plot
+mplot_access_TTS_GGH <- ggplot() +
+  geom_sf(data = GGH_taz_acc, aes(fill= GGH_A_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Accessibility \n(A_i)",
+                         na.value = "grey80") +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Hamilton CMA
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+
+mplot_access_TTS_GGH
+```
+now SA:
+```{r calc-for-avail, include=FALSE, warning=FALSE, message=FALSE}
+#calculate spatial availability
+GGH_od_ft <- od_ft %>%
+  mutate(catch = 1) %>%
+  mutate(GGH_V_ij = sp_avail(., 
+                         o_id = Origin,
+                         d_id = Destination,
+                         pop = workers,
+                         opp = jobs,
+                         r = catch,
+                         f = f))
+
+#verify that the sum of all jobs is consistent with the number of jobs
+sum(GGH_od_ft$GGH_V_ij, na.rm=T)
+sum_jobs <- GGH_od_ft %>% group_by(Destination) %>% summarise(jobs = mean(jobs))
+sum(sum_jobs$jobs, na.rm = T)
+
+#aggregating spatial availability  
+GGH_availability <- GGH_od_ft %>%
+  group_by(Origin) %>%
+  summarize(GGH_V_i = sum(GGH_V_ij),
+            GGH_avgtt_i = mean(travel_time),
+            GGH_avg_f_i = mean(f)) 
+
+#Merge TO availability calculation to the TAZ sf object created for accessibility above:
+GGH_taz_acc <- GGH_taz_acc %>% merge(GGH_availability, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
+```
+
+
+```{r plot-avail-Toronto-TTS, fig.cap="\\label{fig:plot-avail-Toronto-TTS}Calculated spatial availability of employment from origins in the GGH to destinations in the City of Toronto", fig.width=7}
+mplot_SA_TTS_GGH <- ggplot() +
+  geom_sf(data = GGH_taz_acc, aes(fill= GGH_V_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Spatially Availability \n(V_i)",
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+mplot_SA_TTS_GGH
+```
+
+```{r plot-avail-Toronto-TTS-per-worker, fig.cap="\\label{fig:plot-avail-Toronto-TTS-per-worker}Calculated spatial availability of employment, per worker, from origins in the GGH to destinations in the City of Toronto.", fig.width=7}
+
+benchmark_GGH_V_i_workers <- GGH_taz_acc %>% st_drop_geometry() %>% summarise(avg_VO = sum(GGH_V_i)/sum(workers)) %>% as.numeric()
+
+mplot_SApW_TTS_GGH <- ggplot() +
+  geom_sf(data = GGH_taz_acc, aes(fill= GGH_V_i/workers), color = NA) + #data
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = "Spatially Availability \n per Worker (v_i)",
+                         limits = c(0, max(GGH_taz_acc$GGH_V_i/GGH_taz_acc$workers)), 
+                         midpoint= benchmark_GGH_V_i_workers, #average V_i per capita
+                         ) + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  geom_sf(data = hamilton_cma, # border for Hamilton
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80))# positing legend and clipping out white space
+
+mplot_SApW_TTS_GGH
+```
+
+## Comparing Opportunity Access Measures for full GGH
+
+```{r indexed-measures-calculation}
+GGH_indexed_measures_pos <- GGH_taz_acc %>%
+  mutate(A_indexed = GGH_A_i/(max(GGH_A_i))*100,
+         V_indexed = GGH_V_i/(max(GGH_V_i))*100,
+         A_V_indexed_change = (V_indexed - A_indexed)/A_indexed) %>%
+  filter(A_V_indexed_change >= 0) %>%
+  mutate(A_V_indexed_change_rank = ntile(A_V_indexed_change,5))
+
+GGH_indexed_measures_neg <- GGH_taz_acc %>%
+  mutate(A_indexed = GGH_A_i/(max(GGH_A_i))*100,
+         V_indexed = GGH_V_i/(max(GGH_V_i))*100,
+         A_V_indexed_change = (V_indexed - A_indexed)/A_indexed) %>% 
+  filter(A_V_indexed_change < 0) %>%
+  mutate(A_V_indexed_change_rank = ntile(A_V_indexed_change,5))
+```
+
+
+```{r indexed-measures-comparison-plot, fig.cap="\\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey."}
+
+GGH_indexed_change <- ggplot() +
+  geom_sf(data = GGH_indexed_measures_neg,
+          aes(fill = A_V_indexed_change_rank),  color = NA) +
+  scale_fill_distiller(palette = "Spectral", direction = 1, name = "Quantile Ranks 
+of the % Difference
+Between Job Access 
+Measures")+
+  geom_sf(data = GGH_indexed_measures_pos, fill = "#999999") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  guides(fill = guide_legend(reverse = FALSE)) + 
+  theme_void() + 
+  theme(legend.position = "right")
+
+GGH_indexed_change
+```
+```{r calculating-correlation}
+t <- GGH_indexed_measures_neg %>% st_drop_geometry()
+cor(t[, c('workers', 'jobs', "GGH_A_i", "GGH_V_i", "trips_i", "A_indexed", "V_indexed", "A_V_indexed_change", "GGH_avgtt_i")])
+```
+
+---- 
+rejected plots
+
+```{r indexed-measures-comparison-plot, fig.cap="\\label{fig:indexed-measures-comparison-plot}Difference in rescaled accessbility and spatial availability values in the context of employment from origins in the GGH to destinations in the City of Toronto. TAZs with rescaled spatial accessibility values that are lower than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest negative change between spatial availability and accessibility. TAZs with values which are higher than re-scaled accessibility are shown in grey."}
+
+indexed_change <- ggplot() +
+  geom_sf(data = indexed_measures_neg,
+          aes(fill = A_V_indexed_change_rank),  color = NA) +
+  scale_fill_distiller(palette = "Spectral", direction = 1, name = "Quantile Ranks 
+of the % Difference
+Between Job Access 
+Measures")+
+  geom_sf(data = toronto_muni_bound, colour="black", fill=NA,  color = NA) +
+  geom_sf(data = indexed_measures_pos, fill = "#999999") +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  guides(fill = guide_legend(reverse = FALSE)) + 
+  theme_void() + 
+  theme(legend.position = "right")
+
+
+
+## I was attempting to insert a table on the plot which shows the ranges of the quantiles... thoughts? Ex. Quantile 1 represents a -100% to -95% difference, Quantile 2 represents.. etc.
+
+quantile_ranges <- indexed_measures_neg %>% group_by(A_V_indexed_change_rank) %>% st_drop_geometry() %>%
+  summarise(low = percent(min(A_V_indexed_change)),
+            high = percent(max(A_V_indexed_change))) %>% plyr::rename(., c("A_V_indexed_change_rank" = "Quantile",
+                           "low" = "Lower",
+                           "high" = "Upper"))
+# indexed_change +                                               
+#   annotate(geom = "table",
+#             x = Inf, y = - Inf,
+#            label = list(quantile_ranges))
+
+indexed_change
+```
+ 
+ rejected plot 2:
+ 
+```{r}
+plot_workers <- ggplot() +
+  geom_sf(data = GGH_indexed_measures_ALL, aes(fill= jobs), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "# of Workers",
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80))
+
+plot_workers
+```
+
+
+```{r plot-workers-imp, fig.cap="\\label{fig:plot-workers-imp}Number of workers (top) and average impedance function value (bottom) for each origin TAZ in the GGH.", fig.height=9}
+plot_workers <- ggplot() +
+  geom_sf(data = indexed_measures_neg, aes(fill= jobs), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "# of Workers",
+                         limits = c(0, max(indexed_measures_neg$jobs)), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+ plot_workers <- ggdraw( plot_workers) +
+  draw_plot({ plot_workers + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+ 
+
+ plot_imp <- ggplot() +
+  geom_sf(data = indexed_measures_neg, aes(fill= TO_avg_f_i), color = NA) + #data
+    scale_fill_distiller(palette = "Spectral", #legend scale bar
+                         name = "Impedence function value",
+                         limits = c(0, max(indexed_measures_neg$TO_avg_f_i)), 
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  geom_rect(data = data.frame(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, # rectangle on main plot marking inset location
+                              xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+              aes(xmin = bbox_new1$xmin, ymin = bbox_new1$ymin, 
+                  xmax = bbox_new1$xmax, ymax = bbox_new1$ymax),
+            fill = NA, colour = "dimgrey", size = 1) +
+  theme_void() +
+  theme(legend.position = c(1.15, 0.75), 
+        plot.margin = margin(t = 0, r = 0, b = 0, l = -80)) # positing legend and clipping out white space
+
+#main plot + adding the inset map. 
+ plot_imp <- ggdraw( plot_imp) +
+  draw_plot({ plot_imp + coord_sf(xlim = st_coordinates(bbox_new)[c(1,2),1],
+                                         ylim = st_coordinates(bbox_new)[c(2,3),2],
+                                         expand = FALSE) + 
+      theme(legend.position = "none")},
+    x = 0.57, y = 0.01,  # The distance along a (0,1) x-axis (and y axis) to draw the left edge (the bottom edge) of the plot
+    width = 0.46, height = 0.46) # The width and height of the plot expressed as proportion of the entire ggdraw object
+
+plot_workers / plot_imp
+```
+
+rejected plot 3:
+```{r indexed-measures-comparison-plot-GGH, fig.cap="\\label{fig:indexed-measures-comparison-plot-GGH}Difference in rescaled accessbility and spatial availability values for access to employement in the GGH. TAZs with rescaled spatial accessibility values that are lower (top) and higher (bottom) than rescaled accessibility values are presented in five quantiles from 1 to 5 with 1 representing the highest magnitude of change between spatial availability and accessibility.", fig.height=7}
+
+## Negative
+
+GGH_indexed_change_neg <- ggplot() + ggtitle("Overestimation") +
+  geom_sf(data = GGH_indexed_measures_neg,
+          aes(fill = A_V_indexed_change_rank),  color = NA) +
+  scale_fill_distiller(palette = "Spectral", direction = 1,  
+  name = "Quantile Ranks of the 
+  % Difference Between 
+  Job Access Measures")+
+  geom_sf(data = GGH_indexed_measures_pos, fill = "#999999") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  guides(fill = guide_legend(reverse = FALSE),
+         title  ) + 
+  theme_void() + 
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))
+
+## Positive 
+GGH_indexed_change_pos <- ggplot() + ggtitle("Underestimation") +
+  geom_sf(data = GGH_indexed_measures_pos,
+          aes(fill = A_V_indexed_change_rank),  color = NA) +
+  scale_fill_distiller(palette = "Spectral", direction = 1, 
+  name = "Quantile Ranks of the 
+  % Difference Between 
+  Job Access Measures")+
+  geom_sf(data = GGH_indexed_measures_neg, fill = "#999999") +
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm")) +
+  guides(fill = guide_legend(reverse = FALSE)) + 
+  theme_void() + 
+  theme(legend.position = "none",
+        plot.title = element_text(hjust = 0.5))
+
+GGH_indexed_change_neg + GGH_indexed_change_pos & theme(legend.position = "bottom")
+```
+
+# Removed section - SA example using numeric dataset
+
+## Available Jobs for The Working Population
+
+In this use case, we calculate the spatial availability of jobs using the same impedance function that was used to calculate job accessibility in Figure \ref{fig:toy-example-accessibility}. The spatial availability calculations are implemented in the function `sp_avail`. The inputs are an Origin-Destination table with labels for the origins (`o_id`), labels for the destinations (`d_id`), the population (`pop)` and number of opportunities (`opp`), an indicator for catchments or other eligibility constraints (`r`), and a pre-calculated impedance function (`f`). For this example, we assume that there are no catchment restrictions by setting `r` to 1.
+
+The value of the function (its output) is a vector with $V_ij$ given the inputs, that is, the opportunities available to $i$ from $j$:
+
+```{r toy-example-jobs-proportional-allocation}
+toy_od_table <- toy_od_table %>%
+  mutate(catch = 1) %>% # No catchment restrictions, all members of the population are eligible for the opportunities
+  mutate(V_ij = sp_avail(., 
+                         o_id = Origin, 
+                         d_id = Destination, 
+                         pop = Population, 
+                         opp = Jobs,
+                         r = catch,
+                         f = f))
+```
+
+```{r toy-example-availability-jobs-verification, include=FALSE}
+# After calculating that spatial availability, we can verify that the sum of all available jobs  is consistent with the total number of jobs in the region:
+sum(toy_od_table$V_ij)
+
+toy_sim_zones %>% 
+  filter(type == "jobs") %>% 
+  pull(number) %>%
+  sum()
+
+# The total number of jobs is preserved, as desired.
+```
+
+```{r  toy-example-availability-jobs-calculation, include=FALSE}
+# Next we aggregate the jobs spatially available by origin-destination pair to obtain $V_i$:
+availability <- toy_od_table %>%
+  group_by(Origin) %>%
+  summarize(V_i = sum(V_ij))
+availability
+
+# To visualize the outcome we proceed to join the availability to the zones in the example:
+toy_sim_zones_access <- toy_sim_zones_access %>%
+  left_join(availability, 
+            by = c("id" = "Origin"))
+
+# per person availability
+toy_sim_zones_access <- toy_sim_zones_access %>%
+  mutate(v_i = V_i/number)
+
+```
+
+Figure \ref{fig:toy-example-availability-jobs} shows the estimates of spatial availability:
+
+```{r toy-example-availability-jobs, fig.cap="\\label{fig:toy-example-availability-jobs}Spatial availability of jobs from population centers for the simple numerical example"}
+ggplot() +
+  geom_sf(data = toy_sim_zones_access %>% 
+            filter(type == "population"),
+          aes(size = V_i, fill = V_i, shape = type)) +
+  geom_sf(data = toy_sim_zones_access %>%
+            filter(type == "jobs"),
+          aes(shape = type),
+          size = 7, fill = "black") +
+  geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
+               size = 3, nudge_y = -400) +
+  scale_size_continuous(range = c(3,7), name = "Spatial Availability \n(V_i)", guide = "none") +
+  scale_fill_distiller(palette = "Greens", direction = 1, name = "Spatial Availability \n(V_i)",
+                       limits = c(0, max(toy_sim_zones_access$V_i)),
+                       guide = guide_colourbar(order = 1)) +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"),
+                       guide = guide_legend(order = 2)) +
+  theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
+```
+
+We see that population center 5 has the highest level of spatial availability, due to being a large population center that is moreover relatively close to jobs. To improve the interpretability of this measure, we first note that the regional measure of jobs per capita is `r round((toy_sim_zones %>% filter(type == "jobs") %>% pull(number) %>% sum())/(toy_sim_zones %>% filter(type == "population") %>% pull(number) %>% sum()), 3)`. We then calculate the spatially available jobs per person by dividing each spatial availability value by the population at each population center (Figure \ref{fig:toy-example-availability-jobs-per-capita}).
+
+Some population centers have almost two jobs available per person (compared to the overall regional value of approximately one job per person), while others have less than one job available per person. This does not mean that people are not taking some of the jobs. It means that controlling for the cost of reaching jobs, they are worse off than those with more jobs spatially available.
+
+```{r toy-example-availability-jobs-per-capita, fig.cap="\\label{fig:toy-example-availability-jobs-per-capita}Spatial availability of jobs per capita from population centers for the simple numerical example"}
+ggplot() +
+  geom_sf(data = toy_sim_zones_access %>% 
+            filter(type == "population"),
+          aes(fill = v_i, size = v_i, shape = type)) +
+  geom_sf(data = toy_sim_zones_access %>%
+            filter(type == "jobs"),
+          aes(shape = type),
+          size = 7, fill = "black") +
+  geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
+               size = 3, nudge_y = -400) +
+  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), name = "Location Type", labels=c("Population", "Jobs"), 
+                     guide = guide_legend(order = 2)) +
+  scale_size_continuous( range = c(3,7), name = "Spatial Availability \nper Capita (v_i)", guide = "none") +
+  scale_fill_gradient2(name = "Spatial Availability \nper Capita (v_i)",
+                      low = "goldenrod1",
+                      mid = "white",
+                      high = "darkgreen",
+                      midpoint = mean(toy_sim_zones_access$v_i, na.rm = T),
+                      limits = c(0, max(toy_sim_zones_access$v_i)),
+                      guide = guide_colorbar(order = 1)) +
+  theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
+        panel.grid = element_blank(),
+        panel.background = element_rect(size = 1.5, 
+                                        color = "grey", 
+                                        fill = "gray95"))
+
+```
