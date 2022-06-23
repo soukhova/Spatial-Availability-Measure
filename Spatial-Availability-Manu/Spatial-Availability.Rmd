@@ -573,6 +573,8 @@ od_ft_tt  <- od_ft_tt %>%
 all_tt <- od_ft_tt  %>% 
   dplyr::select(trips, travel_time)
 
+sum((od_ft_tt$trips))
+
 all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$trips), 2]
 ```
 
