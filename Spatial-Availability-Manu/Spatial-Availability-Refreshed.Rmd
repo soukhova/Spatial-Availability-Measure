@@ -1,7 +1,7 @@
 ---
 title: "Introducing spatial availability, a singly-constrained competitive-access accessibility measure"
 abstract: |
-  Accessibility measures are widely used in transportation, urban and healthcare planning, among other applications. These measures are weighted sums of the opportunities that can be reached given the cost of movement and are interpreted to represent the potential for spatial interaction. Though these measures are useful in understanding spatial structure, their methodologies count available opportunities multiple times. This leads to interpretability issues, as noted in recent research on balanced floating catchment areas (BFCA) and competitive measures of accessibility. In this paper, we respond to the limitations of the accessibility measure by proposing a new measure of  _spatial availability_ which is calculated by imposing a single constraint on the conventional gravity-based accessibility. Similar to the gravity model from which spatial availability is derived, a single constraint ensures that the marginals at the destination are met and thus the number of opportunities are preserved. Through examples, we detail the formulation of the proposed measure. Further, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada, to contrast how the conventional accessibility measure tends to overestimate and underestimate the number of jobs _available_ to workers. We conclude with some discussion of the possible uses of spatial availability and argue that, compared to conventional measures of accessibility, it can offer an interpretable measure of opportunity access though it has yet to be sufficiently refined for estimating purposes. All data and code used in this research are openly available.
+  Accessibility measures are widely used in transportation, urban and healthcare planning, among other applications. These measures are weighted sums of the opportunities that can be reached given the cost of movement and are estimates of the potential for spatial interaction. These measures are useful in understanding spatial structure, but they do not properly account for competition due to multiple counting of opportunities. This leads to interpretability issues, as noted in recent research on balanced floating catchment areas (BFCA) and competitive measures of accessibility. In this paper, we respond to this limitation by proposing a new measure of _spatial availability_ which is calculated by imposing a single constraint on conventional gravity-based accessibility. This constraint ensures that the marginals at the destination are met and thus the number of opportunities are preserved across the analysis. Through examples, we detail the formulation of the proposed measure. Further, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada, to contrast how the conventional accessibility measure tends to overestimate and underestimate the number of jobs _available_ to workers. We conclude with some discussion of the possible uses of spatial availability and argue that, compared to conventional measures of accessibility, it can offer a more interpretable measure of opportunity access. All data and code used in this research are openly available which should facilitate testing by other researchers in their case studies.
 
 journal: "Journal of Transport Geography"
 date: "`r Sys.Date()`"
@@ -318,7 +318,7 @@ In the B2SFCA, the PPR $R_{j}$ for each employment center can be interpreted as 
 The solved synthetic example is in Figure XX - right, and the formulation of this method is as follows in Equation (\ref{eq:B2SFCA-1}) and (\ref{eq:B2SFCA-2}). 
 
 ```{=tex}
-\begin{eq:equation}
+\begin{equation}
 \label{eq:B2SFCA-1}
 R_{j} = \frac{O_{j}}{\sum_i P_{i} \frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
 \end{equation}
@@ -380,7 +380,7 @@ For simplicity, assume that all the population in the region is eligible for the
 ```{=tex}
 \begin{equation}
 \label{eq:pop-alloc-factor-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 F^p_{1} = \frac{P_1 ^\alpha}{P_1^\alpha + P_2^\alpha + P_3^\alpha} = \frac{260}{260 + 255 + 495} = 0.257\\
 F^p_{2} = \frac{P_2^\alpha}{P_1^\alpha + P_2^\alpha + P_3^\alpha}  = \frac{255}{260 + 255 + 495} = 0.252\\
 F^p_{3} = \frac{P_3^\alpha}{P_1^\alpha + P_2^\alpha + P_3^\alpha}  = \frac{495}{260 + 255 + 495} = 0.490\\
@@ -399,7 +399,7 @@ These $F^p_{i}$ values can be used to find a *partial* spatial availability in w
 ```{=tex}
 \begin{equation}
 \label{eq:pop-alloc-factor-SA-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 V^p_{1} = O_1 \cdot F^p_{1} + O_2 \cdot F^p_{1} = 750 \cdot 0.257 + 220 \cdot 0.257 = 249.29 \\
 V^p_{2} = O_1 \cdot F^p_{2} + O_2 \cdot F^p_{2} = 750 \cdot 0.252 + 220 \cdot 0.252 = 244.44 \\
 V^p_{3} = O_1 \cdot F^p_{3} + O_2 \cdot F^p_{3}= 750 \cdot 0.490 + 220 \cdot 0.490 = 475.30 \\
@@ -430,7 +430,7 @@ To continue with the example, assume that the impedance function is a exponentia
 ```{=tex}
 \begin{equation}
 \label{eq:tcost-allocation-factor-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 F^c_{1,1} = \frac{\exp(\beta*2548.1)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} = 0.109\\
 F^c_{2,1} = \frac{\exp(\beta *1314.1)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} = 0.697\\
 F^c_{3,1} = \frac{\exp(\beta *2170.2)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} = 0.193\\
@@ -455,7 +455,7 @@ We can see, for instance, that the proportional allocation factor for $P_2$ is l
 ```{=tex}
 \begin{equation}
 \label{eq:tcost-allocation-factor-SA-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 V^c_{1,1} = E_1 \cdot F^c_{1,1} = 750 \times 0.109 = 81.75\\
 V^c_{2,1} = E_1 \cdot F^c_{2,1} = 750 \times  0.697 = 522.75\\
 V^c_{3,1} = E_1 \cdot F^c_{3,1} = 750 \times  0.193 = 144.75\\
@@ -490,7 +490,7 @@ The resulting spatial availability $V_{i}$ is calculated for all population cent
 ```{=tex}
 \begin{equation}
 \label{eq:SA-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 
 V_{1,1} = O_1\cdot \frac{F^p_{1,1} \cdot F^c_{1,1}}{F^p_{1,1} \cdot F^c_{1,1} + F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 
 750 \cdot \frac{0.26 \cdot 0.109}{0.26 \cdot 0.109 + 0.25 \cdot 0.697 + 0.49 \cdot 0.193} = 70.45\\
@@ -499,11 +499,11 @@ V_{2,1} = O_1\cdot \frac{F^p_{2,1} \cdot F^c_{2,1}}{F^p_{1,1} \cdot F^c_{1,1} + 
 V_{3,1} = O_1\cdot \frac{F^p_{3,1} \cdot F^c_{3,1}}{F^p_{1,1} \cdot F^c_{1,1} + F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 
 750 \cdot \frac{0.49 \cdot 0.193}{0.26 \cdot 0.109 + 0.25 \cdot 0.697 + 0.49 \cdot 0.193} = 237.83\\
 
-V_{1,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
+V_{1,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
 220 \cdot \frac{0.26 \cdot 0.004}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 0.46\\
-V_{2,2} = O_2\cdot \frac{F^p_{2,2} \cdot F^c_{2,2}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
+V_{2,2} = O_2\cdot \frac{F^p_{2,2} \cdot F^c_{2,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
 220 \cdot \frac{0.25 \cdot 0.011}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 1.26\\
-V_{3,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
+V_{3,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
 220 \cdot \frac{0.49 \cdot 0.984}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 218.28\\
 
 V_{1} = 70.45 + 0.46 = 70.91\\
@@ -543,7 +543,7 @@ To complete the illustrative example, the per capita spatial availability of job
 ```{=tex}
 \begin{equation}
 \label{eq:SA-per-capita-2populations}
-\begin{array}{l}\
+\begin{array}{l}
 v_{1} = \frac{V_{1,1} + V_{1,2}}{P_1} =  \frac{70.91}{260} = 0.272\\
 v_{2} =  \frac{V_{2,1} + V_{2,2}}{P_2} =  \frac{442.98}{255} = 1.737\\
 v_{3} =  \frac{V_{3,1} + V_{3,2}}{P_3} =  \frac{456.11}{495} = 0.921\\
@@ -748,7 +748,7 @@ The gamma distribution takes the following general form where the estimated 'sha
 ```{=tex}
 \begin{equation}
 \label{gamma-dist}
-\begin{array}{l}\ 
+\begin{array}{l} 
 f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\
 
 \Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx\\
@@ -964,23 +964,29 @@ toy_od_table_3_2 %>%
                 latex_hline = "major", 
                 valign = "middle")
 ```
-and: 
-$$\beta = 0.0015 \space in \space f(c_{ij}) = exp(\beta *distance_{ij}) $$
+
+\noindent and: 
+$$
+\beta = 0.0015 \space in \space f(c_{ij}) = exp(\beta *distance_{ij})
+$$
 
 ## Conventional gravity accessibiliy
 
 $$
 A_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 $$
+
 Solved in one step:
 $$
 \sum_{j=1}^JO_j = E1 + E2 =  750 + 220 = 970 \space jobs
 $$
+
 $$
 A_{P1} = 750 \cdot \exp(-0.0015 *2548.1) + 220 \cdot \exp(-0.0015 *5419.1) = 16.5 \\
 A_{P2} = 750 \cdot \exp(-0.0015 *1314.1) + 220 \cdot \exp(-0.0015 *4762.6) = 104.7 \\
 A_{P4} = 750 \cdot \exp(-0.0015 *2170.2) + 220 \cdot \exp(-0.0015 *1790.1) = 43.9
 $$
+
 $A_{P1}$, $A_{P2}$, and $A_{P3}$ values represent the number of travel-cost adjusted opportunities accessible to each population. Specifically, only a proportion of opportunities are allocated to population centers based on their travel cost value (higher the travel cost lower the number of opportunities). The population is not considered in this measure and the allocation of opportunities is not constrained, it is only adjusted based on the weight of the travel cost. With our negative exponential distance decay, accessibility can be as high as 970 (the total number of opportunities in the region) and as low as essentially 0. 
 
 However, in many instances being close to opportunities doesn't necessarily mean much practically to an individual nor can this scale of 0 to the maximum number of total opportunities in the region be operationalized by decision-makers. However, correlates have been found (XX) so it is a strong indicator of urban structure, but practically what does it mean for an individual to live in a population center of $A_{P4} =$ 43.9 jobs? On a scale of 0 to 970 ($f(c_{ij})=0$ to $f(c_{ij})=1$), this value is low but of the three population centers it is around average. However, $A_{P4}$ also has the largest population of all population centers. It has a population that is less than two times the population center of $A_{P1}$ but an accessibility value that is greater than two times $A_{P1}$'s accessibility value. Does this mean that accessibility, after adjusting for population, is greater than in $P4$? It is hard to say since the populations have different travel costs to the opportunities. From this perspective, competitive measures such as the FCA were introduced with the most recently popularized 2SFCA (XX) discussed as follows.
@@ -988,24 +994,31 @@ However, in many instances being close to opportunities doesn't necessarily mean
 ## 2 step floating catchment approach (2SFCA)
 
 Step one:
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
 R_{j} = \frac{O_{j}}{\sum_i P_{i} \cdot f(c_{ij})}\\
 
 R_{E1} = \frac{750}{260 \cdot \exp(-0.0015 *2548.1) + 255 \cdot \exp(-0.0015 *1314.1) + 495 \cdot \exp(-0.0015 *2170.2)}\\
 R_{E1} = 12.4 \space jobs \space per \space travel \space cost \space adjust. \space pop\\
 R_{E2} = \frac{220}{260 \cdot \exp(-0.0015 *5419.1) + 255 \cdot \exp(-0.0015 *4762.6) + 495 \cdot \exp(-0.0015 *1790.1)}\\
 R_{E2} = 6.5 \space jobs \space per \space travel \space cost \space adjust. \space pop\\
-
-$$
+\end{array}
+\end{equation}
+```
 
 Step two:
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
 A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
-
 A_{P1} = 12.4 \cdot \exp(-0.0015 *2548.1) + 6.46 \cdot \exp(-0.0015 *5419.1) = 0.27 \\
 A_{P2} = 12.4 \cdot \exp(-0.0015 *1314.1) + 6.46 \cdot \exp(-0.0015 *4762.6) = 1.73 \\
 A_{P4} = 12.4 \cdot \exp(-0.0015 *2170.2) + 6.46 \cdot \exp(-0.0015 *1790.1) = 0.92
-$$
+\end{array}
+\end{equation}
+```
+
 ```{r steps-calc-2sfca, eval=FALSE}
 #step 1
 a <- (750)/((260*exp(-0.0015 *2548.1))+(255*exp(-0.0015 *1314.1)) + (495*exp(-0.0015 *2170.2)))
@@ -1025,9 +1038,11 @@ The method assumes unconstrained allocation based on travel cost thus results ca
 Looking at $P4$, the largest and most central (to both employment centers) population center, it has a 3.4 times greater 2SFCA value compared to $P1$ (conventional accessibility is only 2.6 times greater). $P4$ also has an 2SFCA value which is closer in the value to $P2$, it is only 0.53 times smaller than $P2$ (conventional accessibility is 0.42 times smaller). Since the 2SFCA adjusts accessibility from both population-side and opportunity-side travel-costs, small populations which are close to big employment centers ($P2$ close to $E1$) but also are in competition with relatively close and large population centers ($P4$) have less relative accessibility ($P2$ vs. $P4$) than conventional accessibility. However, as discussed by @paez2019, the PPR calculation in the first step and allocation of PPR to origins in the second step is not _proportional_ to the total population seeking opportunities. Though the 'potential' for interaction is being consistently allocated in these two steps, when looking to interpret the measure from the perspective of allocation, the resulting values are difficult to interpret. This issue of interpretability has been attempted to be remedied by adjusting the population and opportunities in both steps by a _proportional_ travel cost in the B2SFCA as follows.
 
 ## balanced 2 step floating catchment approach (B2SFCA)
-
 Step one:
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
+
 R_{j} = \frac{O_{j}}{\sum_i P_{i} \frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
 
 R_{E1} = \frac{750}{260 \frac{\exp(\beta *2548.1)}{\exp(\beta *2548.1) + \exp(\beta *5419.1)} + 255 \frac{\exp(\beta *1314.1)}{\exp(\beta *1314.1) + \exp(\beta *4762.6)} + 495 \frac{\exp(\beta *2170.2)}{\exp(\beta *2170.2) + \exp(\beta *1790.1)}}\\
@@ -1035,21 +1050,24 @@ R_{E2} = \frac{220}{260 \frac{\exp(\beta*5419.1)}{\exp(\beta *2548.1) + \exp(\be
 
 R_{E1} = 1.09 \space jobs \space per \space proportional \space travel \space cost \space adjust. \space pop\\
 R_{E2} = 0.68 \space jobs \space per \space proportional \space travel \space cost \space adjust. \space pop\\
-$$
+\end{array}
+\end{equation}
+```
 
 Step two:
-$$
-A_{i} = {\sum_j R_{j}\frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
-
-
-A_{P1} = 1.09\frac{\exp(\beta*2548.1)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} + 0.68 \frac{\exp(\beta*5419.1)}{\exp(\beta *5419.1) + \exp(\beta *2170.2) + \exp(\beta *1790.1)} \\
+```{=tex}
+\begin{equation}
+\begin{array}{l}
+A_{i} = {\sum_j R_{j}\frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\A_{P1} = 1.09\frac{\exp(\beta*2548.1)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} + 0.68 \frac{\exp(\beta*5419.1)}{\exp(\beta *5419.1) + \exp(\beta *2170.2) + \exp(\beta *1790.1)} \\
 A_{P2} = 1.09\frac{\exp(\beta *1314.1)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} + 0.68 \frac{\exp(\beta *4762.6)}{\exp(\beta *5419.1) + \exp(\beta *2170.2) + \exp(\beta *1790.1)} \\
 A_{P4} = 1.09 \frac{\exp(\beta *2170.2)}{\exp(\beta *2548.1) + \exp(\beta *1314.1) + \exp(\beta *2170.2)} + 0.68 \frac{\exp(\beta *1790.1)}{\exp(\beta *5419.1) + \exp(\beta *2170.2) + \exp(\beta *1790.1)} \\
-
 A_{P1} = 0.12 \\
 A_{P2} = 0.77 \\
-A_{P4} = 0.88
-$$
+A_{P4} = 0.88 \\
+\end{array}
+\end{equation}
+```
+
 ```{r step1-calc-b2sfca, eval=FALSE}
 a_11 <- 260*(exp(-0.0015 *2548.1))/(exp(-0.0015 *2548.1) + exp(-0.0015 *5419.1))
 b_21 <- 255*(exp(-0.0015 *1314.1))/(exp(-0.0015 *1314.1) + exp(-0.0015 *4762.6))
@@ -1064,6 +1082,7 @@ RE2 <- 220 / (d_11+e_21+f_41)
 RE2
 
 ```
+
 ```{r step2-calc-b2sfca, eval=FALSE}
 A1 <- RE1*((exp(-0.0015 *2548.1))/(exp(-0.0015 *2548.1) + exp(-0.0015 *1314.1)+ exp(-0.0015 *2170.2)))+ 
   RE2*((exp(-0.0015 *5419.1))/(exp(-0.0015 *5419.1) + exp(-0.0015 *4762.6) + exp(-0.0015 *1790.1)))
@@ -1091,27 +1110,40 @@ This measure introduces some consistency in how the PPR is calculated and is all
 **I don't get how to calculate this!!!** 
 
 This measure results in a opportunities per person metric, however, it constraints opportunities and population from both sides, estimating accessibility iteratively. The formulation requires the number of opportunities equals the population so they propose the iterative estimates are standardized such that opportunities equals population and the disbalanced is caried through as a factor. The formulation for the synthetic example would take the following form:
-
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
 A_{i} = \frac{\bar A^{o}}{\bar A^{c}}{\sum_{j=1}^{J} \frac{O_{j}f(c_{ij})}{L_{j}}}\\
 L_{i} = {\sum_{i=1}^{I} \frac{P_{i}f(c_{ij})}{A_{i}}}\\
-$$
+\end{array}
+\end{equation}
+```
+
 Iteration 1:
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
 A_{P1} = (1)*\frac{750\exp(\beta*2548.1) + 220*\exp(\beta *5419.1)}{1} = 16.47\\
 A_{P2} = (1)*\frac{750\exp(\beta*1314.1) + 220*\exp(\beta *4762.6)}{1} = 104.65\\
 A_{P4} = (1)*\frac{750\exp(\beta*2170.2) + 220*\exp(\beta *1790.1)}{1} = 43.93\\
-
 L_{E1} = \frac{260\exp(\beta*2548.1)}{16.47} + \frac{255*\exp(\beta *1314.1)}{104.65} + \frac{495*\exp(\beta *2170.2)}{43.93} = 1.12\\
 L_{E2} = \frac{260\exp(\beta*5419.1)}{16.47} + \frac{255*\exp(\beta *4762.6)}{104.65} + \frac{495*\exp(\beta *1790.1)}{43.93} = 0.78\\
-$$
+\end{array}
+\end{equation}
+```
+
 We can complete ~6 more iterations until we reach close to convergence. I skip writing them out but the final $A_{i}$ values appear like:
-$$
+```{=tex}
+\begin{equation}
+\begin{array}{l}
 A_{P1} = 14.6\\
 A_{P2} = 92.4\\
 A_{P4} = 47.0\\
-$$
+\end{array}
+\end{equation}
+```
 
+<!--
 
 ```{r allen-measure-1, eval=FALSE}
 # assume Li,n = 1
@@ -1128,7 +1160,7 @@ e1
 f1 <- (260*(a1) + 255*(b1) + 495*(c1))/(260+255+495)
 ```
 
-```{r}
+```{r , eval=FALSE}
 a2<-(f1/f1)*(750*exp(-0.0015*2548.1)/d1 + 220*exp(-0.0015*5419.1)/e1)
 b2<-(f1/f1)*(750*exp(-0.0015*1314.1)/d1 + 220*exp(-0.0015*4762.6)/e1)
 c2<-(f1/f1)*(750*exp(-0.0015*2170.2)/d1 + 220*exp(-0.0015*1790.1)/e1)
@@ -1140,7 +1172,7 @@ e2<-(260*exp(-0.0015*5419.1)/a2 + 255*exp(-0.0015*4762.6)/b2 + 495*exp(-0.0015*1
 f2 <- (260*(a2) + 255*(b2) + 495*(c2))/(260+255+495)
 ```
 
-```{r}
+```{r, eval=FALSE}
 a3<-(f1/f2)*(750*exp(-0.0015*2548.1)/d2 + 220*exp(-0.0015*5419.1)/e2)
 b3<-(f1/f2)*(750*exp(-0.0015*1314.1)/d2 + 220*exp(-0.0015*4762.6)/e2)
 c3<-(f1/f2)*(750*exp(-0.0015*2170.2)/d2 + 220*exp(-0.0015*1790.1)/e2)
@@ -1151,7 +1183,8 @@ d3<-(260*exp(-0.0015*2548.1)/a3 + 255*exp(-0.0015*1314.1)/b3 + 495*exp(-0.0015*2
 e3<-(260*exp(-0.0015*5419.1)/a3 + 255*exp(-0.0015*4762.6)/b3 + 495*exp(-0.0015*1790.1)/c3)
 f3 <- (260*(a3) + 255*(b3) + 495*(c3))/(260+255+495)
 ```
-```{r}
+
+```{r, eval=FALSE}
 a4<-(f1/f3)*(750*exp(-0.0015*2548.1)/d3 + 220*exp(-0.0015*5419.1)/e3)
 b4<-(f1/f3)*(750*exp(-0.0015*1314.1)/d3 + 220*exp(-0.0015*4762.6)/e3)
 c4<-(f1/f3)*(750*exp(-0.0015*2170.2)/d3 + 220*exp(-0.0015*1790.1)/e3)
@@ -1162,7 +1195,8 @@ d4<-(260*exp(-0.0015*2548.1)/a4 + 255*exp(-0.0015*1314.1)/b4 + 495*exp(-0.0015*2
 e4<-(260*exp(-0.0015*5419.1)/a4 + 255*exp(-0.0015*4762.6)/b4 + 495*exp(-0.0015*1790.1)/c4)
 f4 <- (260*(a4) + 255*(b4) + 495*(c4))/(260+255+495)
 ```
-```{r}
+
+```{r, eval=FALSE}
 a5<-(f1/f4)*(750*exp(-0.0015*2548.1)/d4 + 220*exp(-0.0015*5419.1)/e4)
 b5<-(f1/f4)*(750*exp(-0.0015*1314.1)/d4 + 220*exp(-0.0015*4762.6)/e4)
 c5<-(f1/f4)*(750*exp(-0.0015*2170.2)/d4 + 220*exp(-0.0015*1790.1)/e4)
@@ -1173,7 +1207,8 @@ d5<-(260*exp(-0.0015*2548.1)/a5 + 255*exp(-0.0015*1314.1)/b5 + 495*exp(-0.0015*2
 e5<-(260*exp(-0.0015*5419.1)/a5 + 255*exp(-0.0015*4762.6)/b5 + 495*exp(-0.0015*1790.1)/c5)
 f5 <- (260*(a5) + 255*(b5) + 495*(c5))/(260+255+495)
 ```
-```{r}
+
+```{r, eval=FALSE}
 a6<-(f1/f5)*(750*exp(-0.0015*2548.1)/d5 + 220*exp(-0.0015*5419.1)/e5)
 b6<-(f1/f5)*(750*exp(-0.0015*1314.1)/d5 + 220*exp(-0.0015*4762.6)/e5)
 c6<-(f1/f5)*(750*exp(-0.0015*2170.2)/d5 + 220*exp(-0.0015*1790.1)/e5)
@@ -1185,7 +1220,11 @@ e6<-(260*exp(-0.0015*5419.1)/a6 + 255*exp(-0.0015*4762.6)/b6 + 495*exp(-0.0015*1
 f6 <- (260*(a6) + 255*(b6) + 495*(c6))/(260+255+495)
 f6
 ```
+
+--->
+
 <!-- change the following-->
+
 Here we see that $A_{P1}$, $A_{P2}$, and $A_{P3}$ values represent the number of opportunities, after being adjusted based on opportunity-side and population-side travel costs, which are accessible to each population. Compared to conventional accessibility, the population is enche population is not considered in this measure and the allocation of opportunities is not constrained, it is only adjusted based on the weight of the travel cost. With our negative exponential distance decay, accessibility can be as high as 970 (the total number of opportunities in the region) and as low as essentially 0. 
 
 However, in many instances being close to opportunities doesn't necessarily mean much practically to an individual nor can this scale of 0 to the maximum number of total opportunities in the region be operationalized by decision-makers. However, correlates have been found (XX) so it is a strong indicator of urban structure, but practically what does it mean for an individual to live in a population center of $A_{P4} =$ 43.9 jobs? On a scale of 0 to 970 ($f(c_{ij})=0$ to $f(c_{ij})=1$), this value is low but of the three population centers it is around average. However, $A_{P4}$ also has the largest population of all population centers. It has a population that is less than two times the population center of $A_{P1}$ but an accessibility value that is greater than two times $A_{P1}$'s accessibility value. Does this mean that accessibility, after adjusting for population, is greater than in $P4$? It is hard to say since the populations have different travel costs to the opportunities. From this perspective, the FCA were introduced with the most recently popularized 2SFCA (XX) discussed as follows.
