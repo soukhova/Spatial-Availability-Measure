@@ -3,7 +3,7 @@ title: "Introducing spatial availability, a singly-constrained competitive-acces
 abstract: |
   Accessibility measures are widely used in transportation, urban and healthcare planning, among other applications. These measures are weighted sums of the opportunities that can be reached given the cost of movement and are estimates of the potential for spatial interaction. These measures are useful in understanding spatial structure, but they do not properly account for competition due to multiple counting of opportunities. This leads to interpretability issues, as noted in recent research on balanced floating catchment areas (BFCA) and competitive measures of accessibility. In this paper, we respond to this limitation by proposing a new measure of _spatial availability_ which is calculated by imposing a single constraint on conventional gravity-based accessibility. This constraint ensures that the marginals at the destination are met and thus the number of opportunities are preserved across the analysis. Through examples, we detail the formulation of the proposed measure. Further, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada, to contrast how the conventional accessibility measure tends to overestimate and underestimate the number of jobs _available_ to workers. We conclude with some discussion of the possible uses of spatial availability and argue that, compared to conventional measures of accessibility, it can offer a more interpretable measure of opportunity access. All data and code used in this research are openly available which should facilitate testing by other researchers in their case studies.
 
-journal: "Journal of Transport Geography"
+journal: "Some Journal"
 date: "`r Sys.Date()`"
 bibliography: bibliography.bib
 #linenumbers: true
@@ -106,37 +106,36 @@ sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
 
 # Introduction
 
-Accessibility analysis is employed in transportation, geography, public health, and many other areas, particularly as mobility-based planning is de-emphasized in favor of access-oriented planning [@deboosere2018; @handy2020; @proffitt2017; @yan2021]. The concept of accessibility derives its appeal from combining the spatial distribution of opportunities and the cost of reaching them [@hansen1959]. 
+Accessibility analysis is employed in transportation, geography, public health, and many other areas, particularly as mobility-based planning is de-emphasized in favor of access-oriented planning [@deboosere2018; @handy2020; @proffitt2017; @yan2021]. The concept of accessibility derives its appeal from combining the spatial distribution of opportunities and the cost of reaching them [@hansen1959; @handy_measuring_1997]. 
 
-Numerous methods for calculating accessibility have been proposed that can be broadly organized into infrastructure-, place-, person-, and utility-based measures [@geurs2004]. Of these, the place-based family of measures is arguably the most common, capturing the number of opportunities reachable from an origin using the transportation network. A common type of accessibility measure is based on the gravity model of spatial interaction; since it was first developed by @hansen1959 it has been widely adopted in many forms [e.g., @cervero_transportation_2002; @paez2004network; @geurs2004; @handy_measuring_1997; @levinson_accessibility_1998; @Arranz2019measuring]. Accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure - however, the interpretability of accessibility measures can be challenging [@geurs2004; @miller2018]. A key issue is that accessibility measures are sensitive to the number of opportunities in a region (e.g., a large city has more jobs than a smaller city), and therefore raw values cannot be easily compared across study areas [@allen2019].
-
-<!-- new -->
-Gravity-based accessibility indicators are in essence spatially smoothed estimates of the total number of opportunities in a region, but the meaning of their absolute magnitudes are unclear as they measure the _potential_ for interaction (as originally defined by [-@wilson1971]XXX). For instance, in the study by (XXX) high-income areas in Metropolitan Saul Paulo have high accessibility to employment (e.g., X jobs per all jobs available) and low-income areas have low accessibility to employment (e.g., Y jobs per all jobs available). Though X or Y reflect the urban structure, and correlates identify the relationship with employment, X and Y values can only be used within the context of employment accessibility in Saul Paulo. For example, in study XX which used the same employment accessibility method but for ZZ region, the X and Y accessibility values from Saul Paul cannot be immediately compared, but the X and Y low and high accessibility values in ZZ reflect the region's urban structure. That being said, decision-makers and planners find it difficult to operationalize accessibility since it reflects urban structure and is harder to interpret as an opportunity _provision_ measure. For instance, if a small city creates 1000 more housing units in an employment rich neighborhood (ex., 15% of all employment opportunities are located within the neighbourhood (X)), could the city achieve a provider-provision-ratio of 1.5 jobs per person? Conventional accessibility cannot be standardized or normalized to reflect this ratio as a result of _inconsistent_ opportunity-side and population-side counting. 
+Numerous methods for calculating accessibility have been proposed that can be broadly organized into infrastructure-, place-, person-, and utility-based measures [@geurs2004]. Of these, the place-based family of measures is arguably the most common, capturing the number of opportunities reachable from an origin using the transportation network. A common type of accessibility measure is based on the gravity model of spatial interaction; since it was first developed by @hansen1959 it has been widely adopted in many forms [e.g., @cervero_transportation_2002; @paez2004network; @geurs2004; @handy_measuring_1997; @levinson_accessibility_1998; @Arranz2019measuring]. Accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure - however, the interpretability of accessibility measures can be challenging [@geurs2004; @miller2018]. A key issue is that accessibility measures are sensitive to the number of opportunities in a region (e.g., a large city has more jobs than a smaller city), and therefore raw values are not easily compared across study areas [@allen2019].
 
 <!-- new -->
-This inconsistent counting embedded in traditional accessibility methods result in lack of clairty on how to interpret the resulting values. Returning to XX, the maximum job accessibility in Saul Paulo is XYZ, and the maximum job accessibility is XY in region ZZ. This the highest count of opportunities, weighted by associated travel costs, which a certain population can accessing the region. This maximum value, outside of reflecting urban structure, is difficult to interpret from a decision-maker's perspective who is deliberating planning interventions. We believe the issue in interpretation arises since opportunities are adjusted based on population-side travel and usage behaviour (i.e., travel costs, catchments, time-windows). Accessibility is not constrained to match the number of opportunities available. Put another way, traditional measures of accessibility do not capture the competition for opportunities but instead quantify access as if every person can reach every (travel and usage behaviour-adjusted) opportunity. This _inconsistency_ is not necessarily problematic if a case study calls for the quantification of a accessibility assuming a "greedy" population. For instance, a greater accessibility to parks correlates with property values even though those that live in those properties don't use all the parks all the time, but this correlate suggests that the _potential_ to access parks is enough. However, this _inconsistent_ opportunity-adjustment can be acute when opportunities are "non-divisible" in the sense that, once taken they are no longer available to other members of the population [also discussed by @geurs2004]. Examples of these types of opportunities include jobs (e.g., when a person takes up a job, the same job cannot be taken by anyone else) and placements at schools (e.g., once a student takes a seat at a school, that opportunity is no longer available for another student). Though these non-divisible opportunities can still be modelled by conventional accessibility (e.g., Saul Paul and Z region), the measure does not reflect the _spatial availability_ of the opportunity.
+Gravity-based accessibility indicators are in essence spatially smoothed estimates of the total number of opportunities in a region, but the meaning of their absolute magnitudes is unclear as they measure the _potential_ for interaction [as originally defined by @wilson1971]. <!-- Maybe replace the Sao Paulo Examole and use for Jobs and Single Parent in Toronto --> For instance, in the study by @boisjoly2017informality, high-income areas in Metropolitan Saul Paulo have high accessibility to employment (e.g., X jobs per all jobs available) and low-income areas have low accessibility to employment (e.g., Y jobs per all jobs available). Though X or Y reflect the urban structure, and correlates identify the relationship with employment, X and Y values can only be used within the context of employment accessibility in Saul Paulo. For example, in study XX which used the same employment accessibility method but for ZZ region, the X and Y accessibility values from Saul Paul cannot be immediately compared, but the X and Y low and high accessibility values in ZZ reflect the region's urban structure. That being said, decision-makers and planners find it difficult to operationalize accessibility since it reflects urban structure and is harder to interpret as an opportunity _provision_ measure. For instance, if a small city creates 1,000 more housing units in an employment rich neighborhood (ex., 15% of all employment opportunities are located within the neighbourhood (X)), could the city achieve a provider-provision-ratio of 1.5 jobs per person? Conventional accessibility does not reflect this ratio as a result of _inconsistent_ opportunity-side and population-side counting: opportunities are multiply counted for every population unit that can reach them. 
 
-To re-calibrate accessibility for a more interpretable understanding of opportunity-provision, researchers have proposed several different approaches for considering competition in the conventional accessibility method. These include several approaches that first normalize the number of opportunities available at a destination by the demand from the origin zones and, second, sum the demand-corrected opportunities which can be reached from the origins [e.g. @joseph1984; @shen1998]. These advances were popularized in the family of two-step floating catchment area (FCA) methods [@luo2003] that have found widespread adoption for calculating competitive accessibility to a variety of opportunities such as healthcare, education, and food access [@yang_comparing_2006; @chen_spatial_2020; @ye_spatial_2018; @chen_enhancing_2019; @chen_evaluating_2020]. In principle, floating catchments purport to account for competition effects, although in practice several researchers [e.g., @delamater2013spatial; @wan2012three] have found that they tend to over-estimate accessibility values. The underlying issue in FCAs, as demonstrated by @paez2019, is the multiple counting of opportunities (ex., population 1 in a catchment accesses opportunities and population 2 in an overlapping catchment access a few opportunities which population 1 access as well as additional opportunities). The multiple counting of the _same_ opportunities across populations can lead to biased estimates if not corrected [@paez2019].
+<!-- new -->
+The inconsistent counting embedded in traditional accessibility methods has been flagged in the context of accessibility by @merlin2017competition, @allen2019, and @kelobonye2020measuring, and in Floating Catchment Area methods by @delamater2013spatial and @paez2019. A consequence is the lack of clarity on the interpretation of the resulting values, since they tend to be inflated or deflated. Returning to XX, the maximum job accessibility in Saul Paulo is XYZ, and the maximum job accessibility is XY in region ZZ. This the highest count of opportunities, weighted by associated travel costs, which a certain population can access in the region. This maximum value, outside of reflecting urban structure, is difficult to interpret from a decision-maker's perspective who is deliberating planning interventions. We believe the issue in interpretation arises since opportunities are adjusted based on population-side travel and usage behaviour (i.e., travel costs, catchments, time-windows). Accessibility is not constrained to match the number of opportunities available. 
 
-Another approach which research have used to consider competition in accessibility has been the imposition of constraints on the gravity model to ensure potential interaction between zones are equal to the observed totals. Based on Wilson's [-@wilson1971] entropy-derived gravity model, researchers can incorporate constraints to ensure that the modeled flows match some known quantities in the data inputs. In this way, models can be singly-constrained to match the row- or column-marginals (i.e., the trips produced or attracted, respectively), whereas a doubly-constrained model is designed to match both marginals. Allen and Farber [-@allen2019] recently incorporated a version of the doubly-constrained gravity model within the FCA approach to calculate competitive accessibility to employment using transit across eight cities in Canada. But while such a model can account for competition, the mutual dependence of the balancing factors in a doubly-constrained model means they must be iteratively calculated which makes them more computationally-intensive. Furthermore, the double constraint means that the sum of opportunity-seekers and the sum of opportunities must match, which is not necessarily true in every potential use case (e.g., there might be more people searching for work than jobs exist in a region).
+Put another way, traditional measures of accessibility do not capture the _competition_ for opportunities but instead quantify access as if every person can take every opportunity given their mobility [@paez2019; @kelobonye2020measuring]. This _inconsistency_ is not necessarily problematic if the opportunity of interest is inexaustible, that is, if use by one unit of population does not preclude use by another. For instance, green spaces are seldom used to full capacity, so the presence of some population in a park does not exclude use by others. However, inconsistent opportunity-adjustments can be more acute when opportunities are _non-divisible_ or _exahustible_ in the sense that, once taken, they are no longer available to other members of the population [also discussed by @geurs2004]. Examples of these types of opportunities include jobs (e.g., when a person takes up a job, the same job cannot be taken by anyone else) and placements at schools (e.g., once a student takes a seat at a school, that opportunity is no longer available for another student). Though these non-divisible opportunities can still be modelled by conventional accessibility (e.g., <!-- Revise after new example: Sao Paulo and Z region--> ), the measure does not reflect the _spatial availability_ of the opportunity.
 
-In this paper we propose an alternative approach to measuring competitive accessibility. We call it a measure of **spatial availability**, and it aims to capture the number of opportunities that are not only *accessible* but also *available* to the opportunity-seeking population, in the sense that they have not been claimed by a competing seeker of the opportunity. As we will show, spatial availability is a singly-constrained measure of accessibility. By allocating opportunities in a proportional way based on demand and distance in a single step, this method avoids the issues that result from multiple counting of opportunities in conventional accessibility analysis. This method returns a measure of the rate of available opportunities per opportunity-seeking population. Moreover, the method also returns a benchmark value for the study region against which results for individual origins can be compared both inter- and intra-regionally and used in the context of opportunity provision assessment. This novel approach comes at a time when the quantity and resolution of data is exponentially increasing and the need to operationalize accessibility methods in city-planning objectives is urgent. 
+To increase the interpretability of accessibility, researchers have proposed several different approaches that consider congestion. These include several approaches that first normalize the number of opportunities available at a destination by the demand from the origin zones and, second, sum the demand-corrected opportunities which can be reached from the origins [e.g. @joseph1984; @shen1998]. These advances were popularized in the family of two-step floating catchment area (FCA) methods [@luo2003] that have found widespread adoption for calculating accessibility with congestion to a variety of opportunities such as healthcare, education, and food access [@yang_comparing_2006; @chen_spatial_2020; @ye_spatial_2018; @chen_enhancing_2019; @chen_evaluating_2020]. Floating Catchments Area methods introduce congestion, but in practice several researchers [e.g., @delamater2013spatial; @wan2012three] have found that they tend to misdiagnose accessibility values because they do not truly capture competition. The underlying issue in FCAs, as demonstrated by @paez2019, is that the same population can be claimed by multiple service centers, and the same level of service cab be offered back to multiple populations. In effect, this treats both the population and level of service as if they were inexhaustible. Failure to account for competition of an exhaustible resource leads to biased estimates of accessibility if not corrected [@paez2019].
 
-<!-- NOTE: develop this--> 
-It should be noted that this is a novel approach which has yet to be sufficiently refined for estimating purposes, however, there is room for an additional competitive measure as prevailing measure do _not_ always reflect trends seen in empirical case studies. XXX. Similarly, conventional accessibility (i.e., potential interaction), fail to reflect empirical observations in certain contexts as well. XXX. Measures are highly depending on specific contexts and environments, thus there's conceptually room for an additional measure. 
+Another approach which research have used to consider competition in accessibility has been the imposition of constraints on the gravity model to ensure potential interaction equals observed totals. Based on Wilson's [-@wilson1971] entropy-derived gravity model, researchers can incorporate constraints to ensure that the modeled flows match some known quantities in the data inputs. In this way, models can be singly-constrained to match the row- or column-marginals (i.e., the trips produced or attracted, respectively), whereas a doubly-constrained model is designed to match both marginals. Kelobonye et al. [-@kelobonye2020measuring] recently introduced a singly constrained measure but only in the context of cumulative opportunities. Allen and Farber [-@allen2019], on the other hand, developed a version of the doubly-constrained gravity model within the FCA approach. 
 
-This paper is split into two main parts. The first part introduces a synthetic example that is used to calculated spatial availability alongside conventional unconstrained accessibility and popular competitive accessibility measures (XXX). The aim is to demonstrate the formulation of the proposed measure and what it represents relative to other accessibility measures. In the second part, we calculate, compare, and contrast the spatial availability, conventional accessibility, and Shen's competitive accessibility (XX) values for 2016 employment data in the city of Toronto, Canada (Transportation Tomorrow Survey (TTS)). The motivation of this part is to demonstrate how accessibility and a popular competitive accessibility measure, both suffer from a lack of interpretability. Additionally, the competitive accessibility measure (XX) and spatial availability reinforce the ways in which accessibility double-counts opportunities thus cautioning practitioners from using it for opportunities where populations' are not greedy (i.e., 1 person can only access 1 opportunity at any given time; the presence of many opportunities doesn't matter when there are many neighbours since their utilization is normalized).  Finally, we conclude by cautioning the limits of conventional accessibility measure use in its _concept_ and outlining the advantages of the spatial availability measure and the breadth of potential uses from the perspective of opportunity-provision planning.
+The contribution of this paper is to present a singly-constrained measure of accessibility that we call **spatial availability**. This measure aims to capture the number of opportunities that are not only *accessible* but also *available* to the opportunity-seeking population, in the sense that they have not been claimed by a competing seeker of the opportunity. As we will show, spatial availability hinges on the proportional allocation of opportunities. By allocating opportunities in a proportional way based on demand and distance in a single step, this method avoids the issues that result from multiple allocation of the same opportunities in conventional accessibility analysis. This method returns a measure of the rate of available opportunities per opportunity-seeking population. Moreover, the method also returns a benchmark value for the study region against which results for individual origins can be compared both inter- and intra-regionally and used in the context of opportunity provision assessment. This novel approach comes at a time when the quantity and resolution of data is exponentially increasing and the need to operationalize accessibility methods in city-planning objectives is urgent. 
+
+This paper is split into three main parts. The first part uses a synthetic example to illustrate how congestion and/or competition are treated in existing measures of accessibility (XXX). The second part introduces our proposed measure of spatial availability and uses the same synthetic example to compare it to the measures discussed. In the third part, we calculate, compare, and contrast the spatial availability, conventional accessibility, and Shen's competitive accessibility (XX) values for 2016 employment data in the city of Toronto, Canada (Transportation Tomorrow Survey (TTS)). The motivation of this part is to demonstrate how accessibility and a popular competitive accessibility measure, both are afflicted by limited interpretability. Finally, we conclude by remarking on the conceptual limits of conventional accessibility analysis, and outlining the advantages of the spatial availability measure and the breadth of potential uses from the perspective of opportunity-provision planning.
 
 In the spirit of openness of research in the spatial sciences [@brunsdon2021opening; @paez2021open] this paper has a companion open data product [@arribas2021Open], and all code will be available for replicability and reproducibility purposes.
 
-# Part 1: Access measures on an synthetic example {#background}
+# Accesssibility measures on an synthetic example {#background}
 
 <!-- NOTE: discuss the presentation of these measures, i.e., visualizing plots, formula formulation, discussion, etc. -->
-We begin this part by introducing a synthetic example, calculating conventional accessibility, and demonstrating the interpretation issues associated with this widely used measure. We then present the proposed *spatial availability* measure, calculate the spatial availability values for the synthetic example and discuss how the interpretation of the resulting values from the perspective of opportunity-provision. Spatial availability values are then compared and contrasted with other competitive accessibility measures [@shen1998; @luo2003; @horner_exploring_2004; @allen2019] and the interpretability of spatial availability is further elaborated.
+We continue our presentation by introducing a synthetic example, which we use to demonstrate the interpretation issues associated with conventional accessibility analysis. We then present the proposed *spatial availability* measure, calculate the spatial availability values for the synthetic example and discuss how the interpretation of the resulting values from the perspective of opportunity-provision. Spatial availability values are then compared and contrasted with other competitive accessibility measures [@shen1998; @luo2003; @horner_exploring_2004; @allen2019] and the interpretability of spatial availability is further elaborated.
 
 ## Conventional accessibility
 
-The important works of [-@harris_market_1954] and [-@hansen1959] provide a foundation for modeling accessibility. From these seminal efforts, many accessibility measures (excluding utility-based measures) have thus been derived from [-@wilson1971] influential work on the gravity model which follows the formulation shown in Equation (\ref{eq:conventional-accessibility}). 
+Accessibility analysis stems from the foundational works of [-@harris_market_1954] and [-@hansen1959]. From their seminal efforts, many accessibility measures (excluding utility-based measures) have been derived, particularly after the influential work of -@wilson1971 on the gravity model. This model follows the formulation shown in Equation (\ref{eq:conventional-accessibility}). 
 ```{=tex}
 \begin{equation}
 \label{eq:conventional-accessibility}
@@ -155,7 +154,6 @@ A_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 As formally defined, accessibility $A_i$ is the weighted sum of opportunities that can be reached from location $i$, given the cost of travel $c_{ij}$. Summing the opportunities in the neighborhood of $i$, as determined by the impedance function $f(\cdot)$, provides estimates of the number of opportunities that can be reached from $i$ at a certain cost. The type of accessibility can be modified depending on the impedance function; for example, the measure could be cumulative opportunities [if $f(\cdot)$ is a binary or indicator function e.g., @elgeneidy_cost_2016; @rosik_forecast_2021; @geurs2004; @qi_decadelong_2018] or a gravity measure using an impedance function modeled after any monotonically decreasing function [e.g., Gaussian, inverse power, negative exponential, or log-normal, among others, see, *inter alia*, @kwan_spacetime_1998; @vale_influence_2017; @reggiani_accessibility_2011; @li_approach_2020]. In practice, the accessibility measures derived from many cumulative and gravity formulations tend to be highly correlated with one another [@higgins2019; @santanapalacios2022; @kwan_spacetime_1998].
 
 The setup for our synthetic example is a system with two employment centers and three population centers. Accessibility to jobs at each population center is calculated using the accessibility measure $A_i$ in Equation (\ref{eq:conventional-accessibility}). In this synthetic example, we use the straight line distance between the population and jobs for $c_{ij}$ and a negative exponential function with $\beta = 0.0015$. As noted, $A_i$ represents the number of jobs (i.e., opportunities) that can be reached from each population center given the estimated cost as depicted in Figure \ref{fig:toy-example-accessibility}.
-
 ```{r creating-toy-example}
 toy_sim_zones_3_2 <- toy_sim_zones %>% 
   filter(id_short == "E1" | id_short == "E2" | id_short == "P1" | id_short == "P2" | id_short == "P4") %>%
@@ -257,13 +255,13 @@ ggplot() +
 
 <!-- maybe make a ttmap for this..? -->
 
-The conventional gravity accessibility measure has been shown to be an excellent indicator of the intersection between urban structure and transportation infrastructure [@shi_literature_2020; @reggiani_accessibility_2011; @kwan_spacetime_1998]. However, beyond enabling comparisons of relative values they are not highly interpretable on their own [@miller2018]. For instance, from Figure \ref{fig:toy-example-accessibility}, `r toy_sim_zones_access_3_2 %>% slice_min(A_i, n=1) %>% pull(id_short)` has lower accessibility than `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` but despite the accessibility value for `r toy_sim_zones_access_3_2 %>% slice_min(A_i, n=1) %>% pull(id_short)` being relatively low it is still better than *zero*. On the other hand, `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` has high accessibility, but is its accessibility excellent, good, or only fair? What does it _mean_ for a location to have accessibility to so many jobs? 
+Gavity-based accessibility has been shown to be an excellent indicator of the intersection between urban structure and transportation infrastructure [@shi_literature_2020; @reggiani_accessibility_2011; @kwan_spacetime_1998]. However, beyond enabling comparisons of relative values they are not highly interpretable on their own [@miller2018]. For instance, from Figure \ref{fig:toy-example-accessibility}, `r toy_sim_zones_access_3_2 %>% slice_min(A_i, n=1) %>% pull(id_short)` has lower accessibility than `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` but despite the accessibility value for `r toy_sim_zones_access_3_2 %>% slice_min(A_i, n=1) %>% pull(id_short)` being relatively low it is still better than *zero*. On the other hand, `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` has high accessibility, but is this accessibility excellent, good, or only fair? What does it _mean_ for a location to have accessibility to so many jobs? 
 
-To address this interpretability issue, previous research has aimed to index and normalize values on a per demand-population basis [e.g., @barboza_balancing_2021; @pereira_distributional_2019; @wang_access_2021]. However, as recent research on accessibility discusses [@allen2019; @paez2019], these steps do not address the bias introduced through the uneven multiple-counting of opportunities and/or population. The underlying issue arises as a result of the assumption that for conventional accessibility $A_i$, all opportunities are *available* to anyone from any origin $i=1,\cdots,n$ who can reach them: in other words, they are assumed to be infinitely divisible and non-competitive. This results in every opportunity entering the weighted sum once for every origin $i$ that can reach it. Put another way, if a densely populated population center pops up next to `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` this center too will have a high accessibility score since $A_i$ does not consider competition of opportunities from neighbouring population centers. Neglecting to constrain opportunity counts (i.e., single-constraint) in addition to obscuring the interpretability of accessibility can also bias results spatially which will be discussed later on in the paper.
+To address this interpretability issue, previous research has aimed to index and normalize values on a per demand-population basis [e.g., @barboza_balancing_2021; @pereira_distributional_2019; @wang_access_2021]. However, as recent research on accessibility discusses [@merlin2017competition; @allen2019; @paez2019; @kelobonye2020measuring], these steps do not truly address competition. In effect, when calculating $A_i$, every opportunity enters the weighted sum once for every origin $i$ that can reach it. Put another way, if a densely populated population center pops up next to `r toy_sim_zones_access_3_2 %>% slice_max(A_i, n=1) %>% pull(id_short)` this center too will have a high accessibility score. There is a lurking assumption in this process that all opportunities are *available* to anyone from any origin $i=1,\cdots,n$ who can reach them: in other words, opportunities are assumed to be infinitely divisible and thus inexhaustible. This multiplication of the opportunities means that competition is not really present, and $A_i$ does not consider that neighbouring population centers are seeking the same exhaustible opportunities. Neglecting to constrain opportunity counts (i.e., single-constraint) in addition to obscuring the interpretability of accessibility can also bias the estimated landscape of opportunity, as we will discuss later on in the paper.
 
-## A review of competitive measures 
+## Measures with congestion and/or competition
 
-Considering competition in accessibility is not new. The highly cited work of [-@shen1998] in which, in one step, he divides conventional accessibility by the travel-cost adjusted population seeking the opportunities in a given region. This work was in part popularized by the 2-step floating catchment approach (2SFCA) introduced by [-@luo2003] and used today. 
+Past research has considered both congestion and/or competition in accessibility analysis. The highly cited work of [-@shen1998] for example, divides conventional accessibility by the travel-cost adjusted population seeking the opportunities in a given region: this was perhaps the first measure of accessibility to introduce congestion. This work was popularized by the 2-step floating catchment approach (2SFCA) introduced by [-@luo2003] and widely used today. 
 
 A synthetic example of a three population center and two employment centre is solved using this popular competitive measure and shown in Figure XX- left. The formulation of the 2SFCA approach is shown in step 1 (Equation (\ref{eq:2SFCA-step1})) where the PPR $R_j$ is calculated for each opportunity and then allocated to populations based on travel cost $f(\cdot)$ in step 2 (Equation (\ref{eq:2SFCA-step2})). The synthetic example is solved in detail for the 2SFCA and all other accessibility measures in the Appendix (XX). 
 
@@ -292,7 +290,9 @@ A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 -   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$;
 -   $f(\cdot)$ is an impedance function of $c_{ij}$.
 
-Another type of competitive measure which has been used in the literature include inverse balancing factors as used in [@horner_exploring_2004] and [@allen2019]. This method involves computing the inverse balancing factor for each origin through an iterative procedure until it converges. The iterations seek to match the travel-cost weighted opportunities to the travel-cost weighted population in the region. It requires that the total population and opportunities are equal in the region but the mean accessibilities from previous iterations can be included to standardize the disbalance. The solved synthetic example is in Figure XX - middle, and the formulation of this method is as follows in Equation (\ref{eq:Inverse-balancing-1}) and (\ref{eq:Inverse-balancing-2}). 
+As shown by @paez2019, congestion does not necessarily mean competition, as the same population is claimed by multiple service centers and the same level of service is given to multiple populations.
+
+Other measures have been proposed that include inverse balancing factors as in [@horner_exploring_2004] and [@allen2019]. These methods involves computing the inverse balancing factor for each origin through an iterative procedure until convergence. The iterations seek to match the travel-cost weighted opportunities to the travel-cost weighted population in the region. It requires that the total population and opportunities are equal in the region but the mean accessibilities from previous iterations can be included to standardize the imbalance The solved synthetic example is in Figure XX - middle, and the formulation of this method is as follows in Equation (\ref{eq:Inverse-balancing-1}) and (\ref{eq:Inverse-balancing-2}). <!-- IS THIS CORRECT? A limitation of this approach is that the estimates of accessibility do not necessarily add up to a known constant-->
 
 ```{=tex}
 \begin{equation}
@@ -311,7 +311,7 @@ B_{i} = {\sum_{i=1}^{I} \frac{P_{i}f(c_{ij})}{A_{i}}}\\
 \noindent where:
 -   $B_{i}$ is the balancing factor; other variables defined in the gravity model. 
 
-Incorporating the concept of balance between the population and opportunities, a recent advancement to the 2SFCA is the balanced 2 step floating catchment approach (B2SFCA) by [@paez2019] is introduced. In both steps, the number of opportunities from the PPR to each origin, this results in a consistent number of opportunities being assigned but, ultimately, the total number of opportunities is not preserved. 
+Incorporating the concept of balance between the population and opportunities, a recent advancement to the 2SFCA is the balanced 2-step floating catchment approach (B2SFCA) of [@paez2019]. In both steps, the number of opportunities from the PPR to each origin, this results in a consistent number of opportunities being assigned. 
 
 In the B2SFCA, the PPR $R_{j}$ for each employment center can be interpreted as the total number of jobs accessible to the total population after being _proportionally_ adjusted to the travel cost. The PPR $R_{j}$ is then allocated, proportionally based on travel cost, to each employment center. For this reason, the sum of all $A_{i}$ adds up to the same value as the sum of all $R_{j}$. Since PPR and the subsequent $A_{i}$ are proportionally allocated based travel costs, it should be noted that $A_{i}$ no longer considers _potential_ interaction in the how it was defined in the gravity model [@hansen1959] and instead represent the allocation of PPR, based on travel time, to each population. This measure introduces some consistency in how the PPR is calculated (compared to the 2SFCA), but is still lacking interpretability in the resulting values. 
 
@@ -326,7 +326,7 @@ R_{j} = \frac{O_{j}}{\sum_i P_{i} \frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
 
 ```{=tex}
 \begin{equation}
-\label{eq:B2SFCA-1}
+\label{eq:B2SFCA-2}
 A_{i} = {\sum_j R_{j}\frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
 \end{equation}
 ```
@@ -334,13 +334,16 @@ A_{i} = {\sum_j R_{j}\frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
 
 <!-- NOTE: potentially a figure here, I'm thinking to put all 3 competitive measures side by side in a 1*3 panel. Maybe consolidate that gravity model and create a 2*2 grid? Or maybe no figures at all? thoughts-->
 
-## Introducing spatial availability - model formulation
+# Introducing spatial availability
 
 <!-- NOTE: maybe we should remove the separate calculations of the population and travel cost factors? Sort of complicated for no reason.-->
 
-Here we introduce the spatial availability model formulation and demonstrate how it compares to competitive measures of accessibility.
+Here we introduce the spatial availability model formulation and demonstrate how it compares to other measures of accessibility with congestion and/or competition.
 
-Formally, spatial availability $V_{i}$ is defined by the number of opportunities $O$ that are proportionally allocated based on a population allocation factor $F^p_{i}$ and cost of travel allocation factor $F^c_{ij}$ for all origins $i$ to all destinations $j$ as detailed in Equation (\ref{eq:spatial-availability}). In line with the tradition of gravity modeling, the proposed framework distinguishes between opportunities at a destination and demand for opportunities at the origin.
+We define spatial availability $V_{i}$ as the number of opportunities $O$ that are proportionally allocated based on population and cost of travel, for all origins $i$ to all destinations $j$.
+
+
+This idea is reflected in Equation (\ref{eq:spatial-availability}), where $F^p_{i}$ is a population-based allocation factor that grants a larger share of the existing opportunities to larger centers, and $F^c_{ij}$ is a transportation cost-based allocation factor that grants a larger share of the existing opportunities to closer centers. This is in line with the tradition of gravity modeling, and proposed framework distinguishes between opportunities at a destination and demand for opportunities at the origin.
 ```{=tex}
 \begin{equation}
 \label{eq:spatial-availability}
@@ -362,7 +365,7 @@ Notice that, unlike $A_i$ in Equation (\ref{eq:conventional-accessibility}), the
 ## Population and travel cost allocation factors
 
 <!-- remove r--> 
-We begin with allocation based on demand by population; consider an employment center $j$ with $O_j^r$ jobs of type $r$. In the general case where there are $K$ population centers in the region, we define the following factor:
+We begin with allocation based on demand by population; consider an employment center $j$ with <!-- In the following REMOVE r, which was for catchment areas? --> $O_j^r$ jobs of type $r$. In the general case where there are $K$ population centers in the region, we define the following factor:
 
 ```{=tex}
 \begin{equation}
@@ -375,7 +378,7 @@ The population allocation factor $F^p_{i}$ corresponds to the proportion of the 
 
 More broadly, since the factor $F^p_{i}$ is a proportion, when it is summed over $i=1,\cdots,K$ it always equals to 1 (i.e., $\sum_i^{K} F^p_{i} = 1$). This is notable since the share of jobs at each destination $j$ allocated to (i.e., available to) each origin, based on population, is equal to $V^p_{i} = O_j \cdot F^p_{i}$. Since the sum of $F^p_{i}$ is equal to 1, it follows that $\sum_{i=1}^I V_{i} = O_j$. In other words, the number of jobs across the region is preserved. The result is a proportional allocation of jobs (opportunities) to origins based on the size of their populations.
 
-For simplicity, assume that all the population in the region is eligible for these jobs, that is, that the entirety of the population is included in the set $r$. Also assume that $\alpha=1$. The population allocation factors $F^p_{i}$ is as follows in Equation (\ref{eq:pop-alloc-factor-2populations}).
+For simplicity, assume <!--NOTE: REMOVE discussion of different types of jobs, since this relates to catchment areas? that all the population in the region is eligible for these jobs, that is, that the entirety of the population is included in the set $r$. Also assume--> that $\alpha=1$. The population allocation factors $F^p_{i}$ is as follows in Equation (\ref{eq:pop-alloc-factor-2populations}).
 
 ```{=tex}
 \begin{equation}
@@ -416,13 +419,13 @@ V^p_{3} = O_1 \cdot F^p_{3} + O_2 \cdot F^p_{3}= 750 \cdot 0.490 + 220 \cdot 0.4
 When using only the proportional allocation factor $F^p_{i}$ to calculate spatial availability (differentiated here by being defined as $V^p_{i}$ instead of $V_{i}$), proportionally more jobs are allocated to the bigger population center (i.e., 2 times more jobs as it is 2 times larger in population). We can also see that the sum of spatial availability for all population centers is equal to the sum of jobs; put another way, the total opportunities are preserved. 
 
 Clearly, using only the proportional allocation factor $F^p_{i}$ to calculate spatial availability does not account for how far population centers are from employment centers. It is the task of the second allocation factor $F^c_{ij}$ to account for the friction of distance, as seen in Equation (\ref{eq:tcost-alloc-factor}).
-
 ```{=tex}
 \begin{equation}
 \label{eq:tcost-alloc-factor}
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^K f(c_{ij})}\\
 \end{equation}
 ```
+
 Travel cost allocation factor $F^c_{ij}$ serves to proportionally allocate more jobs to closer locations through an impedance function. $c_{ij}$ is the cost (e.g., the distance, travel time, etc.) to reach employment center $j$ from $i$ and $f(\cdot)$ is an impedance function that depends on cost ($c_{ij}$). 
 
 To continue with the example, assume that the impedance function is a exponential function with $\beta=-0.00015$ and the distance from population centers to employment centers is as shown in TABLE XX. $\beta$ modulates the steepness of the impedance effect and is empirically determined in the case of positive accessibility, or set by the analyst to meet a preset condition in the case of normative accessibility [@paez2012measuring]. The proportional allocation factor $F^p_{i}$ for all population centers is defined in Equation (\ref{eq:tcost-allocation-factor-2populations}).
@@ -466,7 +469,7 @@ V^c_{3,2} = E_2 \cdot F^c_{3,2} = 220 \times  0.984 = 216.48\\
 \end{equation}
 ```
 
-```{r SA-4, eval=TRUE}
+```{r SA-4, eval=TRUE, include=FALSE}
 750*0.109
 750*0.697 
 750*0.193
@@ -486,6 +489,19 @@ V_{i} = O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{i} \cdot F^c_{ij}}
 $$
 
 The resulting spatial availability $V_{i}$ is calculated for all population centers is calculated in Equation (\ref{eq:SA-2populations}).
+```{r SA-5, eval=TRUE, include=FALSE}
+750*{0.257*0.109}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
+750*{0.252*0.697}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
+750*{0.49*0.193}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
+
+220*{0.257*0.004}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
+220*{0.252*0.011}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
+220*{0.49*0.984}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
+
+70.45 + 0.46
+441.72 + 1.26
+237.83 + 218.28
+```
 
 ```{=tex}
 \begin{equation}
@@ -505,26 +521,20 @@ V_{2,2} = O_2\cdot \frac{F^p_{2,2} \cdot F^c_{2,2}}{F^p_{1,2} \cdot F^c_{1,2} + 
 220 \cdot \frac{0.25 \cdot 0.011}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 1.26\\
 V_{3,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
 220 \cdot \frac{0.49 \cdot 0.984}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 218.28\\
+\end{array}
+\end{equation}
+```
 
+Aggregating by population center gives the following values:
+```{=tex}
+\begin{equation}
+\label{eq:SA-2populations-2}
+\begin{array}{l}
 V_{1} = 70.45 + 0.46 = 70.91\\
 V_{2} = 441.72 + 1.26 = 442.98\\
 V_{3} = 237.83 + 218.28 = 456.11\\
 \end{array}
 \end{equation}
-```
-
-```{r SA-5, eval=TRUE}
-750*{0.257*0.109}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-750*{0.252*0.697}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-750*{0.49*0.193}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-
-220*{0.257*0.004}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-220*{0.252*0.011}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-220*{0.49*0.984}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-
-70.45 + 0.46
-441.72 + 1.26
-237.83 + 218.28
 ```
 
 Considering both population and cost allocation factors in $V_{i}$, the jobs at $E1$ that are allocated to all population centers are still preserved (i.e., $V_{1,1} + V_{2,1} + V_{3,1} = O_1$). Additionally, the sum of jobs at $E2$ are also all preserved (i.e., $V_{1,2} + V_{2,2} + V_{3,2} = O_2$). Thus the sum of $V_{i}$ equals the sum of opportunities (i.e., )  Notice that $V_{i}$, allocates a number of jobs to $P_1$, $P_2$, and $P_3$ is between the values allocated in $V^p_{i}$ and $V^c_{i}$. 
@@ -539,6 +549,11 @@ v_i = \frac{V_i}{P_i}
 ```
 
 To complete the illustrative example, the per capita spatial availability of jobs is calculated in Equation (\ref{eq:SA-per-capita-2populations}).
+```{r SA-6, eval=TRUE, include=FALSE}
+{70.45 }/{260} + {0.46}/{260}
+{441.72 }/{255} + {1.26}/{255}
+{237.83 }/{495} + {218.28}/{495}
+```
 
 ```{=tex}
 \begin{equation}
@@ -551,14 +566,11 @@ v_{3} =  \frac{V_{3,1} + V_{3,2}}{P_3} =  \frac{456.11}{495} = 0.921\\
 \end{equation}
 ```
 
-```{r SA-6, eval=TRUE}
-{70.45 }/{260} + {0.46}/{260}
-{441.72 }/{255} + {1.26}/{255}
-{237.83 }/{495} + {218.28}/{495}
-```
 We can see that since $P_2$ is closest to $E1$, is similarly spaced out from $P1$ and $P2$, and is a smaller population center thus having less competition, $P_2$ benefits with a higher spatial availability of jobs per job-seeking population. We can also compare these values to the overall ratio of jobs-to-population in this region of two job center and three population centers is $\frac{750+220}{260+255+495}=$ `r round({750+220}/{260+255+495}, 2)` jobs per person.
 
-# Part 2: Empirical example of Toronto
+<!-- SUGGESTION: Compare to the other accessibility measures calculated using the same synthetic example, and how they lack the ease of interpretation of spatial availability -->
+
+# Empirical example of Toronto
 
 <!-- NOTE: maybe consider adding another competitive measure here?-->
 In this section we use population and employment data from the Golden Horseshoe Area (GGH). This is the largest metropolitan region in Canada and includes the cities of Toronto and Hamilton. We calculate gravity accessibility, XXX, and the proposed spatial availability for Toronto after introducing the data used and calibrating an impedance function. 
@@ -824,7 +836,6 @@ TO_availability <- TO_od_ft %>%
 TO_taz_acc <- TO_taz_acc %>% merge(TO_availability, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
 ```
 
-
 ## Measuring access to jobs in Toronto
 
 Toronto is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_od_ft$workers)/sum(od_ft$workers))` of workers in the GGH travel to jobs in Toronto and `r percent(sum(TO_od_ft$jobs)/sum(od_ft$jobs))` of jobs are located within Toronto. 
@@ -942,6 +953,20 @@ mplot_SApW_TO
 \newpage
 
 # Discussion and Conclusions
+
+<!--
+**NOTE: Reserve this critique for the discussion -- In reference to Allen and Farber's method** 
+
+But while such a model can account for competition, the mutual dependence of the balancing factors in a doubly-constrained model means they must be iteratively calculated which makes them more computationally-intensive. Furthermore, the double constraint means that the sum of opportunity-seekers and the sum of opportunities must match, which is not necessarily true in every potential use case (e.g., there might be more people searching for work than jobs exist in a region).
+-->
+
+
+
+<!-- 
+**NOTE: O
+develop this
+It should be noted that this is a novel approach which has yet to be sufficiently refined for estimating purposes, however, there is room for an additional competitive measure as prevailing measure do _not_ always reflect trends seen in empirical case studies. XXX. Similarly, conventional accessibility (i.e., potential interaction), fail to reflect empirical observations in certain contexts as well. XXX. Measures are highly depending on specific contexts and environments, thus there's conceptually room for an additional measure. 
+--> 
 
 
 
