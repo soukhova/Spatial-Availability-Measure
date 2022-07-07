@@ -1,8 +1,8 @@
 ---
-title: "Estimating spatial availability/mismatch using singly constrained accessibility measures"
+title: "Enhancing the interpetability of competitive accessibility"
 subtitle: "Planning"
 author: "Anastasia Soukhov, etc."
-date: "2022-01-22"
+date: "2022-06-22"
 output:
   xaringan::moon_reader:
     nature:
@@ -28,7 +28,7 @@ library(ggspatial)
 options(scipen = 999)
 ```
 
-# Background
+# Potential accessibility - limitations
 
 - Conventional accessibility is widely used and is defined as follows:
 
@@ -42,6 +42,32 @@ Where:
 -   $O_j$ is the number of opportunities at location $j$. These are opportunities for activity and add some sort of *supply* to the area;
 -   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$
 -   $f(\cdot)$ is an impedance function of $c_{ij}$; it can take the form of any monotonically decreasing function (e.g., negative exponential distribution) .
+
+It suffers from interpretability issues. Doesn't consider competition
+---
+# Why competition?
+
+Competition matter for many different opportunity times 
+
+- study 1
+- study 2
+- study 3
+
+There have been measures to account for competition.
+
+---
+# Balancing factors accessibility - limitations 
+
+In response, balancing factors to account for competition effects were introduced.
+
+Draw backs include costly computation as the measure must be iteratively estimated. 
+
+---
+# Constrainted potential measures - less limitations
+
+A different approach was the family of constrained potential measures, such as Shen (1998), which also accounts for competition but in a different way. Here the quotient of opportunities within reach from origin i (supply potential) and potential demand of those opportunities from each destination j.
+
+Computation is less costly than balancing factor measures. Also... the opportunities add up to the demand. 
 
 ---
 
