@@ -1,0 +1,218 @@
+---
+title: "R Notebook"
+output: 
+  html_notebook:
+  pandoc_args: --webtex  
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r}
+library(tidyverse)
+```
+
+# Shen's Example:
+
+This is the example from Shen (1998, p. 349):
+![Shen's example](shen-example.jpg)
+
+Code data:
+```{r}
+od_tt <- data.frame(o_id = c("A", "A", "A", "B", "B", "B", "C", "C", "C"), # Three origins
+                    d_id = c("1", "2", "3", "1", "2", "3", "1", "2", "3"), # Three destinations
+                    tt = c(15, 30, 100, 30, 15, 100, 100, 100, 15), # Travel time
+                    pop = c(50000, 50000, 50000, 150000, 150000, 150000, 10000, 10000, 10000), # Population
+                    opp = c(100000, 100000, 10000, 100000, 100000, 10000, 100000, 100000, 10000)) # Jobs
+```
+
+Use an exponential impedance function as follows:
+$$
+f(c_{ij}) = exp(-b\cdot c_{ij})
+$$
+
+Set b:
+```{r}
+b <- 0.001
+```
+
+
+Calculate impedance:
+```{r}
+od_tt <- od_tt |>
+  mutate(f = exp(-b * tt))
+```
+
+## Accessibility
+
+Accessibility is calculated as:
+$$
+S_i = \sum_jO_jf(c_{ij})
+$$
+This is the estimate of conventional accessibility:
+```{r}
+S <- od_tt |>
+  group_by(o_id) |>
+  summarize(S = sum(opp * f),
+            .groups = "drop")
+S
+```
+
+## Shen's accessibility with congestion
+
+In this case accessibility is calculated as:
+$$
+A_i = \sum_j \frac{O_jf(c_{ij})}{D_j}
+$$
+
+\noindent with:
+$$
+D_j = \sum_kP_kf(c_{jk})
+$$
+
+
+As an alternative we can define a new variable level of service as follows:
+$$
+LOS_j = \frac{O_j}{D_j}
+$$
+
+\noindent which then would give:
+$$
+A_i = \sum_j LOS_jf(c_{ij})
+$$
+
+First calculate the level of service:
+```{r}
+LOS_j <- od_tt |>
+  group_by(d_id) |>
+  summarize(opp = first(opp),
+            D_j = sum(pop * f),
+            .groups = "drop") |>
+  mutate(LOS_j = opp/D_j)
+
+LOS_j
+```
+
+Check the calculation of D_j:
+```{r}
+50000 * exp(-b * 15) + 150000 * exp(-b * 30) + 10000 * exp(-b * 100)
+```
+
+Join demand to table:
+```{r}
+A <- od_tt %>%
+  left_join(LOS_j |>
+              select(d_id, LOS_j),
+            by = "d_id")
+
+A
+```
+
+Calculate accessibility:
+```{r}
+A <- A |>
+  group_by(o_id) |>
+  summarize(A = sum(LOS_j * f))
+
+A
+```
+
+Nominal number of jobs:
+```{r}
+A |>
+  mutate(nominal_jobs = A * c(50000,
+                              150000,
+                              10000)) |>
+  pull(nominal_jobs) |>
+  sum()
+```
+
+# Spatial availability
+
+Function to calculate spatial availability:
+```{r sp_avail-function,include=FALSE}
+#defining the spatial availability function
+sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
+
+  o_id <- rlang::enquo(o_id)
+  d_id <- rlang::enquo(d_id)
+  pop <- rlang::enquo(pop)
+  opp <- rlang::enquo(opp)
+  r <- rlang::enquo(r)
+  f <- rlang::enquo(f)
+
+  sum_pop <- x %>%
+    dplyr::distinct(!!o_id,
+                    .keep_all = TRUE) %>%
+    dplyr::mutate(sum_pop = !!r*(!!pop)^alpha) %>%
+    dplyr::pull(sum_pop) %>%
+    sum()
+
+  f_p <- dplyr::pull(x, !!r) * dplyr::pull(x, !!pop)^alpha / sum_pop
+
+  sum_impedance <- x %>%
+    dplyr::group_by(!!d_id) %>%
+    dplyr::summarize(sum_impedance = sum(!!f))
+
+  x <- x %>%
+    dplyr::left_join(sum_impedance,
+                     by = rlang::as_name(d_id))
+
+  f_c <- dplyr::pull(x, !!f) / x$sum_impedance
+
+  x$f_c <- f_c
+  x$f_p <- f_p
+
+  sum_pa <- x %>%
+    dplyr::group_by(!!d_id) %>%
+    dplyr::summarize(sum_pa= sum(f_p * f_c))
+
+  x <- x %>%
+    dplyr::left_join(sum_pa,
+                     by = rlang::as_name(d_id))
+  f_t <- (f_p * f_c) / dplyr::pull(x, sum_pa)
+
+  dplyr::pull(x, !!opp) * f_t
+}
+```
+
+Calculate spatial availability:
+```{r}
+V_i <- od_tt %>%
+  mutate(r = 1) %>%
+  mutate(V_ij = sp_avail(.,
+                        o_id = o_id, 
+                        d_id = d_id, 
+                        pop = pop, 
+                        opp = opp, 
+                        r = r, 
+                        f = f, 
+                        alpha = 1))
+V_i
+```
+
+Total number of jobs available:
+```{r}
+V_i |>
+  pull(V_ij) |>
+  sum()
+```
+
+Jobs available per origin:
+```{r}
+V_i |>
+  group_by(o_id) |>
+  summarize(V_i = sum(V_ij),
+            .groups = "drop")
+```
+
+Jobs per capita per origin:
+```{r}
+V_i |>
+  group_by(o_id) |>
+  summarize(V_i = sum(V_ij),
+            .groups = "drop") |>
+  mutate(v_i = V_i / c(50000, 150000, 10000)) |>
+  pull(v_i)
+```
