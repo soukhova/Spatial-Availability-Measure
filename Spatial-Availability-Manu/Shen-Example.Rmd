@@ -34,7 +34,7 @@ $$
 
 Set b:
 ```{r}
-b <- 0.001
+b <- 0.1
 ```
 
 
@@ -99,6 +99,33 @@ Check the calculation of D_j:
 50000 * exp(-b * 15) + 150000 * exp(-b * 30) + 10000 * exp(-b * 100)
 ```
 
+**IMPORTANT:** The demand is _less_ than the population!
+```{r}
+LOS_j |>
+  pull(D_j) |>
+  sum()
+```
+
+Compare to the actual population:
+```{r}
+od_tt |>
+  distinct(o_id, 
+           .keep_all = TRUE) |>
+  pull(pop) |>
+  sum()
+```
+
+This is problematic: the impedance function says that workers are willing to travel only so far, that many of them are not actually willing to travel to take a job. In other words, the travel behavior indicates a shortage of labor of:
+```{r}
+od_tt |>
+  distinct(o_id, 
+           .keep_all = TRUE) |>
+  pull(pop) |>
+  sum() - LOS_j |>
+  pull(D_j) |>
+  sum()
+```
+
 Join demand to table:
 ```{r}
 A <- od_tt %>%
@@ -118,7 +145,36 @@ A <- A |>
 A
 ```
 
-Nominal number of jobs:
+Shen's property says that the weighted sum of accessibility (by total population) equals the number of opportunities:
+```{r}
+A |>
+  mutate(nominal_jobs = A * c(50000,
+                              150000,
+                              10000)) |>
+  pull(nominal_jobs)
+
+A |>
+  mutate(nominal_jobs = A * c(50000,
+                              150000,
+                              10000)) |>
+  pull(nominal_jobs) |>
+  sum()
+```
+
+This ignores the travel behavior of the population. We know that the _demand_ for jobs is less than the total population. Accordingly the number of jobs _according to the demand by zone_ is:
+```{r}
+# Workers traveling for jobs from each zone
+A |>
+  mutate(nominal_jobs = A * LOS_j$D_j) |>
+  pull(nominal_jobs)
+
+A |>
+  mutate(nominal_jobs = A * LOS_j$D_j) |>
+  pull(nominal_jobs) |>
+  sum()
+```
+
+Nominal number of jobs (total):
 ```{r}
 A |>
   mutate(nominal_jobs = A * c(50000,
