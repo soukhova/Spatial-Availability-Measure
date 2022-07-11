@@ -82,7 +82,7 @@ $$
 A_i = \sum_j LOS_jf(c_{ij})
 $$
 
-First calculate the level of service:
+First calculate the level of service (demand by destination):
 ```{r}
 LOS_j <- od_tt |>
   group_by(d_id) |>
@@ -114,6 +114,18 @@ od_tt |>
   pull(pop) |>
   sum()
 ```
+
+Demand by _origin_:
+```{r}
+D_i <- od_tt |>
+  group_by(o_id) |>
+  summarize(D_i = sum(pop * f),
+            .groups = "drop")
+
+D_i
+sum(D_i$D_i)
+```
+
 
 This is problematic: the impedance function says that workers are willing to travel only so far, that many of them are not actually willing to travel to take a job. In other words, the travel behavior indicates a shortage of labor of:
 ```{r}
@@ -165,21 +177,11 @@ This ignores the travel behavior of the population. We know that the _demand_ fo
 ```{r}
 # Workers traveling for jobs from each zone
 A |>
-  mutate(nominal_jobs = A * LOS_j$D_j) |>
+  mutate(nominal_jobs = A * D_i$D_i) |>
   pull(nominal_jobs)
 
 A |>
-  mutate(nominal_jobs = A * LOS_j$D_j) |>
-  pull(nominal_jobs) |>
-  sum()
-```
-
-Nominal number of jobs (total):
-```{r}
-A |>
-  mutate(nominal_jobs = A * c(50000,
-                              150000,
-                              10000)) |>
+  mutate(nominal_jobs = A * D_i$D_i) |>
   pull(nominal_jobs) |>
   sum()
 ```
