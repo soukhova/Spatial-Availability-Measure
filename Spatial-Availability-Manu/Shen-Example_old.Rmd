@@ -34,7 +34,7 @@ $$
 
 Set b:
 ```{r}
-b <- 0.1
+b <- 0.00001
 ```
 
 
@@ -81,6 +81,11 @@ $$
 $$
 A_i = \sum_j LOS_jf(c_{ij})
 $$
+Impedance function:
+```{r}
+
+data.frame(tt = seq(0,100,5)) %>% mutate(f=exp(-b*tt)) %>% ggplot(aes(x=tt, y=f)) + geom_line()
+```
 
 First calculate the level of service (demand by destination):
 ```{r}
@@ -97,6 +102,8 @@ LOS_j
 Check the calculation of D_j:
 ```{r}
 50000 * exp(-b * 15) + 150000 * exp(-b * 30) + 10000 * exp(-b * 100)
+50000 * exp(-b * 30) + 150000 * exp(-b * 15) + 10000 * exp(-b * 100)
+50000 * exp(-b * 100) + 150000 * exp(-b * 100) + 10000 * exp(-b * 15)
 ```
 
 **IMPORTANT:** The demand is _less_ than the population!
@@ -142,7 +149,7 @@ Join demand to table:
 ```{r}
 A <- od_tt %>%
   left_join(LOS_j |>
-              select(d_id, LOS_j),
+              dplyr::select(d_id, LOS_j),
             by = "d_id")
 
 A
@@ -173,7 +180,12 @@ A |>
   sum()
 ```
 
-This ignores the travel behavior of the population. We know that the _demand_ for jobs is less than the total population. Accordingly the number of jobs _according to the demand by zone_ is:
+Center A is sending 66 thousand workers but only 50,000 are there, etc. When accessibility is greater than 1 this happens. But these extra people don't exist so you cant use this to forecast congestion/infrastructure impacts on the network. This can't be used for infrastructure planning because the populations are 'potential' supply and 'potential' demand.
+
+
+This calculation is not consistent with the travel behavior of the population. For center a: 1.33 jobs per worker - but that was calculated assuming 66833 jobs per 50250.38 potential workers.  We know that the _demand_ for jobs is less than the total population so it doesn't actually allocate ALL the jobs... it only allocates some of the jobs based on the travel behaviour. What's the value of this property if it tells you that there are 210,000 jobs... but only ends up giving out the sum of D_j (~57,000). It's only a proof a certain constraint and it is not really useful for us. 
+
+Accordingly the number of jobs _according to the demand by zone_ is:
 ```{r}
 # Workers traveling for jobs from each zone
 A |>
@@ -181,7 +193,20 @@ A |>
   pull(nominal_jobs)
 
 A |>
-  mutate(nominal_jobs = A * D_i$D_i) |>
+  mutate(nominal_jobs = A * LOS_j$D_j) |>
+  pull(nominal_jobs) |>
+  sum()
+```
+The logical inconsistency is if you disregard the travel behaviour assumption () then you can get the total number of jobs. But, if you are oncisstent with travel behaviour not all jobs are taken. 
+
+Imagine that 15 mins = 150,000km. It's so far people are not willing to go there. So .06 people of 210,000 people will go to take these jobs (when beta is 1). So this property, where all the jobs are preserved, masks that people don't have the willingness to travel. I.e., in center A, 1.99 jobs per worker but it is out of the 0.03 workers who seek all the 0.06 jobs.
+
+Nominal number of jobs (total):
+```{r}
+A |>
+  mutate(nominal_jobs = A * c(50000,
+                              150000,
+                              10000)) |>
   pull(nominal_jobs) |>
   sum()
 ```
@@ -274,3 +299,15 @@ V_i |>
   mutate(v_i = V_i / c(50000, 150000, 10000)) |>
   pull(v_i)
 ```
+
+----
+```{r}
+j1<-(100000*exp(-0.1*15))/(50000 * exp(-b * 15) + 150000 * exp(-b * 30) + 10000 * exp(-b * 100))
+j2<-(100000*exp(-0.1*30))/(50000 * exp(-b * 30) + 150000 * exp(-b * 15) + 10000 * exp(-b * 100))
+j3<-(10000*exp(-0.1*100))/(50000 * exp(-b * 100) + 150000 * exp(-b * 100) + 10000 * exp(-b * 15))
+
+j1+j2+j3
+```
+
+`
+

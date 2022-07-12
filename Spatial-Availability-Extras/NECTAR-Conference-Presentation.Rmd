@@ -25,17 +25,130 @@ library(ggpmisc)
 library(ggrepel)
 library(cowplot)
 library(ggspatial)
+library(ggtext)
 options(scipen = 999)
 ```
 
-# Potential accessibility - limitations
+our research shows an inconsistency in Shen's method, it is used in hundreds of works
 
-- Conventional accessibility is widely used and is defined as follows:
+using shen's own example explain why it's a problem. the logical flaw is masked if you only look at the outputs. If you look into the intermediates it makes a lot more sense. "But wait the demand is only THIS!, this doesn't add up!". it will re-arrange where people are coming from and going too! 
 
+our alternative: spatial availability. show spatial availability solved using shen's exmaple
+
+Toronto solved for both. 
+
+
+---
+There is a flaw in shen
+
+We propose an alt derivation
+- shows that FCA are really just accessibility with a single constraint
+- it is internally consistent (shen has flaw)
+- by making all the assumptions clear from the start ( not as a by-produce, like shen's), we can realize that there's a lot of things we can fiddle with to expand our analysis in perspective directions
+
+- shen continues to call the population ' opportunity seeking population' this term is problematic bc it is not consistent with the travel behaviour. For us, the opp seeking population is ALL the population but with the proportional allocation. 
+---
+
+
+1) the ability to get to the same results with results that stay proportional and the logic is right. 
+2) by putting it in this format, (we allocate based on size, then based on impedance). It makes it clear that the things we can adjust give us some possibility for perscriptive analysis (what sort of travel behaviour will be needed for achieving parity. Or what distirbution of opp or population will be needed to reach partiity). Extends our analytical possibilities which are clearer. 
+3) it replicates FCA.. by dividing by population at center
+
+for the comparision of the two measures:
+- we talk abotu the opp seeking population (it's all the population). In shen's the opp seeking population is the demand. This conceptually matters.
+---
+
+#Shen's toy example
+
+Three developments, a population and employment center in each. 
+```{r, include=FALSE}
+od_tt <- data.frame(o_id = c("A", "A", "A", "B", "B", "B", "C", "C", "C"), # Three origins
+                    d_id = c("1", "2", "3", "1", "2", "3", "1", "2", "3"), # Three destinations
+                    tt = c(15, 30, 100, 30, 15, 100, 100, 100, 15), # Travel time
+                    pop = c(50000, 50000, 50000, 150000, 150000, 150000, 10000, 10000, 10000), # Population
+                    opp = c(100000, 100000, 10000, 100000, 100000, 10000, 100000, 100000, 10000)) # Jobs
+
+od <- data.frame(id = c("A", "B", "C", "1", "2", "3"),
+                 type = c("Population", "Population", "Population", "Jobs", "Jobs", "Jobs"),
+                 size = c(50000, 150000, 10000, 100000, 100000, 10000),
+                 x = c(2, 2, 6, 1, 1, 7),
+                 y = c(8, 3, 2, 7, 2, 1))
+
+centers <- data.frame(id = c("Urban center", "Suburb", "Satellite town"),
+                 size = c(1000000, 1000000, 1000000),
+                 x = c(1.5, 1.5, 6.5),
+                 y = c(2.5, 7.5, 1.5))
+
+od_lines <- data.frame(o_id = c("A", "A", "A","A", "A", "A", "B", "B", "B","B", "B", "B", "C", "C", "C","C", "C", "C"), # Three origins
+                    d_id = c("1", "1", "2", "2", "3","3","1", "1", "2", "2", "3","3", "1", "1", "2", "2", "3","3"), # Three destinations
+                    x = c(2, 1, 2, 1, 2, 7, 2, 1, 2, 1, 2, 7, 6, 1, 6, 1, 6, 7),
+                    y = c(8, 7, 8, 2, 8, 1, 3, 7, 3, 2, 3, 1, 2 , 7, 2, 2, 2, 1),
+                    group = c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9))
+
+od_table <- data.frame(Pts = c("A", "B", "C", "1", "2", "3"),
+  Value = c("50,000 pop", "150,000 pop", "100,00 pop", "100,000 jobs", "100,000 jobs", "10,000 jobs"))
+```
+
+```{r create-figure-with-toy-example,  echo=FALSE}
+ggplot() + 
+  geom_point(data = centers, aes(x = x, y = y), color = "#f5cd9f50", size=55)+
+  geom_text(data = centers, aes(x,y-2.25, label=id)) +
+  geom_line(data = od_lines %>% filter(o_id == "B"), aes(x=x, y=y, group=group), color = "gold" ) +
+  geom_line(data = od_lines %>% filter(o_id == "C"), aes(x=x, y=y, group=group), color = "red", linetype = "dashed") +
+  geom_line(data = od_lines %>% filter(o_id == "A"), aes(x=x, y=y, group=group), color = "black", linetype="dotted") +
+  geom_point(data = od,
+            aes(size = size,
+                x = x, y = y, color = type)) + 
+  geom_label(data = od, aes(x+0.3,y+0.3, label=id)) +
+  scale_colour_manual(values = c("orange", "light blue") ) +
+  scale_size(range = c(4, 10)) + 
+  theme_minimal() + guides(size = "none", color = "none")
+  
+grid::pushViewport(grid::viewport(x=0.88, y=0.8))
+gridExtra::grid.table(od_table, rows=NULL, 
+                      theme=gridExtra::ttheme_default(core=list(bg_params=list(fill=
+                                                                                 c("light blue","light blue","light blue", "orange", "orange", "orange")))))
+```
+
+---
+#Shen's toy example
+
+Travel times:
+```{r create-figure-with-toy-example,  echo=FALSE}
+
+od_table2 <- data.frame(Path = c("A to 1", "A to 2", "A to 3", 
+                                "B to 1", "B to 2", "B to 3", 
+                                "C to 1", "C to 2", "C to 3"),
+  Value = c("15 mins", "30 mins", "100 mins", "30 mins", "15 mins", "100 mins", "100 mins", "100 mins", "15 mins"))
+
+ggplot() + 
+  geom_point(data = centers, aes(x = x, y = y), color = "#f5cd9f50", size=55)+
+  geom_text(data = centers, aes(x,y-2.25, label=id)) +
+  geom_line(data = od_lines %>% filter(o_id == "B"), aes(x=x, y=y, group=group), color = "gold", size=1) +
+  geom_line(data = od_lines %>% filter(o_id == "C"), aes(x=x, y=y, group=group), color = "red", size=1, linetype = "dashed") +
+  geom_line(data = od_lines %>% filter(o_id == "A"), aes(x=x, y=y, group=group), color = "black", size=1, linetype="dotted") +
+  geom_point(data = od,
+            aes(size = size,
+                x = x, y = y, color = type)) + 
+  geom_label(data = od, aes(x+0.3,y+0.3, label=id)) +
+  scale_colour_manual(values = c("orange", "light blue") ) +
+  scale_size(range = c(4, 10)) + 
+  theme_minimal() + 
+  scale_x_continuous(breaks=c(0,2,4,6,8), minor_breaks=NULL) + guides(size = "none", color = "none")
+  
+grid::pushViewport(grid::viewport(x=0.9, y=0.65))
+gridExtra::grid.table(od_table2, rows=NULL, 
+                      theme=gridExtra::ttheme_default(core=list(bg_params=list(fill=
+                                                                                 c("grey","grey","grey", "gold", "gold", "gold", "red", "red", "red")))))
+```
+
+---
+# Solving Shen's example - 2 ways
+
+.pull-left[
+Conventional gravity accessibility is calculated as:
 $$A_i = \sum_{j=1}^JO_jf(c_{ij})$$
-
 Where:
-
 -   $A$ is accessibility. 
 -   $i$ is a set of origin locations.
 -   $j$ is a set of destination locations.
@@ -44,81 +157,285 @@ Where:
 -   $f(\cdot)$ is an impedance function of $c_{ij}$; it can take the form of any monotonically decreasing function (e.g., negative exponential distribution) .
 
 It suffers from interpretability issues. Doesn't consider competition
+
+]
+
+.pull-right[
+
+Shen's modified accessibility (to consider congestion):
+$$
+S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}
+$$
+
+\noindent with:
+$$
+D_j = \sum_kP_kf(c_{jk})
+$$
+]
+
 ---
-# Why competition?
+# Shen does not consider competition - just congestion
 
-Competition matter for many different opportunity times 
+Shen's method, most popularly revised by as the 2SFCA in which level of service is first calculated and then scaled based on the impedance function:
 
+$$
+LOS_j = \frac{O_j}{D_j} = \frac{O_j}{\sum_kP_kf(c_{jk})}
+$$
+
+$$
+S_i = \sum_j LOS_jf(c_{ij})
+$$
+
+
+```{r, echo=FALSE}
+#set b and calculate impedance
+b <- 0.1
+od_tt <- od_tt |>
+  mutate(f = exp(-b * tt))
+```
+
+Shen accessibility for each population center:
+```{r, echo=FALSE}
+LOS_j <- od_tt |>
+  group_by(d_id) |>
+  summarize(opp = mean(opp),
+            D_j = sum(pop * f),
+            .groups = "drop") |>
+  mutate(LOS_j = opp/D_j)
+
+S <- od_tt %>%
+  left_join(LOS_j |> 
+              dplyr::select(d_id, LOS_j, opp, D_j),
+            by = "d_id") %>%
+  group_by(o_id) |>
+  summarize(S_i = sum(LOS_j * f))
+
+S %>% kable(format = "html",
+        booktabs = TRUE,
+        col.names = c("i", "S_i"),
+        digits = 2)
+```
+This accessibility can still be interpreted as as score, like Hansen-style accessibility. But it can also be interpreted as travel-cost adjusted jobs per travel-cost adjusted capita (potential supply over potential demand).
+
+---
+# An important assumption - but contradictory
+
+```{r, echo=FALSE}
+S_details <- od_tt %>%
+  left_join(LOS_j |> 
+              dplyr::select(d_id, LOS_j, opp, D_j),
+            by = "d_id") %>%
+  group_by(o_id) |>
+  summarize(d_id = d_id,
+            P_i = pop,
+            O_j = opp.x,
+            tt = tt,
+            D_j = D_j,
+            LOS_j = LOS_j,
+            S_i = sum(LOS_j * f))
+
+S_details %>% kable(format = "html",
+        booktabs = TRUE,
+        col.names = c("i", "j", "P_i", "O_j", "tt", "D_j", "LOS_i", "S_i"),
+        caption = "Shen accessibility for each population center",
+        digits = 2)
+```
+
+**IMPORTANT:** The demand is _less_ than the population!
+```{r}
+LOS_j |>
+  pull(D_j) |>
+  sum()
+```
+
+Compare to the actual population:
+```{r}
+od_tt |>
+  distinct(o_id, 
+           .keep_all = TRUE) |>
+  pull(pop) |>
+  sum()
+```
+
+This is problematic: the impedance function says that workers are willing to travel only so far, that many of them are not actually willing to travel to take a job. In other words, the travel behavior indicates a shortage of labor of:
+```{r}
+od_tt |>
+  distinct(o_id, 
+           .keep_all = TRUE) |>
+  pull(pop) |>
+  sum() - LOS_j |>
+  pull(D_j) |>
+  sum()
+```
+
+However, Shen's formula also has an important property; the weighted sum of accessibility (by total population) equals the number of opportunities (see below). 
+```{r}
+S |>
+  mutate(nominal_jobs = S_i * c(50000,
+                              150000,
+                              10000)) |>
+  pull(nominal_jobs)
+
+S |>
+  mutate(nominal_jobs = S_i * c(50000,
+                              150000,
+                              10000)) |>
+  pull(nominal_jobs) |>
+  sum()
+```
+But as we just pointed out - the _potential demand_ for jobs is less than the total population, so how can the number of opportunities add up to same total of opportunities? 
+
+This violates the realistic travel behaviour of the population at each center. The logic is not sound in the equation. *how?? I'm still not sure...*
+
+---
+# It's not just competition though - it's proportional allocation!
+
+An underutilized property of Shen (1998) is that the opportunities add up to the demand - globally and for each population center. 
 - study 1
 - study 2
 - study 3
 
-There have been measures to account for competition.
+We attempted to construct a new measure, from the perspective of proportional allocation, and we ended up arriving to the same model!
 
 ---
-# Balancing factors accessibility - limitations 
+# Spatial availability vs. Shen's accessibility - it's proportional allocation, understand it from a different perspective
 
-In response, balancing factors to account for competition effects were introduced.
+$$
+V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=A}^K F^p_{i} \cdot F^c_{ij}}
+$$
+Population allocation factor:
+$$
+F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha}
+$$
+$$
+F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
+$$
 
-Draw backs include costly computation as the measure must be iteratively estimated. 
+Cost allocation factor:
+$$
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}\\
+$$
+$$
+F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}\\
+F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}\\
+F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}\\
+$$
+Now let's put it together with P, and see how the denominators end up cancelling out:
+$$
+v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}}{\sum_{i=A}^K \frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}}
+$$
 
----
-# Constrainted potential measures - less limitations
+-correct
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot
 
-A different approach was the family of constrained potential measures, such as Shen (1998), which also accounts for competition but in a different way. Here the quotient of opportunities within reach from origin i (supply potential) and potential demand of those opportunities from each destination j.
+-correct after here-
+\frac{f(c_{A2})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}) + \\
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{A2})+f(c_{A3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}} )+ \\
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{A2})+f(c_{A3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}} ) 
+$$
 
-Computation is less costly than balancing factor measures. Also... the opportunities add up to the demand. 
+First, notice how the denominator on the denominator is the same across the summation? Let's simplify it:
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{A2})+f(c_{A3}))}} + \\
+\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{A2})+f(c_{A3}))}} + \\
+\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A1})+f(c_{A2})+f(c_{A3})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{A2})+f(c_{A3}))}} )
+$$
+See how the denominator of the denominator is the same as the denominator of the numerator's denominator for each J (J=1, J=2, and J=3)? Let's cancel those out and simplify:
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})} + \\
+\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})} + \\
+\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{A3})} )
+$$
+Next, see how we can cancel out the $P_{A}^\alpha$? Let's do that.
+$$
+v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + \\
+O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + \\
+O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
+$$
+Let's check to see if it manually adds up to what shen's is
+```{r}
+b<-0
+r1 <- 100000*exp(-b*15)/(50000*exp(-b*15) + 150000*exp(-b*30) + 10000*exp(-b*100))
+r2 <-100000*exp(-b*30)/(50000*exp(-b*30) + 150000*exp(-b*15) + 10000*exp(-b*100))
+r3 <- 10000*exp(-b*100)/(50000*exp(-b*100) + 150000*exp(-b*100) + 10000*exp(-b*15))
+r1+r2+r3
 
----
-
-# Background: Accessibility
-
-```{r toy-example-accessibility, include = FALSE}
-# Calculate impedance function
-beta <- 0.0015
-toy_od_table <- toy_od_table %>%
-  mutate(f = exp(-beta * distance))
-
-# using the origin-destination table (OD) of all origin to destination trips; filter in only jobs which are mean distance or less away from a population center and sum number of jobs available in each origin (population center)
-c_accessibility <- toy_od_table %>% 
-  mutate(A_ij = f * Jobs) %>%
-  group_by(Origin) %>%
-  summarise(A_i = sum(A_ij))
-
-#pass conventional accessibility calculation into the spatial object (toy_sim_zones)
-toy_sim_zones_access  <- toy_sim_zones %>% 
-  left_join(c_accessibility, 
-            by = c("id" = "Origin")) 
+#this is shen's, the same!!!
+j1<-(100000*exp(-0.1*15))/(50000 * exp(-b * 15) + 150000 * exp(-b * 30) + 10000 * exp(-b * 100))
+j2<-(100000*exp(-0.1*30))/(50000 * exp(-b * 30) + 150000 * exp(-b * 15) + 10000 * exp(-b * 100))
+j3<-(10000*exp(-0.1*100))/(50000 * exp(-b * 100) + 150000 * exp(-b * 100) + 10000 * exp(-b * 15))
+j1 + j2 + j3
+```
+```{r}
+(exp(-b*15)/((50000*exp(-b*15)) + (50000*exp(-b*30)) + (50000*exp(-b*100)))+ exp(-b*30)/((50000*exp(-b*15)) + (50000*exp(-b*30)) + (50000*exp(-b*100)))+ exp(-b*100)/((50000*exp(-b*15)) + (50000*exp(-b*30)) + (50000*exp(-b*100))))*100000
 ```
 
+Shen's
+$$
+S_i = \sum_j \frac{O_jf(c_{ij})}{\sum_kP_kf(c_{jk})}
+$$
+1) influencing travel behaviour, so we know the impedance needed to achieve parity
+2) how would you reallocate employment to achieve parity
+3) get benchmarks on where more jobs are needed
+---
+# Empirical example: Toronto jobs TTS 2016
 
-```{r, echo=FALSE, fig.align='center', fig.height=5}
-ggplot() +
-  geom_sf(data = toy_sim_zones_access %>% 
-            filter(type == "population"),
-          aes(fill = A_i, size = A_i, shape = type)) +
-  geom_sf(data = toy_sim_zones_access %>%
-            filter(type == "jobs"),
-          aes(shape = type,
-              size = number),
-          fill = "black") +
-  geom_sf_text(data = toy_sim_zones_access , aes(label = id_short),
-               size = 3, nudge_y = -400) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21),
-                     name = "Location Type",
-                     labels=c("Population", "Jobs"),
-                     guide = guide_legend(order = 2)) +
-  guides(shape =guide_legend(override.aes=list(size=5))) +
-  scale_size_continuous(range = c(2,7), name = "Accessibility \n(A_i)", guide = "none") +
-  scale_fill_distiller(palette = "OrRd", direction = 1, name = "Accessibility \n(A_i)",
-                      limits = c(0, max(toy_sim_zones_access$A_i)),
-                      guide = guide_colorbar(order = 1)) +
-  theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(),
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1.5,
-                                        color = "grey",
-                                        fill = "gray95"))
-```
+- 
+
+
+
+---
+
+
+<!-- # Background: Accessibility -->
+
+<!-- ```{r toy-example-accessibility, include = FALSE} -->
+<!-- # Calculate impedance function -->
+<!-- beta <- 0.0015 -->
+<!-- toy_od_table <- toy_od_table %>% -->
+<!--   mutate(f = exp(-beta * distance)) -->
+
+<!-- # using the origin-destination table (OD) of all origin to destination trips; filter in only jobs which are mean distance or less away from a population center and sum number of jobs available in each origin (population center) -->
+<!-- c_accessibility <- toy_od_table %>%  -->
+<!--   mutate(A_ij = f * Jobs) %>% -->
+<!--   group_by(Origin) %>% -->
+<!--   summarise(A_i = sum(A_ij)) -->
+
+<!-- #pass conventional accessibility calculation into the spatial object (toy_sim_zones) -->
+<!-- toy_sim_zones_access  <- toy_sim_zones %>%  -->
+<!--   left_join(c_accessibility,  -->
+<!--             by = c("id" = "Origin"))  -->
+<!-- ``` -->
+
+
+<!-- ```{r, echo=FALSE, fig.align='center', fig.height=5} -->
+<!-- ggplot() + -->
+<!--   geom_sf(data = toy_sim_zones_access %>%  -->
+<!--             filter(type == "population"), -->
+<!--           aes(fill = A_i, size = A_i, shape = type)) + -->
+<!--   geom_sf(data = toy_sim_zones_access %>% -->
+<!--             filter(type == "jobs"), -->
+<!--           aes(shape = type, -->
+<!--               size = number), -->
+<!--           fill = "black") + -->
+<!--   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short), -->
+<!--                size = 3, nudge_y = -400) + -->
+<!--   scale_shape_manual(values = c('population' = 24, 'jobs' = 21), -->
+<!--                      name = "Location Type", -->
+<!--                      labels=c("Population", "Jobs"), -->
+<!--                      guide = guide_legend(order = 2)) + -->
+<!--   guides(shape =guide_legend(override.aes=list(size=5))) + -->
+<!--   scale_size_continuous(range = c(2,7), name = "Accessibility \n(A_i)", guide = "none") + -->
+<!--   scale_fill_distiller(palette = "OrRd", direction = 1, name = "Accessibility \n(A_i)", -->
+<!--                       limits = c(0, max(toy_sim_zones_access$A_i)), -->
+<!--                       guide = guide_colorbar(order = 1)) + -->
+<!--   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(), -->
+<!--         panel.grid = element_blank(), -->
+<!--         panel.background = element_rect(size = 1.5, -->
+<!--                                         color = "grey", -->
+<!--                                         fill = "gray95")) -->
+<!-- ``` -->
 -   higher accessibility of population centers (triangles) which are closer to the two larger employment centers.
 
 -   Remote population centers near the left edge of the map have the lowest levels of job accessibility as they are only in proximity to the small employment center.

@@ -760,11 +760,118 @@ dev.off()
 knitr::include_graphics("images/impedance_function.png")
 ```
 
-```{r, echo=FALSE, warning=FALSE, message=FALSE}
-#dgamma is the density plot for gamma function; adding values as "f" our impedance function
-od_ft_tt <- od_ft_tt %>%
-  mutate(f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
+
+```{r fitting-population-alpha-param1,  echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#calculating an alpha parameter; modulates the attractiveness of larger population centers
+#first workers at origin
+workers_deciles <- quantile(od_ft_pop$workers,
+                        seq(0, 1, 0.1)) 
+
+jobs_deciles <- quantile(od_ft_pop$jobs,
+                        seq(0, 1, 0.1))
+
+od_ft_pop <- od_ft_pop %>% 
+  mutate(origin_mass_class = cut(workers,
+                                 breaks = as.numeric(workers_deciles), 
+                                 include.lowest = TRUE),
+         destination_mass_class = cut(jobs, 
+                                      breaks = as.numeric(jobs_deciles), 
+                                      include.lowest = TRUE)) 
+
+trips_work_by_origin_mass <- od_ft_pop %>% 
+  filter(trips > 0) %>%
+  group_by(origin_mass_class)
+
+tomd_work <- trips_work_by_origin_mass %>% 
+  summarize(Trips = sum(trips),
+            population = sum(workers),
+            .groups = "drop") %>% 
+  mutate(frequency_trips = Trips/sum(Trips),
+         frequency_population = population/sum(population))
+
+tomd_work %>% # Pass object `tomd_work` to the next function
+  pivot_longer(cols = starts_with("frequency_"), 
+               names_to = "Variable",
+               values_to = "frequency") %>%
+  ggplot() + # Create a blank ggplot object
+  geom_col(aes(x = origin_mass_class, # Use `geom_col()` to create a plot with bars; the x-axis is the mass classes 
+               y = frequency, # The height of the bars is the frequency of trips produced by zones in the mass class
+               fill = Variable), # The fill color of the columns will be different for frequency of trips and frequency of population
+           position = "dodge") +
+  xlab("population at the origin") +
+  theme(axis.text.x = element_text(angle = 90))
 ```
+
+```{r fitting-population-alpha-param2, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#calculating an alpha parameter; modulates the attractiveness of larger population centers
+#next jobs at origin
+trips_work_by_destination_mass <- od_ft_pop %>% 
+  filter(trips > 0) %>%
+  group_by(destination_mass_class)
+
+tomd_work <- trips_work_by_destination_mass %>% 
+  summarize(Trips = sum(trips),
+            population = sum(jobs),
+            .groups = "drop") %>% 
+  mutate(frequency_trips = Trips/sum(Trips),
+         frequency_population = population/sum(population))
+
+tomd_work %>% # Pass object `tomd_work` to the next function
+  pivot_longer(cols = starts_with("frequency_"), 
+               names_to = "Variable",
+               values_to = "frequency") %>%
+  ggplot() + # Create a blank ggplot object
+  geom_col(aes(x = destination_mass_class, # Use `geom_col()` to create a plot with bars; the x-axis is the mass classes 
+               y = frequency, # The height of the bars is the frequency of trips produced by zones in the mass class
+               fill = Variable), # The fill color of the columns will be different for frequency of trips and frequency of population
+           position = "dodge") +
+  xlab("employment at the origin") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+<!-- remove this! 
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+#we'll use the employment at the origin, and calculate alpha (i.e., the parameter which will scale population centers with more employment more than population centers with smaller employment)
+
+all_empATorig <- od_ft_pop  %>% 
+  dplyr::select(trips, jobs)
+
+all_empATorig <- all_empATorig[rep(seq_len(dim(all_empATorig)[1]), all_empATorig$trips), 2]
+
+#fit cullen frey graph -> the results indicate a gamma or beta is the best fit.
+#fitdistrplus::descdist(data = all_empATorig)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#let's try both gamma and beta. Beta seems to fit better
+gamma2_ <- fitdistrplus::fitdist(data=all_empATorig, "gamma", method="mme", optim.method="Nelder-Mead") 
+exp2_ <- fitdistrplus::fitdist(data=all_empATorig, "exp", method="mme", optim.method="Nelder-Mead") 
+#transform values to a scale of 0 to 1 to fit beta distribution
+# all_empATorig_norm <- data.frame(normalized = ((all_empATorig) - min(all_empATorig)) / (max(all_empATorig) - min(all_empATorig))) %>% unlist()
+# beta2_ <- fitdistrplus::fitdist(data=all_empATorig_norm, "beta", method="mme", optim.method="Nelder-Mead")
+# plot(gamma2_)
+# plot(beta2_)
+plot(exp2_)
+```
+
+```{r save-alpha-param-plot, include=FALSE}
+# For some reason plot(gamma_) does not play well with knitr, so instead we save the figure and then include it as a graphic in the following chunk
+png("images/alpha-param_function.png")
+plot(gamma2_)
+dev.off()
+```
+
+```{r alpha-param-plot, fig.cap="\\label{fig:alpha-param-plot}Employment at origin distribution and calibrated gamma distribution (red line) with associated Q-Q and P-P plots. Based on TTS 2016.", fig.show='hold', fig.align='center', out.width="80%"}
+knitr::include_graphics("images/alpha-param_function.png")
+```
+
+```{r estimate-alpha-param, echo=FALSE, warning=FALSE, message=FALSE}
+#adding f to our data set.
+#dgamma is the density plot for gamma function; adding values as "f" our impedance function
+od_ft_pop <- od_ft_pop %>%
+  mutate(f = dgamma(jobs, gamma2_$estimate["shape"], gamma2_$estimate["rate"]))
+```
+-->
 
 The gamma distribution takes the following general form where the estimated 'shape' is $\alpha=$ `r round(gamma_$estimate[1], 3)`, the estimated 'rate' is $\beta =$ `r round(gamma_$estimate[2], 3)`, and $\Gamma(\alpha)$ is defined in Equation (\ref{gamma-dist}).
 
@@ -840,6 +947,7 @@ sum(sum_jobs$jobs, na.rm = T)
 TO_availability <- TO_od_ft %>%
   group_by(Origin) %>%
   summarize(TO_V_i = sum(TO_V_ij),
+            TO_v_i = sum(TO_V_ij)/mean(workers),
             TO_avgtt_i = mean(travel_time),
             TO_avg_f_i = mean(f)) 
 
@@ -847,6 +955,29 @@ TO_availability <- TO_od_ft %>%
 TO_taz_acc <- TO_taz_acc %>% merge(TO_availability, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
 ```
 
+```{r calc-for-shen-accessibility1, include=FALSE, warning=FALSE, message=FALSE}
+#calculate shen's accessibility step 1
+LOS_j <- TO_od_ft %>% 
+  group_by(Destination) %>%
+  summarise(D_j = sum(f * workers, na.rm=T),
+            jobs = mean(jobs, na.rm=T),
+            .groups = "drop") |>
+  mutate(LOS_j = jobs/D_j)
+
+#aggregate shen's accessibility
+TO_c_shen_accessibility <- TO_od_ft %>%
+  left_join(LOS_j |> 
+              dplyr::select(Destination, LOS_j, jobs, D_j),
+            by = "Destination") %>%
+  group_by(Origin) |>
+  summarize(ShenA_i = sum(LOS_j * f))
+```
+
+```{r calc-for-shen-accessibility2, include=FALSE, warning=FALSE, message=FALSE}
+#Merge TO availability calculation to the TAZ sf object created for accessibility above:
+TO_taz_acc <- TO_taz_acc %>% merge(TO_c_shen_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
+
+```
 ## Measuring access to jobs in Toronto
 
 Toronto is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_od_ft$workers)/sum(od_ft$workers))` of workers in the GGH travel to jobs in Toronto and `r percent(sum(TO_od_ft$jobs)/sum(od_ft$jobs))` of jobs are located within Toronto. 

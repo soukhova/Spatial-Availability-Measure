@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Enhancing the interpetability of competitive accessibility</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Anastasia Soukhov, etc." />
+    <meta name="date" content="2022-06-22" />
+    <script src="NECTAR-Conference-Presentation_files/header-attrs-2.13/header-attrs.js"></script>
+    <link href="NECTAR-Conference-Presentation_files/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="NECTAR-Conference-Presentation_files/remark-css-0.0.1/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Enhancing the interpetability of competitive accessibility
+## Planning
+### Anastasia Soukhov, etc.
+### 2022-06-22
+
+---
+
+
+
+our research shows an inconsistency in Shen's method, it is used in hundreds of works
+
+using shen's own example explain why it's a problem. the logical flaw is masked if you only look at the outputs. If you look into the intermediates it makes a lot more sense. "But wait the demand is only THIS!, this doesn't add up!". it will re-arrange where people are coming from and going too! 
+
+our alternative: spatial availability. show spatial availability solved using shen's exmaple
+
+Toronto solved for both. 
+---
+
+#Shen's toy example
+
+
+
+.pull-left[
+![](NECTAR-Conference-Presentation_files/figure-html/create-figure-with-toy-example-1.png)&lt;!-- --&gt;
+]
+
+.pull-right[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt;   &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt;span style='color: red;'&amp;gt;A&amp;lt;/span&amp;gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50,000 pop &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; &amp;lt;span style='color: red;'&amp;gt;B&amp;lt;/span&amp;gt; &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 150,000 pop &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100,00 pop &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100,000 jobs &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100,000 jobs &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10,000 jobs &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+---
+# Potential accessibility - limitations
+
+- Conventional accessibility is widely used and is defined as follows:
+
+`$$A_i = \sum_{j=1}^JO_jf(c_{ij})$$`
+
+Where:
+
+-   `\(A\)` is accessibility. 
+-   `\(i\)` is a set of origin locations.
+-   `\(j\)` is a set of destination locations.
+-   `\(O_j\)` is the number of opportunities at location `\(j\)`. These are opportunities for activity and add some sort of *supply* to the area;
+-   `\(c_{ij}\)` is a measure of the cost of moving between `\(i\)` and `\(j\)`
+-   `\(f(\cdot)\)` is an impedance function of `\(c_{ij}\)`; it can take the form of any monotonically decreasing function (e.g., negative exponential distribution) .
+
+It suffers from interpretability issues. Doesn't consider competition
+---
+# Why competition?
+
+Competition matter for many different opportunity times 
+
+- study 1
+- study 2
+- study 3
+
+There have been measures to account for competition.
+
+---
+# Balancing factors accessibility - limitations 
+
+In response, balancing factors to account for competition effects were introduced.
+
+Draw backs include costly computation as the measure must be iteratively estimated. 
+
+---
+# Constrainted potential measures - less limitations
+
+A different approach was the family of constrained potential measures, such as Shen (1998), which also accounts for competition but in a different way. Here the quotient of opportunities within reach from origin i (supply potential) and potential demand of those opportunities from each destination j.
+
+Computation is less costly than balancing factor measures. Also... the opportunities add up to the demand. 
+
+---
+
+# It's not just competition though - it's proportional allocation!
+
+An underutilized property of Shen (1998) is that the opportunities add up to the demand - globally and for each population center. 
+
+We attempted to construct a new measure, from the perspective of proportional allocation, and we ended up arriving to the same model!
+
+---
+
+
+&lt;!-- # Background: Accessibility --&gt;
+
+&lt;!-- ```{r toy-example-accessibility, include = FALSE} --&gt;
+&lt;!-- # Calculate impedance function --&gt;
+&lt;!-- beta &lt;- 0.0015 --&gt;
+&lt;!-- toy_od_table &lt;- toy_od_table %&gt;% --&gt;
+&lt;!--   mutate(f = exp(-beta * distance)) --&gt;
+
+&lt;!-- # using the origin-destination table (OD) of all origin to destination trips; filter in only jobs which are mean distance or less away from a population center and sum number of jobs available in each origin (population center) --&gt;
+&lt;!-- c_accessibility &lt;- toy_od_table %&gt;%  --&gt;
+&lt;!--   mutate(A_ij = f * Jobs) %&gt;% --&gt;
+&lt;!--   group_by(Origin) %&gt;% --&gt;
+&lt;!--   summarise(A_i = sum(A_ij)) --&gt;
+
+&lt;!-- #pass conventional accessibility calculation into the spatial object (toy_sim_zones) --&gt;
+&lt;!-- toy_sim_zones_access  &lt;- toy_sim_zones %&gt;%  --&gt;
+&lt;!--   left_join(c_accessibility,  --&gt;
+&lt;!--             by = c("id" = "Origin"))  --&gt;
+&lt;!-- ``` --&gt;
+
+
+&lt;!-- ```{r, echo=FALSE, fig.align='center', fig.height=5} --&gt;
+&lt;!-- ggplot() + --&gt;
+&lt;!--   geom_sf(data = toy_sim_zones_access %&gt;%  --&gt;
+&lt;!--             filter(type == "population"), --&gt;
+&lt;!--           aes(fill = A_i, size = A_i, shape = type)) + --&gt;
+&lt;!--   geom_sf(data = toy_sim_zones_access %&gt;% --&gt;
+&lt;!--             filter(type == "jobs"), --&gt;
+&lt;!--           aes(shape = type, --&gt;
+&lt;!--               size = number), --&gt;
+&lt;!--           fill = "black") + --&gt;
+&lt;!--   geom_sf_text(data = toy_sim_zones_access , aes(label = id_short), --&gt;
+&lt;!--                size = 3, nudge_y = -400) + --&gt;
+&lt;!--   scale_shape_manual(values = c('population' = 24, 'jobs' = 21), --&gt;
+&lt;!--                      name = "Location Type", --&gt;
+&lt;!--                      labels=c("Population", "Jobs"), --&gt;
+&lt;!--                      guide = guide_legend(order = 2)) + --&gt;
+&lt;!--   guides(shape =guide_legend(override.aes=list(size=5))) + --&gt;
+&lt;!--   scale_size_continuous(range = c(2,7), name = "Accessibility \n(A_i)", guide = "none") + --&gt;
+&lt;!--   scale_fill_distiller(palette = "OrRd", direction = 1, name = "Accessibility \n(A_i)", --&gt;
+&lt;!--                       limits = c(0, max(toy_sim_zones_access$A_i)), --&gt;
+&lt;!--                       guide = guide_colorbar(order = 1)) + --&gt;
+&lt;!--   theme(legend.position = "right", axis.text = element_blank(), axis.title = element_blank(), --&gt;
+&lt;!--         panel.grid = element_blank(), --&gt;
+&lt;!--         panel.background = element_rect(size = 1.5, --&gt;
+&lt;!--                                         color = "grey", --&gt;
+&lt;!--                                         fill = "gray95")) --&gt;
+&lt;!-- ``` --&gt;
+-   higher accessibility of population centers (triangles) which are closer to the two larger employment centers.
+
+-   Remote population centers near the left edge of the map have the lowest levels of job accessibility as they are only in proximity to the small employment center.
+
+---
+
+# Background: Issues with Accessibility
+
+- conglomeration effect - multiple-counting of opportunities (jobs) results in unclear interpretability; for instance, P5 has an accessibility score of 600 meaning that population center of 490 workers has access to 600 jobs. This makes sense as P5 is very close to a large employment center. The assumption here is that this opportunity is divisible and non-competitive meaning that if a densely populated population center pops up next to P5 - it too will have a high accessibility score. Conventional accessibility does not consider competition of opportunities (jobs) from neighbouring demand (population centers). This neglect of opportunity-constrainted (single-constrained) competition obscures the interpretability of conventional accessibility which may  manifests in the following two ways of biased estimation:
+
+1) less dense urban periphery demand centers may be assigned disproportionately _high_ accessibility values. These periphery areas are located right outside dense urban demand centers and large urban opportunity centeres and thus may have low travel cost to these large opportunity centers. Accessibility does not consider opportunity-constraints and as such these periphery demand centers benefit from the high accessibility to opportunities without competition considerations from their more dense and centrally located neighbours.
+
+2) remote/isolated areas which are still within the region of the analysis and have regionally-relative low demand centers, opportunity centers, and travel cost to opportunity centers, are assigned disproportionately _low_ accessibility values. These remote/isolated areas may be sufficiently supplied with opportunities proportionate to their demand but is obscured by the artificially high accessibility awarded to periphery/other areas in which conglomeration disproportionally occurs. 
+
+---
+
+# Ideas
+- maybe remove the use cases? Or change their order? 
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current% / X",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
