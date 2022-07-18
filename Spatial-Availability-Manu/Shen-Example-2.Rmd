@@ -142,7 +142,7 @@ Join demand to table:
 ```{r}
 A <- od_tt %>%
   left_join(LOS_j |>
-              select(d_id, LOS_j),
+              dplyr::select(d_id, LOS_j),
             by = "d_id")
 
 A
@@ -348,31 +348,31 @@ V_j
 sum(V_j$V_j)
 ```
 
-Calculate spatial availability:
-```{r}
-V_i <- od_tt %>%
-  mutate(r = 1) %>%
-  mutate(V_ij = sp_avail(.,
-                         o_id = o_id, 
-                         d_id = d_id, 
-                         pop = pop, 
-                         opp = opp, 
-                         r = r, 
-                         f = f, 
-                         alpha = 1))
-V_i
-```
+<!-- Calculate spatial availability: -->
+<!-- ```{r} -->
+<!-- V_i <- od_tt %>% -->
+<!--   mutate(r = 1) %>% -->
+<!--   mutate(V_ij = sp_avail(., -->
+<!--                          o_id = o_id,  -->
+<!--                          d_id = d_id,  -->
+<!--                          pop = pop,  -->
+<!--                          opp = opp,  -->
+<!--                          r = r,  -->
+<!--                          f = f,  -->
+<!--                          alpha = 1)) -->
+<!-- V_i -->
+<!-- ``` -->
 
 Total number of jobs available:
 ```{r}
-V_i |>
+V_ij |>
   pull(V_ij) |>
   sum()
 ```
 
 Jobs available per origin:
 ```{r}
-V_i |>
+V_ij |>
   group_by(o_id) |>
   summarize(V_i = sum(V_ij),
             .groups = "drop")
@@ -380,7 +380,7 @@ V_i |>
 
 Jobs per capita per origin:
 ```{r}
-V_i |>
+V_ij |>
   group_by(o_id) |>
   summarize(V_i = sum(V_ij),
             .groups = "drop") |>

@@ -703,6 +703,8 @@ TTS_area_plot <- TTS_area_plot + annotate(geom = "table",
            label = list(desc_stats))
 ggsave("images/TTS16-survey-area.png")
 knitr::include_graphics("images/TTS16-survey-area.png")
+
+png()
 ```
 
 ## Calibration of an impedance function
@@ -760,6 +762,7 @@ dev.off()
 knitr::include_graphics("images/impedance_function.png")
 ```
 
+<!-- remove this!, the alpha calculation which is only half finished
 
 ```{r fitting-population-alpha-param1,  echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
 #calculating an alpha parameter; modulates the attractiveness of larger population centers
@@ -828,7 +831,7 @@ tomd_work %>% # Pass object `tomd_work` to the next function
   xlab("employment at the origin") +
   theme(axis.text.x = element_text(angle = 90))
 ```
-<!-- remove this! 
+
 
 ```{r, echo=FALSE, warning=FALSE, message=FALSE}
 #we'll use the employment at the origin, and calculate alpha (i.e., the parameter which will scale population centers with more employment more than population centers with smaller employment)
