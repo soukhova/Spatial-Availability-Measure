@@ -253,6 +253,8 @@ knitr::include_graphics("Anastasia Soukhov_Headshot_Small.png")
 ```
 ]
 
+--
+
 .pull-right[
 
 **Antonio Paez**, associate professor
@@ -277,9 +279,9 @@ knitr::include_graphics("mcm-civil_left-col.png")
 
 **1.** Introduce accessibility measures - Hansen and Shen 
 
-**2.** Shen's methodological inconsistencies
+**2.** Shen's property and methodological inconsistencies
 
-**3.** An alternative approach: spatial availability
+**3.** An alternative unifying approach: spatial availability
 
 **4.** How spatial availability compares to Shen-style accessibility
 
@@ -292,24 +294,27 @@ knitr::include_graphics("mcm-civil_left-col.png")
 
 .pull-left[
 
-###Hansen-style (gravity-based) accessibility
+#### Hansen-style (gravity-based) accessibility
 
-$$A_i = \sum_{j=1}^JO_jf(c_{ij})$$
-Where:
+$$A_i = \sum_{j}O_jf(c_{ij})$$
 -   $A$ is accessibility. 
--   $i$ is a set of origin locations.
--   $j$ is a set of destination locations.
+-   $i$ is a set of origin locations and $j$ is a set of destination locations.
 -   $O_j$ is the number of opportunities at location $j$.
--   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$.
--   $f(\cdot)$ is an impedance function of $c_{ij}$.
+-   $f(\cdot)$ is an impedance function of $c_{ij}$ that measures the cost of moving between $i$ and $j$.
+
+This measure:
+- Suffers from interpretability issues _(Handy and Niemeier, 1997; Miller et al., 2018)_
+- Does not include competition _(Shen, 1998; Merlin and Hu, 2018)_
 
 ]
 
+--
+
 .pull-right[
 
-###Shen-style (competitive) accessibility
+#### Shen-style (competitive) accessibility
 
-Shen (1998) modified accessibility popularized as the **two-step floating catchment approach (2SFCA)**:
+Shen (1998) modified accessibility popularized as the **two-step floating catchment approach (2SFCA)** _(Luo and Wang, 2003)_:
 
 $$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$$
 
@@ -322,10 +327,17 @@ $$D_j = \sum_kP_kf(c_{jk})$$
 
 ]
 
-???
--Hansen-style accessibility suffers from interpretability issues - what is travel-cost adjusted opportunities? It also doesn't consider competition, which has been shown to reflect empirical accessibility to competitive-opportunities worse than competitive accessibility measures. 
 
-- Shen-style accessibility considers competition - each opportunity is for only one opportunity-seeking person at any moment in time. 
+???
+-**Hansen**-style accessibility - the sum of opportunities multipled by a function which measures of the cost of moving between i and j.
+
+- this measure suffers from interpretability issues - what is travel-cost adjusted opportunities? 
+
+- it also doesn't consider competition, which has been shown to reflect empirical accessibility to competitive-opportunities worse than competitive accessibility measures. 
+
+- **Shen**-style accessibility - the sum of travel-cost adjusted opportunities (supply) divided by travel-cost adjusted demand! It considers travel-cost from both the opportunities perspective and the population side. 
+
+It should be mentioned that Weibull (1976) was the first to arrive to this same formula from axiomatic approach. Joseph and Bantock (1982) then applied it to health care access. 
 ---
 ##Toy example - Hansen-style accessibility
 
@@ -396,6 +408,8 @@ gridExtra::grid.table(od_table, rows=NULL,
 ```
 ]
 
+--
+
 .pull-right[
 
 - Assuming $f(c_{ij}) = exp(-\beta \cdot tt)$,
@@ -421,6 +435,13 @@ A %>% kable(format = "html",
 ```
 ]
 
+???
+- explain the map; blue and orange dots are origins and employment centers respectively. Travel time within each center is 15 mins, travel time between sub and urban is 30 mins and travel time to the satellite town from sub / urban is 100 mins.
+
+- then explain the accessibility formula; the impedance function is a negative exponential (Wilson 1971), beta 0.1, like in the example.
+
+- Accessibility can be interpreted as a score, such as, population center at A and B has the same _potential_ access to 27,292 jobs. It is difficult to understand the meaning of the value other than A and B have a higher score than C.  
+
 ---
 ## Toy example - Shen-style accessibility
 
@@ -442,6 +463,8 @@ gridExtra::grid.table(od_table, rows=NULL,
 
 ```
 ]
+
+--
 
 .pull-right[
 
@@ -530,45 +553,26 @@ knitr::kable(list(D1,D3),
 
 ???
 
-$\frac {A_{jobs @ 1 -> A}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> A}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> A}}{D_{workers @ A,B,C -> 3}}$
- 
-$\frac {A_{jobs @ 1 -> B}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> B}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> B}}{D_{workers @ A,B,C -> 3}}$
-  
-$\frac {A_{jobs @ 1 -> C}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> C}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> C}}{D_{workers @ A,B,C -> 3}}$
+Now let's look at Shen's accessibility, same impedance function.
 
-
-First, we see that Shen's accessibility can still be interpreted as as score, like Hansen-style accessibility. But it can also be interpreted as travel-cost adjusted jobs per travel-cost adjusted capita (potential supply over potential demand).
+First and foremost, we see that Shen's accessibility can still be interpreted as as score, like Hansen-style accessibility. But it can also be interpreted as travel-cost adjusted jobs per travel-cost adjusted capita (potential supply over potential demand).
 
 But, let's take a look at the intermediates! We can see that at the numerator, that's conventional accessibility, the opportunities from each job center are distributed to each population center A, B,C. For instance, jobs at A come from 1, 2, 3 and these potential jobs sum up to A_j=A (27,292 jobs). Next, let's look at the denominator, the _potential demand_. At each population center, the demand always sums up to ~58,000 workers.
 
-From shen's accessibility we see that A, the suburb, has the highest accessibility when competition is considered. This is because it has a 2 times fewer workers than the urban center and same number of jobs as the Urban center. Competition.
+From shen's accessibility we see that A, the suburb, has the highest accessibility when competition is considered. This is because it has a 2 times fewer workers than the urban center and same number of jobs as the Urban center. This is the result of accounting for competition.
 
-Now we can see, that though conventional accessibility is the same at A and B, shen's accessibility is not the same. It's not the same because jobs (numerator) is weighted by the demand (denominator). You can see that there's way more jobs at A1 with a smaller demand at A1 compared to B1 jobs and demand. Also see how in B, supply of jobs is never greater than demand from workers. 
+Now we can see, that though conventional accessibility is the same at A and B, Shen's accessibility is not the same. It's not the same because jobs (numerator) is weighted by the demand (denominator). You can see that there's way more jobs at A1 with a smaller demand at A1 compared to B1 jobs and demand. Also see how in B, supply of jobs is never greater than demand from workers. 
 
 - that said... what does this _potential_ supply and _potential_ demand even mean!! We know that there are 210,000 people in this system looking for work and we know that there are 210,000 jobs. However.. we can see that when you sum up all _potential_ supply and demand they don't come close to this number!
+
+<!-- $\frac {A_{jobs @ 1 -> A}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> A}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> A}}{D_{workers @ A,B,C -> 3}}$ -->
+<!-- $\frac {A_{jobs @ 1 -> B}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> B}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> B}}{D_{workers @ A,B,C -> 3}}$ -->
+<!-- $\frac {A_{jobs @ 1 -> C}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> C}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> C}}{D_{workers @ A,B,C -> 3}}$ -->
 
 ---
 ## Shen's important property - with inconsistent logic
 
 .pull-left[
-```{r create-figure-with-toy-example4,  echo=FALSE}
-toy_example_plot
-grid::pushViewport(grid::viewport(x=0.9, y=0.75))
-
-gridExtra::grid.table(od_table2, rows=NULL, 
-                      theme=gridExtra::ttheme_default(core=list(bg_params=list(fill=
-                                                                                 c("brown","brown","brown", "gold", "gold", "gold", "red", "red", "red")))))
-
-grid::pushViewport(grid::viewport(x=0.29, y=0.59))
-
-gridExtra::grid.table(od_table, rows=NULL, 
-                      theme=gridExtra::ttheme_default(core=list(bg_params=list(fill=
-                                                                                 c("light blue","light blue","light blue", "orange", "orange", "orange")))))
-```
-]
-
-.pull-right[
-
 - **An important property**: $\sum_{i} S_{i}\cdot P_{i} = \sum_{j} O_{j}$
 
 ```{r,echo=FALSE}
@@ -577,6 +581,7 @@ D_i <- od_tt |>
   group_by(i) |>
   summarize(D_i = sum(pop * f),
             .groups = "drop")
+
 ```
 
 ```{r, echo=FALSE}
@@ -604,12 +609,18 @@ t1 <- data.frame(i = c("A", "B", "C"),
 
 t1[nrow(t1) + 1,] = list("TOTAL", "3.22", "210000","210000")
 
-t2 <- data.frame(D_i = D %>% round(digits = 2), #compare S_i*P_i to this number, which is the _potential demand_ (i.e., workers seeking jobs) at each origin center
-                 S_ixD_i = nominal_demanded_jobs %>% round(digits = 2)) #when this potential demand is multiplied by S_i, we should get jobs potentially demanded for. This potential jobs and the other potential jobs... don't line up!
-t2[nrow(t2) + 1,] = list("56824.73","56826.57")
+#opportunities for using in the table
+O_j <- od_tt |>
+  group_by(j) |>
+  summarize(O_j = mean(opp),
+            .groups = "drop")
+
+t2 <- data.frame(O_j = O_j) 
+
+t2[nrow(t2) + 1,] = list("TOTAL","210000")
 
 colnames(t1) <- c("i", "S_i", "P_i", "S_i P_i (jobs)")
-colnames(t2) <- c("D_i", "S_i P_i (jobs)")
+colnames(t2) <- c("j", "O_j")
 
 knitr::kable(list(t1,t2),
              format = "html",
@@ -617,14 +628,38 @@ knitr::kable(list(t1,t2),
              digits = 2)
 
 ```
-- $\sum{_j} D_j$ is `r LOS_j |> pull(D_j) |> sum() %>% round(digits=2)` workers, less than the sum of population (`r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` workers). So, `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum() - LOS_j |> pull(D_j) |> sum() %>% round(digits=2)`  people do not get jobs.
+]
+
+--
+.pull-right[
+```{r, echo=FALSE}
+
+
+t3 <- data.frame(i = D_i$i,
+                 D_i = D %>% round(digits = 2), #compare S_i*P_i to this number, which is the _potential demand_ (i.e., workers seeking jobs) at each origin center
+                 S_ixD_i = nominal_demanded_jobs %>% round(digits = 2)) #when this potential demand is multiplied by S_i, we should get jobs potentially demanded for. This potential jobs and the other potential jobs... don't line up!
+t3[nrow(t3) + 1,] = list("TOTAL", "56824.73","56826.57")
+
+colnames(t3) <- c("i", "D_ij", "S_i D_ij (jobs)")
+
+knitr::kable(t3,
+             format = "html",
+             booktabs = TRUE,
+             digits = 2)
+
+```
+
+
+- $\sum{_i} D_{ij}$ is `r LOS_j |> pull(D_j) |> sum() %>% round(digits=2)` workers, less than the sum of population (`r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` workers). So, `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum() - LOS_j |> pull(D_j) |> sum() %>% round(digits=2)`  people do not get jobs.
 
 - Sames logic applies for the supply of jobs $\sum_{j}O_{j}f(c_{ij})$.  
 
-- What's the value of this property if it sums to `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` jobs but only distributes $\sum{_j} D_j$ jobs?
+- What's the value of this property if it sums to `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` jobs but only distributes $\sum{_i} D_{ij}$ jobs?
 ]
 
 ???
+
+- Let's break down Shen's accessibility scores down further. 
 
 - Shen's formula has an important property. That is that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system. Look at the table, sum of column 4 is 210,000. 
 
@@ -632,51 +667,70 @@ knitr::kable(list(t1,t2),
 
 -Why is demand smaller than the number of workers? Because it is adjusted by the impedance function so 153,175 workers do not get jobs (210,000 minus sum of demand). 
 
-- At the same time, the numbers of jobs which are being supplied to workers are also being discounted by the impedance function. (this is not captured in the table but can be So in reality, both the jobs and the workers are LESS than the actual number of jobs and workers in the system but the rate at which they are discounted by the impedance function is proportional. Thus, this property holds true! (i.e., that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system).
+- At the same time, the numbers of jobs which are being supplied to workers are also being discounted by the impedance function. (this is not captured in the table but can be). So in reality, both the jobs and the workers are LESS than the actual number of jobs and workers in the system but the rate at which they are discounted by the impedance function is proportional. Thus, this property holds true! (i.e., that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system).
 
 - From the example, In the suburb, there is the same number of opportunities, and a smaller number of workers than the urban center so more people _seek_ work. 
 
 - However, We know that the _demand_ for jobs is less than the total population so it doesn't actually allocate ALL the jobs... it only allocates some of the jobs based on the travel behaviour. What's the value of this property if it tells you that there are 210,000 jobs... but only ends up giving out the sum of D_j (~57,000). It's only a proof a certain constraint and it is not really useful for us. 
 
 ---
-## This important property - is proportional allocation!
+### This important property - is the basis of the proposed _spatial availability_
 
 .pull-left[
-- Doesn't appear to be used in literature for this purpose - but we arrived to the same final results as the Shen (1998) measure from the perspective of proportional allocation!
 
-Spatial availability:
+- This property doesn't appear to be used in literature - but we arrived to the same final results as the Shen (1998) measure from the perspective of proportional allocation!
 
-$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=A}^K F^p_{i} \cdot F^c_{ij}}$
+- Spatial availability:
 
-Where the population allocation factor:
+$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
 
-$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha}$
+- Where the population allocation factor:
 
-And the cost allocation factor:
+$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}$ always between 0 to 1.
 
-$F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}$
+- And the cost allocation factor:
+
+$F^c_{ij} = \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}$ always between 0 to 1.
 ]
+
+--
 
 .pull-right[
 
-And spatial availability per capita:
+- And spatial availability per capita:
 
-$v_{i} = \sum_{j} \frac{O_j}{P_{i\in r}^\alpha}\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=A}^K F^p_{i} \cdot F^c_{ij}}$
+$v_{i} = \sum_{j} \frac{O_j}{P_{i\in r}^\alpha}\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
+
+- Normalized _spatial availability_ and shen's accessibility are equivalent and thus both can be seen as a **competitive** and **singly-constrained** accessibility measure
+  - supply of population and demand for opportunities are both travel-cost and population adjusted
+  - the sum of all accessibility values for i equals all the opportunities for i to j
 
 ]
 
 ???
 
-- Doesn't appear to be used in literature for this purpose - but we arrived to the same final results as the Shen (1998) measure from the perspective of proportional allocation!
+- This important property doesn't appear to be used in literature. We believe this is because of the inconsistent logic outlined in the last slide - specifically, that Shen's score, when multiplied by the population and summed together equals the total number of opportunities. 
 
-- introduce spatial availability. We will return to alpha later.
+- what's interesting is that we ended up developing the same formula as Shen but from the perspective of proportional allocation! I was faced with a data problem, how do I assign this population to specific opportunities while considering travel cost and ensure that every person gets assigned to an opportunity. 
+
+- we didn't know it yielded the same results as Shen until we computed both measures. 
+
+- So let me introduce spatial availability, it consists of proportional allocation factors and the opportunities. the population allocation factor is the allocation of opportunities, proportional to the population size. It is always a proportion between 0 to 1. There's an alpha here - which can modulate the impact of population but we'll discuss it later.
+
+- The cost factor allocates opportunities proportionally based on the impedance function. The impedance function can be anything - gravity-based like Hansen, cumulative, etc. It is also always a proportion between 0 to 1. 
+
+- When you multiple both factors together along with the total summation in the denominator, the allocation factors retain the property of being between 0 to 1. 
+
+- And finally, if you divide spatial availability by the population, it can be simply normalized to be opportunities available per capita. This is equivalent to Shen-style accessibility. Both competitive and singly-constrained (i.e., the sum of all accessibility values for i equals all the opportunities for i to j)
+
+
 
 ---
-## Spatial availability
+### Spatial availability - solving for Suburban Center A
 
 .pull-left[
 
-$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=A}^K F^p_{i} \cdot F^c_{ij}}$
+$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
 
 Let's solve $V_A$,
 
@@ -740,10 +794,10 @@ knitr::kable(list(t1,t2),
 - next, we can put these allocation factors all together, and allocate the opportunities at O1 plus O2 plus O3 to A to get the V_A. 
 
 ---
-## Proof: Spatial availability cancels out into Shen-style accessibility (skip?)
+### Proof: Spatial availability cancels out into Shen-style accessibility (maybe skip?)
 
 Population allocation factor:
-$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha}$
+$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}$
 
 $F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}$
 
@@ -755,7 +809,11 @@ $F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}$
 $F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}$
 
 Now let's put it together with P, and see how the denominators end up cancelling out:
-$v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}}{\sum_{i=A}^K \frac{P_{i\in r}^\alpha}{\sum_{i=A}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}}$
+$v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}$
+
+???
+
+- we presented this formula to a few accessibility academics and because the way we explained it - from the perspective of proportional allocation - made it appear to be different than shen's. It was a surprise to see the denominators cancel out to equal shen's! 
 
 ---
 
@@ -806,19 +864,22 @@ Shen's accessibility:
 
 $S_i = \sum_j \frac{O_jf(c_{ij})}{\sum_kP_kf(c_{jk})}$
 
-While spatial availability and shen's accessibility end up being mathematically identical, the intermediate proportional allocation factors are a powerful communication and planning tool. Shen's accessibility, from our knowledge, does not have this. 
+#### Spatial availability and Shen-style accessibility differences
 
-We also first arrive at the number of opportunities allocated and then normalize that per capita. Shen arrives at the opportunities per capita score and identifies that the score multiplies with the population to equal the total opportunities. 
+- Spatial availability's intermediate proportional allocation factors are a potentially powerful communication and planning tool. 
+
+- Spatial availability begins with the proportional allocation of opportunities and then normalizes per capita. 
+  - Shen's arrives at the opportunities per capita score and identifies that the score multiplies with the population to equal the total opportunities. 
 
 ---
-### Empirical example: Greater Golden Horsehoe Area (GTHA) - 2016 Transportation Tomorrow Survey (TTS)
+### Empirical example: 2016 Transportation Tomorrow Survey (TTS)
 
 ```{r, echo=FALSE, out.width="60%"}
 knitr::include_graphics("TTS16-survey-area.png")
 ```
 
-- full time workers and pjobs, at the traffic analysis zone (TAZ) level
-- calculated travel time using `R5R`, car-only
+- full time workers and jobs, at the traffic analysis zone (TAZ) level in the Greater Golden Horseshoe Area (GTHA)
+- travel time is calculated for car-only travel using the R-package `R5R`
 
 ---
 ## Empirical example: GTHA - 2016 TTS
@@ -830,9 +891,9 @@ knitr::include_graphics("impedance_function.png")
 ]
 
 .pull-right[
-- trip-length distribution (TLD) is used to create the impedance function
+- trip-length distribution (TLD) is used to calibrate the impedance function
 
-- a gamma distribution is used. It takes the following general form where the estimated 'shape' is $\alpha = 2.019$, the estimated 'rate' is $\beta = 0.094$, and $\Gamma(\alpha)$ is defined in:
+- a gamma distribution is used. It takes the following general form where $\alpha = 2.019$, $\beta = 0.094$, and $\Gamma(\alpha)$ is defined in:
 
 $f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\$
 $\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx$
@@ -930,7 +991,7 @@ knitr::include_graphics("mplot_Shen_TO.png")
 
 .pull-left[
 
-- Spatial availability (# number of opportunities) $V_{i}$:
+- Spatial availability $V_{i}$:
 
 ```{r, echo=FALSE, eval=FALSE}
 ## Normalized spatial availability + Shen's, saving as PNG and then displaying it as PNG
@@ -1032,10 +1093,10 @@ In the proportional allocation map, you can see exactly where the opportunities 
 
 - increases interpretability of Shen-style accessibility (competitive) in the context of Hansen-style accessibility
 
-- intermediate values can be used to inform perscriptive policies
+- intermediate values can be used to inform prescriptive policies
 
-  - how should travel cost be altered to achieve population-to-employment parity
-  - how should the allocation of opportunities or residential locations be altered to achieve parity
+  - how should travel cost be altered to achieve population-to-employment parity?
+  - how should the allocation of opportunities or residential locations be altered to achieve parity?
 
 - competitive measures can serve as a cross-regional a benchmark for opportunities per capita and thus where more opportunities are needed 
 
@@ -1049,12 +1110,13 @@ class: center, middle, inverse
 
 ### Questions?
 
-## soukhoa@mcmaster.ca
+## soukhoa@mcmaster.ca 
 
 <!-- ##Extras -->
 
 <!-- - should we still consider alpha here? not enough time I think. -->
-<!-- - acknolwedgements?  -->
+<!-- - acknowledgements?  -->
+<!-- - how is it singly-constrained? From the perspective of opportunities correct...? explain more -->
 
 <!-- ### Presentation plan, slide-by-slide layou:t -->
 
