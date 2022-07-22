@@ -7,7 +7,7 @@ output:
   xaringan::moon_reader:
     css: xaringan-themer.css
     nature:
-      slideNumberFormat: "%current% / X" 
+      slideNumberFormat: "%current% / 16" 
       highlightStyle: github
       highlightLines: true
       ratio: '16:9'
@@ -134,7 +134,7 @@ toronto_muni_bound <- group_ggh_pd_poly %>% filter(REGION_name == "Toronto")
 
 #indicate which zones are within or intersect the Toronto Municipality
 TO_taz <- ggh_taz %>%
-  filter(st_intersects(., toronto_muni_bound, sparse = FALSE)[,1]) %>% 
+  filter(st_within(., toronto_muni_bound, sparse = FALSE)[,1]) %>% 
   dplyr::select(GTA06, AREA, jobs) %>%
   mutate(TAZToronto = "Yes")
 
@@ -149,14 +149,8 @@ od_ft <- od_ft_tt %>% merge(ggh_taz %>% dplyr::select(GTA06, workers) %>% st_dro
 od_ft <- od_ft %>% merge(ggh_taz %>% dplyr::select(GTA06, jobs) %>% st_drop_geometry(),
                    by.x = "Destination", by.y="GTA06", all.x = TRUE)
 
-#jobs and origins at destinations IN Toronto; i.e., workers who are from Toronto but travel outside of Toronto and workers who travel to Toronto from outside are not included. They are considered edge effects.
-TO_od_ft <- od_ft %>% mutate(In_dest = ifelse(Destination %in% TO_taz$GTA06, 1, 0),
-                             In_org = ifelse(Origin %in% TO_taz$GTA06, 1, 0)) %>%
-  filter(In_dest == 1 & In_org == 1) %>%
-  dplyr::select(-c(In_dest, In_org))
-
 #calculate accessibility for workers from any origin to jobs in Toronto 
-TO_c_accessibility <- TO_od_ft %>% 
+TO_c_accessibility <- od_ft %>% 
   mutate(TO_A_ij = f * jobs, na.rm = T) %>%
   group_by(Origin) %>%
   summarise(TO_A_i = sum(TO_A_ij, na.rm = T),
@@ -169,7 +163,7 @@ TO_taz_acc <- TO_taz %>% merge(TO_c_accessibility, by.x=c("GTA06"), by.y=c("Orig
 ```
 ```{r calc-for-shen-accessibility1, include=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 #calculate shen's accessibility step 1
-LOS_j <- TO_od_ft %>% 
+LOS_j <- od_ft %>% 
   group_by(Destination) %>%
   summarise(D_j = sum(f * workers, na.rm=T),
             jobs = mean(jobs, na.rm=T),
@@ -177,7 +171,7 @@ LOS_j <- TO_od_ft %>%
   mutate(LOS_j = jobs/D_j, na.rm = T)
 
 #aggregate shen's accessibility
-TO_c_shen_accessibility <- TO_od_ft %>%
+TO_c_shen_accessibility <- od_ft %>%
   left_join(LOS_j |> 
               dplyr::select(Destination, LOS_j, jobs, D_j),
             by = "Destination") %>%
@@ -188,12 +182,12 @@ TO_c_shen_accessibility <- TO_od_ft %>%
 ```{r calc-for-shen-accessibility2, include=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 #Merge TO availability calculation to the TAZ sf object created for accessibility above:
 TO_taz_acc <- TO_taz_acc %>% merge(TO_c_shen_accessibility, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
-
+TO_taz_acc <- TO_taz_acc %>% merge(LOS_j %>% dplyr::select(c("Destination", "D_j")), by.x=c("GTA06"), by.y=c("Destination"), all.x=T) 
 ```
 
 ```{r calc-for-spatial-avail1, include=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 #calculate spatial availability
-TO_od_ft <- TO_od_ft %>% 
+od_ft <- od_ft %>% 
   mutate(catch = 1) %>%
   sp_avail(o_id = Origin,
            d_id = Destination,
@@ -207,18 +201,18 @@ TO_od_ft <- TO_od_ft %>%
 
 ```{r calc-for-spatial-avail2, include=FALSE, warning=FALSE, message=FALSE, eval=FALSE}
 #verify that the sum of all jobs is consistent with the number of jobs
-sum(TO_od_ft$V_ij, na.rm=T)
-sum_jobs <- TO_od_ft %>% group_by(Destination) %>% summarise(jobs = mean(jobs))
+sum(od_ft$V_ij, na.rm=T)
+sum_jobs <- od_ft %>% group_by(Destination) %>% summarise(jobs = mean(jobs))
 sum(sum_jobs$jobs, na.rm = T)
 
 #aggregating spatial availability by destination
-TO_availability1 <- TO_od_ft %>%
+TO_availability1 <- od_ft %>%
   group_by(Destination) %>%
   summarize(TO_avgf_p_j = mean(f_p, na.rm = T),
             TO_sum_pa = mean(sum_pa, na.rm = T)) 
 
 #aggregating spatial availability by origin  
-TO_availability2 <- TO_od_ft %>%
+TO_availability2 <- od_ft %>%
   group_by(Origin) %>%
   summarize(TO_V_i = sum(V_ij, na.rm = T),
             TO_v_i = sum(V_ij, na.rm = T)/mean(workers, na.rm = T),
@@ -229,6 +223,12 @@ TO_availability2 <- TO_od_ft %>%
 #Merge TO availability calculation to the TAZ sf object created for accessibility above:
 TO_taz_acc <- TO_taz_acc %>% merge(TO_availability2, by.x=c("GTA06"), by.y=c("Origin"), all.x=T) 
 TO_taz_acc <- TO_taz_acc %>% merge(TO_availability1, by.x=c("GTA06"), by.y=c("Destination"), all.x=T) 
+
+
+#jobs and origins at destinations IN Toronto; i.e., workers who are from Toronto but travel outside of Toronto and workers who travel to Toronto from outside are not included. They are considered edge effects.
+TO_taz_acc <- TO_taz_acc %>% mutate(GTA06_in = ifelse(GTA06 %in% TO_taz$GTA06, 1, 0)) %>%
+  filter(GTA06_in == 1) %>%
+  dplyr::select(-c(GTA06_in))
 
 #save
 save(TO_taz_acc, toronto_muni_bound, file = "toronto_data.RData")
@@ -242,11 +242,11 @@ load(file = "toronto_data.RData")
 ## About the authors
 
 .pull-left[
-**Anastasia Soukhov**, B.Eng and MASc. in Civil Engineering
+**Anastasia Soukhov**, B.Eng and MASc. - Civil Engineering
 
-1st year PhD Student in Transport Geography, School of Earth, Environment and Society at McMaster University
+PhD Student - Transport Geography, School of Earth, Environment and Society at McMaster University
 
-Focus: accessibility, transportation, equity - especially GHG emissions. 
+Focus: accessibility, transportation, equity. 
 
 ```{r, echo=FALSE, out.height="50%", out.width="50%"}
 knitr::include_graphics("Anastasia Soukhov_Headshot_Small.png")
@@ -277,32 +277,27 @@ knitr::include_graphics("mcm-civil_left-col.png")
 ---
 ## Overview
 
-**1.** Introduce accessibility measures - Hansen and Shen 
+**1.** Hansen- and Shen- style accessibility measures
 
-**2.** Shen's property and methodological inconsistencies
+**2.** Shen-style accessibility's important property
 
-**3.** An alternative unifying approach: spatial availability
+**3.** An alternative approach: **spatial availability**
 
-**4.** How spatial availability compares to Shen-style accessibility
+**4.** How spatial availability compares
 
-**5.** An empirical example: Toronto TTS 2016 employment data
+**5.** An empirical example
 
-**6.** Extended uses for spatial availability
+**6.** Future uses
 
 ---
 #Overview of accessibility measures
 
 .pull-left[
 
-#### Hansen-style (gravity-based) accessibility
+#### Hansen-style accessibility
 
 $$A_i = \sum_{j}O_jf(c_{ij})$$
--   $A$ is accessibility. 
--   $i$ is a set of origin locations and $j$ is a set of destination locations.
--   $O_j$ is the number of opportunities at location $j$.
--   $f(\cdot)$ is an impedance function of $c_{ij}$ that measures the cost of moving between $i$ and $j$.
 
-This measure:
 - Suffers from interpretability issues _(Handy and Niemeier, 1997; Miller et al., 2018)_
 - Does not include competition _(Shen, 1998; Merlin and Hu, 2018)_
 
@@ -322,7 +317,7 @@ with:
 $$D_j = \sum_kP_kf(c_{jk})$$
 
 
-- $S$ is accessibility.   
+- $S_{i}$ is Shen-style accessibility.   
 - $P_{k}$ is the number of people in location $k$ seeking opportunities $k=1,2,..., N$.
 
 ]
@@ -341,7 +336,6 @@ It should be mentioned that Weibull (1976) was the first to arrive to this same 
 ---
 ##Toy example - Hansen-style accessibility
 
-.pull-left[
 ```{r, include=FALSE}
 od_tt <- data.frame(i = c("A", "A", "A", "B", "B", "B", "C", "C", "C"), # Three origins
                     j = c("1", "2", "3", "1", "2", "3", "1", "2", "3"), # Three destinations
@@ -367,7 +361,7 @@ od_lines <- data.frame(i = c("A", "A", "A","A", "A", "A", "B", "B", "B","B", "B"
                     group = c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9))
 
 od_table <- data.frame(Pts = c("A", "B", "C", "1", "2", "3"),
-  Value = c("50,000 pop", "150,000 pop", "100,00 pop", "100,000 jobs", "100,000 jobs", "10,000 jobs"))
+  Value = c("50,000 pop", "150,000 pop", "10,000 pop", "100,000 jobs", "100,000 jobs", "10,000 jobs"))
 
 od_table2 <- data.frame(Path = c("A to 1", "A to 2", "A to 3", 
                                 "B to 1", "B to 2", "B to 3", 
@@ -375,7 +369,10 @@ od_table2 <- data.frame(Path = c("A to 1", "A to 2", "A to 3",
   Value = c("15 mins", "30 mins", "100 mins", "30 mins", "15 mins", "100 mins", "100 mins", "100 mins", "15 mins"))
 ```
 
-```{r create-figure-with-toy-example2,  echo=FALSE}
+
+.pull-left[
+
+```{r create-figure-with-toy-example2, out.width="200%", echo=FALSE}
 
 toy_example_plot <- ggplot() + 
   geom_point(data = centers, aes(x = x, y = y), color = "#f5cd9f50", size=50)+
@@ -412,11 +409,10 @@ gridExtra::grid.table(od_table, rows=NULL,
 
 .pull-right[
 
-- Assuming $f(c_{ij}) = exp(-\beta \cdot tt)$,
-- Where $\beta = 0.1$
+$A_i = \sum_jO_jf(c_{ij})$
 
-Conventional accessibility:
-$$A_i = \sum_jO_jf(c_{ij})$$
+Impedance function: $f(c_{ij}) = exp(-\beta \cdot tt)$; where $\beta = 0.1$
+
 ```{r, echo=FALSE}
 #set b and calculate impedance
 b <- 0.1
@@ -435,6 +431,7 @@ A %>% kable(format = "html",
 ```
 ]
 
+
 ???
 - explain the map; blue and orange dots are origins and employment centers respectively. Travel time within each center is 15 mins, travel time between sub and urban is 30 mins and travel time to the satellite town from sub / urban is 100 mins.
 
@@ -446,7 +443,7 @@ A %>% kable(format = "html",
 ## Toy example - Shen-style accessibility
 
 .pull-left[
-```{r create-figure-with-toy-example3,  echo=FALSE}
+```{r create-figure-with-toy-example3, out.width="200%", echo=FALSE}
 toy_example_plot 
 
 grid::pushViewport(grid::viewport(x=0.9, y=0.75))
@@ -467,12 +464,7 @@ gridExtra::grid.table(od_table, rows=NULL,
 --
 
 .pull-right[
-
-- Assuming $f(c_{ij}) = exp(-\beta \cdot tt)$,
-- Where $\beta = 0.1$
-
-$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$ where $D_j = \sum_kP_kf(c_{kj})$
-
+$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$ where $D_j = \sum_kP_kf(c_{kj})$ and same $f(c_{ij})$
 
 ```{r, echo=FALSE}
 #set b and calculate impedance
@@ -526,27 +518,32 @@ D1 <- data.frame(i = S$i,
                  "3" = D2_i3$A_i3)
 colnames(D1) <- c("i/j", "1", "2", "3")
 
-D3 <- data.frame(i = S$i,
-                 "1" = c(D$D_j[1],D$D_j[1],D$D_j[1]),
-                 "2" = c(D$D_j[2],D$D_j[2],D$D_j[2]),
-                 "3" = c(D$D_j[3],D$D_j[3],D$D_j[3]))
+D3 <- data.frame(i = "A|B|C",
+                 "1" = c(D$D_j[1]),
+                 "2" = c(D$D_j[2]),
+                 "3" = c(D$D_j[3]))
 colnames(D3) <- c("k/j", "1", "2", "3")
  
 # D1[nrow(D1) + 1,] = list("D_j at A,B,C", D$D_j[1], D$D_j[2], D$D_j[3])
-
-knitr::kable(S,
-             format = "html",
-             booktabs = TRUE,
-             digits = 2)
 ```
 
-The intermediates: $O_jf(c_{ij})$ and $D_{j}$
+The intermediates $O_jf(c_{ij})$ and $D_{j}$: 
+
 ```{r, echo=FALSE}
 knitr::kable(list(D1,D3),
              format = "html",
              booktabs = TRUE,
              digits = 2) %>%
   kable_styling(font_size = 13)
+```
+
+Hansen- $A_{i}$ and Shen- $S_{i}$ style accessibility:
+
+```{r, echo=FALSE}
+knitr::kable(S,
+             format = "html",
+             booktabs = TRUE,
+             digits = 2)
 ```
 
 ]
@@ -561,18 +558,19 @@ But, let's take a look at the intermediates! We can see that at the numerator, t
 
 From shen's accessibility we see that A, the suburb, has the highest accessibility when competition is considered. This is because it has a 2 times fewer workers than the urban center and same number of jobs as the Urban center. This is the result of accounting for competition.
 
-Now we can see, that though conventional accessibility is the same at A and B, Shen's accessibility is not the same. It's not the same because jobs (numerator) is weighted by the demand (denominator). You can see that there's way more jobs at A1 with a smaller demand at A1 compared to B1 jobs and demand. Also see how in B, supply of jobs is never greater than demand from workers. 
+Now we can see, that though conventional accessibility is the same at A and B, Shen's accessibility is not the same. It's not the same because jobs (numerator) is weighted by the demand (denominator). You can seee how in B, supply of jobs is sometimes greater than demand from workers while at A the supply of jobs IS always greater than demand from workers. 
 
 - that said... what does this _potential_ supply and _potential_ demand even mean!! We know that there are 210,000 people in this system looking for work and we know that there are 210,000 jobs. However.. we can see that when you sum up all _potential_ supply and demand they don't come close to this number!
 
-<!-- $\frac {A_{jobs @ 1 -> A}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> A}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> A}}{D_{workers @ A,B,C -> 3}}$ -->
-<!-- $\frac {A_{jobs @ 1 -> B}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> B}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> B}}{D_{workers @ A,B,C -> 3}}$ -->
-<!-- $\frac {A_{jobs @ 1 -> C}}{D_{workers @ A,B,C -> 1}}$ + $\frac {A_{jobs @ 2 -> C}}{D_{workers @ A,B,C -> 2}}$ + $\frac {A_{jobs @ 3 -> C}}{D_{workers @ A,B,C -> 3}}$ -->
+$D_{1} = 50000*exp(-0.1*15)+150000*exp(-0.1*30)+10000*exp(-0.1*100)= 18625.02$
 
 ---
-## Shen's important property - with inconsistent logic
+## Shen's property - with inconsistent logic
 
 .pull-left[
+
+$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$ 
+
 - **An important property**: $\sum_{i} S_{i}\cdot P_{i} = \sum_{j} O_{j}$
 
 ```{r,echo=FALSE}
@@ -619,7 +617,7 @@ t2 <- data.frame(O_j = O_j)
 
 t2[nrow(t2) + 1,] = list("TOTAL","210000")
 
-colnames(t1) <- c("i", "S_i", "P_i", "S_i P_i (jobs)")
+colnames(t1) <- c("i", "S_i", "P_i", "S_i*P_i")
 colnames(t2) <- c("j", "O_j")
 
 knitr::kable(list(t1,t2),
@@ -632,6 +630,9 @@ knitr::kable(list(t1,t2),
 
 --
 .pull-right[
+
+Demand $D_{j}$ by each origin $i$
+
 ```{r, echo=FALSE}
 
 
@@ -640,7 +641,7 @@ t3 <- data.frame(i = D_i$i,
                  S_ixD_i = nominal_demanded_jobs %>% round(digits = 2)) #when this potential demand is multiplied by S_i, we should get jobs potentially demanded for. This potential jobs and the other potential jobs... don't line up!
 t3[nrow(t3) + 1,] = list("TOTAL", "56824.73","56826.57")
 
-colnames(t3) <- c("i", "D_ij", "S_i D_ij (jobs)")
+colnames(t3) <- c("i", "Sum_j(D_ij)", "S_i * Sum_j(D_ij)")
 
 knitr::kable(t3,
              format = "html",
@@ -649,12 +650,12 @@ knitr::kable(t3,
 
 ```
 
+- TOTAL $D_{ij}$ is less than TOTAL worker population.
 
-- $\sum{_i} D_{ij}$ is `r LOS_j |> pull(D_j) |> sum() %>% round(digits=2)` workers, less than the sum of population (`r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` workers). So, `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum() - LOS_j |> pull(D_j) |> sum() %>% round(digits=2)`  people do not get jobs.
+- TOTAL $S_{i} D_{ij}$ (i.e., $\frac{jobs}{worker} \cdot workers$) is less than TOTAL jobs.
 
-- Sames logic applies for the supply of jobs $\sum_{j}O_{j}f(c_{ij})$.  
+- What's the value of this property?
 
-- What's the value of this property if it sums to `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` jobs but only distributes $\sum{_i} D_{ij}$ jobs?
 ]
 
 ???
@@ -663,34 +664,33 @@ knitr::kable(t3,
 
 - Shen's formula has an important property. That is that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system. Look at the table, sum of column 4 is 210,000. 
 
-- This property - while very neat! - doesn't make sense when combined with the logic of the intermediate values. We know that the impedance function is adjusting which workers demand for jobs - this results in $D_{j}$ (demand at each job center) is ~56,824 workers ( $\sum{_j} D_j$ is `r LOS_j |> pull(D_j) |> sum() %>% round(digits=2)` workers) which is less than the sum of population (210,000 aka `r od_tt |> distinct(i, .keep_all = TRUE) |> pull(pop) |> sum()` workers). Look at column 5 sum.
+- This property - while very neat! - doesn't make sense when combined with the logic of the intermediate values discussed in the last slide. We know that the impedance function is adjusting which workers demand for jobs - this results in $D_{ij}$ (demand at each population center) to be equal to ~56,824 workers which is less than the TOTAL sum of population (210,000 workers). Look at column 5 sum.
+<!-- $D_{j}$ for A is, 100,000*exp(-0.1*15) + 100,000*exp(-0.1*30) + 100,000*exp(-0.1*100)-->
 
--Why is demand smaller than the number of workers? Because it is adjusted by the impedance function so 153,175 workers do not get jobs (210,000 minus sum of demand). 
+<!-- $D_{ij}$ for A is 50000*exp(-0.1*15) + 50000*exp(-0.1*30) + 50000*exp(-0.1*100) -->
 
-- At the same time, the numbers of jobs which are being supplied to workers are also being discounted by the impedance function. (this is not captured in the table but can be). So in reality, both the jobs and the workers are LESS than the actual number of jobs and workers in the system but the rate at which they are discounted by the impedance function is proportional. Thus, this property holds true! (i.e., that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system).
+- So in reality, both the jobs and the workers are LESS than the actual number of jobs and workers in the system but the rate at which they are discounted by the impedance function is proportional. Thus, this property holds true! (i.e., that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system).
 
 - From the example, In the suburb, there is the same number of opportunities, and a smaller number of workers than the urban center so more people _seek_ work. 
 
 - However, We know that the _demand_ for jobs is less than the total population so it doesn't actually allocate ALL the jobs... it only allocates some of the jobs based on the travel behaviour. What's the value of this property if it tells you that there are 210,000 jobs... but only ends up giving out the sum of D_j (~57,000). It's only a proof a certain constraint and it is not really useful for us. 
 
 ---
-### This important property - is the basis of the proposed _spatial availability_
+### This important property - is the basis of _spatial availability_
 
 .pull-left[
 
-- This property doesn't appear to be used in literature - but we arrived to the same final results as the Shen (1998) measure from the perspective of proportional allocation!
-
 - Spatial availability:
 
-$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
+$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}$
 
 - Where the population allocation factor:
 
-$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}$ always between 0 to 1.
+$F^p_{ij} = \frac{P_{i}}{\sum_{i} P_{i}}$
 
 - And the cost allocation factor:
 
-$F^c_{ij} = \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}$ always between 0 to 1.
+$F^c_{ij} = \frac{f(c_{ij})}{\sum_{i} f(c_{ij})}$
 ]
 
 --
@@ -699,11 +699,11 @@ $F^c_{ij} = \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}$ always between 0 to 1.
 
 - And spatial availability per capita:
 
-$v_{i} = \sum_{j} \frac{O_j}{P_{i\in r}^\alpha}\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
+$v_{i} = \sum_{j} \frac{O_j}{P_{i}}\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}$
 
-- Normalized _spatial availability_ and shen's accessibility are equivalent and thus both can be seen as a **competitive** and **singly-constrained** accessibility measure
-  - supply of population and demand for opportunities are both travel-cost and population adjusted
-  - the sum of all accessibility values for i equals all the opportunities for i to j
+- Normalized _spatial availability_ is equivalent to Shen-style accessibility 
+
+- Both are **competitive** and **singly-constrained** accessibility measures
 
 ]
 
@@ -721,16 +721,17 @@ $v_{i} = \sum_{j} \frac{O_j}{P_{i\in r}^\alpha}\frac{F^p_{i} \cdot F^c_{ij}}{\su
 
 - When you multiple both factors together along with the total summation in the denominator, the allocation factors retain the property of being between 0 to 1. 
 
-- And finally, if you divide spatial availability by the population, it can be simply normalized to be opportunities available per capita. This is equivalent to Shen-style accessibility. Both competitive and singly-constrained (i.e., the sum of all accessibility values for i equals all the opportunities for i to j)
-
-
+- And finally, if you divide spatial availability by the population, it can be simply normalized to be opportunities available per capita. This is equivalent to Shen-style accessibility. Both competitive and singly-constrained 
+  -supply of population and demand for opportunities are both travel-cost and population adjusted
+  - why singly-constrained? the sum of all accessibility values for i equals all the opportunities for i to j (like in a singly constrained gravity model - it is attraction constrained)
 
 ---
-### Spatial availability - solving for Suburban Center A
+### Spatial availability - solving for suburban center A
 
-.pull-left[
 
 $V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}$
+
+--
 
 Let's solve $V_A$,
 
@@ -742,15 +743,15 @@ Cost allocation factor:
 $F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} = \frac{0.22}{0.22+0.05+0.00} = 0.82$
 $...$
 
+--
+
 Put it together:
 
 $V_{A} = O_1\frac{F^p_{A} \cdot F^c_{A1}}{F^p_{A} \cdot F^c_{A1} + F^p_{B} \cdot F^c_{B1} + F^p_{C} \cdot F^c_{C1}} + O_2\frac{F^p_{A} \cdot F^c_{A2}}{F^p_{A} \cdot F^c_{A2} + F^p_{B} \cdot F^c_{B2} + F^p_{C} \cdot F^c_{C2}} + O_3\frac{F^p_{A} \cdot F^c_{A3}}{F^p_{A} \cdot F^c_{A3} + F^p_{B} \cdot F^c_{B3} + F^p_{C} \cdot F^c_{C3}}$
 
 $V_{A} = 100000 \frac{0.24 \cdot 0.82}{0.32} + 100000 \frac{0.24 \cdot 0.18}{0.63} + 10000 \frac{0.24 \cdot 0.00}{0.05}$
 
-$V_{A} = 59900.64 + 6922.69 + 10.13 = 66833.46$ jobs
-
-]
+$V_{A} = 59900.64 + 6922.69 + 10.13 =$ **66833.46** spatially available jobs
 
 
 ```{r, echo=FALSE}
@@ -777,14 +778,13 @@ t2 <- data.frame("f" = V_ij$f,
                  "V_ij" = V_ij$V_ij,
                  "v_ij" = V_ij$V_ij/V_ij$pop)
 
-knitr::kable(list(t1,t2),
-             format = "html",
-             booktabs = TRUE,
-             digits = 2)%>%
-  kable_styling(font_size = 15)
+# knitr::kable(list(t1,t2),
+#              format = "html",
+#              booktabs = TRUE,
+#              digits = 2)%>%
+#   kable_styling(font_size = 15)
                  
 ```
-
 
 ???
 - We begin with population allocation factor. You take the population at A and divide it by the sum of A, B, and C. It's population represents 24% of the total population in the system so thus A will get allocated 24% of the opportunities. Do this for all the other population centers.
@@ -793,8 +793,319 @@ knitr::kable(list(t1,t2),
 
 - next, we can put these allocation factors all together, and allocate the opportunities at O1 plus O2 plus O3 to A to get the V_A. 
 
+#### Spatial availability and Shen-style accessibility differences
+- we presented this formula to a few accessibility academics and because the way we explained it - from the perspective of proportional allocation - made it appear to be different than shen's. It was a surprise to see the denominators cancel out to equal shen's! 
+
+- Spatial availability's intermediate proportional allocation factors are a potentially powerful communication and planning tool. 
+
+- Spatial availability begins with the proportional allocation of opportunities and then normalizes per capita. 
+  - Shen's arrives at the opportunities per capita score and identifies that the score multiplies with the population to equal the total opportunities. 
+
 ---
-### Proof: Spatial availability cancels out into Shen-style accessibility (maybe skip?)
+### Empirical example: 2016 Transportation Tomorrow Survey (TTS) employment data 
+
+```{r, echo=FALSE, out.width="70%", fig.align='center'}
+knitr::include_graphics("TTS16-survey-area.png")
+```
+
+???
+- full time workers and jobs, at the traffic analysis zone (TAZ) level in the Greater Golden Horseshoe Area (GTHA)
+- travel time is calculated for car-only travel using the R-package `R5R`
+
+---
+### Empirical example: calibrated impedance function
+
+```{r, echo=FALSE, out.width = "50%", fig.align='center'}
+knitr::include_graphics("impedance_function.png")
+```
+
+
+???
+It takes the following general form where $\alpha = 2.019$, $\beta = 0.094$, and $\Gamma(\alpha)$ is defined in:
+
+$f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\$
+$\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx$
+
+- trip-length distribution (TLD) is used to calibrate the impedance function (gamma distribution _(Ingram, 1971)_) 
+
+---
+
+### Empirical example: Hansen-style accessibility and spatial availability
+
+```{r, message=FALSE, echo=FALSE, eval=FALSE}
+TO_taz_acc %>% mutate(Ai = TO_A_i, Vi = TO_V_i) %>% dplyr::select(Ai, Vi) %>% tidyr::pivot_longer(cols=-geometry, names_to = "Measure", values_to = "Values") %>%
+  ggplot() + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = NA, fill="grey80", 
+          show.legend = "polygon") +
+  geom_sf(aes(fill = Values), color = NA) +
+  scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = "Values",
+                         limits = c( round(min(TO_taz_acc$TO_V_i, na.rm=T)), round(max(TO_taz_acc$TO_A_i, na.rm=T)) ),
+                         midpoint= mean(TO_taz_acc$TO_A_i, na.rm = TRUE), #average A_i
+                       breaks = c(round(min(TO_taz_acc$TO_V_i, na.rm=T)), 5000, 10000, 15000, 20000, round(max(TO_taz_acc$TO_A_i, na.rm=T))),
+                         labels = c(round(min(TO_taz_acc$TO_V_i, na.rm=T)), 5000, 10000, 15000, 20000, round(max(TO_taz_acc$TO_A_i, na.rm=T))),
+                         na.value = "grey80")+
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = 0.5, fill=NA) +
+  annotation_north_arrow(location = "tl", # north arrow 
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.10,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar 
+                   height = unit(0.10, "cm"),
+                   location = "br") +
+  facet_wrap(~Measure) + theme_void() + 
+  theme(strip.text = element_text(size = 13))
+ggsave(filename = "mplot_access_TO.png", device='png', dpi=700)
+```
+
+```{r, echo=FALSE, out.width="90%", fig.align='center'}
+knitr::include_graphics("mplot_access_TO.png")
+```
+
+.pull-left[
+$$A_i = \sum_{j}O_jf(c_{ij})$$
+]
+
+.pull-right[
+$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}$
+]
+
+---
+### Empirical example: jobs allocated in Shen-style accessibility and spatial availability
+
+```{r, echo=FALSE, eval=FALSE}
+## shen's job allocation - D_j*S_i
+TO_taz_acc <- TO_taz_acc %>% mutate(ShenA_i_D_j = ShenA_i*D_j)
+
+TO_taz_acc %>% mutate(SiDij = ShenA_i_D_j, Vi = TO_V_i) %>% dplyr::select(SiDij, Vi) %>% tidyr::pivot_longer(cols=-geometry, names_to = "Measure", values_to = "Values") %>%
+  ggplot() +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = NA, fill="grey80", 
+          show.legend = "polygon") + 
+  geom_sf(aes(fill= Values), color = NA) +
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = "Values",
+                         limits = c( round(min(TO_taz_acc$ShenA_i_D_j, na.rm=T)), round(max(TO_taz_acc$ShenA_i_D_j, na.rm=T)) ),
+                         midpoint= mean(TO_taz_acc$ShenA_i_D_j, na.rm = TRUE), #average 
+                       breaks = c(round(min(TO_taz_acc$ShenA_i_D_j, na.rm=T)), 7000, 14000, 21000, 28000, round(max(TO_taz_acc$ShenA_i_D_j, na.rm=T))),
+                         labels = c(round(min(TO_taz_acc$ShenA_i_D_j, na.rm=T)), 7000, 14000, 21000, 28000, round(max(TO_taz_acc$ShenA_i_D_j, na.rm=T))),
+                         na.value = "grey80")+
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = 0.5, fill=NA) +
+  annotation_north_arrow(location = "tl", # north arrow
+                         height = unit(0.8, "cm"),
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.10,
+                                                          line_col = "dimgrey",
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar
+                   height = unit(0.10, "cm"),
+                   location = "br") +
+  facet_wrap(~Measure) + theme_void() +
+  theme(strip.text = element_text(size = 13))
+ggsave(filename = "mplot_ShenAiDj_SA_TO.png", device='png', dpi=700)
+```
+
+```{r, echo=FALSE, out.width="85%", fig.align='center'}
+knitr::include_graphics("mplot_ShenAiDj_SA_TO.png")
+```
+
+.pull-left[
+$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$ and $D_j = \sum_kP_kf(c_{kj})$ at each origin $i$
+]
+
+.pull-right[
+$V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}$
+]
+
+
+???
+
+Shen's accessibility multiplied by demand ($S_{i} D_{ij}$ (i.e., $\frac{jobs}{worker} \cdot workers$ ) is less than TOTAL jobs) and $V_{i}$ 
+- this shows us that this is only the number of jobs allocated compared to all jobs allocated in spatial availability. 
+- In Shen's, using the demand (i.e., workers seeking opportunities) doesn't give us the total opportunities unlike in spatial availability.
+
+---
+
+### Empirical example: spatial availability per capita
+
+
+```{r, echo=FALSE, eval=FALSE}
+## Normalized spatial availability + Shen's, saving as PNG and then displaying it as PNG
+ggplot() +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = NA, fill="grey80", 
+          show.legend = "polygon") +
+  geom_sf(data = TO_taz_acc, aes(fill= ShenA_i), color = NA) + #data
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = expression(v["i"]),
+                         limits = c(0, round(max(TO_taz_acc$ShenA_i, na.rm=TRUE))), 
+                         midpoint= mean(TO_taz_acc$ShenA_i, na.rm = TRUE), #average v_i per capita (same as Shen's)
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm"),
+                   location = "br") +
+  theme_void()
+ggsave(filename = "mplot_normSA_TO.png", device='png', dpi=700)
+```
+```{r, echo=FALSE, out.width="60%", fig.align='center'}
+knitr::include_graphics("mplot_normSA_TO.png")
+```
+
+$v_{i} = \frac{V_i}{P_{i}} = S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$
+
+???
+
+- shen's accessibility which is equal to normalized spatial availability. The average is 0.87 jobs per worker, and you can see that places of high accessibility are more spread out - competition.
+
+- this matches those values in shen. This shows that 2 stage floating catchment methods are actually singly-constrained accessibility measure
+
+In the proportional allocation map, you can see exactly where the opportunities are being allocated too based on the travel-cost (impedance) and the population. You can see which areas are getting LESS and which areas are getting more. This could mean 1) increase opportunities at those locations and/or 2) decrease the cost of travel. 
+
+---
+
+## Conclusions
+
+#### Spatial availability:
+
+- Increases interpretability of Shen-style accessibility
+
+- Singly-constrained accessibility measures
+
+- Can serve as a cross-regional benchmark for opportunities per capita
+
+
+
+???
+
+- Increases interpretability of Shen-style accessibility
+
+- Shows that Shen-style accessibility (and 2SFCA) are actually singly-constrained accessibility measures
+
+- Competitive measures can serve as a cross-regional a benchmark for opportunities per capita and thus show where more opportunities are needed 
+
+
+<!-- - intermediate values can be used to inform prescriptive analysis -->
+<!--   - how should travel cost be altered to achieve population-to-employment parity? -->
+<!--   - how should the allocation of opportunities or residential locations be altered to achieve parity? -->
+
+---
+class: center, middle, inverse
+
+## Acknowledgments
+
+```{r, echo=FALSE, out.width="20%"}
+knitr::include_graphics("MJ_logo.png")
+```
+
+```{r, echo=FALSE, out.width="30%"}
+knitr::include_graphics("mcm-sci-sees_left-col.png")
+```
+
+### Any questions? Remarks?
+
+#### Anastasia Soukhov, **soukhoa@mcmaster.ca** 
+
+---
+class: center, middle, inverse
+
+#Extra slides
+
+---
+### Empirical example: intermediates - spatial availability's proportional allocation and Shen's demand
+
+```{r, eval=FALSE, echo=FALSE}
+library(cowplot)
+
+mplot_SA_sum_PA_TO <- ggplot() +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = NA, fill="grey80", 
+          show.legend = "polygon") +
+  geom_sf(data = TO_taz_acc, aes(fill= TO_sum_pa), color = NA) +
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = expression(Sum_PA["i"]),
+                         limits = c(0, (max(TO_taz_acc$TO_sum_pa, na.rm=TRUE))), 
+                         midpoint= mean(TO_taz_acc$TO_sum_pa, na.rm = TRUE), #average v_i per capita (same as Shen's)
+                         breaks = c(round(min(TO_taz_acc$TO_sum_pa, na.rm=T)), 0.0003, 0.0006, 0.0009, 0.0012, round(max(TO_taz_acc$TO_sum_pa, na.rm=T))),
+                         labels = c(round(min(TO_taz_acc$TO_sum_pa, na.rm=T)), 0.0003, 0.0006, 0.0009, 0.0012, round(max(TO_taz_acc$TO_sum_pa, na.rm=T))),
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm"),
+                   location = "br") +
+  theme_void()
+
+mplot_Shen_Dij_TO <- ggplot() +
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          size = NA, fill="grey80", 
+          show.legend = "polygon") +
+  geom_sf(data = TO_taz_acc, aes(fill= D_j), color = NA) + #data
+    scale_fill_gradient2(low = "deepskyblue4",
+                         mid = "ghostwhite",
+                         high = "red", #legend scale bar
+                         name = expression(D["ij"]),
+                         limits = c(0, (max(TO_taz_acc$D_j, na.rm=TRUE))), 
+                         midpoint= mean(TO_taz_acc$D_j, na.rm = TRUE), #average v_i per capita (same as Shen's)
+                         breaks = c(round(min(TO_taz_acc$D_j, na.rm=T)), 7500, 15000, 22500, 30000, round(max(TO_taz_acc$D_j, na.rm=T))),
+                         labels = c(round(min(TO_taz_acc$D_j, na.rm=T)), 7500, 15000, 22500, 30000, round(max(TO_taz_acc$D_j, na.rm=T))),
+                         na.value = "grey80") + 
+  geom_sf(data = toronto_muni_bound, # border for Toronto
+          colour=alpha("dimgrey",1), 
+          size = 0.5, fill=NA, 
+          show.legend = "polygon") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   height = unit(0.15, "cm"),
+                   location = "br") +
+  theme_void()
+
+mplot_SA_sum_PA_TO+mplot_Shen_Dij_TO
+
+ggsave(filename = "mplot_SumPA_Dij_TO.png", device='png', dpi=700)
+```
+```{r, echo=FALSE, out.width="100%", fig.align='center'}
+knitr::include_graphics("mplot_SumPA_Dij_TO.png")
+```
+
+
+---
+### Proof: Spatial availability cancels out into Shen-style accessibility
 
 Population allocation factor:
 $F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}$
@@ -864,253 +1175,7 @@ Shen's accessibility:
 
 $S_i = \sum_j \frac{O_jf(c_{ij})}{\sum_kP_kf(c_{jk})}$
 
-#### Spatial availability and Shen-style accessibility differences
-
-- Spatial availability's intermediate proportional allocation factors are a potentially powerful communication and planning tool. 
-
-- Spatial availability begins with the proportional allocation of opportunities and then normalizes per capita. 
-  - Shen's arrives at the opportunities per capita score and identifies that the score multiplies with the population to equal the total opportunities. 
-
 ---
-### Empirical example: 2016 Transportation Tomorrow Survey (TTS)
-
-```{r, echo=FALSE, out.width="60%"}
-knitr::include_graphics("TTS16-survey-area.png")
-```
-
-- full time workers and jobs, at the traffic analysis zone (TAZ) level in the Greater Golden Horseshoe Area (GTHA)
-- travel time is calculated for car-only travel using the R-package `R5R`
-
----
-## Empirical example: GTHA - 2016 TTS
-
-.pull-left[
-```{r, echo=FALSE}
-knitr::include_graphics("impedance_function.png")
-```
-]
-
-.pull-right[
-- trip-length distribution (TLD) is used to calibrate the impedance function
-
-- a gamma distribution is used. It takes the following general form where $\alpha = 2.019$, $\beta = 0.094$, and $\Gamma(\alpha)$ is defined in:
-
-$f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\$
-$\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx$
-]
-
----
-
-##Empirical example: Toronto - 2016 TTS
-
-.pull-left[
-
-- Accessibility $A_{i}$:
-
-```{r plot-access-TO, message=FALSE, echo=FALSE, eval=FALSE}
-## accessibility
-#creating the main plot and saving it to png
-png(file="mplot_access_TO.png", res=100)
-ggplot() +
-  geom_sf(data = TO_taz_acc, aes(fill= TO_A_i), color = NA) + #data
-  scale_fill_gradient2(low = "deepskyblue4",
-                         mid = "ghostwhite",
-                         high = "red", #legend scale bar
-                         name = expression(A["i"]),
-                         limits = c( round(min(TO_taz_acc$TO_A_i, na.rm=T)), round(max(TO_taz_acc$TO_A_i, na.rm=T)) ),
-                         midpoint= mean(TO_taz_acc$TO_A_i, na.rm = TRUE), #average A_i
-                       breaks = c(round(min(TO_taz_acc$TO_A_i, na.rm=T)), 5000, 10000, 15000, 20000, round(max(TO_taz_acc$TO_A_i, na.rm=T))),
-                         labels = c(round(min(TO_taz_acc$TO_A_i, na.rm=T)), 5000, 10000, 15000, 20000, round(max(TO_taz_acc$TO_A_i, na.rm=T))),
-                         na.value = "grey80")+
-  geom_sf(data = toronto_muni_bound, # border for Toronto
-          colour=alpha("dimgrey",1), 
-          size = 0.5, fill=NA, 
-          show.legend = "polygon") + 
-  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
-                         height = unit(0.8, "cm"), 
-                         width = unit(0.8, "cm"),
-                         style = north_arrow_orienteering(line_width = 0.25,
-                                                          line_col = "dimgrey", 
-                                                          fill = c("white","dimgrey"))) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   height = unit(0.15, "cm")) +
-  theme_void()
-dev.off()
-```
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_access_TO.png")
-```
-
-]
-
-.pull-right[
-
-- Normalized spatial availability $v_{i}$ & Shen-style accessibility $S_{i}$:
-
-```{r, echo=FALSE, eval=FALSE}
-## Normalized spatial availability + Shen's, saving as PNG and then displaying it as PNG
-png(file="mplot_Shen_TO.png", res=100)
-ggplot() +
-  geom_sf(data = TO_taz_acc, aes(fill= ShenA_i), color = NA) + #data
-    scale_fill_gradient2(low = "deepskyblue4",
-                         mid = "ghostwhite",
-                         high = "red", #legend scale bar
-                         name = expression(v["i"]),
-                         limits = c(0, round(max(TO_taz_acc$ShenA_i, na.rm=TRUE))), 
-                         midpoint= mean(TO_taz_acc$ShenA_i, na.rm = TRUE), #average v_i per capita (same as Shen's)
-                         na.value = "grey80") + 
-  geom_sf(data = toronto_muni_bound, # border for Toronto
-          colour=alpha("dimgrey",1), 
-          size = 0.5, fill=NA, 
-          show.legend = "polygon") + 
-  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
-                         height = unit(0.8, "cm"), 
-                         width = unit(0.8, "cm"),
-                         style = north_arrow_orienteering(line_width = 0.25,
-                                                          line_col = "dimgrey", 
-                                                          fill = c("white","dimgrey"))) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   height = unit(0.15, "cm")) +
-  theme_void()
-dev.off()
-```
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_Shen_TO.png")
-```
-
-]
-
-???
-- conventional accessibility
-
-- shen's accessibility which is equal to normalized spatial availability. The average is 0.87 jobs per worker, and you can see that places of high accessibility are more spread out - competition.
-
----
-
-## Empirical example: Toronto - 2016 TTS
-
-.pull-left[
-
-- Spatial availability $V_{i}$:
-
-```{r, echo=FALSE, eval=FALSE}
-## Normalized spatial availability + Shen's, saving as PNG and then displaying it as PNG
-png(file="mplot_SA_TO.png", res=100)
-ggplot() +
-  geom_sf(data = TO_taz_acc, aes(fill= TO_V_i), color = NA) + #data
-    scale_fill_gradient2(low = "deepskyblue4",
-                         mid = "ghostwhite",
-                         high = "red", #legend scale bar
-                         name = expression(V["i"]),
-                         limits = c(0, round(max(TO_taz_acc$TO_V_i, na.rm=TRUE))), 
-                         midpoint= mean(TO_taz_acc$TO_V_i, na.rm = TRUE), #average v_i per capita (same as Shen's)
-                         na.value = "grey80") + 
-  geom_sf(data = toronto_muni_bound, # border for Toronto
-          colour=alpha("dimgrey",1), 
-          size = 0.5, fill=NA, 
-          show.legend = "polygon") + 
-  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
-                         height = unit(0.8, "cm"), 
-                         width = unit(0.8, "cm"),
-                         style = north_arrow_orienteering(line_width = 0.25,
-                                                          line_col = "dimgrey", 
-                                                          fill = c("white","dimgrey"))) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   height = unit(0.15, "cm")) +
-  theme_void()
-dev.off()
-```
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_SA_TO.png")
-```
-]
-
-.pull-right[
-
-- Normalized spatial availability $v_{i}$ & Shen-style accessibility $S_{i}$:
-
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_Shen_TO.png")
-```
-]
-
----
-
-## Empirical example: Toronto - 2016 TTS
-
-.pull-left[
-
-- sum of both cost $F^c_{i}$ and population proportional allocation factor $F^p_{i}$ :
-
-```{r, echo=FALSE, eval=FALSE}
-## sum of proportional allocation factors, saving as PNG and then displaying it as PNG
-png(file="mplot_SA_sum_PA_TO.png", res=100)
-ggplot() 
-  geom_sf(data = TO_taz_acc, aes(fill= TO_sum_pa), color = NA) + #data
-    scale_fill_gradient2(low = "deepskyblue4",
-                         mid = "ghostwhite",
-                         high = "red", #legend scale bar
-                         name = expression(Sum_PA["i"]),
-                         limits = c(0, (max(TO_taz_acc$TO_sum_pa, na.rm=TRUE))), 
-                         midpoint= mean(TO_taz_acc$TO_sum_pa, na.rm = TRUE), #average v_i per capita (same as Shen's)
-                         na.value = "grey80") + 
-  geom_sf(data = toronto_muni_bound, # border for Toronto
-          colour=alpha("dimgrey",1), 
-          size = 0.5, fill=NA, 
-          show.legend = "polygon") + 
-  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
-                         height = unit(0.8, "cm"), 
-                         width = unit(0.8, "cm"),
-                         style = north_arrow_orienteering(line_width = 0.25,
-                                                          line_col = "dimgrey", 
-                                                          fill = c("white","dimgrey"))) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   height = unit(0.15, "cm")) +
-  theme_void()
-dev.off()
-```
-
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_SA_sum_PA_TO.png")
-```
-]
-
-.pull-right[
-
-- Normalized spatial availability $v_{i}$ & Shen-style accessibility $S_{i}$:
-
-```{r, echo=FALSE}
-knitr::include_graphics("mplot_Shen_TO.png")
-```
-]
-
-???
-
-In the proportional allocation map, you can see exactly where the opportunities are being allocated too based on the travel-cost (impedance) and the population. You can see which areas are getting LESS and which areas are getting more. This could mean 1) increase opportunities at those locations and/or 2) decrease the cost of travel. 
----
-
-## Spatial availability - future uses
-
-- increases interpretability of Shen-style accessibility (competitive) in the context of Hansen-style accessibility
-
-- intermediate values can be used to inform prescriptive policies
-
-  - how should travel cost be altered to achieve population-to-employment parity?
-  - how should the allocation of opportunities or residential locations be altered to achieve parity?
-
-- competitive measures can serve as a cross-regional a benchmark for opportunities per capita and thus where more opportunities are needed 
-
-???
-
-summarize shen vs. spatial availability and how it compares to accessibility
-
----
-
-class: center, middle, inverse
-
-### Questions?
-
-## soukhoa@mcmaster.ca 
 
 <!-- ##Extras -->
 
