@@ -47,7 +47,7 @@ options(scipen = 999)
 
 ```{r sp_avail-function,include=FALSE}
 #defining the spatial availability function, this prints all the intermediates
-sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
+sp_avail_detailed <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
   
   o_id <- rlang::enquo(o_id)
   d_id <- rlang::enquo(d_id)
