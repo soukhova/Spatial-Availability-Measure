@@ -387,3 +387,214 @@ V_ij |>
   mutate(v_i = V_i / c(50000, 150000, 10000)) |>
   pull(v_i)
 ```
+-----
+
+<!-- trying again, but with a shen's example...  -->
+```{r, eval=FALSE}
+# assume Li,n = 1 as our inital number
+b<- -0.1
+
+#balancing factor, assume A_i = 1
+a1<-1/(1*100000*exp(b*15) + 1*100000*exp(b*30)+ 1*10000*exp(b*100))
+b1<-1/(1*100000*exp(b*30) + 1*100000*exp(b*15)+ 1*10000*exp(b*100))
+c1<-1/(1*100000*exp(b*100) + 1*100000*exp(b*100)+ 1*10000*exp(b*15))
+
+#next calc accessibility using the balancing factors a1, b1, c1
+d2<-1/(50000*exp(b*15)*a1 + 150000*exp(b*30)*b1 + 10000*exp(b*100)*c1)
+e2<- 1/(50000*exp(b*30)*a1 + 150000*exp(b*15)*b1 + 10000*exp(b*100)*c1)
+h2<- 1/(50000*exp(b*100)*a1 + 150000*exp(b*100)*b1 + 10000*exp(b*15)*c1)
+
+cbind(a1, b1, c1, d2, e2, h2)
+```
+
+```{r , eval=FALSE}
+a2<-1/(a1*100000*exp(b*15) + b1*100000*exp(b*30)+ c1*10000*exp(b*100))
+b2<-1/(a1*100000*exp(b*30) + b1*100000*exp(b*15)+ c1*10000*exp(b*100))
+c2<-1/(a1*100000*exp(b*100) + b1*100000*exp(b*100)+ c1*10000*exp(b*15))
+
+d2<-1/(50000*exp(b*15)*a2 + 150000*exp(b*30)*b2 + 10000*exp(b*100)*c2)
+e2<- 1/(50000*exp(b*30)*a2 + 150000*exp(b*15)*b2 + 10000*exp(b*100)*c2)
+h2<- 1/(50000*exp(b*100)*a2 + 150000*exp(b*100)*b2 + 10000*exp(b*15)*c2)
+
+cbind(a2, b2, c2, d2, e2, h2)
+```
+
+```{r , eval=FALSE}
+a3<-1/(a2*100000*exp(b*15) + b2*100000*exp(b*30)+ c2*10000*exp(b*100))
+b3<-1/(a2*100000*exp(b*30) + b2*100000*exp(b*15)+ c2*10000*exp(b*100))
+c3<-1/(a2*100000*exp(b*100) + b2*100000*exp(b*100)+ c2*10000*exp(b*15))
+
+d3<-1/(50000*exp(b*15)*a3 + 150000*exp(b*30)*b3 + 10000*exp(b*100)*c3)
+e3<- 1/(50000*exp(b*30)*a3 + 150000*exp(b*15)*b3 + 10000*exp(b*100)*c3)
+h3<- 1/(50000*exp(b*100)*a3 + 150000*exp(b*100)*b3 + 10000*exp(b*15)*c3)
+
+cbind(a3, b3, c3, d3, e3, h3)
+```
+
+```{r , eval=FALSE}
+a4<-1/(a3*100000*exp(b*15) + b3*100000*exp(b*30)+ c3*10000*exp(b*100))
+b4<-1/(a3*100000*exp(b*30) + b3*100000*exp(b*15)+ c3*10000*exp(b*100))
+c4<-1/(a3*100000*exp(b*100) + b3*100000*exp(b*100)+ c3*10000*exp(b*15))
+
+d4<-1/(50000*exp(b*15)*a4 + 150000*exp(b*30)*b4 + 10000*exp(b*100)*c4)
+e4<- 1/(50000*exp(b*30)*a4 + 150000*exp(b*15)*b4 + 10000*exp(b*100)*c4)
+h4<- 1/(50000*exp(b*100)*a4 + 150000*exp(b*100)*b4 + 10000*exp(b*15)*c4)
+
+cbind(a4, b4, c4, d4, e4, h4)
+```
+```{r , eval=FALSE}
+a5<-1/(a4*100000*exp(b*15) + b4*100000*exp(b*30)+ c4*10000*exp(b*100))
+b5<-1/(a4*100000*exp(b*30) + b4*100000*exp(b*15)+ c4*10000*exp(b*100))
+c5<-1/(a4*100000*exp(b*100) + b4*100000*exp(b*100)+ c4*10000*exp(b*15))
+
+d5<-1/(50000*exp(b*15)*a5 + 150000*exp(b*30)*b5 + 10000*exp(b*100)*c5)
+e5<- 1/(50000*exp(b*30)*a5 + 150000*exp(b*15)*b5 + 10000*exp(b*100)*c5)
+h5<- 1/(50000*exp(b*100)*a5 + 150000*exp(b*100)*b5 + 10000*exp(b*15)*c5)
+
+cbind(a5, b5, c5, d5, e5, h5)
+```
+----------
+
+```{r}
+a2<-(f1/f1)*(100000*exp(b*15)/d2 + 100000*exp(b*30)/e2 + 10000*exp(b*100)/h2)
+b2<-(f1/f1)*(100000*exp(b*30)/d2 + 100000*exp(b*15)/e2 + 10000*exp(b*100)/h2)
+c2<-(f1/f1)*(100000*exp(b*100)/d2 + 100000*exp(b*100)/e2 + 10000*exp(b*15)/h2)
+
+d2<-(60000*exp(b*15)/a2 + 160000*exp(b*30)/b2 + 10000*exp(b*100)/c2)
+e2<-(60000*exp(b*30)/a2 + 160000*exp(b*15)/b2 + 10000*exp(b*100)/c2)
+h2<- (60000*exp(b*100)/a2 + 160000*exp(b*100)/b2 + 10000*exp(b*15)/c2)
+
+f2 <- (60000*(a2) + 160000*(b2) + 10000*(c2))/(60000+160000+10000)
+cbind(a2, b2, c2, d2, e2, h2, f2)
+```
+
+```{r}
+a3<-(f1/f2)*(100000*exp(b*15)/d2 + 100000*exp(b*30)/e2 + 10000*exp(b*100)/h2)
+b3<-(f1/f2)*(100000*exp(b*30)/d2 + 100000*exp(b*15)/e2 + 10000*exp(b*100)/h2)
+c3<-(f1/f2)*(100000*exp(b*100)/d2 + 100000*exp(b*100)/e2 + 10000*exp(b*15)/h2)
+
+d3<-(60000*exp(b*15)/a3 + 160000*exp(b*30)/b3 + 10000*exp(b*100)/c3)
+e3<-(60000*exp(b*30)/a3 + 160000*exp(b*15)/b3 + 10000*exp(b*100)/c3)
+h3<- (60000*exp(b*100)/a3 + 160000*exp(b*100)/b3 + 10000*exp(b*15)/c3)
+
+f3 <- (60000*(a3) + 160000*(b3) + 10000*(c3))/(60000+160000+10000)
+cbind(a3, b3, c3, d3, e3, h3, f3)
+```
+
+
+
+-----
+<!-- this is from Spatial-Availability-Refreshed, I tried to edit alpha to experiment but realized it's not needed-->
+<!-- remove this!, the alpha calculation which is only half finished
+
+```{r fitting-population-alpha-param1,  echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#calculating an alpha parameter; modulates the attractiveness of larger population centers
+#first workers at origin
+workers_deciles <- quantile(od_ft_pop$workers,
+                        seq(0, 1, 0.1)) 
+
+jobs_deciles <- quantile(od_ft_pop$jobs,
+                        seq(0, 1, 0.1))
+
+od_ft_pop <- od_ft_pop %>% 
+  mutate(origin_mass_class = cut(workers,
+                                 breaks = as.numeric(workers_deciles), 
+                                 include.lowest = TRUE),
+         destination_mass_class = cut(jobs, 
+                                      breaks = as.numeric(jobs_deciles), 
+                                      include.lowest = TRUE)) 
+
+trips_work_by_origin_mass <- od_ft_pop %>% 
+  filter(trips > 0) %>%
+  group_by(origin_mass_class)
+
+tomd_work <- trips_work_by_origin_mass %>% 
+  summarize(Trips = sum(trips),
+            population = sum(workers),
+            .groups = "drop") %>% 
+  mutate(frequency_trips = Trips/sum(Trips),
+         frequency_population = population/sum(population))
+
+tomd_work %>% # Pass object `tomd_work` to the next function
+  pivot_longer(cols = starts_with("frequency_"), 
+               names_to = "Variable",
+               values_to = "frequency") %>%
+  ggplot() + # Create a blank ggplot object
+  geom_col(aes(x = origin_mass_class, # Use `geom_col()` to create a plot with bars; the x-axis is the mass classes 
+               y = frequency, # The height of the bars is the frequency of trips produced by zones in the mass class
+               fill = Variable), # The fill color of the columns will be different for frequency of trips and frequency of population
+           position = "dodge") +
+  xlab("population at the origin") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r fitting-population-alpha-param2, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#calculating an alpha parameter; modulates the attractiveness of larger population centers
+#next jobs at origin
+trips_work_by_destination_mass <- od_ft_pop %>% 
+  filter(trips > 0) %>%
+  group_by(destination_mass_class)
+
+tomd_work <- trips_work_by_destination_mass %>% 
+  summarize(Trips = sum(trips),
+            population = sum(jobs),
+            .groups = "drop") %>% 
+  mutate(frequency_trips = Trips/sum(Trips),
+         frequency_population = population/sum(population))
+
+tomd_work %>% # Pass object `tomd_work` to the next function
+  pivot_longer(cols = starts_with("frequency_"), 
+               names_to = "Variable",
+               values_to = "frequency") %>%
+  ggplot() + # Create a blank ggplot object
+  geom_col(aes(x = destination_mass_class, # Use `geom_col()` to create a plot with bars; the x-axis is the mass classes 
+               y = frequency, # The height of the bars is the frequency of trips produced by zones in the mass class
+               fill = Variable), # The fill color of the columns will be different for frequency of trips and frequency of population
+           position = "dodge") +
+  xlab("employment at the origin") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+#we'll use the employment at the origin, and calculate alpha (i.e., the parameter which will scale population centers with more employment more than population centers with smaller employment)
+
+all_empATorig <- od_ft_pop  %>% 
+  dplyr::select(trips, jobs)
+
+all_empATorig <- all_empATorig[rep(seq_len(dim(all_empATorig)[1]), all_empATorig$trips), 2]
+
+#fit cullen frey graph -> the results indicate a gamma or beta is the best fit.
+#fitdistrplus::descdist(data = all_empATorig)
+```
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE, include=FALSE}
+#let's try both gamma and beta. Beta seems to fit better
+gamma2_ <- fitdistrplus::fitdist(data=all_empATorig, "gamma", method="mme", optim.method="Nelder-Mead") 
+exp2_ <- fitdistrplus::fitdist(data=all_empATorig, "exp", method="mme", optim.method="Nelder-Mead") 
+#transform values to a scale of 0 to 1 to fit beta distribution
+# all_empATorig_norm <- data.frame(normalized = ((all_empATorig) - min(all_empATorig)) / (max(all_empATorig) - min(all_empATorig))) %>% unlist()
+# beta2_ <- fitdistrplus::fitdist(data=all_empATorig_norm, "beta", method="mme", optim.method="Nelder-Mead")
+# plot(gamma2_)
+# plot(beta2_)
+plot(exp2_)
+```
+
+```{r save-alpha-param-plot, include=FALSE}
+# For some reason plot(gamma_) does not play well with knitr, so instead we save the figure and then include it as a graphic in the following chunk
+png("images/alpha-param_function.png")
+plot(gamma2_)
+dev.off()
+```
+
+```{r alpha-param-plot, fig.cap="\\label{fig:alpha-param-plot}Employment at origin distribution and calibrated gamma distribution (red line) with associated Q-Q and P-P plots. Based on TTS 2016.", fig.show='hold', fig.align='center', out.width="80%"}
+knitr::include_graphics("images/alpha-param_function.png")
+```
+
+```{r estimate-alpha-param, echo=FALSE, warning=FALSE, message=FALSE}
+#adding f to our data set.
+#dgamma is the density plot for gamma function; adding values as "f" our impedance function
+od_ft_pop <- od_ft_pop %>%
+  mutate(f = dgamma(jobs, gamma2_$estimate["shape"], gamma2_$estimate["rate"]))
+```
+-->
