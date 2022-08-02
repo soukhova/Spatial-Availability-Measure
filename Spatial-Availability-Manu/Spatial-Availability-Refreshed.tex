@@ -95,20 +95,20 @@ of competitive accessibility}
       \cortext[cor1]{Corresponding author}
   
   \begin{abstract}
-  Accessibility measures are widely used in transportation, urban, and
+  Accessibility indicators are widely used in transportation, urban, and
   healthcare planning, among many other applications. These measures are
-  weighted sums of the opportunities that can be reached given the cost
-  of movement and are estimates of the potential for spatial
-  interaction. Over time, various proposals have been forwarded to
-  improve interpretability, mainly by introducing congestion and
-  competition. In this paper we demonstrate how a widely used measure of
-  accessibility with congestion fails to properly match the
-  opportunity-seeking population. We then propose an alternative
-  formulation of accessibility with competition, a measure we call
-  \emph{spatial availability}. This measure results from using balancing
-  factors that are equivalent to imposing a single constraint on
-  conventional gravity-based accessibility. Further, we demonstrate how
-  Two-Stage Floating Catchment Area methods can be seen as
+  weighted sums of reachable opportunities from a given origin
+  conditional on the cost of movement, and are estimates of the
+  potential for spatial interaction. Over time, various proposals have
+  been forwarded to improve their interpretability, mainly by
+  introducing congestion and competition. In this paper we demonstrate
+  how a widely used measure of accessibility with congestion fails to
+  properly match the opportunity-seeking population. We then propose an
+  alternative formulation of accessibility with competition, a measure
+  we call \emph{spatial availability}. This measure results from using
+  balancing factors that are equivalent to imposing a single constraint
+  on conventional gravity-based accessibility. Further, we demonstrate
+  how Two-Stage Floating Catchment Area methods can be seen as
   singly-constrained accessibility. To illustrate the application of
   spatial availability and compare it to other relevant measures, we use
   data from the 2016 Transportation Tomorrow Survey of the Greater
@@ -119,8 +119,8 @@ of competitive accessibility}
 
 \newpage
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\hypertarget{sec:introduction}{%
+\section{Introduction}\label{sec:introduction}}
 
 The concept of accessibility in transportation studies derives its
 appeal from the combination of the spatial distribution of opportunities
@@ -162,19 +162,18 @@ facilities in Montreal, besides being ``accessibility rich''? As another
 example, \citet{bocarejo_s_transport_2012} (in Bogota),
 \citet{elgeneidy_cost_2016} (in Montreal), and
 \citet{jiang_2016_accessibility} (in Beijing) report accessibility as
-the number of jobs by origin, with accessibility values often in the
-hundreds of thousands, and even exceeding one million jobs for some
-zones in Beijing and Montreal. As indicators of urban structure, these
-measures are informative, but the meaning of one million accessible jobs
-is harder to pin down: how many jobs must any single person have access
-to? Clearly, the answer to this question depends on how many people
-demand jobs.
+numbers of jobs, with accessibility values often in the hundreds of
+thousands, and even exceeding one million jobs for some zones in Beijing
+and Montreal. As indicators of urban structure, these measures are
+informative, but the meaning of one million accessible jobs is harder to
+pin down: how many jobs must any single person have access to? Clearly,
+the answer to this question depends on how many people demand jobs.
 
 The interpretability of gravity-type accessibility has been discussed in
 numerous studies, including recently by \citet{hu_2019_measuring},
 \citet{kelobonye2020measuring}, and in greater depth by
 \citet{merlin2017competition}. As hinted above, the limitations in
-interpretability are caused by ignoring competition - without
+interpretability are frequently caused by ignoring competition - without
 competition, each opportunity is assumed to be equally available to
 every single opportunity-seeking individual that can reach it
 \citep{shen1998, paez2019, kelobonye2020measuring}. This assumption is
@@ -190,9 +189,10 @@ whereby the distance decay of the supply of employment and the demand
 for employment (by workers) were formulated under so-called axiomatic
 assumptions. This approach was then applied by \citet{joseph1984} in the
 context of healthcare, to quantify the availability of general
-practitioners in Canada. Later, \citet{shen1998} independently
-re-discovered \citet{weibull_axiomatic_1976} formula \citep[see footnote
-(7) in][]{shen1998} and deconstructed it to consider accessibility for
+practitioners in Canada. About two decades later, \citet{shen1998}
+independently re-discovered Weibull's
+\citeyearpar{weibull_axiomatic_1976} formula \citep[see footnote (7)
+in][]{shen1998} and deconstructed it to consider accessibility for
 different modes. These advances were subsequently popularized as the
 family of two-step floating catchment area (2SFCA) methods
 \citep{luo2003} that have found widespread adoption in healthcare,
@@ -226,7 +226,7 @@ In this way, the aim of the paper is three-fold:
   Second, we introduce a new measure, \emph{spatial availability}, which
   we submit is a more interpretable alternative to Shen-style
   accessibility, since opportunities in the system are preserved and
-  proportionally allocated to each origin; and
+  proportionally allocated to the population; and
 \item
   Third, we show how Shen-type accessibility (and 2SFCA methods) can be
   seen as measures of singly-constrained accessibility.
@@ -237,8 +237,8 @@ from \citet{shen1998} and empirical data drawn from the 2016
 Transportation Tomorrow Survey of the Greater Toronto and Hamilton Area
 in Ontario, Canada. In the spirit of openness of research in the spatial
 sciences \citep{brunsdon2021opening, paez2021open} this paper has a
-companion open data product \citep{arribas2021Open}, and all code will
-be available for replicability and reproducibility purposes.
+companion open data product \citep{arribas2021Open}, and all code is
+available for replicability and reproducibility purposes.
 
 \hypertarget{background}{%
 \section{Accesssibility measures revisited}\label{background}}
@@ -323,15 +323,15 @@ and \citet{weibull_axiomatic_1976}, as well as the widely used 2SFCA
 approach of \citet{luo2003}, adjust Hansen-type accessibility with the
 population in the region of interest. The mechanics of this approach
 consist of calculating, for every destination \(j\), the population that
-can reach it given the impedance function \(f(\cdot)\), i.e., \(R_j\) in
-Equation (\ref{eq:2SFCA-step1}). \citet{shen1998} calls this ``the
-opportunity-seeking population''. The opportunities at \(j\) are then
-divided by their corresponding opportunity-seeking population to obtain
-a measure of opportunities per capita. These values are then allocated
-back to the population at \(i\), again subject to the friction
-represented by the impedance function. Equation (\ref{eq:2SFCA-step1})
-corresponds to the first step of this procedure, and Equation
-(\ref{eq:2SFCA-step2}) to the second.
+can reach it given the impedance function \(f(\cdot)\). \citet{shen1998}
+calls this ``the opportunity-seeking population''. The opportunities at
+\(j\) are then divided by their corresponding opportunity-seeking
+population to obtain a measure of opportunities per capita, i.e.,
+\(R_j\) in Equation (\ref{eq:2SFCA-step1}). Per capita values are then
+allocated back to the population at \(i\), again subject to the
+impedance function. Equation (\ref{eq:2SFCA-step1}) corresponds to the
+first step of this procedure, and Equation (\ref{eq:2SFCA-step2}) to the
+second.
 
 \begin{equation}
 \label{eq:2SFCA-step1}
@@ -367,7 +367,7 @@ A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 \end{itemize}
 
 As noted above, \citet{shen1998} furnished a demonstration that the
-resulting values \(A_i\), when multiplied by the population at that
+resulting values of \(A_i\), when multiplied by the population at that
 origin and summed for the full study region, equates the total number of
 opportunities in the full study region. But is this really the case?
 
@@ -375,7 +375,8 @@ opportunities in the full study region. But is this really the case?
 \subsection{Example}\label{example}}
 
 To motivate the discussion, we begin with the example in
-\citet{shen1998} (Figure \ref{fig:plot-toy-example}).
+\citet{shen1998}. This is the simple system shown in Figure
+\ref{fig:plot-toy-example}.
 
 \begin{figure}
 
@@ -405,9 +406,9 @@ To motivate the discussion, we begin with the example in
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft \textbf{{\fontsize{7pt}{8.4pt}\selectfont Origin}}\huxbpad{6pt}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Origin}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Pop.}}\huxbpad{6pt}}} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft \textbf{{\fontsize{7pt}{8.4pt}\selectfont Dest.}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Dest.}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Jobs}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont TT}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont f(TT)}}\huxbpad{6pt}}} &
@@ -422,7 +423,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -437,7 +438,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.049787}\huxbpad{6pt}}} &
@@ -450,9 +451,9 @@ To motivate the discussion, we begin with the example in
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont A}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont A}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 50,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -467,7 +468,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.049787}\huxbpad{6pt}}} &
@@ -482,7 +483,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -495,9 +496,9 @@ To motivate the discussion, we begin with the example in
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont B}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont B}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 150,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -512,7 +513,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -527,7 +528,7 @@ To motivate the discussion, we begin with the example in
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -540,9 +541,9 @@ To motivate the discussion, we begin with the example in
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont C}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont C}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -561,16 +562,16 @@ To motivate the discussion, we begin with the example in
  
 
 Table \ref{tab:synthetic-example} contains the information needed to
-calculate \(S_i\) and \(A_i\) in the example. In the table we see that
+calculate \(S_i\) and \(A_i\) for this example. In the table we see that
 population centers \(A\) and \(B\) have equal Hansen-type accessibility
 (\(S_A = S_B=\) 27,292 jobs), despite \(A\) having a much smaller
 population. On the other hand, the isolated satellite town of \(C\) has
 low accessibility (\(S_C=\) 2,240 jobs). This value is not very
 sensible: given its isolated position in the system and balanced
-jobs-population ratio, we would expect it to have better accessibility
-than \(B\), with its large population and distance to jobs. It is
-difficult from these outputs to determine whether the accessibility at
-\(B\) is better or worse than that at \(A\) or \(C\).
+jobs-population ratio, it would be more natural if it had better
+accessibility than \(B\), with its large population and distance to
+jobs. It is difficult from these outputs to determine whether the
+accessibility at \(B\) is better or worse than that at \(A\) or \(C\).
 
 The results are much easier to interpret when we consider Shen-type
 accessibility. The results indicate that \(A_A \approx\) 1.337 jobs per
@@ -587,7 +588,7 @@ population of \(A\)). The opposite is true of \(B\). According to
 \end{array}
 \]
 
-As mentioned in the Introduction, this property gives the impression
+As mentioned in the introduction, this property gives the impression
 that jobs are allocated in their totality. However, for this property to
 work, the accessibility needs to be multiplied by the total population
 of the corresponding center. Alas, there is a logical inconsistency in
@@ -596,11 +597,11 @@ impedance function, means that the opportunity-seeking population is
 \emph{not} equal to the total population. In other words, the total
 population is confounded with the \emph{opportunity-seeking population}.
 As seen in column \textbf{Pop * f(TT)} in Table
-\ref{tab:synthetic-example}, the number of individuals from Center \(A\)
-that are \emph{willing to reach} employment centers 1, 2, and 3 are
-11,156, 2,489, and 2.27 respectively. Therefore, the total number of
-opportunity-seeking individuals is 13,647.27, which is considerably
-lower than the total population of \(A\).
+\ref{tab:synthetic-example}, the number of individuals from population
+center \(A\) that are \emph{willing to reach} employment centers 1, 2,
+and 3 are 11,156, 2,489, and 2.27 respectively. Therefore, the total
+number of opportunity-seeking individuals is 13,647.27, which is
+considerably lower than the total population of \(A\).
 
 To ensure that the calculations are consistent with the travel behavior
 given by the impedance function, the number of accessible jobs per
@@ -623,12 +624,7 @@ population is used (that is, the population weighted by the impedance),
 it becomes apparent that the number of jobs allocated is not equal to
 the total number of jobs in the region. This feature of the method is
 masked because the results are given in terms of opportunities per
-capita. In effect the method says that the jobs per capita at \(A\) are
-approximately 1.34 for each of 13,647.27 opportunity-seeking
-individuals, but zero for 36,352.73 individuals that do not reach any
-employment center.
-
-These results are somewhat suspicious, because they indicate seldom-seen
+capita. This result raises suspicions, because it indicates seldom-seen
 levels of unemployment and job vacancies, despite the
 seemingly-reasonable values of \(A_i\). In the next section we propose
 an alternative derivation of competitive accessibility that resolves the
@@ -652,7 +648,7 @@ population}\label{proportional-allocation-by-population}}
 
 According to the gravity modelling framework, the potential for
 interaction depends on the mass (i.e., the population) and the friction
-of distance (i.e., the impedance function). We begin describing the
+of distance (i.e., the impedance function). We begin by describing the
 proposed proportional allocation mechanism based on demand by
 population. The total population in the example is 210,000. The
 proportion of the population by population center is: \[
@@ -663,7 +659,7 @@ F^p_C = \frac{10,000}{210,000}\\
 \end{array}
 \] Jobs are allocated proportionally from each employment center to each
 population center depending on their population sizes as per the
-balancing factors \(F^p_i\)). In this way, employment center 1 allocates
+balancing factors \(F^p_i\). In this way, employment center 1 allocates
 \(100,000\cdot \frac{50,000}{210,000}= 23,809.52\) jobs to \(A\);
 \(100,000\cdot \frac{150,000}{210,000}= 71,428.57\) jobs to \(B\); and
 \(100,000\cdot \frac{10,000}{210,000}= 7,142.857\) jobs to \(C\). Notice
@@ -673,18 +669,17 @@ center 1 is preserved at 100,000.
 We can verify that the number of jobs allocated is consistent with the
 total number of jobs in the region: \[
 \begin{array}{l}
-\text{Employment center 1: }\\
+\text{Employment center 1 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
-\text{Employment center 2: }\\
+\text{Employment center 2 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
-\text{Employment center 3: }\\
+\text{Employment center 3 to population centers A, B, and C: }\\
 10,000 \cdot \frac{50,000}{210,000} + 10,000 \cdot \frac{150,000}{210,000} + 10,000 \cdot \frac{10,000}{210,000} = 10,000\\
 \end{array}
 \]
 
-In the general case where there are \(N\) population centers and \(J\)
-employment centers in the region, we define the following
-population-based balancing factors:
+In the general case where there are \(N\) population centers in the
+region, we define the following population-based balancing factors:
 
 \begin{equation}
 \label{eq:pop-alloc-factor}
@@ -699,23 +694,24 @@ the population at origin \(i\). The summation in the denominator is over
 Notice that we incorporate an empirical parameter \(\alpha\). The role
 of \(\alpha\) is to modulate the effect of demand by population. When
 \(\alpha <1\), opportunities are allocated more rapidly to smaller
-centers relative to larger ones; in contrast, \(\alpha>1\) achieves the
-opposite effect.
+centers relative to larger ones; \(\alpha>1\) achieves the opposite
+effect.
 
 Balancing factor \(F^p_{i}\) can now be used to proportionally allocate
 a share of available jobs at \(j\) to origin \(i\). The number of jobs
-available to \(i\) from \(j\) \emph{according to population shares} is
-defined as follows: \[
+available to \(i\) from \(j\) balance by population shares is defined as
+follows: \[
 V^p_{ij} = O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 \]
 
-The total number of jobs available from all destinations is simply the
-sum of \(V^p_{ij}\) over \(j=1,\cdots, J\): \[
+In the general case when there are \(J\) employment centers, the total
+number of jobs available from all destinations is simply the sum of
+\(V^p_{ij}\) over \(j=1,\cdots, J\): \[
 V^p_{i} = \sum_{j=1}^J O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 \]
 
-Since factor \(F^p_{i}\) summed over \(i=1,\cdots,N\) always equals to 1
-(i.e., \(\sum_{i=1}^{N} F^p_{i} = 1\)), the sum of all spatially
+Since factors \(F^p_{i}\) summed over \(i=1,\cdots,N\) always equals to
+1 (i.e., \(\sum_{i=1}^{N} F^p_{i} = 1\)), the sum of all spatially
 available jobs equals \(O\), the total number of opportunities in the
 region: \[
 \begin{array}{l}
@@ -723,17 +719,17 @@ region: \[
 =\sum_{i=1}^N \frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}\cdot\sum_{j=1}^JO_j\\
 =\sum_{j=1}^J O_j = O
 \end{array}
-\] Factors \(F^p_{i}\) act here as the balancing factors of the gravity
-model when a single constraint is imposed \citep[i.e., to ensure the
-sums of columns are equal to the number of opportunities per
+\] The terms \(F^p_{i}\) act here as the balancing factors of the
+gravity model when a single constraint is imposed \citep[i.e., to ensure
+that the sums of columns are equal to the number of opportunities per
 destination, see][pp.~179-180 and 183-184]{ortuzar_2011_modelling}. As a
 result, the sum of spatial availability for all population centers
 equals the total number of opportunities.
 
-The above concerns the mass (i.e., population size) of the gravity
-model. In addition, the potential for interaction is thought to decrease
-with increasing cost, so next we define similar balancing factors but
-based on the impedance.
+The discussion so far concerns only the mass effect (i.e., population
+size) of the gravity model. In addition, the potential for interaction
+is thought to decrease with increasing cost, so next we define similar
+balancing factors but based on the impedance.
 
 \hypertarget{proportional-allocation-by-cost}{%
 \subsection{Proportional allocation by
@@ -755,7 +751,7 @@ proportionally allocate more jobs to closer population centers, that is,
 those with populations \emph{more willing to reach the jobs}. Indeed,
 the factors \(F^c_{ij}\) can be thought of as the proportion of the
 population at \(i\) willing to travel to destination \(j\) conditional
-on the travel behavior embodied by the impedance function.
+on the travel behavior as given by the impedance function.
 
 In our example, the number of jobs allocated from employment center 1 to
 population center \(A\) is \(100,000\times 0.8174398 = 81743.98\); to
@@ -808,22 +804,22 @@ Population and the cost of travel are both part of the gravity modelling
 framework. Since the balancing factors defined in the preceding sections
 are proportions (alternatively probabilities), they can be combined
 multiplicatively to obtain their joint effect (alternatively, the joint
-probability of allocating opportunities): opportunities at a destination
-and demand for opportunities at the origin.
+probability of allocating opportunities). This idea is captured by
+Equation (\ref{eq:balancing-factors}), where \(F^p_{i}\) is a
+population-based allocation factor that grants a larger share of the
+existing opportunities to larger centers, and \(F^c_{ij}\) is a
+transportation cost-based allocation factor that grants a larger share
+of the existing opportunities to closer centers. This is in line with
+the tradition of gravity modeling.
 
 \begin{equation}
 \label{eq:balancing-factors}
 F^t_i = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^N F^p_{i} \cdot F^c_{ij}}
 \end{equation}
 
-This idea is represented in Equation (\ref{eq:spatial-availability}),
-where \(F^p_{i}\) is a population-based allocation factor that grants a
-larger share of the existing opportunities to larger centers, and
-\(F^c_{ij}\) is a transportation cost-based allocation factor that
-grants a larger share of the existing opportunities to closer centers.
-This is in line with the tradition of gravity modeling, and proposed
-framework distinguishes between opportunities at a destination and
-demand for opportunities at the origin.
+Balancing factors \(F^t_i\) are used to proportionally allocate jobs
+from \(j\) to \(i\). The spatial availability is given by Equation
+(\ref{eq:spatial-availability}).
 
 \begin{equation}
 \label{eq:spatial-availability}
@@ -873,9 +869,9 @@ contains the information needed to calculate \(V_i\).
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft \textbf{{\fontsize{7pt}{8.4pt}\selectfont Origin}}\huxbpad{6pt}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Origin}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Pop.}}\huxbpad{6pt}}} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft \textbf{{\fontsize{7pt}{8.4pt}\selectfont Dest.}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Dest.}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Jobs}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont TT}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont f(TT)}}\huxbpad{6pt}}} &
@@ -891,7 +887,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -907,7 +903,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.049787}\huxbpad{6pt}}} &
@@ -921,9 +917,9 @@ contains the information needed to calculate \(V_i\).
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont A}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont A}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 50,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -939,7 +935,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.049787}\huxbpad{6pt}}} &
@@ -955,7 +951,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -969,9 +965,9 @@ contains the information needed to calculate \(V_i\).
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont B}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont B}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 150,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -987,7 +983,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -1003,7 +999,7 @@ contains the information needed to calculate \(V_i\).
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.000045}\huxbpad{6pt}}} &
@@ -1017,9 +1013,9 @@ contains the information needed to calculate \(V_i\).
 \hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont C}\huxbpad{6pt}}}} &
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont C}\huxbpad{6pt}}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}}} &
-\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedleft {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.109090909090909\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.109090909090909\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.223130}\huxbpad{6pt}}} &
@@ -1041,24 +1037,25 @@ contains the information needed to calculate \(V_i\).
 In the table, column \textbf{V\_ij} are the jobs available to each
 origin from each employment center. In this column \(V_{A1}=\) 59,901 is
 the number of jobs available at \(A\) from employment center 1. Column
-V\_i (i.e., \(\sum_{j=1}^JV_ij\)) is the total number of jobs available
-to origin \(i\). We can verify that the total number of jobs available
-is consistent with the total number of jobs in the region (with some
-small rounding error): \[
+\textbf{V\_i} (i.e., \(\sum_{j=1}^JV_{ij}\)) gives the total number of
+jobs available to origin \(i\). We can verify that the total number of
+jobs available is consistent with the total number of jobs in the region
+(with some small rounding error): \[
 \sum_{i=1}^N V_i = 66,833 + 133,203 + 9,963 \approx 210,000 
 \]
 
 Compare the calculated values of \(V_i\) to column \textbf{S\_i}
 (Hansen-type accessibility) in Table \ref{tab:synthetic-example}. The
 spatial availability values are more intuitive. Recall that population
-centers \(A\) and \(B\) had equal accessibility to employment
-opportunities. According to \(V_i\), population center \(A\) has greater
-job availability due to its close proximity to employment center 1
-combined with less steep competition (i.e., a majority of the population
-have to travel longer distances to reach employment center 1). Job
-availability is lower for population center \(B\) due to much higher
-competition (150,000 people can reach 100,000 jobs at equal cost). And
-center \(C\) has almost as many jobs available as its population.
+centers \(A\) and \(B\) had identical Hansen-type accessibility to
+employment opportunities. According to \(V_i\), population center \(A\)
+has greater job availability due to its close proximity to employment
+center 1 combined with less steep competition (i.e., a majority of the
+population have to travel longer distances to reach employment center
+1). Job availability is lower for population center \(B\) due to much
+higher competition (150,000 people can reach 100,000 jobs at equal
+cost). And center \(C\) has almost as many jobs available as it has
+population.
 
 As discussed above, Hansen-type accessibility is not designed to
 preserve the number of jobs in the region. Shen-type accessibility is
@@ -1069,16 +1066,28 @@ The proportional allocation procedure described above, in contrast,
 consistently returns a number of jobs available that matches the total
 number of jobs in the region.
 
-Now we proceed to define a measure of spatial availability per capita:
+Since the jobs spatially available are consistent with the jobs in the
+region, it is possible to define a measure of spatial availability per
+capita:
 
 \begin{equation}
 \label{eq:SA-per-capita}
 v_i = \frac{V_i}{P_i}
 \end{equation}
 
-To complete the illustrative example, the spatial availability of jobs
-per capita is calculated in Equation
-(\ref{eq:SA-per-capita-2populations}).
+And, since the jobs are preserved, it is possible to use the regional
+jobs per capita as a benchmark to compare the spatial availability of
+jobs per capita at each origin:
+
+\begin{equation}
+\label{eq:Regional-jobs-per-capita}
+\frac{\sum_{j=1}^J O_j}{\sum_{i=1}^N P_i}
+\end{equation}
+
+In the example, since the population is equal to the number of jobs, the
+regional value of jobs per capita is \(1.0\). To complete the
+illustrative example, the spatial availability of jobs per capita by
+origin is:
 
 \begin{equation}
 \label{eq:SA-per-capita-2populations}
@@ -1089,35 +1098,38 @@ v_{3} =  \frac{V_{3}}{P_3} =  \frac{9,963.171}{10,000} = 0.996\\
 \end{array}
 \end{equation}
 
-Remarkably, the spatial availability per capita matches the values of
-\(A_i\) in Table \ref{tab:synthetic-example}. Appendix A has a proof of
-the mathematical equivalence between the two measures. It is interesting
-to note that \citet{weibull_axiomatic_1976}, \citet{shen1998}, and this
-paper reach to identical expressions starting from different starting
-points, an effect known as \emph{equifinality}
-\citetext{\citealp[see][p.~333]{ortuzar_2011_modelling}; \citealp{williams_hall_1981}},
-In effect, Shen-type accessibility and 2SFCA can be conceptualized as
-singly-constrained accessibility measures.
+We can see that population center \(A\) has fewer jobs per capita than
+the regional benchmark, center \(B\) has more, and center \(C\) is at
+parity. Remarkably, the spatial availability per capita matches the
+values of \(A_i\) in Table \ref{tab:synthetic-example}. Appendix A has a
+proof of the mathematical equivalence between the two measures. It is
+interesting to notice how \citet{weibull_axiomatic_1976},
+\citet{shen1998}, as well as this paper, all reach identical expressions
+starting from different assumptions; this effect is known as
+\emph{equifinality}
+\citetext{\citealp[see][p.~333]{ortuzar_2011_modelling}; \citealp[and][]{williams_hall_1981}}.
+Interestingly, this result means that Shen-type accessibility and 2SFCA
+can be conceptualized as singly-constrained accessibility measures.
 
 \hypertarget{why-does-proportional-allocation-matter}{%
 \subsection{Why does proportional allocation
 matter?}\label{why-does-proportional-allocation-matter}}
 
-Having shown that Shen-type and spatial availability produce equifinal
-results, it is reasonable to wonder whether the distinction is of any
-import.
+Having shown that Shen-type accessibility and spatial availability
+produce equifinal results, it is reasonable to ask whether the
+distinction between them is of any import.
 
 Conceptually, we would argue that the internal inconsistency in the
 calculation of total opportunities in \citet{shen1998} points at a more
 serious problem that is only evident when we consider the internal
 values of the method. To illustrate, Table \ref{tab:synthetic-example}
-shows results of \(A_i\) that are reasonable (in fact, they match the
-spatial availability per capita). But when we dig deeper, these results
-mask potentially misleading values of jobs allocated and taken. In
-addition, the internal values also lead to estimates of the impact of
-accessibility that are deceptive. For example, the estimated system-wide
-cost of travel considering the jobs allocated by \(A_i\) in Table
-\ref{tab:synthetic-example} is as follows: \[
+shows results of \(A_i\) that are reasonable (in fact, they match
+exactly the spatial availability per capita). But when we dig deeper,
+these results mask potentially misleading values of jobs allocated and
+taken. In addition, the internal values also lead to estimates of the
+impact of accessibility that are deceptive. For example, the estimated
+system-wide cost of travel considering the jobs allocated by \(A_i\) in
+Table \ref{tab:synthetic-example} is as follows: \[
 \begin{array}{l}
 11,157\times 15 \text{ min} + 2,489\times 30 \text{ min} + 2.27\times 100 \text{ min}\\
 7,468\times 30 \text{ min} + 33,470\times 15 \text{ min} + 6.81\times 100 \text{ min}\\
@@ -1143,43 +1155,42 @@ obscuring the number of jobs not allocated.
 \section{Empirical example of
 Toronto}\label{empirical-example-of-toronto}}
 
-In this section we use population and employment data from the Golden
-Horseshoe Area (GGH) in Ontario, Canada. This is the largest
-metropolitan region in Canada and includes the cities of Toronto and
-Hamilton. We calculate gravity accessibility, XXX, and the proposed
-spatial availability for Toronto after introducing the data used and
-calibrating an impedance function.
+In this section we illustrate the application of spatial availability
+through an empirical example. For this, we use population and employment
+data from the Greater Toronto and Hamilton Area (GTHA) in Ontario,
+Canada. This is the largest metropolitan region in Canada. We calculate
+gravity accessibility, XXX, and the proposed spatial availability for
+Toronto after introducing the data used and calibrating an impedance
+function.
 
 \hypertarget{data}{%
 \subsection{Data}\label{data}}
 
-Population and employment data are drawn from the 2016 Transportation
+We obtained population and employment data from the 2016 Transportation
 Tomorrow Survey (TTS). This survey collects representative urban travel
-information from 20 municipalities contained within the GGH area in the
+information from 20 municipalities contained within the GTHA area in the
 southern part of Ontario, Canada (see Figure
 \ref{fig:TTS-16-survey-area}) \citep{data_management_group_tts_2018}.
 The data set includes Traffic Analysis Zones (TAZ) (n=3,764), the number
 of jobs (n=3,081,885) and workers (n=3,446,957) at each origin and
 destination. The TTS data is based on a representative sample of between
-3\% to 5\% of households in the GGH and is weighted to reflect the
+3\% to 5\% of households in the GTHA and is weighted to reflect the
 population covering the study area has a whole
 \citep{data_management_group_tts_2018}.
 
 To generate the travel cost for these trips, travel times between
-origins and destinations are calculated for car travel using the R
-package \{r5r\} \citep{r5r_2021} with a street network retrieved from
-OpenStreetMap for the GGH area. A the 3 hr travel time threshold was
-selected as it captures 99\% of population-employment pairs (see the
-travel times summarized in Figure \ref{fig:TTS-16-survey-area}). This
-method does not account for traffic congestion or modal split, which can
-be estimated through other means
+origins and destinations are calculated for car travel using the
+\texttt{R} package \{r5r\} \citep{r5r_2021} with a street network
+retrieved from OpenStreetMap. For the calculations a 3 hr travel time
+threshold was selected as it captures 99\% of population-employment
+pairs (see the travel times summarized in Figure
+\ref{fig:TTS-16-survey-area}). This method does not account for traffic
+congestion or modal split, which can be estimated through other means
 \citep[e.g.,][]{allen_suburbanization_2021, higgins2021changes}. For
 simplicity, we carry on with the assumption that all trips are taken by
-car in uncongested travel conditions.
-
-All data and data preparation steps are documented and can be freely
-explored in the companion open data product
-\href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
+car in uncongested travel conditions. All data and data preparation
+steps are documented and can be freely explored in the companion open
+data product \href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
 
 \begin{figure}
 
@@ -1194,26 +1205,21 @@ explored in the companion open data product
 \subsection{Calibration of an impedance
 function}\label{calibration-of-an-impedance-function}}
 
-In the synthetic example introduced in a preceding section, a negative
-exponential function with an arbitrary parameter was used. For the
-empirical example, we calibrate an impedance function on the trip length
-distribution (TLD) of commute trips. Briefly, a TLD represents the
-proportion of trips that are taken at a specific travel cost (e.g.,
-travel time); this distribution is commonly used to derive impedance
-functions in accessibility research
-\citep{horbachov_theoretical_2018, batista_estimation_2019}.
+In the synthetic example introduced in a preceding section, we used a
+negative exponential function with the parameter reported by
+\citet{shen1998}. For the empirical example, we calibrate an impedance
+function on the trip length distribution (TLD) of commute trips.
+Briefly, a TLD represents the proportion of trips that are taken at a
+specific travel cost (e.g., travel time); this distribution is commonly
+used to derive impedance functions in accessibility research
+\citep{lopez_2017_spatial, horbachov_theoretical_2018, batista_estimation_2019}.
 
 The empirical and theoretical TLD for this data set are represented in
 the top-left panel of Figure \ref{fig:TLD-Gamma-plot}. Maximum
 likelihood estimation and the Nelder-Mead method for direct optimization
 available within the \{fitdistrplus\} package \citep{fitdistrplus_2015}
-were used. Based on goodness-of-fit criteria and diagnostics seen in
-Figure \ref{fig:TLD-Gamma-plot}, the gamma distribution was selected
-(also see Figure \ref{fig:plot-cullen-frey} in Appendix XX).
-
-\begin{verbatim}
-[1] 3069541
-\end{verbatim}
+were used. Based on goodness-of-fit criteria and diagnostics the gamma
+distribution was selected (see Figure \ref{fig:TLD-Gamma-plot}).
 
 \begin{figure}
 
@@ -1224,10 +1230,10 @@ Figure \ref{fig:TLD-Gamma-plot}, the gamma distribution was selected
 \caption{\label{fig:TLD-Gamma-plot}Car trip length distribution and calibrated gamma distribution impedance function (red line) with associated Q-Q and P-P plots. Based on TTS 2016.}\label{fig:TLD-Gamma-plot}
 \end{figure}
 
-The gamma distribution takes the following general form where the
-estimated `shape' is \(\alpha=\) 2.019, the estimated `rate' is
-\(\beta =\) 0.094, and \(\Gamma(\alpha)\) is defined in Equation
-(\ref{gamma-dist}).
+The gamma distribution is defined in Equation (\ref{gamma-dist}), where
+we see that it depends on a shape parameter \(\alpha\) and a rate
+parameter \(\beta\). The estimated values of these paramters are
+\(\alpha=\) 2.019 and \(\beta =\) 0.094.
 
 \begin{equation}
 \label{gamma-dist}
@@ -1237,6 +1243,12 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 \Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx\\
 \end{array}
 \end{equation}
+
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1}
+
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1}
+
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1}
 
 \hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
 \subsection{Accessibility and spatial availability of jobs in
