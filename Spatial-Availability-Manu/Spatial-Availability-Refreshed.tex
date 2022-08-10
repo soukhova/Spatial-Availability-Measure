@@ -101,14 +101,14 @@ of competitive accessibility}
   conditional on the cost of movement, and are estimates of the
   potential for spatial interaction. Over time, various proposals have
   been forwarded to improve their interpretability, mainly by
-  introducing congestion and competition. In this paper we demonstrate
-  how a widely used measure of accessibility with congestion fails to
-  properly match the opportunity-seeking population. We then propose an
-  alternative formulation of accessibility with competition, a measure
-  we call \emph{spatial availability}. This measure results from using
-  balancing factors that are equivalent to imposing a single constraint
-  on conventional gravity-based accessibility. Further, we demonstrate
-  how Two-Stage Floating Catchment Area methods can be seen as
+  introducing competition. In this paper we demonstrate how a widely
+  used measure of accessibility with congestion fails to properly match
+  the opportunity-seeking population. We then propose an alternative
+  formulation of accessibility with competition, a measure we call
+  \emph{spatial availability}. This measure results from using balancing
+  factors that are equivalent to imposing a single constraint on
+  conventional gravity-based accessibility. Further, we demonstrate how
+  Two-Stage Floating Catchment Area methods can be reconceptualized as
   singly-constrained accessibility. To illustrate the application of
   spatial availability and compare it to other relevant measures, we use
   data from the 2016 Transportation Tomorrow Survey of the Greater
@@ -131,12 +131,17 @@ health, and many other areas, with the number of applications growing
 de-emphasized in favor of access-oriented planning
 \citep{deboosere2018, handy2020, proffitt2017, yan2021}.
 
-Numerous methods for calculating accessibility have been proposed in the
-literature \citep{geurs2004}. Of these, gravity-type accessibility is
-arguably the most common; since its introduction in the literature by
-\citet{hansen1959}, it has been widely adopted in numerous forms
+Accessibility analysis stems from the foundational works of
+\citet{harris_market_1954} and \citet{hansen1959}. From these seminal
+efforts, many accessibility measures have been derived, particularly
+after the influential work of \citet{wilson1971} on spatial
+interaction\footnote{Utility-based measures derive from a very different
+  theoretical framework, random utility maximization}. Of these,
+gravity-type accessibility is arguably the most common; since its
+introduction in the literature it has been widely adopted in numerous
+forms
 \citep{cervero_transportation_2002, paez2004network, geurs2004, levinson_accessibility_1998, Arranz2019measuring}.
-Gravity-based accessibility indicators are essentially weighted sums of
+Hanson-type accessibility indicators are essentially weighted sums of
 opportunities, with the weights given by an impedance function that
 depends on the cost of movement, and thus measure the \emph{intensity of
 the possibility of interaction} \citep{hansen1959}. This type of
@@ -144,7 +149,7 @@ accessibility analysis offers a powerful tool to study the intersection
 between urban structure and transportation infrastructure
 \citep{handy_measuring_1997}.
 
-Despite their utility, the interpretability of gravity-type
+Despite their usefulness, the interpretability of Hanson-type
 accessibility measures can be challenging \citep{geurs2004, miller2018}.
 Since they aggregate opportunities, the results are sensitive to the
 size of the region of interest (e.g., a large city has more jobs than a
@@ -169,7 +174,7 @@ informative, but the meaning of one million accessible jobs is harder to
 pin down: how many jobs must any single person have access to? Clearly,
 the answer to this question depends on how many people demand jobs.
 
-The interpretability of gravity-type accessibility has been discussed in
+The interpretability of Hanson-type accessibility has been discussed in
 numerous studies, including recently by \citet{hu_2019_measuring},
 \citet{kelobonye2020measuring}, and in greater depth by
 \citet{merlin2017competition}. As hinted above, the limitations in
@@ -194,7 +199,7 @@ independently re-discovered Weibull's
 \citeyearpar{weibull_axiomatic_1976} formula \citep[see footnote (7)
 in][]{shen1998} and deconstructed it to consider accessibility for
 different modes. These advances were subsequently popularized as the
-family of two-step floating catchment area (2SFCA) methods
+family of Two-Stage Floating Catchment area (2SFCA) methods
 \citep{luo2003} that have found widespread adoption in healthcare,
 education, and food systems
 \citep{yang_comparing_2006, chen_spatial_2020, ye_spatial_2018, chen_enhancing_2019, chen_evaluating_2020}.
@@ -202,17 +207,18 @@ education, and food systems
 An important development due to Shen was to show that the
 population-weighted sum of the accessibility measure with competition
 equates the number of opportunities available \citep[footnote (7) and
-Appendix A in][]{shen1998}. This demonstration gave the impression of a
+Appendix A in][]{shen1998}. This demonstration gives the impression of a
 method that allocates all opportunities \emph{exactly}. In this paper we
 intend to revisit accessibility with competition. We argue that Shen's
-proof confuses the opportunity-seeking population with total zonal
-population, an equivocation that results in misleading allocations of
-opportunities to population that are masked by the presentation of
-results as rates (i.e., opportunities per capita). We then propose an
-alternative formulation of accessibility that incorporates competition
-by adopting a proportional allocation mechanism. The use of balancing
-factors for proportional allocation is akin to imposing a single
-constraint on the accessibility indicator, in the spirit of Wilson's
+proof confuses the population that effectively seeks opportunities,
+given the cost of reaching them, with the total zonal population. This
+equivocation results in misleading allocations of opportunities to
+population that are masked by the presentation of results as rates
+(i.e., opportunities per capita). We then propose an alternative
+formulation of accessibility that incorporates competition by adopting a
+proportional allocation mechanism. The use of balancing factors for
+proportional allocation is akin to imposing a single constraint on the
+accessibility indicator, in the spirit of Wilson's
 \citeyearpar{wilson1971} spatial interaction model.
 
 In this way, the aim of the paper is three-fold:
@@ -232,26 +238,27 @@ In this way, the aim of the paper is three-fold:
   seen as measures of singly-constrained accessibility.
 \end{itemize}
 
-Discussion is supported by the use of a small synthetic example drawn
-from \citet{shen1998} and empirical data drawn from the 2016
-Transportation Tomorrow Survey of the Greater Toronto and Hamilton Area
-in Ontario, Canada. In the spirit of openness of research in the spatial
-sciences \citep{brunsdon2021opening, paez2021open} this paper has a
-companion open data product \citep{arribas2021Open}, and all code is
-available for replicability and reproducibility purposes.
+Discussion is supported by the use of the small synthetic example of
+\citet{shen1998} and empirical data drawn from the 2016 Transportation
+Tomorrow Survey of the Greater Toronto and Hamilton Area in Ontario,
+Canada. In the spirit of openness of research in the spatial sciences
+\citep{brunsdon2021opening, paez2021open} this paper has a companion
+open data product \citep{arribas2021Open}, and all code is available for
+replicability and reproducibility purposes.
 
 \hypertarget{background}{%
-\section{Accesssibility measures revisited}\label{background}}
+\section{Accessibility measures revisited}\label{background}}
+
+In this section we revisit Hanson-type and Shen-type accessibility
+indicators. We use the convention of using a capital letter for absolute
+values (number of opportunities) and lower case for rates (opportunities
+per capita).
 
 \hypertarget{hansen-type-accessibility}{%
 \subsection{Hansen-type accessibility}\label{hansen-type-accessibility}}
 
-Accessibility analysis stems from the foundational works of
-\citet{harris_market_1954} and \citet{hansen1959}. From these seminal
-efforts, many accessibility measures (excluding utility-based measures)
-have been derived, particularly after the influential work of
-\citet{wilson1971} on spatial interaction. The model follows the
-formulation shown in Equation (\ref{eq:conventional-accessibility}):
+Hansen-type accessibility measures follow the general formulation shown
+in Equation (\ref{eq:conventional-accessibility}):
 
 \begin{equation}
 \label{eq:conventional-accessibility}
@@ -263,21 +270,21 @@ S_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 \begin{itemize}
 \tightlist
 \item
-  \(S\) is Hansen-type accessibility.
-\item
-  \(i\) is a set of origin locations.
-\item
-  \(j\) is a set of destination locations.
-\item
-  \(O_j\) is the number of opportunities at location \(j\);
-  \(\sum_j O_j\) is the total supply of opportunities in the study
-  region.
-\item
   \(c_{ij}\) is a measure of the cost of moving between \(i\) and \(j\).
 \item
   \(f(\cdot)\) is an impedance function of \(c_{ij}\); it can take the
   form of any monotonically decreasing function chosen based on positive
   or normative criteria \citep{paez2012measuring}.
+\item
+  \(i\) is a set of origin locations (\(i = 1,\cdots,N\)).
+\item
+  \(j\) is a set of destination locations (\(j = 1,\cdots,J\)).
+\item
+  \(O_j\) is the number of opportunities at location \(j\);
+  \(O = \sum_{j=1}^J O_j\) is the total supply of opportunities in the
+  study region.
+\item
+  \(S\) is Hansen-type accessibility as weighted sum of opportunities.
 \end{itemize}
 
 As formally defined, accessibility \(S_i\) is the sum of opportunities
@@ -298,8 +305,8 @@ tend to be highly correlated
 \citep{higgins2019, santanapalacios2022, kwan_spacetime_1998}.
 
 Gravity-based accessibility has been shown to be an excellent indicator
-of the intersection between urban structure and transportation
-infrastructure
+of the intersection between spatially distributed opportunities and
+transportation infrastructure
 \citep{shi_literature_2020, reggiani_accessibility_2011, kwan_spacetime_1998}.
 However, beyond enabling comparisons of relative values they are not
 highly interpretable on their own \citep{miller2018}. To address the
@@ -308,9 +315,9 @@ normalize values on a per demand-population basis
 \citep[e.g.,][]{barboza_balancing_2021, pereira_distributional_2019, wang_access_2021}.
 However, as recent research on accessibility discusses
 \citep{merlin2017competition, allen2019, paez2019, kelobonye2020measuring},
-these steps do not truly adequately consider competition. In effect,
-when calculating \(S_i\), every opportunity enters the weighted sum once
-for every origin \(i\) that can reach it. This makes interpretability
+these steps do not adequately consider competition. In effect, when
+calculating \(S_i\), every opportunity enters the weighted sum once for
+every origin \(i\) that can reach it. This makes interpretability
 opaque, and to complicate matters, can also bias the estimated landscape
 of opportunity.
 
@@ -323,24 +330,31 @@ and \citet{weibull_axiomatic_1976}, as well as the widely used 2SFCA
 approach of \citet{luo2003}, adjust Hansen-type accessibility with the
 population in the region of interest. The mechanics of this approach
 consist of calculating, for every destination \(j\), the population that
-can reach it given the impedance function \(f(\cdot)\). \citet{shen1998}
-calls this ``the opportunity-seeking population''. The opportunities at
-\(j\) are then divided by their corresponding opportunity-seeking
-population to obtain a measure of opportunities per capita, i.e.,
-\(R_j\) in Equation (\ref{eq:2SFCA-step1}). Per capita values are then
-allocated back to the population at \(i\), again subject to the
-impedance function. Equation (\ref{eq:2SFCA-step1}) corresponds to the
-first step of this procedure, and Equation (\ref{eq:2SFCA-step2}) to the
-second.
+can reach it given the impedance function \(f(\cdot)\); let us call this
+the \emph{effective opportunity-seeking population} (Equation
+(\ref{eq:effective-opportunity-seeking-population}). This value can be
+seen as the Hansen-type \emph{market area} (accessibility to population)
+of \(j\). The opportunities at \(j\) are then divided by the sum of the
+effective opportunity-seeking population to obtain a measure of
+opportunities per capita, i.e., \(R_j\) in Equation
+(\ref{eq:level-of-service}). This can be thought of as the \emph{level
+of service} at \(j\). Per capita values are then allocated back to the
+population at \(i\), again subject to the impedance function as seen in
+Equation (\ref{eq:2SFCA-step2}); this is accessibility with competition.
 
 \begin{equation}
-\label{eq:2SFCA-step1}
-R_{j} = \frac{O_{j}}{\sum_i P_{i} \cdot f(c_{ij})}\\
+\label{eq:effective-opportunity-seeking-population}
+P_{ij}^* = P_{i} \cdot f(c_{ij})\\
+\end{equation}
+
+\begin{equation}
+\label{eq:level-of-service}
+R_{j} = \frac{O_{j}}{\sum_i P_{ij}^*}\\
 \end{equation}
 
 \begin{equation}
 \label{eq:2SFCA-step2}
-A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
+a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 \end{equation}
 
 \noindent where:
@@ -348,43 +362,84 @@ A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 \begin{itemize}
 \tightlist
 \item
-  \(A\) is Shen-type accessibility.
+  \(a\) is Shen-type accessibility as weighted sum of opportunities per
+  capita (or weighted level of service).
 \item
-  \(i\) is a set of origin locations.
-\item
-  \(j\) is a set of destination locations.
-\item
-  \(O_j\) is the number of opportunities at location \(j\);
-\item
-  \(P_i\) is the population at location \(i\); \(\sum_j R_j\) is the
-  total supply of opportunities in the study region.
-\item
-  \(R_j\) is the provider-to-population (PPR) ratio at location \(j\);
-\item
-  \(c_{ij}\) is a measure of the cost of moving between \(i\) and \(j\);
+  \(c_{ij}\) is a measure of the cost of moving between \(i\) and \(j\).
 \item
   \(f(\cdot)\) is an impedance function of \(c_{ij}\).
+\item
+  \(i\) is a set of origin locations (\(i = 1,\cdots,N\)).
+\item
+  \(j\) is a set of destination locations (\(j = 1,\cdots,J\)).
+\item
+  \(O_j\) is the number of opportunities at location \(j\);
+  \(O = \sum_{j=1}^J O_j\) is the total supply of opportunities in the
+  study region.
+\item
+  \(P_i\) is the population at location \(i\).
+\item
+  \(P_{ij}^*\) is the population at location \(i\) that can reach
+  destination \(j\) according to the impedance function; we call this
+  the \emph{effective opportunity-seeking population}.
+\item
+  \(R_j\) is the ratio of opportunities at \(j\) to the sum over all
+  origins of the \emph{effective opportunity-seeking population} that
+  can reach \(j\); in other words, this is the total number of
+  opportunities per capita found at \(j\).
 \end{itemize}
 
-As noted above, \citet{shen1998} furnished a demonstration that the
-resulting values of \(A_i\), when multiplied by the population at that
-origin and summed for the full study region, equates the total number of
-opportunities in the full study region. But is this really the case?
+\citet{shen1998} considers \(P_i\) as the ``the number of people in
+location \(i\) seeking opportunities''. In our view, this is somewhat
+equivocal. Consider a population center where the population are willing
+to travel at most 60 minutes. This is identical to the following
+impedance function:
+
+\begin{equation}
+\label{eq:binary-impedance}
+f(c_{ij}) =
+\begin{cases}
+1\text{ if }c_{ij}\leq60\text{ min}\\
+0\text{ otherwise}\\
+\end{cases}
+\end{equation}
+
+If an employment center is less than 60 minutes away, the population can
+seek opportunities there. But are these people still part of the
+opportunity-seeking population for jobs located two hours away? Four?
+Ten? We would submit that they are not, according to the travel behavior
+represented by the impedance function. For the purpose of calculating
+accessibility, the impedance function defines what constitutes the
+population that effectively can seek opportunities at remote locations.
+
+According to \citet{shen1998}, the sum of \(A_i = a_i P_i\) over \(i\)
+equates the total number of opportunities in the full study region.
+
+\begin{equation}
+\label{eq:2SFCA-total}
+\sum_{i=1}^N a_{i} P_i = \sum_{i=1}^N A_i = \sum_{j=1}^JO_j=O\\
+\end{equation}
+
+Notice, however, that the opportunities per capita are multiplied by the
+total zonal population, which is not necessarily the same as the
+effective opportunity-seeking population. Thus, Equation
+(\ref{eq:2SFCA-total}) holds only if we choose to ignore the travel
+behavior of the population.
 
 \hypertarget{example}{%
 \subsection{Example}\label{example}}
 
-To motivate the discussion, we begin with the example in
-\citet{shen1998}. This is the simple system shown in Figure
-\ref{fig:plot-toy-example}.
+In this section we use the example in \citet{shen1998} to flesh out with
+concrete detail the arguments above. The example is the simple system
+shown in Figure \ref{fig:plot-toy-example}.
 
 \begin{figure}
 
-{\centering \includegraphics[width=1\linewidth]{images/plot-toy-example} 
+{\centering \includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1} 
 
 }
 
-\caption{\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.}\label{fig:create-figure-with-toy-example3}
+\caption{\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.}\label{fig:create-figure-with-toy-example}
 \end{figure}
 
  
@@ -397,7 +452,7 @@ To motivate the discussion, we begin with the example in
 \begin{centerbox}
 \begin{threeparttable}
 \captionsetup{justification=centering,singlelinecheck=off}
-\caption{Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition}
+\caption{Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.1}
  \label{tab:synthetic-example}
 \setlength{\tabcolsep}{0pt}
 \begin{tabularx}{1.2\textwidth}{p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth} p{0.12\textwidth}}
@@ -415,7 +470,7 @@ To motivate the discussion, we begin with the example in
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Pop * f(TT)}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Jobs * f(TT)}}\huxbpad{6pt}}} &
 \multicolumn{1}{p{0.12\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont S\_i}}\huxbpad{6pt}}} &
-\multicolumn{1}{p{0.12\textwidth}!{\huxvb{0, 0, 0}{0}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont A\_i}}\huxbpad{6pt}}} \tabularnewline[-0.5pt]
+\multicolumn{1}{p{0.12\textwidth}!{\huxvb{0, 0, 0}{0}}}{\hspace{6pt}\parbox[b]{0.12\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont a\_i}}\huxbpad{6pt}}} \tabularnewline[-0.5pt]
 
 
 \hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
@@ -562,25 +617,28 @@ To motivate the discussion, we begin with the example in
  
 
 Table \ref{tab:synthetic-example} contains the information needed to
-calculate \(S_i\) and \(A_i\) for this example. In the table we see that
-population centers \(A\) and \(B\) have equal Hansen-type accessibility
-(\(S_A = S_B=\) 27,292 jobs), despite \(A\) having a much smaller
-population. On the other hand, the isolated satellite town of \(C\) has
-low accessibility (\(S_C=\) 2,240 jobs). This value is not very
-sensible: given its isolated position in the system and balanced
-jobs-population ratio, it would be more natural if it had better
-accessibility than \(B\), with its large population and distance to
-jobs. It is difficult from these outputs to determine whether the
-accessibility at \(B\) is better or worse than that at \(A\) or \(C\).
+calculate \(S_i\) and \(a_i\) for this example. We use a negative
+exponential impedance function with \(\beta=0.1\) \citep[see][footnote
+(5)]{shen1998}: \[
+f(c_{ij}) = \exp(-\beta\cdot c_{ij})
+\] In the table we see that population centers \(A\) and \(B\) have
+equal Hansen-type accessibility (\(S_A = S_B=\) 27,292 jobs). On the
+other hand, the isolated satellite town of \(C\) has low accessibility
+(\(S_C=\) 2,240 jobs). But center \(B\), despite its high accessibility,
+is a large population center. \(C\), in contrast, is smaller but also
+relatively isolated and has a balanced ratio of jobs (10,0000) to
+population (10,000). It is difficult from these outputs to determine
+whether the accessibility at \(C\) is better or worse than that at \(A\)
+or \(B\).
 
-The results are much easier to interpret when we consider Shen-type
-accessibility. The results indicate that \(A_A \approx\) 1.337 jobs per
-capita, \(A_B \approx\) 0.888, and \(A_C\approx\) 0.996. The latter
-value is sensible given the job-population balance of \(C\). Center
+The results are easier to interpret when we consider Shen-type
+accessibility. The results indicate that \(a_A \approx\) 1.337 jobs per
+capita, \(a_B \approx\) 0.888, and \(a_C\approx\) 0.996. The latter
+value is sensible given the jobs-population balance of \(C\). Center
 \(A\) is relatively close to a large number of jobs (more jobs than the
 population of \(A\)). The opposite is true of \(B\). According to
 \citet{shen1998}, the sum of the population-weighted accessibility
-\(A_i\) is exactly equal to the number of jobs in the region: \[
+\(a_i\) is exactly equal to the number of jobs in the region: \[
 \begin{array}{l}
 50,000\times 1.3366693 \\
 + 150,000 \times 0.8880224 \\
@@ -588,25 +646,27 @@ population of \(A\)). The opposite is true of \(B\). According to
 \end{array}
 \]
 
-As mentioned in the introduction, this property gives the impression
-that jobs are allocated in their totality. However, for this property to
-work, the accessibility needs to be multiplied by the total population
-of the corresponding center. Alas, there is a logical inconsistency in
-this calculation, since the travel behavior, encoded in the form of the
-impedance function, means that the opportunity-seeking population is
-\emph{not} equal to the total population. In other words, the total
-population is confounded with the \emph{opportunity-seeking population}.
-As seen in column \textbf{Pop * f(TT)} in Table
-\ref{tab:synthetic-example}, the number of individuals from population
-center \(A\) that are \emph{willing to reach} employment centers 1, 2,
-and 3 are 11,156, 2,489, and 2.27 respectively. Therefore, the total
-number of opportunity-seeking individuals is 13,647.27, which is
-considerably lower than the total population of \(A\).
+As mentioned earlier, this property gives the impression that jobs are
+allocated in their totality. However, for this property to work, the
+accessibility values need to be multiplied by the total population of
+their corresponding zones. Alas, there is a logical inconsistency in
+this calculation, since the travel behavior (i.e., the impedance
+function), means that the effective opportunity-seeking population
+\(P_i^* = \sum_j P_{ij}^*\) is not necessarily equal to the total
+population \(P_i\). In other words, the effective opportunity-seeking
+population and the total population are confounded. As seen in column
+\textbf{Pop * f(TT)} in Table \ref{tab:synthetic-example} (i.e.,
+\(P_{ij}^* = P_i\cdot f(c_{ij})\)), the number of individuals from
+population center \(A\) that are \emph{willing to reach} employment
+centers 1, 2, and 3 are 11,156, 2,489, and 2.27 respectively. Therefore,
+the effective opportunity-seeking population is
+\(P_A^* = \sum_jP_{Aj}^*\) 13,647.27, which is considerably lower than
+the total population of \(A\) (i.e., \(P_A=\) 50,000).
 
 To ensure that the calculations are consistent with the travel behavior
 given by the impedance function, the number of accessible jobs per
 capita should be multiplied by the population who are willing to travel
-to the employment center; hence, instead of the nominal number of jobs
+to the employment centers; hence, instead of the nominal number of jobs
 in the region, the number of jobs the method actually allocates is: \[
 \begin{array}{l}
 (11,156.51 + 2,489.35 + 2.26)\times 1.3366693 \\
@@ -615,32 +675,247 @@ in the region, the number of jobs the method actually allocates is: \[
 \end{array}
 \]
 
-\noindent which is just a proportion of the total number of jobs in the
-region. Use of the total population of zones when calculating the
-population-weighted sum of \(A_i\) gives the impression that all jobs
-are allocated - however the result is inconsistent with the travel
-behavior embedded in the model. When the correct opportunity-seeking
-population is used (that is, the population weighted by the impedance),
-it becomes apparent that the number of jobs allocated is not equal to
-the total number of jobs in the region. This feature of the method is
-masked because the results are given in terms of opportunities per
-capita. This result raises suspicions, because it indicates seldom-seen
-levels of unemployment and job vacancies, despite the
-seemingly-reasonable values of \(A_i\). In the next section we propose
-an alternative derivation of competitive accessibility that resolves the
-apparent inconsistency described in this section.
+\noindent which is less than one-third of the total number of jobs in
+the region.
 
-\hypertarget{introducing-spatial-availability-a-singly-constrained-accessibility-measure}{%
-\section{Introducing spatial availability: a singly-constrained
-accessibility
-measure}\label{introducing-spatial-availability-a-singly-constrained-accessibility-measure}}
+Use of the total zonal population in the calculation, instead of the
+effective opportunity-seeking population, gives the impression that all
+jobs are allocated - however the result is inconsistent with the travel
+behavior in the model. When the impedance-weighted opportunity-seeking
+population is used, it becomes apparent that the number of jobs
+allocated is not equal to the total number of jobs in the region. This
+feature of the method is not immediately apparent because the results
+are given in terms of opportunities per capita.
+
+Consider the example in Table \ref{tab:synthetic-example-2}, where we
+increase the friction of distance by changing \(\beta\) to 0.5 (compared
+to the previous value of 0.1; see Figure
+\ref{fig:impedance-functions-comparison}).
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1} \caption{\label{fig:impedance-functions-comparison}Comparison of two impedance functions in the example.}\label{fig:comparison-impedance-functions-synthetic-example}
+\end{figure}
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+\captionsetup{justification=centering,singlelinecheck=off}
+\caption{Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.5}
+ \label{tab:synthetic-example-2}
+\setlength{\tabcolsep}{0pt}
+\begin{tabularx}{1.3\textwidth}{p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth} p{0.13\textwidth}}
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Origin}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Pop.}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright \textbf{{\fontsize{7pt}{8.4pt}\selectfont Dest.}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Jobs}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont TT}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont f(TT)}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Pop * f(TT)}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont Jobs * f(TT)}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont S\_i}}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering \textbf{{\fontsize{7pt}{8.4pt}\selectfont a\_i}}\huxbpad{6pt}}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.015}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.031}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont A}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 50,000}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.0306}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 30}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.046}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.031}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont B}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 150,000}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.0306}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.667}\huxbpad{6pt}}}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 2}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 100}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0}}p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont C}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\raggedright {\fontsize{7pt}{8.4pt}\selectfont 3}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 10,000}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 15}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont $<$ 0.001}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.003}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.003}\huxbpad{6pt}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{190, 190, 190}{1}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 0.00306}\huxbpad{6pt}}}} &
+\multicolumn{1}{p{0.13\textwidth}!{\huxvb{0, 0, 0}{0}}}{\multirow[t]{-3}{*}[0ex]{\hspace{6pt}\parbox[b]{0.13\textwidth-6pt-6pt}{\huxtpad{6pt + 1em}\centering {\fontsize{7pt}{8.4pt}\selectfont 1}\huxbpad{6pt}}}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|>{\huxb{190, 190, 190}{1}}|}
+\arrayrulecolor{black}
+\end{tabularx}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+As expected, Hansen-type accessibility drops, quite dramatically in this
+case: the friction of distance is so high that few opportunities are
+within reach. In contrast, Shen-type accessibility converges to the
+jobs/population ratio. Notice however that the population from center
+\(A\) that effectively seeks opportunities at center 1 has collapsed to
+0.015, while the number of jobs allocated from center 1 to \(A\) given
+the friction of distance is only 0.031. So yes, the jobs/population
+ratio is 2, but only for a tiny fraction of the population of \(A\) that
+effectively seeks opportunities at center 1.
+
+In what follows, we propose an alternative derivation of competitive
+accessibility that resolves the inconsistency described above.
+
+\hypertarget{introducing-spatial-availability-a-singly-constrained-measure-of-accessibility}{%
+\section{Introducing spatial availability: a singly-constrained measure
+of
+accessibility}\label{introducing-spatial-availability-a-singly-constrained-measure-of-accessibility}}
 
 In brief, we define the \emph{spatial availability} at \(i\) (\(V_{i}\))
 as the proportion of all opportunities \(O\) that are allocated to \(i\)
-from all destinations \(j\). The fundamental difference with Hansen- and
-Shen-type accessibility is that opportunities are allocated
-proportionally. We begin by explaining the intuition behind the method
-before defining it more formally.
+from all destinations \(j\): \[
+V_i = \sum_{j=1}^KO_jF^t_{ij}
+\]
+
+\noindent where:
+
+\begin{itemize}
+\tightlist
+\item
+  \(F^t_{ij}\) is a balancing factor that depends on the population and
+  cost of movement in the system.
+\item
+  \(O_j\) is the number of opportunities at \(j\).
+\item
+  \(V_i\) is the number of spatially available opportunities from the
+  perspective of \(i\).
+\end{itemize}
+
+The general form of spatial availability is also as a sum, and the
+fundamental difference with Hansen- and Shen-type accessibility is that
+opportunities are allocated proportionally. Balancing factors \(F_{ij}\)
+allocate opportunities to \(i\) in proportion to the size of the
+population of the different competing centers (the mass effect of the
+gravity model), and the cost of reaching opportunities (the impedance
+effect). In the next two subsections, we explain the intuition behind
+the method before defining it in full.
 
 \hypertarget{proportional-allocation-by-population}{%
 \subsection{Proportional allocation by
@@ -654,10 +929,14 @@ population. The total population in the example is 210,000. The
 proportion of the population by population center is: \[
 \begin{array}{l}
 F^p_A = \frac{50,000}{210,000}\\
+\\
 F^p_B = \frac{150,000}{210,000}\\
+\\
 F^p_C = \frac{10,000}{210,000}\\
 \end{array}
-\] Jobs are allocated proportionally from each employment center to each
+\]
+
+Jobs are allocated proportionally from each employment center to each
 population center depending on their population sizes as per the
 balancing factors \(F^p_i\). In this way, employment center 1 allocates
 \(100,000\cdot \frac{50,000}{210,000}= 23,809.52\) jobs to \(A\);
@@ -671,8 +950,10 @@ total number of jobs in the region: \[
 \begin{array}{l}
 \text{Employment center 1 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
+\\
 \text{Employment center 2 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
+\\
 \text{Employment center 3 to population centers A, B, and C: }\\
 10,000 \cdot \frac{50,000}{210,000} + 10,000 \cdot \frac{150,000}{210,000} + 10,000 \cdot \frac{10,000}{210,000} = 10,000\\
 \end{array}
@@ -682,7 +963,7 @@ In the general case where there are \(N\) population centers in the
 region, we define the following population-based balancing factors:
 
 \begin{equation}
-\label{eq:pop-alloc-factor}
+\label{eq:population-balancing-factor}
 F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i=1}^N P_{i}^\alpha}
 \end{equation}
 
@@ -699,21 +980,21 @@ effect.
 
 Balancing factor \(F^p_{i}\) can now be used to proportionally allocate
 a share of available jobs at \(j\) to origin \(i\). The number of jobs
-available to \(i\) from \(j\) balance by population shares is defined as
-follows: \[
+available to \(i\) from \(j\) balanced by population shares is defined
+as follows: \[
 V^p_{ij} = O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 \]
 
-In the general case when there are \(J\) employment centers, the total
-number of jobs available from all destinations is simply the sum of
-\(V^p_{ij}\) over \(j=1,\cdots, J\): \[
+In the general case where there are \(J\) employment centers, the total
+number of jobs available from all destinations to \(i\) is simply the
+sum of \(V^p_{ij}\) over \(j=1,\cdots, J\): \[
 V^p_{i} = \sum_{j=1}^J O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 \]
 
-Since factors \(F^p_{i}\) summed over \(i=1,\cdots,N\) always equals to
-1 (i.e., \(\sum_{i=1}^{N} F^p_{i} = 1\)), the sum of all spatially
-available jobs equals \(O\), the total number of opportunities in the
-region: \[
+Since the factor \(F^p_{i}\), when summed over \(i=1,\cdots,N\) always
+equals to 1 (i.e., \(\sum_{i=1}^{N} F^p_{i} = 1\)), the sum of all
+spatially available jobs equals \(O\), the total number of opportunities
+in the region: \[
 \begin{array}{l}
 \sum_{i=1}^N V^p_i =\sum_{i=1}^N\sum_{j=1}^JO_j\frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}\\
 =\sum_{i=1}^N \frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}\cdot\sum_{j=1}^JO_j\\
@@ -748,32 +1029,32 @@ F^c_{C1} = \frac{0.000045}{0.223130 + 0.049787 + 0.000045} = 0.0001648581\\
 
 Balancing factors \(F^c_{ij}\) use the impedance function to
 proportionally allocate more jobs to closer population centers, that is,
-those with populations \emph{more willing to reach the jobs}. Indeed,
+to those with populations \emph{more willing to reach the jobs}. Indeed,
 the factors \(F^c_{ij}\) can be thought of as the proportion of the
-population at \(i\) willing to travel to destination \(j\) conditional
+population at \(i\) willing to travel to destination \(j\), conditional
 on the travel behavior as given by the impedance function.
 
 In our example, the number of jobs allocated from employment center 1 to
-population center \(A\) is \(100,000\times 0.8174398 = 81743.98\); to
+population center \(A\) is \(100,000\times 0.8174398 = 81,743.98\); to
 population center \(B\) is \(100,000\times 0.1823954 = 18,239.54\); and
 to population center \(C\) is \(100,000\times 0.0001648581 = 16.48581\).
-We can see once more that the total number of jobs at the employment
-center is preserved at 100,000. In this example, the proportional
-allocation mechanism assigns the largest share of jobs to population
-center \(A\), which is the closest to employment center 1, and the
-smallest to the more distant population center \(C\).
+We see once more that the total number of jobs at the employment center
+is preserved at 100,000. In this example, the proportional allocation
+mechanism assigns the largest share of jobs to population center \(A\),
+which is the closest to employment center 1, and the smallest to the
+more distant population center \(C\).
 
-In the general case when there are \(N\) population centers and \(J\)
-employment centers in the region, we define the following cost-based
-balancing factors:
+In the general case where there are \(N\) population centers and \(J\)
+employment centers in the region, we define the following
+impedance-based balancing factors:
 
 \begin{equation}
-\label{eq:tcost-alloc-factor}
+\label{eq:impedance-balancing-factor}
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^N f(c_{ij})}\\
 \end{equation}
 
-The total number of jobs available to \(i\) from \(j\) according to cost
-is defined as follows: \[
+The total number of jobs available to \(i\) from \(j\) according to
+impedance is defined as follows: \[
 V^c_{ij} = O_j\frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}
 \]
 
@@ -796,34 +1077,38 @@ region: \[
 We are now ready to more formally define spatial availability with due
 consideration to both mass and cost effects.
 
-\hypertarget{putting-spatial-availability-together}{%
-\subsection{Putting spatial availability
-together}\label{putting-spatial-availability-together}}
+\hypertarget{assembling-mass-and-impedance-effects}{%
+\subsection{Assembling mass and impedance
+effects}\label{assembling-mass-and-impedance-effects}}
 
 Population and the cost of travel are both part of the gravity modelling
 framework. Since the balancing factors defined in the preceding sections
 are proportions (alternatively probabilities), they can be combined
 multiplicatively to obtain their joint effect (alternatively, the joint
 probability of allocating opportunities). This idea is captured by
-Equation (\ref{eq:balancing-factors}), where \(F^p_{i}\) is a
-population-based allocation factor that grants a larger share of the
-existing opportunities to larger centers, and \(F^c_{ij}\) is a
-transportation cost-based allocation factor that grants a larger share
-of the existing opportunities to closer centers. This is in line with
-the tradition of gravity modeling.
+Equation (\ref{eq:balancing-factors}), where \(F^p_{i}\) is the
+population-based balancing factor that grants a larger share of the
+existing opportunities to larger centers and \(F^c_{ij}\) is the
+impedance-based balancing factor that grants a larger share of the
+existing opportunities to closer centers. This is in line with the
+tradition of gravity modeling.
 
 \begin{equation}
 \label{eq:balancing-factors}
-F^t_i = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^N F^p_{i} \cdot F^c_{ij}}
+F^t_{ij} = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^N F^p_{i} \cdot F^c_{ij}}
 \end{equation}
 
-Balancing factors \(F^t_i\) are used to proportionally allocate jobs
+\noindent with \(F^p_{i}\) and \(F^c_{i}\) as defined in Equations
+(\ref{eq:population-balancing-factor}) and
+(\ref{eq:impedance-balancing-factor}) respectively.
+
+Balancing factors \(F^t_{ij}\) are used to proportionally allocate jobs
 from \(j\) to \(i\). The spatial availability is given by Equation
 (\ref{eq:spatial-availability}).
 
 \begin{equation}
 \label{eq:spatial-availability}
-V_{i} = \sum_{j=1}^J O_j\frac{F^t_{i}}{\sum_{i=1}^N F^t_{i}}
+V_{i} = \sum_{j=1}^J O_j\ F^t_{ij}
 \end{equation}
 
 The terms in Equation \ref{eq:spatial-availability} are as follows:
@@ -831,7 +1116,8 @@ The terms in Equation \ref{eq:spatial-availability} are as follows:
 \begin{itemize}
 \tightlist
 \item
-  \(V_{i}\) is the spatial availability at \(i\).
+  \(F^t_{ij}\) is a balancing factor as defined in Equation
+  (\ref{eq:balancing-factors}).
 \item
   \(i\) is a set of origin locations in the region \(i = 1,\cdots, N\).
 \item
@@ -840,15 +1126,15 @@ The terms in Equation \ref{eq:spatial-availability} are as follows:
 \item
   \(O_j\) is the number of opportunities at location \(j\).
 \item
-  \(F^t_{i}\) is a balancing factor as defined in Equation
-  (\ref{eq:balancing-factors}).
+  \(V_{i}\) is the spatial availability at \(i\).
 \end{itemize}
 
 Notice that, unlike \(S_i\) in Equation
 (\ref{eq:conventional-accessibility}), the population enters the
-calculation of \(V_{i}\). Returning to the example in Figure
-\ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example-part-two}
-contains the information needed to calculate \(V_i\).
+calculation of \(V_{i}\) through \(F^p_i\). Returning to the example in
+Figure \ref{fig:plot-toy-example}, Table
+\ref{tab:synthetic-example-spatial-availability} contains the
+information needed to calculate \(V_i\).
 
  
   \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
@@ -860,8 +1146,8 @@ contains the information needed to calculate \(V_i\).
 \begin{centerbox}
 \begin{threeparttable}
 \captionsetup{justification=centering,singlelinecheck=off}
-\caption{Summary description of synthetic example: spatial availability}
- \label{tab:synthetic-example-part-two}
+\caption{Summary description of synthetic example: spatial availabilityy}
+ \label{tab:synthetic-example-spatial-availability}
 \setlength{\tabcolsep}{0pt}
 \begin{tabularx}{1.2\textwidth}{p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth} p{0.109090909090909\textwidth}}
 
@@ -1049,11 +1335,11 @@ Compare the calculated values of \(V_i\) to column \textbf{S\_i}
 spatial availability values are more intuitive. Recall that population
 centers \(A\) and \(B\) had identical Hansen-type accessibility to
 employment opportunities. According to \(V_i\), population center \(A\)
-has greater job availability due to its close proximity to employment
-center 1 combined with less steep competition (i.e., a majority of the
-population have to travel longer distances to reach employment center
-1). Job availability is lower for population center \(B\) due to much
-higher competition (150,000 people can reach 100,000 jobs at equal
+has greater job availability due to: 1) its close proximity to
+employment center 1; combined with 2) less competition (i.e., a majority
+of the population have to travel longer distances to reach employment
+center 1). Job availability is lower for population center \(B\) due to
+much higher competition (150,000 people can reach 100,000 jobs at equal
 cost). And center \(C\) has almost as many jobs available as it has
 population.
 
@@ -1101,7 +1387,7 @@ v_{3} =  \frac{V_{3}}{P_3} =  \frac{9,963.171}{10,000} = 0.996\\
 We can see that population center \(A\) has fewer jobs per capita than
 the regional benchmark, center \(B\) has more, and center \(C\) is at
 parity. Remarkably, the spatial availability per capita matches the
-values of \(A_i\) in Table \ref{tab:synthetic-example}. Appendix A has a
+values of \(a_i\) in Table \ref{tab:synthetic-example}. Appendix A has a
 proof of the mathematical equivalence between the two measures. It is
 interesting to notice how \citet{weibull_axiomatic_1976},
 \citet{shen1998}, as well as this paper, all reach identical expressions
@@ -1109,7 +1395,7 @@ starting from different assumptions; this effect is known as
 \emph{equifinality}
 \citetext{\citealp[see][p.~333]{ortuzar_2011_modelling}; \citealp[and][]{williams_hall_1981}}.
 Interestingly, this result means that Shen-type accessibility and 2SFCA
-can be conceptualized as singly-constrained accessibility measures.
+can be re-conceptualized as singly-constrained accessibility measures.
 
 \hypertarget{why-does-proportional-allocation-matter}{%
 \subsection{Why does proportional allocation
@@ -1120,16 +1406,17 @@ produce equifinal results, it is reasonable to ask whether the
 distinction between them is of any import.
 
 Conceptually, we would argue that the internal inconsistency in the
-calculation of total opportunities in \citet{shen1998} points at a more
-serious problem that is only evident when we consider the internal
-values of the method. To illustrate, Table \ref{tab:synthetic-example}
-shows results of \(A_i\) that are reasonable (in fact, they match
-exactly the spatial availability per capita). But when we dig deeper,
-these results mask potentially misleading values of jobs allocated and
-taken. In addition, the internal values also lead to estimates of the
-impact of accessibility that are deceptive. For example, the estimated
-system-wide cost of travel considering the jobs allocated by \(A_i\) in
-Table \ref{tab:synthetic-example} is as follows: \[
+calculation of total opportunities in \citet{shen1998} points to a
+deeper issue that is only evident when we consider the internal values
+of the method. To illustrate, Table \ref{tab:synthetic-example} shows
+results of \(a_i\) that are reasonable (and they match exactly the
+spatial availability per capita). But when we dig deeper, these results
+mask potentially misleading values of jobs allocated and taken. In
+addition, the internal values also lead to estimates of the impact of
+accessibility that are deceptive \citep[see][]{sarlas_2020_betweenness}.
+For example, the estimated system-wide cost of travel considering the
+jobs allocated by \(a_i\) in Table \ref{tab:synthetic-example} is as
+follows: \[
 \begin{array}{l}
 11,157\times 15 \text{ min} + 2,489\times 30 \text{ min} + 2.27\times 100 \text{ min}\\
 7,468\times 30 \text{ min} + 33,470\times 15 \text{ min} + 6.81\times 100 \text{ min}\\
@@ -1138,7 +1425,8 @@ Table \ref{tab:synthetic-example} is as follows: \[
 \]
 
 In contrast, the estimated system-wide cost of travel according to
-\(V_i\) in Table \ref{tab:synthetic-example-part-two} is as follows: \[
+\(V_i\) in Table \ref{tab:synthetic-example-spatial-availability} is as
+follows: \[
 \begin{array}{l}
 59,901\times 15 \text{ min} + 6,923\times 30 \text{ min} + 10\times 100 \text{ min}\\
 40,097\times 30 \text{ min} + 93,076\times 15 \text{ min} + 30\times 100 \text{ min}\\
@@ -1147,8 +1435,8 @@ In contrast, the estimated system-wide cost of travel according to
 \]
 
 Therefore, not only does the Shen-type measure effectively allocate
-fewer than 56,835 out of a total of 210,000 jobs in the region, it also
-grossly underestimates the potential cost of travel in the system by
+fewer than 56,835 out of a total of 210,000 jobs in the example, it also
+gives a biased estimate of the potential cost of travel in the system by
 obscuring the number of jobs not allocated.
 
 \hypertarget{empirical-example-of-toronto}{%
@@ -1158,10 +1446,9 @@ Toronto}\label{empirical-example-of-toronto}}
 In this section we illustrate the application of spatial availability
 through an empirical example. For this, we use population and employment
 data from the Greater Toronto and Hamilton Area (GTHA) in Ontario,
-Canada. This is the largest metropolitan region in Canada. We calculate
-gravity accessibility, XXX, and the proposed spatial availability for
-Toronto after introducing the data used and calibrating an impedance
-function.
+Canada. This is the largest metropolitan region in Canada. For
+comparison, we calculate Hansen- and Shen-type accessibility, as well as
+the proposed spatial availability measure.
 
 \hypertarget{data}{%
 \subsection{Data}\label{data}}
@@ -1198,7 +1485,7 @@ data product \href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
 
 }
 
-\caption{\label{fig:TTS-16-survey-area}TTS 2016 study area (GGH, Ontario, Canada) along with the descriptive statistics of the trips, calculated origin-destination car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 regions (black boundaries) and sub-regions (dark gray boundaries).}\label{fig:TTS-16-survey-area}
+\caption{\label{fig:TTS-16-survey-area}TTS 2016 study area (GTHA, Ontario, Canada) along with the descriptive statistics of the trips, calculated origin-destination car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 regions (black boundaries) and sub-regions (dark gray boundaries).}\label{fig:TTS-16-survey-area}
 \end{figure}
 
 \hypertarget{calibration-of-an-impedance-function}{%
@@ -1244,19 +1531,161 @@ f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\G
 \end{array}
 \end{equation}
 
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1}
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1} \caption{\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:absolute-accessibility-plot-S_i}
+\end{figure}
 
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1}
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1} \caption{\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values.}\label{fig:absolute-accessibility-plot-A2_i}
+\end{figure}
 
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1}
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1} \caption{\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:absolute-accessibility-plot-V_i}
+\end{figure}
+
+Figures \ref{fig:plot-Hansen-Type-S-TO}, \ref{fig:plot-Shen-type-A-TO},
+and \ref{fig:plot-SA-TO} are the absolute accessibility values in number
+of jobs accessible/available.
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1} \caption{\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility per capita to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:per-capita-accessibility-plot-s_i}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1} \caption{\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values.}\label{fig:per-capita-accessibility-plot-a_i}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1} \caption{\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:per-capita-accessibility-plot-v_i}
+\end{figure}
+
+How do Shen-type internal values perform? The opportunity seeking
+population according to Shen-type measure greatly exceeds the
+population:
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:unnamed-chunk-3}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{osp} \hspace{6pt}\huxbpad{6pt}} &
+\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{population} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.98e+06 \hspace{6pt}\huxbpad{6pt}} &
+\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.14e+06 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+The ratio of effective opportunity-seeking population to population is
+shown next:
+
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1}
+
+The effect is not constant in space.
+
+As a consequence of the inflated population (osp \textgreater{}
+population), the travel time is exaggerated by Shen-type measure:
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:unnamed-chunk-5}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedright \hspace{6pt} \textbf{total\_travel\_time} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 668586.666173916 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:unnamed-chunk-5}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedright \hspace{6pt} \textbf{total\_travel\_time} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 344376.94962808 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+Why do these differences matter? Think about equity analysis!
 
 \hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
 \subsection{Accessibility and spatial availability of jobs in
 Toronto}\label{accessibility-and-spatial-availability-of-jobs-in-toronto}}
 
-Toronto is the largest city in the GGH and represents a significant
-subset of workers and jobs in the GGH; 31\% of workers in the GGH travel
-to jobs in Toronto and 40\% of jobs are located within Toronto.
+Toronto is the largest city in the GTHA and represents a significant
+subset of workers and jobs in the GTHA; 31\% of workers in the GTHA
+travel to jobs in Toronto and 40\% of jobs are located within Toronto.
 
 \newpage
 
@@ -1272,54 +1701,89 @@ Equivalence of Shen-type accessibility and spatial availability
 
 Population allocation factor:
 
-\(F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}\)
+\[
+F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}
+\]
 
-\(F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}\)
+\[
+F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
+\]
 
 Cost allocation factor:
 
-\(F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}\)
+\[
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}
+\]
 
-\(F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}\)
-\(F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}\)
-\(F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}\)
+\[
+F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
+\]
+
+\[
+F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+\]
+
+\[
+F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+\]
 
 Now let's put it together with P, and see how the denominators end up
 cancelling out:
 
-\(v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}\)
+\[
+v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}
+\]
 
-\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +\)
+\[
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
+\]
 
-\(\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+\)
+\[
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+
+\]
 
-\(\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )\)
+\[
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
+\]
 
 First, notice how the denominator on the denominator is the same across
 the summation? Let's simplify it:
 
-\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +\)
-\(\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) +\)
-\(\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )\)
+\[
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
+\]
+
+\[\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) +
+\]
+
+\[
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
+\]
 
 See how the denominator of the denominator is the same as the
 denominator of the numerator's denominator for each J (J=1, J=2, and
 J=3)? Let's cancel those out and simplify:
 
-\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} +\)
-\(\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} +\)
-\(\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )\)
+\[
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} +
+\]
+
+\[\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} +
+\]
+
+\[
+\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
+\]
 
 Next, see how we can cancel out the \(P_{A}^\alpha\)? Let's do that.
 
-\(v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )\)
+\[
+v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
+\]
 
 \newpage
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
-
+\renewcommand\refname{References}
 \bibliography{bibliography.bib}
 
 

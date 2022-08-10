@@ -1,7 +1,7 @@
 ---
 title: "Introducing spatial availability, a singly-constrained measure of competitive accessibility"
 abstract: |
-  Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability, mainly by introducing congestion and competition. In this paper we demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure results from using balancing factors that are equivalent to imposing a single constraint on conventional gravity-based accessibility. Further, we demonstrate how Two-Stage Floating Catchment Area methods can be seen as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada.
+  Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability, mainly by introducing competition. In this paper we demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure results from using balancing factors that are equivalent to imposing a single constraint on conventional gravity-based accessibility. Further, we demonstrate how Two-Stage Floating Catchment Area methods can be reconceptualized as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada.
 
 journal: "Some Journal"
 date: "`r Sys.Date()`"
@@ -33,9 +33,10 @@ if (!require("TTS2016R", character.only = TRUE)) {
 ```
 
 ```{r load-packages, include=FALSE, cache=FALSE}
-#library(cowplot) # Streamlined Plot Theme and Plot Annotations for 'ggplot2'
 library(dplyr) # A Grammar of Data Manipulation
 library(fitdistrplus) # Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
+library(geomtextpath) # Curved Text in 'ggplot2'
+library(ggforce) # Accelerating 'ggplot2'
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(ggpmisc) # Miscellaneous Extensions to 'ggplot2'
 library(ggrepel) # Automatically Position Non-Overlapping Text Labels with 'ggplot2'
@@ -67,6 +68,7 @@ sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
   r <- rlang::enquo(r)
   f <- rlang::enquo(f)
 
+  # Sum of population in system
   sum_pop <- x %>%
     dplyr::distinct(!!o_id,
                     .keep_all = TRUE) %>%
@@ -74,21 +76,27 @@ sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
     dplyr::pull(sum_pop) %>%
     sum()
 
+  # Balancing factor size
   f_p <- dplyr::pull(x, !!r) * dplyr::pull(x, !!pop)^alpha / sum_pop
 
+  # Sum of impedance
   sum_impedance <- x %>%
     dplyr::group_by(!!d_id) %>%
     dplyr::summarize(sum_impedance = sum(!!f))
 
+  # Join sum of impedance to table
   x <- x %>%
     dplyr::left_join(sum_impedance,
                      by = rlang::as_name(d_id))
-
+  
+  # Balancing factor impedance
   f_c <- dplyr::pull(x, !!f) / x$sum_impedance
 
+  # Add balancing factors to table
   x$f_c <- f_c
   x$f_p <- f_p
-
+  
+  # Sum of balancing factors for mass and impedance
   sum_pa <- x %>%
     dplyr::group_by(!!d_id) %>%
     dplyr::summarize(sum_pa= sum(f_p * f_c))
@@ -96,6 +104,8 @@ sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
   x <- x %>%
     dplyr::left_join(sum_pa,
                      by = rlang::as_name(d_id))
+  
+  # Joint balancing factor
   f_t <- (f_p * f_c) / dplyr::pull(x, sum_pa)
 
   dplyr::pull(x, !!opp) * f_t
@@ -153,67 +163,38 @@ od_tt <- data.frame(i = c("A", "A", "A", "B", "B", "B", "C", "C", "C"), # Three 
                     tt = c(15, 30, 100, 30, 15, 100, 100, 100, 15), # Travel time
                     pop = c(50000, 50000, 50000, 150000, 150000, 150000, 10000, 10000, 10000), # Population
                     opp = c(100000, 100000, 10000, 100000, 100000, 10000, 100000, 100000, 10000)) # Jobs
-
-b <- 0.1
 ```
 
-```{r create-figure-with-toy-example1, include=FALSE}
+```{r data-figure-with-toy-example, include=FALSE}
 od <- data.frame(id = c("A", "B", "C", "1", "2", "3"),
                  type = c("Population", "Population", "Population", "Jobs", "Jobs", "Jobs"),
                  size = c(50000, 150000, 10000, 100000, 100000, 10000),
-                 x = c(2, 2, 6, 1, 1, 7),
-                 y = c(8, 3, 2, 7, 2, 1))
+                 x = c(2.5, 2.5, 6.5, 0.5, 0.5, 6.5),
+                 y = c(7.5, 2.5, 4.5, 7.5, 2.5, 2.5))
 
 centers <- data.frame(id = c("Urban center", "Suburb", "Satellite town"),
-                 size = c(1000000, 1000000, 1000000),
+                 radius = rep(1.3, 3),
                  x = c(1.5, 1.5, 6.5),
-                 y = c(2.5, 7.5, 1.5))
+                 y = c(2.5, 7.5, 3.5))
 
-od_lines <- data.frame(i = c("A", "A", "A","A", "A", "A", "B", "B", "B","B", "B", "B", "C", "C", "C","C", "C", "C"), # Three origins
-                    j = c("1", "1", "2", "2", "3","3","1", "1", "2", "2", "3","3", "1", "1", "2", "2", "3","3"), # Three destinations
-                    x = c(2, 1, 2, 1, 2, 7, 2, 1, 2, 1, 2, 7, 6, 1, 6, 1, 6, 7),
-                    y = c(8, 7, 8, 2, 8, 1, 3, 7, 3, 2, 3, 1, 2 , 7, 2, 2, 2, 1),
-                    group = c(1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9))
+# od_lines coded as segments
+od_lines <- data.frame(x = c(2.5, 2.5, 2.5, 2.5, 2.5, 2.5, 6.5, 6.5, 6.5),
+                         y = c(7.5, 7.5, 7.5, 2.5, 2.5, 2.5, 4.5, 4.5, 4.5),
+                         xend = c(0.5, 0.5, 6.5, 0.5, 0.5, 6.5, 0.5, 0.5, 6.5),
+                         yend = c(7.5, 2.5, 2.5, 7.5, 2.5, 2.5, 7.5, 2.5, 2.5),
+                         group = c("A", "A", "A", "B", "B", "B", "C", "C", "C"),
+                    time = c("15 min", "30 min", "100 min",
+                             "30 min", "15 min", "100 min",
+                             "100 min", "100 min", "15 min"),
+                         curvature = c(0.5, 0.5, -0.2, 0.5, 0.5, 0.5, 0.5, 0.5, -0.1))
 
-od_table <- data.frame(Pts = c("A", "B", "C", "1", "2", "3"),
-  Value = c("60,000 pop", "160,000 pop", "10,000 pop", "100,000 jobs", "100,000 jobs", "10,000 jobs"))
+od_table <- data.frame(Center = c("A", "B", "C", "1", "2", "3"),
+  Size = c("50,000 pop", "150,000 pop", "10,000 pop", "100,000 jobs", "100,000 jobs", "10,000 jobs"))
 
 od_table2 <- data.frame(Path = c("A to 1", "A to 2", "A to 3", 
                                 "B to 1", "B to 2", "B to 3", 
                                 "C to 1", "C to 2", "C to 3"),
   Value = c("15 mins", "30 mins", "100 mins", "30 mins", "15 mins", "100 mins", "100 mins", "100 mins", "15 mins"))
-```
-
-```{r create-figure-with-toy-example2, message=FALSE, include=FALSE, eval=FALSE} 
-toy_example_plot <- ggplot() + 
-  geom_line(data = od_lines %>% filter(i == "B"), aes(x=x, y=y, group=group), color = "gold", size=1) +
-  geom_line(data = od_lines %>% filter(i == "C"), aes(x=x, y=y, group=group), color = "red", size=1, linetype = "dashed") +
-  geom_line(data = od_lines %>% filter(i == "A"), aes(x=x, y=y, group=group), color = "brown", size=1, linetype="dotted") +
-  geom_point(data = centers, aes(x = x, y = y), color = "#f5cd9f50", size=50)+
-  geom_point(data = od,
-            aes(size = size,
-                x = x, y = y, color = type)) + 
-  geom_label(data = od, aes(x+0.3,y+0.3, label=id), size=5) +
-  scale_colour_manual(values = c("orange", "light blue") ) +
-  scale_size(range = c(5, 10)) + 
-  theme_minimal() + 
-  guides(size = "none", color = "none") +
-   theme(axis.text.x=element_blank(),
-         axis.title.x=element_blank(),
-         axis.text.y=element_blank(),
-         axis.title.y=element_blank())
-
-#adding tables to ggplot
-toy_example_plot + 
-  annotate(geom = "table",
-            x = 7.2, y = 6.6, 
-           label = list(od_table),
-           fill = c("#FFFFBB"),
-           size=4) +
-  annotate(geom="text", x=c(1.5, 1.1,4, 1.5,4,6.9), y=c(8,5,4.6, 2.85,1.5,1.8), label = c("15 mins", "30 mins", "100 mins", "15 mins", "100 mins", "15 mins")) + 
-  annotate(geom = "label", x=c(1.5,1.5,6.5), y=c(9, 1, 0), label = c("Suburban", "Urban", "Satellite"), size=5, fill="beige", label.size=NA)
-
-ggsave("images/plot-toy-example.png")
 ```
 
 \newpage
@@ -226,15 +207,17 @@ The concept of accessibility in transportation studies derives its appeal from t
 
 <!-- Quickly review the backgroud for the research and identify problem -->
 
-Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures (excluding utility-based measures) have been derived, particularly after the influential work of @wilson1971 on spatial interaction. Numerous methods for calculating accessibility have been proposed in the literature [@geurs2004]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring]. Hanson-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
+Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures have been derived, particularly after the influential work of @wilson1971 on spatial interaction^[Utility-based measures derive from a very different theoretical framework, random utility maximization]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring]. Hanson-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
 
 <!-- Identify a problem -->
 
-Despite their utility, the interpretability of Hanson-type accessibility measures can be challenging [@geurs2004; @miller2018]. Since they aggregate opportunities, the results are sensitive to the size of the region of interest (e.g., a large city has more jobs than a smaller city). As a consequence, raw outputs are not necessarily comparable across study areas [@allen2019]. This limitation becomes evident when surveying studies that implement this type of analysis. For example, @paez_healthcare_2010 (in Montreal) and @campbell_2019_accessibility (in Nairobi) report accessibility as the number of health care facilities that can potentially be reached from origins. But what does it mean for a zone to have accessibility to less than 100 facilities in each of these two cities, with their different populations and number of facilities? For that matter, what does it mean for a zone to have accessibility to more than 700 facilities in Montreal, besides being "accessibility rich"? As another example, @bocarejo_s_transport_2012 (in Bogota), @elgeneidy_cost_2016 (in Montreal), and @jiang_2016_accessibility (in Beijing) report accessibility as numbers of jobs, with accessibility values often in the hundreds of thousands, and even exceeding one million jobs for some zones in Beijing and Montreal. As indicators of urban structure, these measures are informative, but the meaning of one million accessible jobs is harder to pin down: how many jobs must any single person have access to? Clearly, the answer to this question depends on how many people demand jobs.
+Despite their usefulness, the interpretability of Hanson-type accessibility measures can be challenging [@geurs2004; @miller2018]. Since they aggregate opportunities, the results are sensitive to the size of the region of interest (e.g., a large city has more jobs than a smaller city). As a consequence, raw outputs are not necessarily comparable across study areas [@allen2019]. This limitation becomes evident when surveying studies that implement this type of analysis. For example, @paez_healthcare_2010 (in Montreal) and @campbell_2019_accessibility (in Nairobi) report accessibility as the number of health care facilities that can potentially be reached from origins. But what does it mean for a zone to have accessibility to less than 100 facilities in each of these two cities, with their different populations and number of facilities? For that matter, what does it mean for a zone to have accessibility to more than 700 facilities in Montreal, besides being "accessibility rich"? As another example, @bocarejo_s_transport_2012 (in Bogota), @elgeneidy_cost_2016 (in Montreal), and @jiang_2016_accessibility (in Beijing) report accessibility as numbers of jobs, with accessibility values often in the hundreds of thousands, and even exceeding one million jobs for some zones in Beijing and Montreal. As indicators of urban structure, these measures are informative, but the meaning of one million accessible jobs is harder to pin down: how many jobs must any single person have access to? Clearly, the answer to this question depends on how many people demand jobs.
 
-The interpretability of Hanson-type accessibility has been discussed in numerous studies, including recently by @hu_2019_measuring, @kelobonye2020measuring, and in greater depth by @merlin2017competition. As hinted above, the limitations in interpretability are frequently caused by ignoring competition - without competition, each opportunity is assumed to be equally available to every single opportunity-seeking individual that can reach it [@shen1998; @paez2019; @kelobonye2020measuring]. This assumption is appropriate when the opportunity of interest is non-exclusive, that is, if use by one unit of population does not preclude use by another. For instance, national parks with abundant space are seldom used to full capacity, so the presence of some population does not exclude use by others. When it comes to exclusive opportunities, or when operations may be affected by congestion, the solution has been to account for competition. Several efforts exist that do so. In our reckoning, the first such approach was proposed by @weibull_axiomatic_1976, whereby the distance decay of the supply of employment and the demand for employment (by workers) were formulated under so-called axiomatic assumptions. This approach was then applied by @joseph1984 in the context of healthcare, to quantify the availability of general practitioners in Canada. About two decades later, @shen1998 independently re-discovered Weibull's [-@weibull_axiomatic_1976] formula [see footnote (7) in @shen1998] and deconstructed it to consider accessibility for different modes. These advances were subsequently popularized as the family of two-step floating catchment area (2SFCA) methods [@luo2003] that have found widespread adoption in healthcare, education, and food systems [@yang_comparing_2006; @chen_spatial_2020; @ye_spatial_2018; @chen_enhancing_2019; @chen_evaluating_2020]. 
+The interpretability of Hanson-type accessibility has been discussed in numerous studies, including recently by @hu_2019_measuring, @kelobonye2020measuring, and in greater depth by @merlin2017competition. As hinted above, the limitations in interpretability are frequently caused by ignoring competition - without competition, each opportunity is assumed to be equally available to every single opportunity-seeking individual that can reach it [@shen1998; @paez2019; @kelobonye2020measuring]. This assumption is appropriate when the opportunity of interest is non-exclusive, that is, if use by one unit of population does not preclude use by another. For instance, national parks with abundant space are seldom used to full capacity, so the presence of some population does not exclude use by others. When it comes to exclusive opportunities, or when operations may be affected by congestion, the solution has been to account for competition. Several efforts exist that do so. In our reckoning, the first such approach was proposed by @weibull_axiomatic_1976, whereby the distance decay of the supply of employment and the demand for employment (by workers) were formulated under so-called axiomatic assumptions. This approach was then applied by @joseph1984 in the context of healthcare, to quantify the availability of general practitioners in Canada. About two decades later, @shen1998 independently re-discovered Weibull's [-@weibull_axiomatic_1976] formula [see footnote (7) in @shen1998] and deconstructed it to consider accessibility for different modes. These advances were subsequently popularized as the family of Two-Stage Floating Catchment area (2SFCA) methods [@luo2003] that have found widespread adoption in healthcare, education, and food systems [@yang_comparing_2006; @chen_spatial_2020; @ye_spatial_2018; @chen_enhancing_2019; @chen_evaluating_2020]. 
 
-An important development due to Shen was to show that the population-weighted sum of the accessibility measure with competition equates the number of opportunities available [footnote (7) and Appendix A in @shen1998]. This demonstration gave the impression of a method that allocates all opportunities _exactly_. In this paper we intend to revisit accessibility with competition. We argue that Shen's proof confuses the opportunity-seeking population with total zonal population, an equivocation that results in misleading allocations of opportunities to population that are masked by the presentation of results as rates (i.e., opportunities per capita). We then propose an alternative formulation of accessibility that incorporates competition by adopting a proportional allocation mechanism. The use of balancing factors for proportional allocation is akin to imposing a single constraint on the accessibility indicator, in the spirit of Wilson's [-@wilson1971] spatial interaction model.
+<!-- Explain what this paper aims to do -->
+
+An important development due to Shen was to show that the population-weighted sum of the accessibility measure with competition equates the number of opportunities available [footnote (7) and Appendix A in @shen1998]. This demonstration gives the impression of a method that allocates all opportunities _exactly_. In this paper we intend to revisit accessibility with competition. We argue that Shen's proof confuses the population that effectively seeks opportunities, given the cost of reaching them, with the total zonal population. This equivocation results in misleading allocations of opportunities to population that are masked by the presentation of results as rates (i.e., opportunities per capita). We then propose an alternative formulation of accessibility that incorporates competition by adopting a proportional allocation mechanism. The use of balancing factors for proportional allocation is akin to imposing a single constraint on the accessibility indicator, in the spirit of Wilson's [-@wilson1971] spatial interaction model.
 
 In this way, the aim of the paper is three-fold:
 
@@ -244,43 +227,11 @@ In this way, the aim of the paper is three-fold:
 
 - Third, we show how Shen-type accessibility (and 2SFCA methods) can be seen as measures of singly-constrained accessibility. 
 
-Discussion is supported by the use of a small synthetic example drawn from @shen1998 and empirical data drawn from the 2016 Transportation Tomorrow Survey of the Greater Toronto and Hamilton Area in Ontario, Canada. In the spirit of openness of research in the spatial sciences [@brunsdon2021opening; @paez2021open] this paper has a companion open data product [@arribas2021Open], and all code is available for replicability and reproducibility purposes.
+Discussion is supported by the use of the small synthetic example of @shen1998 and empirical data drawn from the 2016 Transportation Tomorrow Survey of the Greater Toronto and Hamilton Area in Ontario, Canada. In the spirit of openness of research in the spatial sciences [@brunsdon2021opening; @paez2021open] this paper has a companion open data product [@arribas2021Open], and all code is available for replicability and reproducibility purposes.
 
 # Accessibility measures revisited {#background}
 
-In this section we revisit Hanson-type and Shen-type accessibility indicators. We use the convention of denoting the indicators with a capital letter for absolute values (number of opportunities), and lower case for rates (opportunities per capita).
-
-```{r access-calcs-table, include=FALSE}
-#table with all the accessibility calculations
-od_tt <- od_tt %>% mutate(f = exp(-b * tt))
-
-LOS_j <- od_tt %>%
-  group_by(j) %>%
-  summarize(opp = mean(opp),
-            D_j = sum(pop * f),
-            .groups = "drop") %>%
-  mutate(LOS_j = opp/D_j)
-
-S <- od_tt %>%
-  left_join(LOS_j %>% 
-              dplyr::select(j, LOS_j, opp, D_j),
-            by = "j") %>%
-  group_by(i) %>%
-  summarize(S_i = sum(opp.x * f), #first, hansen-type accessibility (unconstrained)
-            a_i = sum(LOS_j * f)) #second, shen/2SFCA (singly constrained),
-
-V_ij <- od_tt %>% # then Spatial Availability (singly constrained)
-  mutate(r = 1) %>%
-  sp_avail_detailed(o_id = i, d_id = j, pop = pop, opp = opp, r = r, f = f, alpha = 1.0) %>% #alpha 1.54 
-  group_by(i) %>%
-  summarise(V_i = sum(V_ij)) # v_i = V_i/mean(pop) is same as Shen's
-
-# doubly-constrained balancing factor goes here... can't figure it out!
-# B_i 
-
-# B2SFCA
-# BF_i
-```
+In this section we revisit Hanson-type and Shen-type accessibility indicators. We use the convention of using a capital letter for absolute values (number of opportunities) and lower case for rates (opportunities per capita).
 
 ## Hansen-type accessibility
 
@@ -294,25 +245,32 @@ S_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 
 \noindent where:
 
--   $S$ is Hansen-type accessibility as weighted sum of opportunities.
+-   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$.
+-   $f(\cdot)$ is an impedance function of $c_{ij}$; it can take the form of any monotonically decreasing function chosen based on positive or normative criteria [@paez2012measuring].
 -   $i$ is a set of origin locations ($i = 1,\cdots,N$).
 -   $j$ is a set of destination locations ($j = 1,\cdots,J$).
 -   $O_j$ is the number of opportunities at location $j$; $O = \sum_{j=1}^J O_j$ is the total supply of opportunities in the study region.
--   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$.
--   $f(\cdot)$ is an impedance function of $c_{ij}$; it can take the form of any monotonically decreasing function chosen based on positive or normative criteria [@paez2012measuring].
+-   $S$ is Hansen-type accessibility as weighted sum of opportunities.
 
 As formally defined, accessibility $S_i$ is the sum of opportunities that can be reached from location $i$, weighted down by an impedance function of the cost of travel $c_{ij}$. Summing the opportunities in the neighborhood of $i$ provides estimates of the number of opportunities that can _potentially_ be reached from $i$. Several variants of this method result from using a variety of impedance functions; for example, cumulative opportunities measures are obtained when  $f(\cdot)$ is a binary or indicator function [e.g., @elgeneidy_cost_2016; @rosik_forecast_2021; @geurs2004; @qi_decadelong_2018]. Other measures use impedance functions modeled after any monotonically decreasing function [e.g., Gaussian, inverse power, negative exponential, or log-normal, among others, see, *inter alia*, @kwan_spacetime_1998; @vale_influence_2017; @reggiani_accessibility_2011; @li_approach_2020]. In practice, accessibility measures with different impedance functions tend to be highly correlated [@higgins2019; @santanapalacios2022; @kwan_spacetime_1998].
 
-Gravity-based accessibility has been shown to be an excellent indicator of the intersection between urban structure and transportation infrastructure [@shi_literature_2020; @reggiani_accessibility_2011; @kwan_spacetime_1998]. However, beyond enabling comparisons of relative values they are not highly interpretable on their own [@miller2018]. To address the issue or interpretability, previous research has aimed to index and normalize values on a per demand-population basis [e.g., @barboza_balancing_2021; @pereira_distributional_2019; @wang_access_2021]. However, as recent research on accessibility discusses [@merlin2017competition; @allen2019; @paez2019; @kelobonye2020measuring], these steps do not truly adequately consider competition. In effect, when calculating $S_i$, every opportunity enters the weighted sum once for every origin $i$ that can reach it. This makes interpretability opaque, and to complicate matters, can also bias the estimated landscape of opportunity.
+Gravity-based accessibility has been shown to be an excellent indicator of the intersection between spatially distributed opportunities and transportation infrastructure [@shi_literature_2020; @reggiani_accessibility_2011; @kwan_spacetime_1998]. However, beyond enabling comparisons of relative values they are not highly interpretable on their own [@miller2018]. To address the issue or interpretability, previous research has aimed to index and normalize values on a per demand-population basis [e.g., @barboza_balancing_2021; @pereira_distributional_2019; @wang_access_2021]. However, as recent research on accessibility discusses [@merlin2017competition; @allen2019; @paez2019; @kelobonye2020measuring], these steps do not adequately consider competition. In effect, when calculating $S_i$, every opportunity enters the weighted sum once for every origin $i$ that can reach it. This makes interpretability opaque, and to complicate matters, can also bias the estimated landscape of opportunity.
 
 ## Shen-type competitive accessibility
 
-To account for competition, the influential works of @shen1998 and @weibull_axiomatic_1976, as well as the widely used 2SFCA approach of @luo2003, adjust Hansen-type accessibility with the population in the region of interest. The mechanics of this approach consist of calculating, for every destination $j$, the population that can reach it given the impedance function $f(\cdot)$. The opportunities at $j$ are then divided by their corresponding opportunity-seeking population to obtain a measure of opportunities per capita, i.e., $R_j$ in Equation (\ref{eq:2SFCA-step1}). Per capita values are then allocated back to the population at $i$, again subject to the impedance function. Equation (\ref{eq:2SFCA-step1}) corresponds to the first step of this procedure, and Equation (\ref{eq:2SFCA-step2}) to the second.
+To account for competition, the influential works of @shen1998 and @weibull_axiomatic_1976, as well as the widely used 2SFCA approach of @luo2003, adjust Hansen-type accessibility with the population in the region of interest. The mechanics of this approach consist of calculating, for every destination $j$, the population that can reach it given the impedance function $f(\cdot)$; let us call this the _effective opportunity-seeking population_ (Equation (\ref{eq:effective-opportunity-seeking-population}). This value can be seen as the Hansen-type _market area_ (accessibility to population) of $j$. The opportunities at $j$ are then divided by the sum of the effective opportunity-seeking population to obtain a measure of opportunities per capita, i.e., $R_j$ in Equation (\ref{eq:level-of-service}). This can be thought of as the _level of service_ at $j$. Per capita values are then allocated back to the population at $i$, again subject to the impedance function as seen in Equation (\ref{eq:2SFCA-step2}); this is accessibility with competition.
 
 ```{=tex}
 \begin{equation}
-\label{eq:2SFCA-step1}
-R_{j} = \frac{O_{j}}{\sum_i P_{i} \cdot f(c_{ij})}\\
+\label{eq:effective-opportunity-seeking-population}
+P_{ij}^* = P_{i} \cdot f(c_{ij})\\
+\end{equation}
+```
+
+```{=tex}
+\begin{equation}
+\label{eq:level-of-service}
+R_{j} = \frac{O_{j}}{\sum_i P_{ij}^*}\\
 \end{equation}
 ```
 
@@ -325,14 +283,15 @@ a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 
 \noindent where:
 
--   $a$ is Shen-type accessibility as weighted sum of opportunities per capita.
+-   $a$ is Shen-type accessibility as weighted sum of opportunities per capita (or weighted level of service).
+-   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$.
+-   $f(\cdot)$ is an impedance function of $c_{ij}$.
 -   $i$ is a set of origin locations ($i = 1,\cdots,N$).
 -   $j$ is a set of destination locations ($j = 1,\cdots,J$).
 -   $O_j$ is the number of opportunities at location $j$; $O = \sum_{j=1}^J O_j$ is the total supply of opportunities in the study region.
 -   $P_i$ is the population at location $i$.
--   $R_j$ is the ratio of opportunities at $j$ to the weighted sum of population from every $i$ that can reach $j$, in other words, opportunities per capita found at $j$.
--   $c_{ij}$ is a measure of the cost of moving between $i$ and $j$.
--   $f(\cdot)$ is an impedance function of $c_{ij}$.
+-   $P_{ij}^*$ is the population at location $i$ that can reach destination $j$ according to the impedance function; we call this the _effective opportunity-seeking population_.
+-   $R_j$ is the ratio of opportunities at $j$ to the sum over all origins of the _effective opportunity-seeking population_ that can reach $j$; in other words, this is the total number of opportunities per capita found at $j$.
 
 @shen1998 considers $P_i$ as the "the number of people in location $i$ seeking opportunities". In our view, this is somewhat equivocal. Consider a population center where the population are willing to travel at most 60 minutes. This is identical to the following impedance function:
 ```{=tex}
@@ -341,28 +300,114 @@ a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
 f(c_{ij}) =
 \begin{cases}
 1\text{ if }c_{ij}\leq60\text{ min}\\
-0\text{ otherwise}
+0\text{ otherwise}\\
 \end{cases}
-```
-
-If an employment center is less than 60 minutes away, the population can seek opportunities there. But is it reasonable to still consider this as opportunity-seeking population for jobs located two hours away? Four? Ten? We would submit that it is not, according to the travel behavior represented by the impedance function. The impedance function therefore defines what constitutes the opportunity-seeking population for the purpose of calculating accessibility.
-
-According to @shen1998, the sum of $A_i$ over $i$ equates the total number of opportunities in the full study region. 
-```{=tex}
-\begin{equation}
-\label{eq:2SFCA-total}
-\sum_{i=1}^N A_{i} = \sum_{j=1}^JO_j=O\\
 \end{equation}
 ```
 
-The above, however, depends on the total zonal population matching the opportunity-seeking population, as we will see next.
+If an employment center is less than 60 minutes away, the population can seek opportunities there. But are these people still part of the opportunity-seeking population for jobs located two hours away? Four? Ten? We would submit that they are not, according to the travel behavior represented by the impedance function. For the purpose of calculating accessibility, the impedance function defines what constitutes the population that effectively can seek opportunities at remote locations.
+
+According to @shen1998, the sum of $A_i = a_i P_i$ over $i$ equates the total number of opportunities in the full study region. 
+```{=tex}
+\begin{equation}
+\label{eq:2SFCA-total}
+\sum_{i=1}^N a_{i} P_i = \sum_{i=1}^N A_i = \sum_{j=1}^JO_j=O\\
+\end{equation}
+```
+
+Notice, however, that the opportunities per capita are multiplied by the total zonal population, which is not necessarily the same as the effective opportunity-seeking population. Thus, Equation (\ref{eq:2SFCA-total}) holds only if we choose to ignore the travel behavior of the population.
 
 ## Example 
 
-In this section we use the example in @shen1998 to illustrate the relevant issues discussed above. The example is the simple system shown in Figure \ref{fig:plot-toy-example}.
+In this section we use the example in @shen1998 to flesh out with concrete detail the arguments above. The example is the simple system shown in Figure \ref{fig:plot-toy-example}.
 
-```{r, create-figure-with-toy-example3, fig.cap="\\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.", fig.show='hold', fig.align='center'}
-knitr::include_graphics("images/plot-toy-example.png")
+```{r, create-figure-with-toy-example, fig.cap="\\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.", fig.show='hold', fig.align='center'}
+
+ggplot() + 
+  # Plot centers
+  geom_circle(data = centers,
+             aes(x0 = x, 
+                 y0 = y,
+                 r = radius)) +
+  annotate(geom = "label", 
+           x=c(0.5, 0.6, 7),
+           y=c(9, 1, 5.2), 
+           label = c("Suburban", "Urban", "Satellite"), 
+           size=4, 
+           label.size=NA) +
+  # Connect origins and destinations with curves
+  geom_curve(data = od_lines,
+               aes(x = x,
+                   y = y,
+                   xend = xend,
+                   yend = yend,
+                   linetype = group,
+                   group = group),
+             curvature = 0.25,
+             size = 0,
+             arrow = arrow(length = unit(0.03, unit = "npc"))) +
+  # Text on curves
+  geom_textcurve(data = od_lines,
+               aes(x = x,
+                   y = y,
+                   xend = xend,
+                   yend = yend,
+                   linetype = group,
+                   group = group,
+                   label = time),
+             curvature = 0.25,
+             size = 3) +
+  # Plot origins and destinations
+  geom_point(data = od,
+            aes(size = size,
+                x = x, 
+                y = y, 
+                color = type,
+                shape = type)) +
+  scale_size(range = c(4, 10)) +
+  # Label origins and destinations
+  geom_text(data = od, 
+            aes(x, 
+                y, 
+                label=id), 
+            size=4) +
+  # Create table
+  annotate(geom = "table",
+           x = 8, 
+           y = 9, 
+           label = list(od_table),
+           fill = "white",
+           size=3) +
+  # Theme the plot
+  coord_fixed() + 
+  theme_void() +
+  guides(shape = "none", size = "none", color = "none", linetype ="none") 
+```
+
+```{r access-calcs-table, include=FALSE}
+#table with all the accessibility calculations
+# Impedance parameter
+b <- 0.1
+
+# Calculate impedance function
+od_tt <- od_tt %>% mutate(f = exp(-b * tt))
+
+# Level of service 
+LOS_j <- od_tt %>%
+  group_by(j) %>%
+  summarize(opp = mean(opp),
+            R_j = sum(pop * f),
+            .groups = "drop") %>%
+  mutate(LOS_j = opp/R_j)
+
+# Hansen- and Shen-type accessibility
+S <- od_tt %>%
+  left_join(LOS_j %>% 
+              dplyr::select(j, LOS_j, opp, R_j),
+            by = "j") %>%
+  group_by(i) %>%
+  summarize(S_i = sum(opp.x * f), #first, hansen-type accessibility (unconstrained)
+            a_i = sum(LOS_j * f)) #second, shen/2SFCA (singly constrained)
 ```
 
 ```{r toy-example-table-creation, include=FALSE}
@@ -403,7 +448,7 @@ table_toy  <- od_tt1 %>%
   set_width(1.2) %>%
   set_height(4) %>%
   set_right_border(everywhere, 1:9, brdr(1, "solid", "grey")) %>%
-  set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition") %>%
+  set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.1") %>%
   set_label("tab:synthetic-example")
 
 font_size(table_toy) <- 7
@@ -411,9 +456,13 @@ font_size(table_toy) <- 7
 table_toy[1:10,]
 ```
 
-Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. In the table we see that population centers $A$ and $B$ have equal Hansen-type accessibility ($S_A = S_B=$ 27,292 jobs), despite $A$ having a much smaller population. On the other hand, the isolated satellite town of $C$ has low accessibility ($S_C=$ 2,240 jobs). This value is not very sensible: given its isolated position in the system and balanced jobs-population ratio, it would be more natural if it had better accessibility than $B$, with its large population and distance to jobs. It is difficult from these outputs to determine whether the accessibility at $B$ is better or worse than that at $A$ or $C$.
+Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. We use a negative exponential impedance function with $\beta=0.1$ [see @shen1998, footnote (5)]:
+$$
+f(c_{ij}) = \exp(-\beta\cdot c_{ij})
+$$
+In the table we see that population centers $A$ and $B$ have equal Hansen-type accessibility ($S_A = S_B=$ 27,292 jobs). On the other hand, the isolated satellite town of $C$ has low accessibility ($S_C=$ 2,240 jobs). But center $B$, despite its high accessibility, is a large population center. $C$, in contrast, is smaller but also relatively isolated and has a balanced ratio of jobs (10,0000) to population (10,000). It is difficult from these outputs to determine whether the accessibility at $C$ is better or worse than that at $A$ or $B$.
 
-The results are much easier to interpret when we consider Shen-type accessibility. The results indicate that $a_A \approx$ 1.337 jobs per capita, $a_B \approx$ 0.888, and $a_C\approx$ 0.996. The latter value is sensible given the job-population balance of $C$. Center $A$ is relatively close to a large number of jobs (more jobs than the population of $A$). The opposite is true of $B$. According to @shen1998, the sum of the population-weighted accessibility $a_i$ is exactly equal to the number of jobs in the region:
+The results are easier to interpret when we consider Shen-type accessibility. The results indicate that $a_A \approx$ 1.337 jobs per capita, $a_B \approx$ 0.888, and $a_C\approx$ 0.996. The latter value is sensible given the jobs-population balance of $C$. Center $A$ is relatively close to a large number of jobs (more jobs than the population of $A$). The opposite is true of $B$. According to @shen1998, the sum of the population-weighted accessibility $a_i$ is exactly equal to the number of jobs in the region:
 $$
 \begin{array}{l}
 50,000\times 1.3366693 \\
@@ -422,9 +471,9 @@ $$
 \end{array}
 $$
 
-As mentioned earlier, this property gives the impression that jobs are allocated in their totality. However, for this property to work, the accessibility needs to be multiplied by the total population of the corresponding center. Alas, there is a logical inconsistency in this calculation, since the travel behavior, encoded in the form of the impedance function, means that the opportunity-seeking population is not necessarily equal to the total population. In other words, the total population is confounded with the _opportunity-seeking population_. As seen in column __Pop * f(TT)__ in Table \ref{tab:synthetic-example}, the number of individuals from population center $A$ that are _willing to reach_ employment centers 1, 2, and 3 are 11,156, 2,489, and 2.27 respectively. Therefore, the total number of opportunity-seeking individuals is 13,647.27, which is considerably lower than the total population of $A$.
+As mentioned earlier, this property gives the impression that jobs are allocated in their totality. However, for this property to work, the accessibility values need to be multiplied by the total population of their corresponding zones. Alas, there is a logical inconsistency in this calculation, since the travel behavior (i.e., the impedance function), means that the effective opportunity-seeking population $P_i^* = \sum_j P_{ij}^*$ is not necessarily equal to the total population $P_i$. In other words, the effective opportunity-seeking population and the total population are confounded. As seen in column __Pop * f(TT)__ in Table \ref{tab:synthetic-example} (i.e., $P_{ij}^* = P_i\cdot f(c_{ij})$), the number of individuals from population center $A$ that are _willing to reach_ employment centers 1, 2, and 3 are 11,156, 2,489, and 2.27 respectively. Therefore, the effective opportunity-seeking population is $P_A^* = \sum_jP_{Aj}^*$ 13,647.27, which is considerably lower than the total population of $A$ (i.e., $P_A=$ 50,000).
 
-To ensure that the calculations are consistent with the travel behavior given by the impedance function, the number of accessible jobs per capita should be multiplied by the population who are willing to travel to the employment center; hence, instead of the nominal number of jobs in the region, the number of jobs the method actually allocates is:
+To ensure that the calculations are consistent with the travel behavior given by the impedance function, the number of accessible jobs per capita should be multiplied by the population who are willing to travel to the employment centers; hence, instead of the nominal number of jobs in the region, the number of jobs the method actually allocates is:
 $$
 \begin{array}{l}
 (11,156.51 + 2,489.35 + 2.26)\times 1.3366693 \\
@@ -433,16 +482,123 @@ $$
 \end{array}
 $$
 
-\noindent which is less than one-third of the total number of jobs in the region. Use of the total zonal population in the calculation gives the impression that all jobs are allocated - however the result is inconsistent with the travel behavior embedded in the model. When the correct opportunity-seeking population is used (that is, the population weighted by the impedance), it becomes apparent that the number of jobs allocated is not equal to the total number of jobs in the region. This feature of the method is masked because the results are given in terms of opportunities per capita. 
+\noindent which is less than one-third of the total number of jobs in the region. 
 
-A more extreme example is as follows. <!-- Example where there are 2 centers with 5,000 jobs each, but one is so distant only one out of 10,000 people are willing to travel. Show the implications --->
+Use of the total zonal population in the calculation, instead of the effective opportunity-seeking population, gives the impression that all jobs are allocated - however the result is inconsistent with the travel behavior in the model. When the impedance-weighted opportunity-seeking population is used, it becomes apparent that the number of jobs allocated is not equal to the total number of jobs in the region. This feature of the method is not immediately apparent because the results are given in terms of opportunities per capita.
 
+Consider the example in Table \ref{tab:synthetic-example-2}, where we increase the friction of distance by changing $\beta$ to 0.5 (compared to the previous value of 0.1; see Figure \ref{fig:impedance-functions-comparison}).
+```{r comparison-impedance-functions-synthetic-example, fig.cap="\\label{fig:impedance-functions-comparison}Comparison of two impedance functions in the example."}
+data.frame(tt = seq(0, 110, 1)) %>%
+  mutate(f1 = exp(-0.1 * tt),
+         f2 = exp(-1 * tt)) %>%
+  pivot_longer(cols = -tt,
+               names_to = "Function",
+               values_to = "f") %>%
+  mutate(Function = case_when(Function == "f1" ~ "beta = -0.1",
+                              Function == "f2" ~ "beta = -0.5")) %>%
+  ggplot() +
+  xlab("TT") +
+  ylab("f(TT)") +
+  geom_line(aes(x = tt, 
+                y = f,
+                color = Function)) +
+  theme_minimal()
+```
 
-This result raises suspicions, because it indicates seldom-seen levels of unemployment and job vacancies, despite the seemingly-reasonable values of $a_i$. In the next section we propose an alternative derivation of competitive accessibility that resolves the apparent inconsistency described in this section.
+```{r access-calcs-table-2, include=FALSE}
+#table with all the accessibility calculations
+# Impedance parameter
+b <- 1
+
+# Calculate impedance function
+od_tt <- od_tt %>% mutate(f = exp(-b * tt))
+
+# Level of service 
+LOS_j <- od_tt %>%
+  group_by(j) %>%
+  summarize(opp = mean(opp),
+            R_j = sum(pop * f),
+            .groups = "drop") %>%
+  mutate(LOS_j = opp/R_j)
+
+# Hansen- and Shen-type accessibility
+S <- od_tt %>%
+  left_join(LOS_j %>% 
+              dplyr::select(j, LOS_j, opp, R_j),
+            by = "j") %>%
+  group_by(i) %>%
+  summarize(S_i = sum(opp.x * f), #first, hansen-type accessibility (unconstrained)
+            a_i = sum(LOS_j * f)) #second, shen/2SFCA (singly constrained),
+```
+
+```{r toy-example-table-creation-2, include=FALSE}
+od_tt1 <- merge(od_tt, 
+                S, 
+                by="i", 
+                all.x = TRUE) %>%
+  transmute(i, 
+         pop, 
+         j, 
+         opp, 
+         tt, 
+         f, 
+         pop_f = pop * f, 
+         jobs_f = opp * f,
+         S_i, 
+         a_i) %>%
+  mutate(f = ifelse(f < 0.001, "< 0.001", round(f, 3)),
+         pop_f = ifelse(pop_f < 0.001, "< 0.001", round(pop_f, 3)),
+         jobs_f = ifelse(jobs_f < 0.001, "< 0.001", round(jobs_f, 3)))
+
+colnames(od_tt1) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i") #, "BFCA_i")
+
+od_tt1 <- od_tt1  %>%
+  as_hux(scientific=TRUE)
+```
+
+```{r toy-example-table-2}
+table_toy  <- od_tt1 %>%
+  set_bold(1, everywhere) %>%
+  set_bottom_border(c(1,4,7), everywhere) %>%
+  set_align(everywhere, c(1, 3), "left") %>%
+  set_align(everywhere, c(2, 4:10), "center") %>%
+  set_number_format(everywhere, 2, fmt_pretty()) %>%
+  set_number_format(everywhere, 4, fmt_pretty()) %>%
+  #set_number_format(everywhere, 6:8, 6) %>%
+  set_number_format(everywhere, 9:10, fmt_pretty(digits = 3, format = "f")) %>%
+  merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>%
+  merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>%
+  merge_cells(2:4, 9) %>% merge_cells(5:7, 9) %>% merge_cells(8:10, 9) %>% 
+  merge_cells(2:4, 10) %>% merge_cells(5:7, 10) %>% merge_cells(8:10, 10) %>% 
+  set_width(1.3) %>%
+  set_height(4) %>%
+  set_right_border(everywhere, 1:9, brdr(1, "solid", "grey")) %>%
+  set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.5") %>%
+  set_label("tab:synthetic-example-2")
+
+font_size(table_toy) <- 7
+
+table_toy[1:10,]
+```
+
+As expected, Hansen-type accessibility drops, quite dramatically in this case: the friction of distance is so high that few opportunities are within reach. In contrast, Shen-type accessibility converges to the jobs/population ratio. Notice however that the population from center $A$ that effectively seeks opportunities at center 1 has collapsed to 0.015, while the number of jobs allocated from center 1 to $A$ given the friction of distance is only 0.031. So yes, the jobs/population ratio is 2, but only for a tiny fraction of the population of $A$ that effectively seeks opportunities at center 1.
+
+In what follows, we propose an alternative derivation of competitive accessibility that resolves the inconsistency described above.
 
 # Introducing spatial availability: a singly-constrained measure of accessibility
 
-In brief, we define the _spatial availability_ at $i$ ($V_{i}$) as the proportion of all opportunities $O$ that are allocated to $i$ from all destinations $j$. The fundamental difference with Hansen- and Shen-type accessibility is that opportunities are allocated proportionally. We begin by explaining the intuition behind the method before defining it more formally.
+In brief, we define the _spatial availability_ at $i$ ($V_{i}$) as the proportion of all opportunities $O$ that are allocated to $i$ from all destinations $j$:
+$$
+V_i = \sum_{j=1}^KO_jF^t_{ij}
+$$
+
+\noindent where:
+
+-   $F^t_{ij}$ is a balancing factor that depends on the population and cost of movement in the system.
+-   $O_j$ is the number of opportunities at $j$.
+-   $V_i$ is the number of spatially available opportunities from the perspective of $i$.
+
+The general form of spatial availability is also as a sum, and the fundamental difference with Hansen- and Shen-type accessibility is that opportunities are allocated proportionally. Balancing factors $F_{ij}$ allocate opportunities to $i$ in proportion to the size of the population of the different competing centers (the mass effect of the gravity model), and the cost of reaching opportunities (the impedance effect). In the next two subsections, we explain the intuition behind the method before defining it in full.
 
 ## Proportional allocation by population
 
@@ -450,7 +606,9 @@ According to the gravity modelling framework, the potential for interaction depe
 $$
 \begin{array}{l}
 F^p_A = \frac{50,000}{210,000}\\
+\\
 F^p_B = \frac{150,000}{210,000}\\
+\\
 F^p_C = \frac{10,000}{210,000}\\
 \end{array}
 $$
@@ -462,8 +620,10 @@ $$
 \begin{array}{l}
 \text{Employment center 1 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
+\\
 \text{Employment center 2 to population centers A, B, and C: }\\
 100,000 \cdot \frac{50,000}{210,000} + 100,000 \cdot \frac{150,000}{210,000} + 100,000 \cdot \frac{10,000}{210,000} = 100,000\\
+\\
 \text{Employment center 3 to population centers A, B, and C: }\\
 10,000 \cdot \frac{50,000}{210,000} + 10,000 \cdot \frac{150,000}{210,000} + 10,000 \cdot \frac{10,000}{210,000} = 10,000\\
 \end{array}
@@ -472,24 +632,24 @@ $$
 In the general case where there are $N$ population centers in the region, we define the following population-based balancing factors:
 ```{=tex}
 \begin{equation}
-\label{eq:pop-alloc-factor}
+\label{eq:population-balancing-factor}
 F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i=1}^N P_{i}^\alpha}
 \end{equation}
 ```
 
 Balancing factor $F^p_{i}$ corresponds to the proportion of the population in origin $i$ relative to the population in the region. On the right hand side of the equation, the numerator $P_{i}^\alpha$ is the population at origin $i$. The summation in the denominator is over $i=1,\cdots,N$, and adds up to the total population of the region. Notice that we incorporate an empirical parameter $\alpha$. The role of $\alpha$ is to modulate the effect of demand by population. When $\alpha <1$, opportunities are allocated more rapidly to smaller centers relative to larger ones; $\alpha>1$ achieves the opposite effect.
 
-Balancing factor $F^p_{i}$ can now be used to proportionally allocate a share of available jobs at $j$ to origin $i$. The number of jobs available to $i$ from $j$ balance by population shares is defined as follows:
+Balancing factor $F^p_{i}$ can now be used to proportionally allocate a share of available jobs at $j$ to origin $i$. The number of jobs available to $i$ from $j$ balanced by population shares is defined as follows:
 $$
 V^p_{ij} = O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 $$
 
-In the general case when there are $J$ employment centers, the total number of jobs available from all destinations is simply the sum of $V^p_{ij}$ over $j=1,\cdots, J$:
+In the general case where there are $J$ employment centers, the total number of jobs available from all destinations to $i$ is simply the sum of $V^p_{ij}$ over $j=1,\cdots, J$:
 $$
 V^p_{i} = \sum_{j=1}^J O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
 $$
 
-Since factors $F^p_{i}$ summed over $i=1,\cdots,N$ always equals to 1 (i.e., $\sum_{i=1}^{N} F^p_{i} = 1$), the sum of all spatially available jobs equals $O$, the total number of opportunities in the region:
+Since the factor $F^p_{i}$, when summed over $i=1,\cdots,N$ always equals to 1 (i.e., $\sum_{i=1}^{N} F^p_{i} = 1$), the sum of all spatially available jobs equals $O$, the total number of opportunities in the region:
 $$
 \begin{array}{l}
 \sum_{i=1}^N V^p_i =\sum_{i=1}^N\sum_{j=1}^JO_j\frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}\\
@@ -512,19 +672,19 @@ F^c_{C1} = \frac{0.000045}{0.223130 + 0.049787 + 0.000045} = 0.0001648581\\
 \end{array}
 $$
 
-Balancing factors $F^c_{ij}$ use the impedance function to proportionally allocate more jobs to closer population centers, that is, those with populations _more willing to reach the jobs_. Indeed, the factors $F^c_{ij}$ can be thought of as the proportion of the population at $i$ willing to travel to destination $j$ conditional on the travel behavior as given by the impedance function.
+Balancing factors $F^c_{ij}$ use the impedance function to proportionally allocate more jobs to closer population centers, that is, to those with populations _more willing to reach the jobs_. Indeed, the factors $F^c_{ij}$ can be thought of as the proportion of the population at $i$ willing to travel to destination $j$, conditional on the travel behavior as given by the impedance function.
 
-In our example, the number of jobs allocated from employment center 1 to population center $A$ is $100,000\times 0.8174398 = 81743.98$; to population center $B$ is $100,000\times 0.1823954 = 18,239.54$; and to population center $C$ is $100,000\times 0.0001648581 = 16.48581$. We can see once more that the total number of jobs at the employment center is preserved at 100,000. In this example, the proportional allocation mechanism assigns the largest share of jobs to population center $A$, which is the closest to employment center 1, and the smallest to the more distant population center $C$.
+In our example, the number of jobs allocated from employment center 1 to population center $A$ is $100,000\times 0.8174398 = 81,743.98$; to population center $B$ is $100,000\times 0.1823954 = 18,239.54$; and to population center $C$ is $100,000\times 0.0001648581 = 16.48581$. We see once more that the total number of jobs at the employment center is preserved at 100,000. In this example, the proportional allocation mechanism assigns the largest share of jobs to population center $A$, which is the closest to employment center 1, and the smallest to the more distant population center $C$.
 
-In the general case when there are $N$ population centers and $J$ employment centers in the region, we define the following cost-based balancing factors:
+In the general case where there are $N$ population centers and $J$ employment centers in the region, we define the following impedance-based balancing factors:
 ```{=tex}
 \begin{equation}
-\label{eq:tcost-alloc-factor}
+\label{eq:impedance-balancing-factor}
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^N f(c_{ij})}\\
 \end{equation}
 ```
 
-The total number of jobs available to $i$ from $j$ according to cost is defined as follows:
+The total number of jobs available to $i$ from $j$ according to impedance is defined as follows:
 $$
 V^c_{ij} = O_j\frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}
 $$
@@ -545,35 +705,44 @@ $$
 
 We are now ready to more formally define spatial availability with due consideration to both mass and cost effects.
 
-## Putting spatial availability together
+## Assembling mass and impedance effects
 
-Population and the cost of travel are both part of the gravity modelling framework. Since the balancing factors defined in the preceding sections are proportions (alternatively probabilities), they can be combined multiplicatively to obtain their joint effect (alternatively, the joint probability of allocating opportunities). This idea is captured by Equation (\ref{eq:balancing-factors}), where $F^p_{i}$ is a population-based allocation factor that grants a larger share of the existing opportunities to larger centers, and $F^c_{ij}$ is a transportation cost-based allocation factor that grants a larger share of the existing opportunities to closer centers. This is in line with the tradition of gravity modeling.
+Population and the cost of travel are both part of the gravity modelling framework. Since the balancing factors defined in the preceding sections are proportions (alternatively probabilities), they can be combined multiplicatively to obtain their joint effect (alternatively, the joint probability of allocating opportunities). This idea is captured by Equation (\ref{eq:balancing-factors}), where $F^p_{i}$ is the population-based balancing factor that grants a larger share of the existing opportunities to larger centers and $F^c_{ij}$ is the impedance-based balancing factor that grants a larger share of the existing opportunities to closer centers. This is in line with the tradition of gravity modeling.
 ```{=tex}
 \begin{equation}
 \label{eq:balancing-factors}
-F^t_i = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^N F^p_{i} \cdot F^c_{ij}}
+F^t_{ij} = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^N F^p_{i} \cdot F^c_{ij}}
 \end{equation}
 ```
 
-Balancing factors $F^t_i$ are used to proportionally allocate jobs from $j$ to $i$. The spatial availability is given by Equation (\ref{eq:spatial-availability}).
+\noindent with $F^p_{i}$ and $F^c_{i}$ as defined in Equations (\ref{eq:population-balancing-factor}) and (\ref{eq:impedance-balancing-factor}) respectively.
+
+Balancing factors $F^t_{ij}$ are used to proportionally allocate jobs from $j$ to $i$. The spatial availability is given by Equation (\ref{eq:spatial-availability}).
 ```{=tex}
 \begin{equation}
 \label{eq:spatial-availability}
-V_{i} = \sum_{j=1}^J O_j\frac{F^t_{i}}{\sum_{i=1}^N F^t_{i}}
+V_{i} = \sum_{j=1}^J O_j\ F^t_{ij}
 \end{equation}
 ```
 
 The terms in Equation \ref{eq:spatial-availability} are as follows:
 
--   $V_{i}$ is the spatial availability at $i$.
+-   $F^t_{ij}$ is a balancing factor as defined in Equation (\ref{eq:balancing-factors}).
 -   $i$ is a set of origin locations in the region $i = 1,\cdots, N$.
 -   $j$ is a set of destination locations in the region $j = 1,\cdots,J$.
 -   $O_j$ is the number of opportunities at location $j$.
--   $F^t_{i}$ is a balancing factor as defined in Equation (\ref{eq:balancing-factors}).
+-   $V_{i}$ is the spatial availability at $i$.
 
-Notice that, unlike $S_i$ in Equation (\ref{eq:conventional-accessibility}), the population enters the calculation of $V_{i}$. Returning to the example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example-part-two} contains the information needed to calculate $V_i$.
-```{r toy-example-part-two-table-creation, include=FALSE}
-od_tt2 <- od_tt %>%
+Notice that, unlike $S_i$ in Equation (\ref{eq:conventional-accessibility}), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to the example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example-spatial-availability} contains the information needed to calculate $V_i$.
+```{r toy-example-spatial-availability-table-creation, include=FALSE}
+# Impedance parameter
+b <- 0.1
+
+# Calculate impedance function
+od_tt2 <- od_tt %>% 
+  mutate(f = exp(-b * tt))
+
+od_tt2 <- od_tt2 %>%
   mutate(catch = 1) %>%
   sp_avail_detailed(o_id = i,
                     d_id = j, 
@@ -607,7 +776,7 @@ od_tt2 <- od_tt2 %>%
   as_hux(scientific=FALSE)
 ```
 
-```{r toy-example-part-two-table}
+```{r toy-example-spatial-availability-table}
 table_toy_2  <- od_tt2 %>%
   set_bold(1, everywhere) %>%
   set_bottom_border(c(1,4,7), everywhere) %>%
@@ -623,8 +792,8 @@ table_toy_2  <- od_tt2 %>%
   set_width(1.2) %>%
   set_height(4) %>%
   set_right_border(everywhere, 1:10, brdr(1, "solid", "grey")) %>%
-  set_caption("Summary description of synthetic example: spatial availability") %>%
-  set_label("tab:synthetic-example-part-two")
+  set_caption("Summary description of synthetic example: spatial availabilityy") %>%
+  set_label("tab:synthetic-example-spatial-availability")
 
 font_size(table_toy_2) <- 7
 
@@ -636,7 +805,7 @@ $$
 \sum_{i=1}^N V_i = 66,833 + 133,203 + 9,963 \approx 210,000 
 $$
 
-Compare the calculated values of $V_i$ to column __S_i__ (Hansen-type accessibility) in Table \ref{tab:synthetic-example}. The spatial availability values are more intuitive. Recall that population centers $A$ and $B$ had identical Hansen-type accessibility to employment opportunities. According to $V_i$, population center $A$ has greater job availability due to its close proximity to employment center 1 combined with less steep competition (i.e., a majority of the population have to travel longer distances to reach employment center 1). Job availability is lower for population center $B$ due to much higher competition (150,000 people can reach 100,000 jobs at equal cost). And center $C$ has almost as many jobs available as it has population. 
+Compare the calculated values of $V_i$ to column __S_i__ (Hansen-type accessibility) in Table \ref{tab:synthetic-example}. The spatial availability values are more intuitive. Recall that population centers $A$ and $B$ had identical Hansen-type accessibility to employment opportunities. According to $V_i$, population center $A$ has greater job availability due to: 1) its close proximity to employment center 1; combined with 2) less competition (i.e., a majority of the population have to travel longer distances to reach employment center 1). Job availability is lower for population center $B$ due to much higher competition (150,000 people can reach 100,000 jobs at equal cost). And center $C$ has almost as many jobs available as it has population. 
 
 As discussed above, Hansen-type accessibility is not designed to preserve the number of jobs in the region. Shen-type accessibility is internally inconsistent: the only way it preserves the number of jobs is if the effect of the impedance function is ignored when expanding the values of jobs per capita to obtain the total number of opportunities. The proportional allocation procedure described above, in contrast, consistently returns a number of jobs available that matches the total number of jobs in the region. 
 
@@ -674,13 +843,13 @@ v_{3} =  \frac{V_{3}}{P_3} =  \frac{9,963.171}{10,000} = 0.996\\
 \end{equation}
 ```
 
-We can see that population center $A$ has fewer jobs per capita than the regional benchmark, center $B$ has more, and center $C$ is at parity. Remarkably, the spatial availability per capita matches the values of $A_i$ in Table \ref{tab:synthetic-example}. Appendix A has a proof of the mathematical equivalence between the two measures. It is interesting to notice how @weibull_axiomatic_1976, @shen1998, as well as this paper, all reach identical expressions starting from different assumptions; this effect is known as _equifinality_ [see @ortuzar_2011_modelling, p. 333; and @williams_hall_1981]. Interestingly, this result means that Shen-type accessibility and 2SFCA can be conceptualized as singly-constrained accessibility measures.
+We can see that population center $A$ has fewer jobs per capita than the regional benchmark, center $B$ has more, and center $C$ is at parity. Remarkably, the spatial availability per capita matches the values of $a_i$ in Table \ref{tab:synthetic-example}. Appendix A has a proof of the mathematical equivalence between the two measures. It is interesting to notice how @weibull_axiomatic_1976, @shen1998, as well as this paper, all reach identical expressions starting from different assumptions; this effect is known as _equifinality_ [see @ortuzar_2011_modelling, p. 333; and @williams_hall_1981]. Interestingly, this result means that Shen-type accessibility and 2SFCA can be re-conceptualized as singly-constrained accessibility measures.
 
 ## Why does proportional allocation matter?
 
 Having shown that Shen-type accessibility and spatial availability produce equifinal results, it is reasonable to ask whether the distinction between them is of any import.
 
-Conceptually, we would argue that the internal inconsistency in the calculation of total opportunities in @shen1998 points at a more serious problem that is only evident when we consider the internal values of the method. To illustrate, Table \ref{tab:synthetic-example} shows results of $A_i$ that are reasonable (in fact, they match exactly the spatial availability per capita). But when we dig deeper, these results mask potentially misleading values of jobs allocated and taken. In addition, the internal values also lead to estimates of the impact of accessibility that are deceptive. For example, the estimated system-wide cost of travel considering the jobs allocated by $A_i$ in Table \ref{tab:synthetic-example} is as follows:
+Conceptually, we would argue that the internal inconsistency in the calculation of total opportunities in @shen1998 points to a deeper issue that is only evident when we consider the internal values of the method. To illustrate, Table \ref{tab:synthetic-example} shows results of $a_i$ that are reasonable (and they match exactly the spatial availability per capita). But when we dig deeper, these results mask potentially misleading values of jobs allocated and taken. In addition, the internal values also lead to estimates of the impact of accessibility that are deceptive [see @sarlas_2020_betweenness]. For example, the estimated system-wide cost of travel considering the jobs allocated by $a_i$ in Table \ref{tab:synthetic-example} is as follows:
 $$
 \begin{array}{l}
 11,157\times 15 \text{ min} + 2,489\times 30 \text{ min} + 2.27\times 100 \text{ min}\\
@@ -689,7 +858,7 @@ $$
 \end{array}
 $$
 
-In contrast, the estimated system-wide cost of travel according to $V_i$ in Table \ref{tab:synthetic-example-part-two} is as follows:
+In contrast, the estimated system-wide cost of travel according to $V_i$ in Table \ref{tab:synthetic-example-spatial-availability} is as follows:
 $$
 \begin{array}{l}
 59,901\times 15 \text{ min} + 6,923\times 30 \text{ min} + 10\times 100 \text{ min}\\
@@ -698,11 +867,11 @@ $$
 \end{array}
 $$
 
-Therefore, not only does the Shen-type measure effectively allocate fewer than 56,835 out of a total of 210,000 jobs in the region, it also grossly underestimates the potential cost of travel in the system by obscuring the number of jobs not allocated.
+Therefore, not only does the Shen-type measure effectively allocate fewer than 56,835 out of a total of 210,000 jobs in the example, it also gives a biased estimate of the potential cost of travel in the system by obscuring the number of jobs not allocated.
 
 # Empirical example of Toronto
 
-In this section we illustrate the application of spatial availability through an empirical example. For this, we use population and employment data from the Greater Toronto and Hamilton Area (GTHA) in Ontario, Canada. This is the largest metropolitan region in Canada. We calculate gravity accessibility, XXX, and the proposed spatial availability for Toronto after introducing the data used and calibrating an impedance function. 
+In this section we illustrate the application of spatial availability through an empirical example. For this, we use population and employment data from the Greater Toronto and Hamilton Area (GTHA) in Ontario, Canada. This is the largest metropolitan region in Canada. For comparison, we calculate Hansen- and Shen-type accessibility, as well as the proposed spatial availability measure. 
 
 ## Data
 
@@ -944,7 +1113,7 @@ TO_jobs <- TO_od_ft %>%
 # Level of service for Shen-type accessibility
 LOS_j <- TO_od_ft %>%
   group_by(Destination) %>%
-  summarize(D_j = first(jobs)/sum(workers_f),
+  summarize(R_j = first(jobs)/sum(workers_f),
             .groups = "drop")
 
 # Hansen-type accessibility
@@ -953,11 +1122,11 @@ S_i <- TO_od_ft %>%
   summarize(S_i = sum(jobs_f)) # Hansen-type accessibility (unconstrained)
 
 # Shen-type accessibility
-A_i <- TO_od_ft %>%
+a_i <- TO_od_ft %>%
   left_join(LOS_j,
             by = "Destination") %>%
   group_by(Origin) %>%
-  summarize(A_i = sum(D_j * f),  #Shen/2SFCA
+  summarize(a_i = sum(R_j * f),  #Shen/2SFCA
             .groups = "drop")
   
 # Opportunity seeking population by origin in Shen-type measure
@@ -990,7 +1159,7 @@ TO_taz_acc <- TO_taz %>%
             by = c("GTA06" = "Destination")) %>%
   left_join(S_i,
             by = c("GTA06" = "Origin")) %>%
-  left_join(A_i,
+  left_join(a_i,
             by = c("GTA06" = "Origin")) %>%
   left_join(V_i,
             by = c("GTA06" = "Origin")) %>%
@@ -998,9 +1167,9 @@ TO_taz_acc <- TO_taz %>%
          s_i = S_i/total_population,
          v_i = V_i/total_population,
          # Shen=type accessibility in number of jobs after multiplying by total population 
-         A1_i = A_i * total_population,
+         A1_i = a_i * total_population,
          # Shen=type accessibility in number of jobs after multiplying by opportunity-seeking population
-         A2_i = A_i * osp)
+         A2_i = a_i * osp)
 ```
 
 ```{r verify-employment, include=FALSE}
@@ -1044,7 +1213,7 @@ TO_taz_acc %>%
   skim()
 ```
 
-```{r absolute-accessibility-plot-S_i}
+```{r absolute-accessibility-plot-S_i, fig.cap="\\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values."}
 
 TO_taz_acc %>%
   ggplot() +
@@ -1066,7 +1235,7 @@ TO_taz_acc %>%
   theme(axis.text = element_blank())
 ```
 
-```{r absolute-accessibility-plot-A2_i}
+```{r absolute-accessibility-plot-A2_i, fig.cap="\\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values."}
 
 TO_taz_acc %>%
   ggplot() +
@@ -1088,7 +1257,7 @@ TO_taz_acc %>%
   theme(axis.text = element_blank())
 ```
 
-```{r absolute-accessibility-plot-V_i}
+```{r absolute-accessibility-plot-V_i, fig.cap="\\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values."}
 TO_taz_acc %>%
   ggplot() +
   geom_sf(aes(fill = V_i)) +
@@ -1109,19 +1278,16 @@ TO_taz_acc %>%
   theme(axis.text = element_blank())
 ```
 
-```{r eval=FALSE, include=FALSE}
-  
-  TO_taz_acc %>%
-  dplyr::select(GTA06, S_i, A2_i, V_i) %>%
-  tidyr::pivot_longer(cols = -c(GTA06, geometry),
-                      names_to = "Measure",
-                      values_to = "Accessibility") %>%
-  mutate(Measure = case_when(Measure == "S_i" ~ "Hansen-type accessibility",
-                             Measure == "A2_i" ~ "Shen-type accessibility x OSP",
-                             Measure == "S_i" ~ "Spatial availability")) %>%
+Figures \ref{fig:plot-Hansen-Type-S-TO}, \ref{fig:plot-Shen-type-A-TO}, and \ref{fig:plot-SA-TO} are the absolute accessibility values in number of jobs accessible/available.
+
+
+```{r per-capita-accessibility-plot-s_i, fig.cap="\\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility per capita to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values."}
+
+TO_taz_acc %>%
   ggplot() +
-  geom_sf(aes(fill = Accessibility)) +
-  scale_fill_distiller(palette = "BuPu", #legend scale bar,
+  geom_sf(aes(fill = S_i/workers)) +
+  scale_fill_distiller(name = "Hansen-type accessibility",
+                       palette = "BuPu", #legend scale bar,
                        direction = 1,
                          na.value = "grey90") + 
   annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
@@ -1133,13 +1299,111 @@ TO_taz_acc %>%
   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
                    location = "br",
                    height = unit(0.15, "cm")) +
-  facet_wrap(~ Measure,
-             nrow = 3) +
-  theme_minimal()
-
+  theme_minimal() + 
+  theme(axis.text = element_blank())
 ```
 
+```{r per-capita-accessibility-plot-a_i, fig.cap="\\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values."}
 
+TO_taz_acc %>%
+  ggplot() +
+  geom_sf(aes(fill = a_i)) +
+  scale_fill_distiller(name = "Shen-type accessibility x OSP",
+                       palette = "BuPu", #legend scale bar,
+                       direction = 1,
+                         na.value = "grey90") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   location = "br",
+                   height = unit(0.15, "cm")) +
+  theme_minimal() + 
+  theme(axis.text = element_blank())
+```
+
+```{r per-capita-accessibility-plot-v_i, fig.cap="\\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values."}
+TO_taz_acc %>%
+  ggplot() +
+  geom_sf(aes(fill = v_i)) +
+  scale_fill_distiller(name = "Spatial availability",
+                       palette = "BuPu", #legend scale bar,
+                       direction = 1,
+                         na.value = "grey90") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   location = "br",
+                   height = unit(0.15, "cm")) +
+  theme_minimal() + 
+  theme(axis.text = element_blank())
+```
+
+How do Shen-type internal values perform? The opportunity seeking population according to Shen-type measure greatly exceeds the population:
+```{r}
+osp_i %>%
+  summarize(osp = sum(osp),
+            population = sum(total_population))
+```
+
+The ratio of effective opportunity-seeking population to population is shown next:
+```{r}
+osp_i %>%
+  mutate(ratio = osp/total_population) %>%
+  left_join(TO_taz,
+            by = c("Origin" = "GTA06")) %>%
+  st_sf() %>%
+  ggplot() +
+  geom_sf(aes(fill = ratio)) +
+  geom_sf(data = TO_taz,
+          fill = NA) +
+  scale_fill_distiller(name = "OSP/P",
+                       palette = "BuPu", #legend scale bar,
+                       direction = 1,
+                         na.value = "grey90") + 
+  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
+                         height = unit(0.8, "cm"), 
+                         width = unit(0.8, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.25,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"))) +
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   location = "br",
+                   height = unit(0.15, "cm")) +
+  theme_minimal() + 
+  theme(axis.text = element_blank())
+  
+```
+
+The effect is not constant in space.
+
+As a consequence of the inflated population (osp > population), the travel time is exaggerated by Shen-type measure:
+```{r}
+TO_od_ft %>%
+  left_join(a_i,
+            by = "Origin") %>%
+  mutate(total_travel_time = a_i * workers_f * travel_time) %>%
+  summarize(total_travel_time = sum(total_travel_time)) %>%
+  mutate(total_travel_time = units::set_units(total_travel_time,
+                                              min) %>%
+           units::set_units(h))
+
+V_ij %>%
+  mutate(total_travel_time = V_ij * travel_time) %>%
+  summarize(total_travel_time = sum(total_travel_time)) %>%
+  mutate(total_travel_time = units::set_units(total_travel_time,
+                                              min) %>%
+           units::set_units(h))
+```
+
+Why do these differences matter? Think about equity analysis!
 
 <!-- CONTINUE REVIEWING FROM HERE
 
@@ -1205,15 +1469,15 @@ TO_od_ft <- TO_od_ft %>%
 
 LOS_j <- TO_od_ft %>% 
   group_by(Destination) %>%
-  summarise(D_j = sum(f * workers, na.rm=T),
+  summarise(R_j = sum(f * workers, na.rm=T),
             jobs = mean(jobs, na.rm=T),
             .groups = "drop") %>%
-  mutate(LOS_j = jobs/D_j)
+  mutate(LOS_j = jobs/R_j)
 
 #aggregate shen's accessibility
 TO_c_shen_accessibility <- TO_od_ft %>%
   left_join(LOS_j %>% 
-              dplyr::select(Destination, LOS_j, jobs, D_j),
+              dplyr::select(Destination, LOS_j, jobs, R_j),
             by = "Destination") %>%
   group_by(Origin) %>%
   summarize(ShenA_i = sum(LOS_j * f))
@@ -1461,595 +1725,86 @@ Equivalence of Shen-type accessibility and spatial availability
 
 Population allocation factor:
 
-$F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}$
+$$
+F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}
+$$
 
-$F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}$
+$$
+F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
+$$
 
 Cost allocation factor:
 
-$F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}$
+$$
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}
+$$
 
-$F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}$
-$F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}$
-$F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}$
+$$
+F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
+$$
+
+$$
+F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
+
+$$
+F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
 
 Now let's put it together with P, and see how the denominators end up cancelling out:
 
-$v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}$
+$$
+v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}
+$$
 
-$v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +$
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
+$$
 
-$\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+$
+$$
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+
+$$
 
-$\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )$
+$$
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
+$$
 
 
 First, notice how the denominator on the denominator is the same across the summation? Let's simplify it:
 
-$v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +$
-$\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) +$
-$\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )$
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
+$$
+
+$$\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) +
+$$
+
+$$
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
+$$
 
 
 See how the denominator of the denominator is the same as the denominator of the numerator's denominator for each J (J=1, J=2, and J=3)? Let's cancel those out and simplify:
 
-$v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} +$
-$\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} +$
-$\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )$
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} +
+$$
+
+$$\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} +
+$$
+
+$$
+\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
+$$
 
 
 Next, see how we can cancel out the $P_{A}^\alpha$? Let's do that.
 
-$v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )$
-
-<!---
-
-## balanced 2 step floating catchment approach (B2SFCA)
-
-As discussed by @paez2019, in the 2SFCA, the PPR calculation in the first step and allocation of PPR to origins in the second step is not _proportional_ to the total population seeking opportunities. Though the 'potential' for interaction is being consistently allocated in these two steps, when looking to decipher the meaning of the measure from the perspective of allocation, the resulting values are difficult to interpret. This issue of interpretability has been attempted to be remedied by adjusting the population and opportunities in both steps by a _proportional_ travel cost in the B2SFCA as follows.
-
-Step one:
-
-```{=tex}
-\begin{equation}
-\begin{array}{l}
-
-R_{j} = \frac{O_{j}}{\sum_i P_{i} \frac{f(c_{ij})}{\sum_j f(c_{ij})}}\\
-
-R_{1} = \frac{100000}{60000 \frac{\exp(\beta *15)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 160000 \frac{\exp(\beta *30)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 10000 \frac{\exp(\beta *100)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)}}\\
-R_{1} = 1.278\\
-
-R_{2} = \frac{100000}{60000 \frac{\exp(\beta *30)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 160000 \frac{\exp(\beta *15)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 10000 \frac{\exp(\beta *100)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)}}\\
-R_{2} = 0.706\\
-
-R_{3} = \frac{10000}{60000 \frac{\exp(\beta *100)}{\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100)} + 160000 \frac{\exp(\beta *15)}{\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100)} + 10000 \frac{\exp(\beta *15)}{\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100)}}\\
-R_{3} = 0.995\\
-
-\end{array}
-\end{equation}
-```
-
-Step two:
-
-```{=tex}
-\begin{equation}
-\begin{array}{l}
-A_{i} = {\sum_j R_{j}\frac{f(c_{ij})}{\sum_j f(c_{ij})}}
-
-\\A_{A} = 1.278\frac{\exp(\beta*15)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 0.706 \frac{\exp(\beta*30)}{(\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100))} + 0.995 \frac{\exp(\beta*100)}{(\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100))}\\
-
-A_{B} = 1.278\frac{\exp(\beta*30)}{\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100)} + 0.706 \frac{\exp(\beta*15)}{(\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100))} + 0.995 \frac{\exp(\beta*100)}{(\exp(\beta *15) + \exp(\beta*30) + \exp(\beta*100))}\\
-
-A_{C} = 1.278\frac{\exp(\beta*100)}{\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100)} + 0.706 \frac{\exp(\beta*100)}{(\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100))} + 0.995 \frac{\exp(\beta*15}{(\exp(\beta *15) + \exp(\beta*100) + \exp(\beta*100))}\\
-
-A_{A} = 1.173 \\
-A_{B} = 0.810 \\
-A_{C} = 0.996 \\
-\end{array}
-\end{equation}
-```
-
-```{r step1-calc-b2sfca, eval=FALSE}
-a_A1 <- 60000*(exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-b_B1 <- 160000*(exp(-0.1 *30))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-c_C1 <- 10000*(exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-R1 <- 100000 / (a_A1+b_B1+c_C1)
-R1
-
-a_A2 <- 60000*(exp(-0.1 *30))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-b_B2 <- 160000*(exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-c_C2 <- 10000*(exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))
-R2 <- 100000 / (a_A2+b_B2+c_C2)
-R2
-
-a_A3 <- 60000*(exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100))
-b_B3 <- 160000*(exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100))
-c_C3 <- 10000*(exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100))
-R3 <- 10000 / (a_A3+b_B3+c_C3)
-R3
-```
-
-```{r step2-calc-b2sfca, eval=FALSE}
-A_A <- R1*((exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100)))+ 
-  R2*((exp(-0.1 *30))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))) +
-  R3*((exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100)))
-
-A_B <- R1*((exp(-0.1 *30))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100)))+ 
-  R2*((exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100))) +
-  R3*((exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *30) + exp(-0.1 *100)))
-  
-A_C <- R1*((exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100)))+ 
-  R2*((exp(-0.1 *100))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100))) +
-  R3*((exp(-0.1 *15))/(exp(-0.1 *15) + exp(-0.1 *100) + exp(-0.1 *100)))
-
-A_A
-A_B
-A_C
-```
-
-In the B2SFCA, the PPR $R_{j}$ for each employment center can be interpreted as the total number of jobs accessible to the total population after being _proportionally_ adjusted to the travel cost. The PPR $R_{j}$ is then allocated, proportionally based on travel cost, to each employment center. For this reason, the sum of all $A_{i}$ adds up to 2.98, the same value as the sum of all $R_{j}$. <!-- NOTE: why does this equal the 2SFCA? The old example yielded different answers -->
-
-<!-- REMOVED THIS TEXT FOR NOW 
-It should be also noted that when using the _proportional_ travel costs to adjust opportunities and population, instead of using the raw travel costs as in the 2SFCA, the resulting $SB_{i}$ values are different. For instance, $A_{P2}$ is the highest value (1.88 times her than P4) in the 2SFCA but in the B2SFCA $A_{P4}$ has the highest value. In both 2SFCA and conventional accessibility, $A_{P2}$ is the highest value since P2 is the most populous population center and has the closest proximity (low travel cost) to the most populous E1. Though population size is considered in the first step of 2SFCA, the low population size of P2 is not significant enough to result in a large enough decrease in $A_{P2}$ relative to $A_{P4}$ (compared to conventional accessibility in which the acccesibility values between P2 and P4 are relatively greater). However, in B2SFCA, the smaller population size of P2 has a dramatic impact on the $A_{P2}$ value. This is because the travel-cost adjustment is proportional so the proportionally large population size of P4 results in a smaller PPR for both employment centers and thus a smaller amount of PPR from E1 is allocated to P2 in step 2. Since PPR and the subsequent $A_{i}$ are proportionally allocated based travel costs, values no longer consider _potential_ interaction and instead represent the allocation of employment center PPR, based on travel time, to each population center.   -->
-
-<!-- This measure introduces some consistency in how the PPR is calculated and is allocated to P1, P2, and P4, but is still lacking interpretability in the resulting values. 
-
-
-## Inverse Balancing accessibility, doubly-constrained
-
-<!-- NOTE: Can't figure this out, the solved example is wrong.
-
-This measure results in a opportunities per person metric, however, it constraints opportunities and population from both sides, estimating accessibility iteratively. The formulation requires the number of opportunities equals the population so they propose the iterative estimates are standardized such that opportunities equals population and the disbalanced is carried through as a factor. The formulation for the synthetic example would take the following form:
-```{=tex}
-\begin{equation}
-\begin{array}{l}
-A_{i} = \frac{\bar A^{o}}{\bar A^{c}}{\sum_{j=1}^{J} \frac{O_{j}f(c_{ij})}{L_{j}}}\\
-L_{i} = {\sum_{i=1}^{I} \frac{P_{i}f(c_{ij})}{A_{i}}}\\
-\end{array}
-\end{equation}
-```
-
-Iteration 1:
-```{=tex}
-\begin{equation}
-\begin{array}{l}
-A_{P1} = (1)*\frac{750\exp(\beta*2548.1) + 220*\exp(\beta *5419.1)}{1} = 16.47\\
-A_{P2} = (1)*\frac{750\exp(\beta*1314.1) + 220*\exp(\beta *4762.6)}{1} = 104.65\\
-A_{P3} = (1)*\frac{750\exp(\beta*2170.2) + 220*\exp(\beta *1790.1)}{1} = 43.93\\
-L_{E1} = \frac{260\exp(\beta*2548.1)}{16.47} + \frac{255*\exp(\beta *1314.1)}{104.65} + \frac{495*\exp(\beta *2170.2)}{43.93} = 1.12\\
-L_{E2} = \frac{260\exp(\beta*5419.1)}{16.47} + \frac{255*\exp(\beta *4762.6)}{104.65} + \frac{495*\exp(\beta *1790.1)}{43.93} = 0.78\\
-\end{array}
-\end{equation}
-```
-
-We can complete 8 more iterations until we reach convergence at the second decimal level. I skip writing them out but the final $A_{i}$ values appear like:
-```{=tex}
-\begin{equation}
-\begin{array}{l}
-A_{P1} = 14.56\\
-A_{P2} = 92.35\\
-A_{P3} = 47.05\\
-\end{array}
-\end{equation}
-```
-
-
-```{r allen-measure-1, eval=FALSE}
-# assume Li,n = 1 as our inital number
-a1<-(1)*(750*exp(-0.0015*2548.1) + 220*exp(-0.0015*5419.1))/1
-b1<-(1)*(750*exp(-0.0015*1314.1) + 220*exp(-0.0015*4762.6))/1
-c1<-(1)*(750*exp(-0.0015*2170.2) + 220*exp(-0.0015*1790.1))/1
-a1
-b1
-c1
-d1<-(260*exp(-0.0015*2548.1)/a1 + 255*exp(-0.0015*1314.1)/b1 + 495*exp(-0.0015*2170.2)/c1)
-e1<-(260*exp(-0.0015*5419.1)/a1 + 255*exp(-0.0015*4762.6)/b1 + 495*exp(-0.0015*1790.1)/c1)
-d1
-e1
-f1 <- (260*(a1) + 255*(b1) + 495*(c1))/(260+255+495)
-```
-
-```{r , eval=FALSE}
-a2<-(f1/f1)*(750*exp(-0.0015*2548.1)/d1 + 220*exp(-0.0015*5419.1)/e1)
-b2<-(f1/f1)*(750*exp(-0.0015*1314.1)/d1 + 220*exp(-0.0015*4762.6)/e1)
-c2<-(f1/f1)*(750*exp(-0.0015*2170.2)/d1 + 220*exp(-0.0015*1790.1)/e1)
-a2
-b2
-c2
-d2<-(260*exp(-0.0015*2548.1)/a2 + 255*exp(-0.0015*1314.1)/b2 + 495*exp(-0.0015*2170.2)/c2)
-e2<-(260*exp(-0.0015*5419.1)/a2 + 255*exp(-0.0015*4762.6)/b2 + 495*exp(-0.0015*1790.1)/c2)
-f2 <- (260*(a2) + 255*(b2) + 495*(c2))/(260+255+495)
-```
-
-```{r, eval=FALSE}
-a3<-(f1/f2)*(750*exp(-0.0015*2548.1)/d2 + 220*exp(-0.0015*5419.1)/e2)
-b3<-(f1/f2)*(750*exp(-0.0015*1314.1)/d2 + 220*exp(-0.0015*4762.6)/e2)
-c3<-(f1/f2)*(750*exp(-0.0015*2170.2)/d2 + 220*exp(-0.0015*1790.1)/e2)
-a3
-b3
-c3
-d3<-(260*exp(-0.0015*2548.1)/a3 + 255*exp(-0.0015*1314.1)/b3 + 495*exp(-0.0015*2170.2)/c3)
-e3<-(260*exp(-0.0015*5419.1)/a3 + 255*exp(-0.0015*4762.6)/b3 + 495*exp(-0.0015*1790.1)/c3)
-f3 <- (260*(a3) + 255*(b3) + 495*(c3))/(260+255+495)
-```
-
-```{r, eval=FALSE}
-a4<-(f1/f3)*(750*exp(-0.0015*2548.1)/d3 + 220*exp(-0.0015*5419.1)/e3)
-b4<-(f1/f3)*(750*exp(-0.0015*1314.1)/d3 + 220*exp(-0.0015*4762.6)/e3)
-c4<-(f1/f3)*(750*exp(-0.0015*2170.2)/d3 + 220*exp(-0.0015*1790.1)/e3)
-a4
-b4
-c4
-d4<-(260*exp(-0.0015*2548.1)/a4 + 255*exp(-0.0015*1314.1)/b4 + 495*exp(-0.0015*2170.2)/c4)
-e4<-(260*exp(-0.0015*5419.1)/a4 + 255*exp(-0.0015*4762.6)/b4 + 495*exp(-0.0015*1790.1)/c4)
-f4 <- (260*(a4) + 255*(b4) + 495*(c4))/(260+255+495)
-```
-
-```{r, eval=FALSE}
-a5<-(f1/f4)*(750*exp(-0.0015*2548.1)/d4 + 220*exp(-0.0015*5419.1)/e4)
-b5<-(f1/f4)*(750*exp(-0.0015*1314.1)/d4 + 220*exp(-0.0015*4762.6)/e4)
-c5<-(f1/f4)*(750*exp(-0.0015*2170.2)/d4 + 220*exp(-0.0015*1790.1)/e4)
-a5
-b5
-c5
-d5<-(260*exp(-0.0015*2548.1)/a5 + 255*exp(-0.0015*1314.1)/b5 + 495*exp(-0.0015*2170.2)/c5)
-e5<-(260*exp(-0.0015*5419.1)/a5 + 255*exp(-0.0015*4762.6)/b5 + 495*exp(-0.0015*1790.1)/c5)
-f5 <- (260*(a5) + 255*(b5) + 495*(c5))/(260+255+495)
-```
-
-```{r, eval=FALSE}
-a6<-(f1/f5)*(750*exp(-0.0015*2548.1)/d5 + 220*exp(-0.0015*5419.1)/e5)
-b6<-(f1/f5)*(750*exp(-0.0015*1314.1)/d5 + 220*exp(-0.0015*4762.6)/e5)
-c6<-(f1/f5)*(750*exp(-0.0015*2170.2)/d5 + 220*exp(-0.0015*1790.1)/e5)
-a6
-b6
-c6
-d6<-(260*exp(-0.0015*2548.1)/a6 + 255*exp(-0.0015*1314.1)/b6 + 495*exp(-0.0015*2170.2)/c6)
-e6<-(260*exp(-0.0015*5419.1)/a6 + 255*exp(-0.0015*4762.6)/b6 + 495*exp(-0.0015*1790.1)/c6)
-f6 <- (260*(a6) + 255*(b6) + 495*(c6))/(260+255+495)
-```
-```{r, eval=FALSE}
-a7<-(f1/f6)*(750*exp(-0.0015*2548.1)/d6 + 220*exp(-0.0015*5419.1)/e6)
-b7<-(f1/f6)*(750*exp(-0.0015*1314.1)/d6 + 220*exp(-0.0015*4762.6)/e6)
-c7<-(f1/f6)*(750*exp(-0.0015*2170.2)/d6 + 220*exp(-0.0015*1790.1)/e6)
-a7
-b7
-c7
-d7<-(260*exp(-0.0015*2548.1)/a7 + 255*exp(-0.0015*1314.1)/b7 + 495*exp(-0.0015*2170.2)/c7)
-e7<-(260*exp(-0.0015*5419.1)/a7 + 255*exp(-0.0015*4762.6)/b7 + 495*exp(-0.0015*1790.1)/c7)
-f7 <- (260*(a7) + 255*(b7) + 495*(c7))/(260+255+495)
-```
-
-```{r, eval=FALSE}
-a8<-(f1/f7)*(750*exp(-0.0015*2548.1)/d7 + 220*exp(-0.0015*5419.1)/e7)
-b8<-(f1/f7)*(750*exp(-0.0015*1314.1)/d7 + 220*exp(-0.0015*4762.6)/e7)
-c8<-(f1/f7)*(750*exp(-0.0015*2170.2)/d7 + 220*exp(-0.0015*1790.1)/e7)
-a8
-b8
-c8
-d8<-(260*exp(-0.0015*2548.1)/a8 + 255*exp(-0.0015*1314.1)/b8 + 495*exp(-0.0015*2170.2)/c8)
-e8<-(260*exp(-0.0015*5419.1)/a8 + 255*exp(-0.0015*4762.6)/b8 + 495*exp(-0.0015*1790.1)/c8)
-f8 <- (260*(a8) + 255*(b8) + 495*(c8))/(260+255+495)
-```
-<!-- was just testing this out 
-# Appendix B; testing 2SFCA and Spatial Availability side-by-side
-
-# 2SFCA
-
-Step one:
 $$
-R_{j} = \frac{O_{j}}{\sum_i P_{i} \cdot f(c_{ij})}\\
-
-R_{E1} = \frac{750}{260 \cdot \exp(-0.0015 *2548.1) + 255 \cdot \exp(-0.0015 *1314.1) + 495 \cdot \exp(-0.0015 *2170.2)}\\
-R_{E1} = 12.4 \space jobs \space per \space travel \space cost \space adjust. \space pop\\
-R_{E2} = \frac{220}{260 \cdot \exp(-0.0015 *5419.1) + 255 \cdot \exp(-0.0015 *4762.6) + 495 \cdot \exp(-0.0015 *1790.1)}\\
-R_{E2} = 6.5 \space jobs \space per \space travel \space cost \space adjust. \space pop\\
+v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
 $$
 
-Step two:
-$$
-A_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
-A_{P1} = 12.4 \cdot \exp(-0.0015 *2548.1) + 6.46 \cdot \exp(-0.0015 *5419.1) = 0.27 \\
-A_{P2} = 12.4 \cdot \exp(-0.0015 *1314.1) + 6.46 \cdot \exp(-0.0015 *4762.6) = 1.73 \\
-A_{P4} = 12.4 \cdot \exp(-0.0015 *2170.2) + 6.46 \cdot \exp(-0.0015 *1790.1) = 0.92
-$$
-
-```{r steps-calc-2sfca-test, eval=FALSE}
-#step 1
-a <- (750)/((260*exp(-0.0015 *2548.1))+(255*exp(-0.0015 *1314.1)) + (495*exp(-0.0015 *2170.2)))
-b <- (220)/((260*exp(-0.0015 *5419.1))+(255*exp(-0.0015 *4762.6)) + (495*exp(-0.0015 *1790.1)))
-a
-b
-#step 2
-(a*exp(-0.0015 *2548.1)) + (b*exp(-0.0015 *5419.1))
-(a*exp(-0.0015 *1314.1)) + (b*exp(-0.0015 *4762.6))
-(a*exp(-0.0015 *2170.2)) + (b*exp(-0.0015 *1790.1))
-```
-
-## Spatial availability
-
-$$
-V_{i} = O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{i} \cdot F^c_{ij}}
-$$
-
-The resulting spatial availability $V_{i}$ is calculated for all population centers is calculated in Equation (\ref{eq:SA-2populations}).
-```{r SA-5-test, eval=TRUE, include=FALSE}
-750*{0.257*0.109}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-750*{0.252*0.697}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-750*{0.49*0.193}/{0.257*0.109 + 0.252*0.697 + 0.49*0.193}
-
-220*{0.257*0.004}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-220*{0.252*0.011}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-220*{0.49*0.984}/{0.257*0.004 + 0.252*0.011 + 0.49*0.984}
-
-70.45 + 0.46
-441.72 + 1.26
-237.83 + 218.28
-```
-
-$$
-V_{1,1} = O_1\cdot \frac{F^p_{1,1} \cdot F^c_{1,1}}{F^p_{1,1} \cdot F^c_{1,1} + F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 
-750 \cdot \frac{0.26 \cdot 0.109}{0.26 \cdot 0.109 + 0.25 \cdot 0.697 + 0.49 \cdot 0.193} = 70.45\\
-V_{2,1} = O_1\cdot \frac{F^p_{2,1} \cdot F^c_{2,1}}{F^p_{1,1} \cdot F^c_{1,1} + F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 
-750 \cdot \frac{0.25 \cdot 0.697}{0.26 \cdot 0.109 + 0.25 \cdot 0.697 + 0.49 \cdot 0.193} = 441.72\\
-V_{3,1} = O_1\cdot \frac{F^p_{3,1} \cdot F^c_{3,1}}{F^p_{1,1} \cdot F^c_{1,1} + F^p_{2,1} \cdot F^c_{2,1} + F^p_{3,1} \cdot F^c_{3,1}} = 
-750 \cdot \frac{0.49 \cdot 0.193}{0.26 \cdot 0.109 + 0.25 \cdot 0.697 + 0.49 \cdot 0.193} = 237.83\\
-
-V_{1,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
-220 \cdot \frac{0.26 \cdot 0.004}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 0.46\\
-V_{2,2} = O_2\cdot \frac{F^p_{2,2} \cdot F^c_{2,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
-220 \cdot \frac{0.25 \cdot 0.011}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 1.26\\
-V_{3,2} = O_2\cdot \frac{F^p_{1,2} \cdot F^c_{1,2}}{F^p_{1,2} \cdot F^c_{1,2} + F^p_{2,2} \cdot F^c_{2,2} + F^p_{3,2} \cdot F^c_{3,2}} = 
-220 \cdot \frac{0.49 \cdot 0.984}{0.26 \cdot 0.004 + 0.25 \cdot 0.011 + 0.49 \cdot 0.984} = 218.28\\
-$$
-
-Aggregating by population center gives the following values:
-$$
-V_{1} = 70.45 + 0.46 = 70.91\\
-V_{2} = 441.72 + 1.26 = 442.98\\
-V_{3} = 237.83 + 218.28 = 456.11\\
-$$
-
-$$
-v_i = \frac{V_i}{P_i}
-$$
-
-To complete the illustrative example, the per capita spatial availability of jobs is calculated in Equation (\ref{eq:SA-per-capita-2populations}).
-```{r SA-6-test, eval=TRUE, include=FALSE}
-{70.45 }/{260} + {0.46}/{260}
-{441.72 }/{255} + {1.26}/{255}
-{237.83 }/{495} + {218.28}/{495}
-```
-
-$$
-v_{1} = \frac{V_{1,1} + V_{1,2}}{P_1} =  \frac{70.91}{260} = 0.272\\
-v_{2} =  \frac{V_{2,1} + V_{2,2}}{P_2} =  \frac{442.98}{255} = 1.737\\
-v_{3} =  \frac{V_{3,1} + V_{3,2}}{P_3} =  \frac{456.11}{495} = 0.921\\
-$$
--->
 \newpage
 
 # References {#references .unnumbered}
-
-<!-- the old synthetic example
-
-The setup for our synthetic example is a system with two employment centers and three population centers. Accessibility to jobs at each population center is calculated using the accessibility measure $A_i$ in Equation (\ref{eq:conventional-accessibility}). In this synthetic example, we use the straight line distance between the population and jobs for $c_{ij}$ and a negative exponential function with $\beta = 0.0015$. As noted, $A_i$ represents the number of jobs (i.e., opportunities) that can be reached from each population center given the estimated cost as depicted in Figure \ref{fig:toy-example-accessibility}.
-```{r creating-toy-example}
-toy_sim_zones_3_2 <- toy_sim_zones %>% 
-  filter(id_short == "E1" | id_short == "E2" | id_short == "P1" | id_short == "P2" | id_short == "P4") %>%
-  mutate(number = ifelse(id_short == "E2", 220, number))
-```
-
-```{r create-figure-with-toy-example, fig.height=2, include=FALSE}
-ggplot() + 
-  geom_sf(data = toy_sim_zones_3_2 %>% filter(type=="jobs"),
-            aes(size = number),
-          shape = 16,
-          color = "grey") +
-    geom_sf(data = toy_sim_zones_3_2 %>% filter(type=="population"),
-            aes(size = number),
-          shape = 17,
-          color = "dimgrey") +
-  geom_sf_text(data = toy_sim_zones_3_2,
-               aes(label = id_short),
-               size = 3,
-               nudge_y = -300) +
-  scale_size(range = c(2, 5))  + 
-  theme(legend.position = "none",
-        axis.text = element_blank(), axis.title = element_blank(),
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1, 
-                                        color = "black", 
-                                        fill = NA))
-ggsave("images/figure-1.png",
-       width = 3,
-       height = 2)
-```
-
-```{r creating-toy-example-table}
-toy_od_table_3_2_P1 <- toy_od_table %>% filter(Origin == "Population 1" & 
-                                                (Destination == "Employment Center 1" | Destination == "Employment Center 2")) %>%
-  mutate(Jobs = ifelse(Destination == "Employment Center 2", 220, Jobs))
-toy_od_table_3_2_P2 <- toy_od_table %>% filter(Origin == "Population 2" & 
-                                                (Destination == "Employment Center 1" | Destination == "Employment Center 2")) %>%
-  mutate(Jobs = ifelse(Destination == "Employment Center 2", 220, Jobs))
-toy_od_table_3_2_P4 <- toy_od_table %>% filter(Origin == "Population 4" & 
-                                                (Destination == "Employment Center 1" | Destination == "Employment Center 2"))%>%
-  mutate(Jobs = ifelse(Destination == "Employment Center 2", 220, Jobs))
-
-toy_od_table_3_2 <- rbind(toy_od_table_3_2_P1,toy_od_table_3_2_P2,toy_od_table_3_2_P4)
-```
-
-```{r toy-example-accessibility}
-# Calculate impedance function
-beta <- 0.0015
-toy_od_table_3_2 <- toy_od_table_3_2 %>%
-  mutate(f = exp(-beta * distance))
-
-# using the origin-destination table (OD) of all origin to destination trips; filter in only jobs which are mean distance or less away from a population center and sum number of jobs available in each origin (population center)
-c_accessibility <- toy_od_table_3_2 %>% 
-  mutate(A_ij = f * Jobs) %>%
-  group_by(Origin) %>%
-  summarise(A_i = sum(A_ij))
-
-#pass conventional accessibility calculation into the spatial object (toy_sim_zones)
-toy_sim_zones_access_3_2  <- toy_sim_zones_3_2 %>% 
-  left_join(c_accessibility, 
-            by = c("id" = "Origin")) 
-```
-
-```{r toy-example-accessibility-plot, fig.cap="\\label{fig:toy-example-accessibility}Accessibility to jobs (red text) from population centers (P) to employment centers (E) for the synthetic example. Values of population and employment are shown in white text.", fig.height=3}
-# Plot the accessibility to employment in the example;
-ggplot() +
-  geom_sf(data = toy_sim_zones_access_3_2 %>% 
-            filter(type == "population"),
-          aes(fill = A_i, size = A_i, shape = type)) +
-  geom_sf(data = toy_sim_zones_access_3_2 %>%
-            filter(type == "jobs"),
-          aes(shape = type,
-              size = number),
-          fill = "black") +
-  geom_sf_text(data = toy_sim_zones_access_3_2 , aes(label = id_short), colour = "dark grey",
-               size = 3, nudge_y = -350) +
-  geom_sf_text(data = toy_sim_zones_access_3_2 , aes(label = A_i %>% round(digits = 1)), colour = "red",
-               size = 3.5, nudge_y = 350) +
-  geom_sf_text(data = toy_sim_zones_access_3_2 , aes(label = number), colour = "dark grey",
-               size = 3, nudge_x = 450) +
-  scale_shape_manual(values = c('population' = 24, 'jobs' = 21), 
-                     name = "Location Type", 
-                     labels=c("Population", "Jobs"),
-                     guide = guide_legend(order = 2)) +
-  guides(shape =guide_legend(override.aes=list(size=5))) +
-  scale_size_continuous(range = c(4,7), name = expression(A["i"]), guide = "none") +
-  scale_fill_distiller(palette = "OrRd", direction = 1, name = expression(A["i"]),
-                       limits = c(0, max(toy_sim_zones_access_3_2$A_i, na.rm = T)),
-                       guide = guide_colorbar(order = 1)) +
-  theme(legend.position = "none", 
-        axis.title = element_blank(),
-        panel.grid = element_blank(),
-        panel.background = element_rect(size = 1.5, 
-                                        color = "grey", 
-                                        fill = "white"))+ 
-  scale_x_continuous(breaks = seq(-80.06, -79.96, by = 0.02))
-```
--->
-
-<!-- Failed attempt at doubly constrained balancing
-```{r}
-#tried makign a function.. but couldn't figure out how to do it manually. 
-invbal <- function(x, o_id, d_id, pop, opp, f, L, meanAn_0, meanAn_1){
-  o_id <- rlang::enquo(o_id)
-  d_id <- rlang::enquo(d_id)
-  pop <- rlang::enquo(pop)
-  opp <- rlang::enquo(opp)
-  f <- rlang::enquo(f)
-  L <- rlang::enquo(L)
-  meanAn_0 <- rlang::enquo(meanAn_0)
-  meanAn_1 <- rlang::enquo(meanAn_1)
-  
-  A_i_L <- x %>%
-    dplyr::group_by(!!o_id) %>%
-    dplyr::summarize(sum_A_i_L = sum(meanAn_0/meanAn_1)*sum(!!opp * !!f / L),
-                     mean_A_i_L = sum(!!pop * sum_A_i_L / !!pop),
-                     pop = mean(!!pop)) %>%
-  mutate(mean_A_i_L = sum(sum_A_i_L*pop)/sum(pop)) %>% dplyr::select(-c("pop"))
-  
-  x <- x[,c(1:9)] %>%
-    dplyr::left_join(A_i_L,
-                     by = rlang::as_name(o_id))
-  L_j_A <- x %>%
-    dplyr::group_by(!!d_id) %>%
-    dplyr::summarize(sum_L_j_A = sum(!!pop * !!f / sum_A_i_L))
-  
-  x <-  x[,c(1:11)] %>%
-    dplyr::left_join(L_j_A,
-                     by = rlang::as_name(d_id))
-}
-
-B_i <- od_tt %>%
-  mutate(L = 1, meanAn_0 = 1, meanAn_1 = 1) %>%# then Spatial Availability (singly constrained)
-  invbal(o_id = i, d_id = j, pop = pop, opp = opp, f = f, L = 1, meanAn_0 = 1, meanAn_1 = 1) %>%
-  mutate(L = sum_L_j_A,
-         meanAn_0 = mean_A_i_L,
-         meanAn_1 = mean_A_i_L)
-
-B_i <- B_i %>%
-  invbal(o_id = i, d_id = j, pop = pop, opp = opp, f = f, L = L, meanAn_0 = meanAn_0, meanAn_1 = meanAn_1) %>%
-  mutate(L = sum_L_j_A,
-         meanAn_1 = mean_A_i_L)
-
-B_i <- B_i %>%
-  invbal(o_id = i, d_id = j, pop = pop, opp = opp, f = f, L = L, meanAn_0 = meanAn_0, meanAn_1 = meanAn_1) %>%
-  mutate(L = sum_L_j_A,
-         meanAn_1 = mean_A_i_L)
-
-B_i <- B_i %>%
-  invbal(o_id = i, d_id = j, pop = pop, opp = opp, f = f, L = L, meanAn_0 = meanAn_0, meanAn_1 = meanAn_1) %>%
-  mutate(L = sum_L_j_A,
-         meanAn_1 = mean_A_i_L)
-```
-
-```{r}
-#iteration 1
-A_i_L <- od_tt %>%
-    dplyr::group_by(i) %>%
-    dplyr::summarize(sum_A_i_L = 1*sum(opp * f / 1),
-                     pop = mean(pop)) %>%
-  mutate(mean_A_i_L = sum(sum_A_i_L*pop)/sum(pop)) %>% dplyr::select(-c("pop"))
-  
-od_tt1 <- od_tt[,c(1:6)] %>%
-    dplyr::left_join(A_i_L,
-                     by = c("i"))
-L_j_A <- od_tt1 %>%
-    dplyr::group_by(j) %>%
-    dplyr::summarize(sum_L_j_A = sum(pop * f / sum_A_i_L))
-  
-od_tt1 <-  od_tt1 %>%
-    dplyr::left_join(L_j_A,
-                     by = "j") %>% 
-  mutate(inital_meanA_i_L = mean_A_i_L)
-```
-
-
-```{r}
-#iteration 2
-A_i_L <- od_tt1 %>%
-    dplyr::group_by(i) %>%
-    dplyr::summarize(sum_A_i_L = mean(inital_meanA_i_L/mean_A_i_L)*sum(opp * f / sum_L_j_A),
-                     pop = mean(pop)) %>%
-  mutate(mean_A_i_L = sum(sum_A_i_L*pop)/sum(pop)) %>% dplyr::select(-c("pop"))
-  
-od_tt1 <- od_tt1[,c(1:6,10)] %>%
-    dplyr::left_join(A_i_L,
-                     by = "i")
-L_j_A <- od_tt1 %>%
-    dplyr::group_by(j) %>%
-    dplyr::summarize(sum_L_j_A = sum(pop * f / sum_A_i_L))
-  
-od_tt1 <-  od_tt1 %>%
-    dplyr::left_join(L_j_A,
-                     by = "j")
-
-#iteration 3
-A_i_L <- od_tt1 %>%
-    dplyr::group_by(i) %>%
-    dplyr::summarize(sum_A_i_L = mean(inital_meanA_i_L/mean_A_i_L)*sum(opp * f / sum_L_j_A),
-                     pop = mean(pop)) %>%
-  mutate(mean_A_i_L = sum(sum_A_i_L*pop)/sum(pop)) %>% dplyr::select(-c("pop"))
-  
-od_tt1 <- od_tt1[,c(1:7)] %>%
-    dplyr::left_join(A_i_L,
-                     by = "i")
-L_j_A <- od_tt1 %>%
-    dplyr::group_by(j) %>%
-    dplyr::summarize(sum_L_j_A = sum(pop * f / sum_A_i_L))
-  
-od_tt1 <-  od_tt1 %>%
-    dplyr::left_join(L_j_A,
-                     by = "j")
-```
-
--->
-
-
 
