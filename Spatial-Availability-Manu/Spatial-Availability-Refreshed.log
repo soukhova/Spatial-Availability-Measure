@@ -1,16 +1,16 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.8)  10 AUG 2022 11:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.28)  10 AUG 2022 19:44
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Spatial-Availability-Refreshed.tex
 (./Spatial-Availability-Refreshed.tex
 LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-05> (./elsarticle.cls
+L3 programming layer <2022-07-15> (./elsarticle.cls
 Document Class: elsarticle 2008/05/22, 1.0.1: Elsevier Science
 \@bls=\dimen138
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 )
 \c@part=\count185
@@ -24,32 +24,32 @@ File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
 \abovecaptionskip=\skip47
 \belowcaptionskip=\skip48
 \bibindent=\dimen139
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphicx.sty
 Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/keyval.sty
 Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
 \KV@toks@=\toks16
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/graphics.sty
 Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/trig.sty
 Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
 File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
 File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen140
 \Gin@req@width=\dimen141
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/pifont.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/pifont.sty
 Package: pifont 2020/03/25 PSNFSS-v9.3 Pi font support (SPQR) 
 LaTeX Font Info:    Trying to load font information for U+pzd on input line 63.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/upzd.fd
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/upzd.fd
 File: upzd.fd 2001/06/04 font definitions for U/pzd.
 )
 LaTeX Font Info:    Trying to load font information for U+psy on input line 64.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/upsy.fd
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/psnfss/upsy.fd
 File: upsy.fd 2001/06/04 font definitions for U/psy.
 ))
 \c@tnote=\count193
@@ -69,7 +69,7 @@ File: upsy.fd 2001/06/04 font definitions for U/psy.
 \@enLab=\toks18
 \@sep=\skip49
 \@@sep=\skip50
-(./Spatial-Availability-Refreshed.spl) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
+(./Spatial-Availability-Refreshed.spl) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/natbib/natbib.sty
 Package: natbib 2010/09/13 8.31b (PWD, AO)
 \bibhang=\skip51
 \bibsep=\skip52
@@ -79,10 +79,10 @@ LaTeX Info: Redefining \cite on input line 694.
 \splwrite=\write3
 \openout3 = `Spatial-Availability-Refreshed.spl'.
 
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip16
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lineno/lineno.sty
 Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \linenopenalty=\count266
 \output=\toks19
@@ -99,9 +99,9 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \bframesep=\dimen149
 \bframebox=\box55
 LaTeX Info: Redefining \\ on input line 3056.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/lmodern.sty
 Package: lmodern 2015/05/01 v1.6.1 Latin Modern Fonts
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
 (Font)                  OT1/cmr/m/n --> OT1/lmr/m/n on input line 22.
@@ -135,9 +135,9 @@ LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
 (Font)                  OT1/cmr/bx/it --> OT1/lmr/bx/it on input line 37.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> OT1/lmtt/m/n on input line 38.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amssymb.sty
 Package: amssymb 2013/01/14 v3.01 AMS font symbols
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/amsfonts.sty
 Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 \@emptytoks=\toks20
 \symAMSa=\mathgroup4
@@ -145,20 +145,20 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
-)) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
+)) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsmath.sty
 Package: amsmath 2022/04/08 v2.17n AMS math features
 \@mathmargin=\skip53
 For additional information on amsmath, use the `?' option.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amstext.sty
 Package: amstext 2021/08/26 v2.01 AMS text
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsgen.sty
 File: amsgen.sty 1999/11/30 v2.0 generic functions
 \@emptytoks=\toks21
 \ex@=\dimen150
-)) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
+)) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsbsy.sty
 Package: amsbsy 1999/11/29 v1.2d Bold Symbols
 \pmbraise@=\dimen151
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsmath/amsopn.sty
 Package: amsopn 2022/04/08 v2.04 operator names
 )
 \inf@bad=\count273
@@ -208,13 +208,13 @@ LaTeX Info: Redefining \Relbar on input line 971.
 \mathdisplay@stack=\toks25
 LaTeX Info: Redefining \[ on input line 2953.
 LaTeX Info: Redefining \] on input line 2954.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifxetex.sty
 Package: ifxetex 2019/10/25 v0.7 ifxetex legacy package. Use iftex instead.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/iftex.sty
 Package: iftex 2022/02/03 v1.0f TeX engine tests
-)) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
+)) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/iftex/ifluatex.sty
 Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fixltx2e.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/fixltx2e.sty
 Package: fixltx2e 2016/12/29 v2.1a fixes to LaTeX (obsolete)
 Applying: [2015/01/01] Old fixltx2e package on input line 46.
 
@@ -223,84 +223,59 @@ Package fixltx2e Warning: fixltx2e is not required with releases after 2015
 (fixltx2e)                See the latexrelease package for details.
 
 Already applied: [0000/00/00] Old fixltx2e package on input line 53.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/inputenc.sty
 Package: inputenc 2021/02/14 v1.3d Input encoding file
 \inpenc@prehook=\toks26
 \inpenc@posthook=\toks27
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
-Package: microtype 2022/06/23 v3.0f Micro-typographical refinements (RS)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
-\etb@tempcnta=\count285
-)
-\MT@toks=\toks28
-\MT@tempbox=\box58
-\MT@count=\count286
-LaTeX Info: Redefining \noprotrusionifhmode on input line 1045.
-LaTeX Info: Redefining \leftprotrusion on input line 1046.
-LaTeX Info: Redefining \rightprotrusion on input line 1056.
-LaTeX Info: Redefining \textls on input line 1234.
-\MT@outer@kern=\dimen159
-LaTeX Info: Redefining \textmicrotypecontext on input line 1858.
-\MT@listname@count=\count287
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
-File: microtype-pdftex.def 2022/06/23 v3.0f Definitions specific to pdftex (RS)
-LaTeX Info: Redefining \lsstyle on input line 900.
-LaTeX Info: Redefining \lslig on input line 900.
-\MT@outer@space=\skip56
-)
-Package microtype Info: Loading configuration file microtype.cfg.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.cfg
-File: microtype.cfg 2022/06/23 v3.0f microtype main configuration file (RS)
-)) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
 Package: hyperref 2022-06-20 v7.00s Hypertext links for LaTeX
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
 Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/infwarerr/infwarerr.sty
 Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 )
 Package pdftexcmds Info: \pdf@primitive is available.
 Package pdftexcmds Info: \pdf@ifprimitive is available.
 Package pdftexcmds Info: \pdfdraftmode found.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
 Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
 Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdfescape/pdfescape.sty
 Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hycolor/hycolor.sty
 Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty
 Package: letltxmacro 2019/12/03 v1.6 Let assignment for LaTeX macros (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/auxhook/auxhook.sty
 Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2022-05-17 v2.50 Cross-referencing by name of section
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/refcount/refcount.sty
 Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count288
+\c@section@level=\count285
 )
-\@linkdim=\dimen160
-\Hy@linkcounter=\count289
-\Hy@pagecounter=\count290
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
+\@linkdim=\dimen159
+\Hy@linkcounter=\count286
+\Hy@pagecounter=\count287
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2022-06-20 v7.00s Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/etexcmds/etexcmds.sty
 Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
-\Hy@SavedSpaceFactor=\count291
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
+\Hy@SavedSpaceFactor=\count288
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2022-06-20 v7.00s Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
@@ -313,17 +288,17 @@ Package hyperref Info: Plain pages OFF on input line 4177.
 Package hyperref Info: Backreferencing OFF on input line 4182.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4408.
-\c@Hy@tempcnt=\count292
+\c@Hy@tempcnt=\count289
 LaTeX Info: Redefining \url on input line 4746.
-\XeTeXLinkMargin=\dimen161
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
+\XeTeXLinkMargin=\dimen160
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count293
-\Field@Width=\dimen162
-\Fld@charsize=\dimen163
+\Fld@menulength=\count290
+\Field@Width=\dimen161
+\Fld@charsize=\dimen162
 Package hyperref Info: Hyper figures OFF on input line 6024.
 Package hyperref Info: Link nesting OFF on input line 6029.
 Package hyperref Info: Hyper index ON on input line 6032.
@@ -331,207 +306,221 @@ Package hyperref Info: backreferencing OFF on input line 6039.
 Package hyperref Info: Link coloring OFF on input line 6044.
 Package hyperref Info: Link coloring with OCG OFF on input line 6049.
 Package hyperref Info: PDF/A mode OFF on input line 6054.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count294
-\c@Item=\count295
-\c@Hfootnote=\count296
+\Hy@abspage=\count291
+\c@Item=\count292
+\c@Hfootnote=\count293
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
 File: hpdftex.def 2022-06-20 v7.00s Hyperref driver for pdfTeX
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count297
-\c@bookmark@seq@number=\count298
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+\Fld@listcount=\count294
+\c@bookmark@seq@number=\count295
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
 Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip57
+\Hy@SectionHShift=\skip56
 )
-Package hyperref Info: Option `breaklinks' set `true' on input line 50.
+Package hyperref Info: Option `breaklinks' set `true' on input line 48.
 
 Package hyperref Warning: Option `bookmarks' has already been used,
-(hyperref)                setting the option has no effect on input line 50.
+(hyperref)                setting the option has no effect on input line 48.
 
-Package hyperref Info: Option `colorlinks' set `false' on input line 50.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
+Package hyperref Info: Option `colorlinks' set `false' on input line 48.
+\cslhangindent=\skip57
+\csllabelwidth=\skip58
+\cslentryspacingunit=\skip59
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count296
+\calc@Bcount=\count297
+\calc@Adimen=\dimen163
+\calc@Bdimen=\dimen164
+\calc@Askip=\skip60
+\calc@Bskip=\skip61
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count298
+\calc@Cskip=\skip62
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption.sty
 Package: caption 2022/03/01 v3.6b Customizing captions (AR)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen164
-\captionmargin=\dimen165
-\caption@leftmargin=\dimen166
-\caption@rightmargin=\dimen167
-\caption@width=\dimen168
-\caption@indent=\dimen169
-\caption@parindent=\dimen170
-\caption@hangindent=\dimen171
+\caption@tempdima=\dimen165
+\captionmargin=\dimen166
+\caption@leftmargin=\dimen167
+\caption@rightmargin=\dimen168
+\caption@width=\dimen169
+\caption@indent=\dimen170
+\caption@parindent=\dimen171
+\caption@hangindent=\dimen172
 Package caption Info: elsarticle document class detected.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption-elsarticle.sto
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption-elsarticle.sto
 File: caption-elsarticle.sto 2020/08/22 v2.0 Adaption of the caption package to the elsarticle document class (AR)
 ))
 \c@caption@flags=\count299
 \c@continuedfloat=\count300
 Package caption Info: hyperref package is loaded.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen172
-\lightrulewidth=\dimen173
-\cmidrulewidth=\dimen174
-\belowrulesep=\dimen175
-\belowbottomsep=\dimen176
-\aboverulesep=\dimen177
-\abovetopsep=\dimen178
-\cmidrulesep=\dimen179
-\cmidrulekern=\dimen180
-\defaultaddspace=\dimen181
+\heavyrulewidth=\dimen173
+\lightrulewidth=\dimen174
+\cmidrulewidth=\dimen175
+\belowrulesep=\dimen176
+\belowbottomsep=\dimen177
+\aboverulesep=\dimen178
+\abovetopsep=\dimen179
+\cmidrulesep=\dimen180
+\cmidrulekern=\dimen181
+\defaultaddspace=\dimen182
 \@cmidla=\count301
 \@cmidlb=\count302
-\@aboverulesep=\dimen182
-\@belowrulesep=\dimen183
+\@aboverulesep=\dimen183
+\@belowrulesep=\dimen184
 \@thisruleclass=\count303
 \@lastruleclass=\count304
-\@thisrulewidth=\dimen184
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
+\@thisrulewidth=\dimen185
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
-\LTleft=\skip58
-\LTright=\skip59
-\LTpre=\skip60
-\LTpost=\skip61
+\LTleft=\skip63
+\LTright=\skip64
+\LTpre=\skip65
+\LTpost=\skip66
 \LTchunksize=\count305
-\LTcapwidth=\dimen185
-\LT@head=\box59
-\LT@firsthead=\box60
-\LT@foot=\box61
-\LT@lastfoot=\box62
-\LT@gbox=\box63
+\LTcapwidth=\dimen186
+\LT@head=\box58
+\LT@firsthead=\box59
+\LT@foot=\box60
+\LT@lastfoot=\box61
+\LT@gbox=\box62
 \LT@cols=\count306
 \LT@rows=\count307
 \c@LT@tables=\count308
 \c@LT@chunks=\count309
-\LT@p@ftn=\toks29
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
+\LT@p@ftn=\toks28
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2022/03/10 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen186
-\ar@mcellbox=\box64
-\extrarowheight=\dimen187
-\NC@list=\toks30
-\extratabsurround=\skip62
-\backup@length=\skip63
-\ar@cellbox=\box65
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
+\col@sep=\dimen187
+\ar@mcellbox=\box63
+\extrarowheight=\dimen188
+\NC@list=\toks29
+\extratabsurround=\skip67
+\backup@length=\skip68
+\ar@cellbox=\box64
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/multirow/multirow.sty
 Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
-\multirow@colwidth=\skip64
+\multirow@colwidth=\skip69
 \multirow@cntb=\count310
-\multirow@dima=\skip65
-\bigstrutjot=\dimen188
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen189
-\WF@size=\dimen190
+\multirow@dima=\skip70
+\bigstrutjot=\dimen189
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen190
+\WF@size=\dimen191
 \c@WF@wrappedlines=\count311
-\WF@box=\box66
-\WF@everypar=\toks31
+\WF@box=\box65
+\WF@everypar=\toks30
 Package: wrapfig 2003/01/31  v 3.6
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/float/float.sty
 Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \c@float@type=\count312
-\float@exts=\toks32
-\float@box=\box67
-\@float@everytoks=\toks33
-\@floatcapt=\box68
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
-Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/color.sty
+\float@exts=\toks31
+\float@box=\box66
+\@float@everytoks=\toks32
+\@floatcapt=\box67
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2020/01/04 v1.0e Color table columns (DPC)
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/color.sty
 Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package color Info: Driver file: pdftex.def on input line 149.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx))
-\everycr=\toks34
-\minrowclearance=\skip66
-\rownum=\count313
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+\everycr=\toks33
+\minrowclearance=\skip71
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/pdflscape/pdflscape.sty
 Package: pdflscape 2019/12/05 v0.12 Display of landscape pages in PDF (HO)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/lscape.sty
 Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 )
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tabu/tabu.sty
 Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box69
-\sift@deathcycles=\count314
-\@vwid@loff=\dimen191
-\@vwid@roff=\dimen192
+\@vwid@box=\box68
+\sift@deathcycles=\count313
+\@vwid@loff=\dimen192
+\@vwid@roff=\dimen193
 )
-\c@taburow=\count315
-\tabu@nbcols=\count316
-\tabu@cnt=\count317
-\tabu@Xcol=\count318
-\tabu@alloc=\count319
-\tabu@nested=\count320
-\tabu@target=\dimen193
-\tabu@spreadtarget=\dimen194
-\tabu@naturalX=\dimen195
-\tabucolX=\dimen196
-\tabu@Xsum=\dimen197
-\extrarowdepth=\dimen198
-\abovetabulinesep=\dimen199
-\belowtabulinesep=\dimen256
-\tabustrutrule=\dimen257
-\tabu@thebody=\toks35
-\tabu@footnotes=\toks36
-\tabu@box=\box70
-\tabu@arstrutbox=\box71
-\tabu@hleads=\box72
-\tabu@vleads=\box73
-\tabu@cellskip=\skip67
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
+\c@taburow=\count314
+\tabu@nbcols=\count315
+\tabu@cnt=\count316
+\tabu@Xcol=\count317
+\tabu@alloc=\count318
+\tabu@nested=\count319
+\tabu@target=\dimen194
+\tabu@spreadtarget=\dimen195
+\tabu@naturalX=\dimen196
+\tabucolX=\dimen197
+\tabu@Xsum=\dimen198
+\extrarowdepth=\dimen199
+\abovetabulinesep=\dimen256
+\belowtabulinesep=\dimen257
+\tabustrutrule=\dimen258
+\tabu@thebody=\toks34
+\tabu@footnotes=\toks35
+\tabu@box=\box69
+\tabu@arstrutbox=\box70
+\tabu@hleads=\box71
+\tabu@vleads=\box72
+\tabu@cellskip=\skip72
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttable/threeparttable.sty
 Package: threeparttable 2003/06/13  v 3.0
-\@tempboxb=\box74
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
+\@tempboxb=\box73
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/threeparttablex/threeparttablex.sty
 Package: threeparttablex 2013/07/23 v0.3 by daleif
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/environ/environ.sty
 Package: environ 2014/05/04 v0.3 A new way to define environments
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/trimspaces/trimspaces.sty
 Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 ))
-\TPTL@width=\skip68
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
-\UL@box=\box75
-\UL@hyphenbox=\box76
-\UL@skip=\skip69
-\UL@hook=\toks37
-\UL@height=\dimen258
-\UL@pe=\count321
-\UL@pixel=\dimen259
-\ULC@box=\box77
+\TPTL@width=\skip73
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/ulem/ulem.sty
+\UL@box=\box74
+\UL@hyphenbox=\box75
+\UL@skip=\skip74
+\UL@hook=\toks36
+\UL@height=\dimen259
+\UL@pe=\count320
+\UL@pixel=\dimen260
+\ULC@box=\box76
 Package: ulem 2019/11/18
-\ULdepth=\dimen260
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
+\ULdepth=\dimen261
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen261
-\c@nlinenum=\count322
-\TeXr@lab=\toks38
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
+\rotheadsize=\dimen262
+\c@nlinenum=\count321
+\TeXr@lab=\toks37
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-cfg/color.cfg
 File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
 LaTeX Info: Redefining \color on input line 711.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics/mathcolor.ltx)
 Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1353.
 Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1357.
 Package xcolor Info: Model `RGB' extended on input line 1369.
@@ -541,96 +530,84 @@ Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1373.
 Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1374.
 Package xcolor Info: Model `Gray' substituted by `gray' on input line 1375.
 Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/siunitx/siunitx.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/siunitx/siunitx.sty
 Package: siunitx 2022-07-23 v3.1.5 A comprehensive (SI) units package
-\l__siunitx_angle_tmp_dim=\dimen262
-\l__siunitx_angle_marker_box=\box78
-\l__siunitx_angle_unit_box=\box79
-\l__siunitx_compound_count_int=\count323
-\l__siunitx_number_exponent_fixed_int=\count324
-\l__siunitx_number_min_decimal_int=\count325
-\l__siunitx_number_min_integer_int=\count326
-\l__siunitx_number_round_precision_int=\count327
-\l__siunitx_number_group_first_int=\count328
-\l__siunitx_number_group_size_int=\count329
-\l__siunitx_number_group_minimum_int=\count330
-\l__siunitx_table_tmp_box=\box80
-\l__siunitx_table_tmp_dim=\dimen263
-\l__siunitx_table_column_width_dim=\dimen264
-\l__siunitx_table_integer_box=\box81
-\l__siunitx_table_decimal_box=\box82
-\l__siunitx_table_before_box=\box83
-\l__siunitx_table_after_box=\box84
-\l__siunitx_table_before_dim=\dimen265
-\l__siunitx_table_carry_dim=\dimen266
-\l__siunitx_unit_tmp_int=\count331
-\l__siunitx_unit_position_int=\count332
-\l__siunitx_unit_total_int=\count333
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/hhline.sty
+\l__siunitx_angle_tmp_dim=\dimen263
+\l__siunitx_angle_marker_box=\box77
+\l__siunitx_angle_unit_box=\box78
+\l__siunitx_compound_count_int=\count322
+\l__siunitx_number_exponent_fixed_int=\count323
+\l__siunitx_number_min_decimal_int=\count324
+\l__siunitx_number_min_integer_int=\count325
+\l__siunitx_number_round_precision_int=\count326
+\l__siunitx_number_group_first_int=\count327
+\l__siunitx_number_group_size_int=\count328
+\l__siunitx_number_group_minimum_int=\count329
+\l__siunitx_table_tmp_box=\box79
+\l__siunitx_table_tmp_dim=\dimen264
+\l__siunitx_table_column_width_dim=\dimen265
+\l__siunitx_table_integer_box=\box80
+\l__siunitx_table_decimal_box=\box81
+\l__siunitx_table_before_box=\box82
+\l__siunitx_table_after_box=\box83
+\l__siunitx_table_before_dim=\dimen266
+\l__siunitx_table_carry_dim=\dimen267
+\l__siunitx_unit_tmp_int=\count330
+\l__siunitx_unit_position_int=\count331
+\l__siunitx_unit_total_int=\count332
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/hhline.sty
 Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/calc.sty
-Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
-\calc@Acount=\count334
-\calc@Bcount=\count335
-\calc@Adimen=\dimen267
-\calc@Bdimen=\dimen268
-\calc@Askip=\skip70
-\calc@Bskip=\skip71
-LaTeX Info: Redefining \setlength on input line 80.
-LaTeX Info: Redefining \addtolength on input line 81.
-\calc@Ccount=\count336
-\calc@Cskip=\skip72
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
-\TX@col@width=\dimen269
-\TX@old@table=\dimen270
-\TX@old@col=\dimen271
-\TX@target=\dimen272
-\TX@delta=\dimen273
-\TX@cols=\count337
-\TX@ftn=\toks39
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+\TX@col@width=\dimen268
+\TX@old@table=\dimen269
+\TX@old@col=\dimen270
+\TX@target=\dimen271
+\TX@delta=\dimen272
+\TX@cols=\count333
+\TX@ftn=\toks38
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/adjustbox.sty
 Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
-\XKV@toks=\toks40
-\XKV@tempa@toks=\toks41
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks39
+\XKV@tempa@toks=\toks40
 )
-\XKV@depth=\count338
+\XKV@depth=\count334
 File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
-)) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+)) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/adjcalc.sty
 Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/trimclip.sty
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/trimclip.sty
 Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/collectbox/collectbox.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/collectbox/collectbox.sty
 Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
-\collectedbox=\box85
+\collectedbox=\box84
 )
-\tc@llx=\dimen274
-\tc@lly=\dimen275
-\tc@urx=\dimen276
-\tc@ury=\dimen277
+\tc@llx=\dimen273
+\tc@lly=\dimen274
+\tc@urx=\dimen275
+\tc@ury=\dimen276
 Package trimclip Info: Using driver 'tc-pdftex.def'.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
 File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
 ))
-\adjbox@Width=\dimen278
-\adjbox@Height=\dimen279
-\adjbox@Depth=\dimen280
-\adjbox@Totalheight=\dimen281
-\adjbox@pwidth=\dimen282
-\adjbox@pheight=\dimen283
-\adjbox@pdepth=\dimen284
-\adjbox@ptotalheight=\dimen285
+\adjbox@Width=\dimen277
+\adjbox@Height=\dimen278
+\adjbox@Depth=\dimen279
+\adjbox@Totalheight=\dimen280
+\adjbox@pwidth=\dimen281
+\adjbox@pheight=\dimen282
+\adjbox@pdepth=\dimen283
+\adjbox@ptotalheight=\dimen284
 )
-LaTeX Font Info:    Trying to load font information for T1+lmr on input line 88.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
+LaTeX Font Info:    Trying to load font information for T1+lmr on input line 116.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmr.fd
 File: t1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-08-05 L3 backend support: PDF output (pdfTeX)
-\l__color_backend_stack_int=\count339
-\l__pdf_internal_box=\box86
+) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count335
+\l__pdf_internal_box=\box85
 ) (./Spatial-Availability-Refreshed.aux
 
 LaTeX Warning: Label `fig:TTS-16-survey-area' multiply defined.
@@ -642,60 +619,42 @@ LaTeX Warning: Label `fig:TLD-Gamma-plot' multiply defined.
 LaTeX Warning: Label `fig:plot-Hansen-Type-S-TO' multiply defined.
 
 
-LaTeX Warning: Label `tab:unnamed-chunk-5' multiply defined.
-
-
 LaTeX Warning: Label `fig:plot-Shen-type-A-TO' multiply defined.
 
 
 LaTeX Warning: Label `fig:plot-SA-TO' multiply defined.
 
+
+LaTeX Warning: Label `tab:unnamed-chunk-5' multiply defined.
+
 )
 \openout1 = `Spatial-Availability-Refreshed.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 88.
-LaTeX Font Info:    ... okay on input line 88.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 116.
+LaTeX Font Info:    ... okay on input line 116.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
 Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-LaTeX Info: Redefining \microtypecontext on input line 88.
-Package microtype Info: Applying patch `item' on input line 88.
-Package microtype Info: Applying patch `toc' on input line 88.
-Package microtype Info: Applying patch `eqnum' on input line 88.
-Package microtype Info: Applying patch `footnote' on input line 88.
-Package microtype Info: Generating PDF output.
-Package microtype Info: Character protrusion enabled (level 2).
-Package microtype Info: Using default protrusion set `alltext'.
-Package microtype Info: Automatic font expansion enabled (level 2),
-(microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
-Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 88.
-Package microtype Info: No adjustment of tracking.
-Package microtype Info: No adjustment of interword spacing.
-Package microtype Info: No adjustment of character kerning.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-cmr.cfg
-File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman (RS)
-)
-Package hyperref Info: Link coloring OFF on input line 88.
+Package hyperref Info: Link coloring OFF on input line 116.
 (./Spatial-Availability-Refreshed.out) (./Spatial-Availability-Refreshed.out)
 \@outlinefile=\write4
 \openout4 = `Spatial-Availability-Refreshed.out'.
@@ -703,406 +662,495 @@ Package hyperref Info: Link coloring OFF on input line 88.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: longtable package is loaded.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
 Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
 )
 Package caption Info: threeparttable package is loaded.
 Package caption Info: wrapfig package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
+LaTeX Font Info:    Trying to load font information for T1+lmss on input line 146.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
+File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
+) [1
+
+
+{c:/Users/user/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
+LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
+LaTeX Font Info:    Trying to load font information for OML+lmm on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
+LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
+LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 118.
+(Font)              <10> on input line 151.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 118.
+(Font)              <7> on input line 151.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 118.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
+(Font)              <5> on input line 151.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msa.cfg
-File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
+LaTeX Font Info:    Trying to load font information for U+msb on input line 151.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-) (c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/mt-msb.cfg
-File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 118.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
-File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmss' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-[1
-
-
-{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 123.
+(Font)              <8> on input line 167.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 123.
-[2]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 228.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
+(Font)              <6> on input line 167.
+[2] [3]
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 265.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [3] [4] [5]
-<Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf, id=252, 469.755pt x 325.215pt>
+) [4] [5] [6]
+<Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf, id=132, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 438.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 474.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (8.9842pt too wide) in alignment at lines 613--613
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.223130[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.049787[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.000045[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.049787[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.223130[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.000045[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.000045[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.000045[] 
+ []
+
+
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+ [][]\T1/lmr/m/n/7 0.223130[] 
+ []
+
+
+Overfull \hbox (8.9842pt too wide) in alignment at lines 649--649
 [][][][][][][][][][] 
  []
 
-[6] [7 <./Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>]
-<Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=280, 469.755pt x 325.215pt>
+[7 <./Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>] [8]
+<Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=158, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 696.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 732.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (9.0158pt too wide) in alignment at lines 867--867
+Overfull \hbox (9.0158pt too wide) in alignment at lines 903--903
 [][][][][][][][][][] 
  []
 
-[8] [9 <./Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [10] [11] [12]
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.223130[] 
+[9 <./Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [10] [11] [12] [13]
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.238095[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.817438[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.599006[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.817438[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.049787[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.599006[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.238095[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.182395[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.069227[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000045[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.182395[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.238095[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.069227[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000203[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.001013[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.049787[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000203[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.714286[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.001013[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.182395[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.400969[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.223130[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.714286[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.182395[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.817438[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.400969[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.930760[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000045[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.714286[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000203[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.817438[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.003040[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.930760[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000045[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 150,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.047619[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000166[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000024[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000203[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000045[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.003040[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.047619[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 133,203[]
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000166[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.000013[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.223130[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.047619[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.047619[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000166[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.999593[] 
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000024[] 
  []
 
 
-Overfull \hbox (3.92824pt too wide) in paragraph at lines 1317--1317
- [][]\T1/lmr/m/n/7 (-20) 0.995947[] 
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (9.97894pt too wide) in alignment at lines 1317--1317
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000045[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.047619[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000166[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.000013[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.223130[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.047619[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.999593[] 
+ []
+
+
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+ [][]\T1/lmr/m/n/7 0.995947[] 
+ []
+
+
+Overfull \hbox (9.97894pt too wide) in alignment at lines 1353--1353
 [][][][][][][][][][][] 
  []
 
-[13] [14] [15]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1470.
-(c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
+[14] [15] [16]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1503.
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-Package microtype Info: Loading generic protrusion settings for font family
-(microtype)             `lmtt' (encoding: T1).
-(microtype)             For optimal results, create family-specific settings.
-(microtype)             See the microtype manual for details.
-<images/TTS16-survey-area.png, id=373, 505.89pt x 505.89pt>
+<images/TTS16-survey-area.png, id=235, 505.89pt x 505.89pt>
 File: images/TTS16-survey-area.png Graphic file (type png)
 <use images/TTS16-survey-area.png>
-Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1484.
+Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1517.
 (pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
-[16] [17 <./images/TTS16-survey-area.png>]
-<images/impedance_function.png, id=400, 481.8pt x 481.8pt>
+<images/impedance_function.png, id=239, 481.8pt x 481.8pt>
 File: images/impedance_function.png Graphic file (type png)
 <use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 1513.
+Package pdftex.def Info: images/impedance_function.png  used on input line 1547.
 (pdftex.def)             Requested size: 276.00105pt x 276.01096pt.
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf, id=402, 469.755pt x 325.215pt>
+[17] [18 <./images/TTS16-survey-area.png>] [19 <./images/impedance_function.png>]
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf, id=262, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf  used on input line 1535.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf  used on input line 1569.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf, id=403, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf, id=263, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf  used on input line 1539.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf  used on input line 1573.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf, id=404, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf, id=264, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf  used on input line 1543.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf  used on input line 1577.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf, id=408, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf, id=268, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf  used on input line 1551.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf  used on input line 1585.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf, id=409, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf, id=269, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf  used on input line 1555.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf  used on input line 1589.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf, id=410, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf, id=270, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf  used on input line 1559.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf  used on input line 1593.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf, id=411, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf, id=271, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 1605.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 1639.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 1605--1606
+Overfull \hbox (15.0pt too wide) in paragraph at lines 1639--1640
 [][] 
  []
 
-[18 <./images/impedance_function.png>]
-Overfull \vbox (30.88809pt too high) has occurred while \output is active []
-
-[19 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>] [20 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>] [21 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf>] [22 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>]
-Overfull \hbox (162.30096pt too wide) detected at line 1739
+[20 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf>] [21 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>] [22 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>] [23 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>] [24]
+Overfull \hbox (162.30096pt too wide) detected at line 1773
 \OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = []([])+
  []
 
 
-Overfull \hbox (137.60641pt too wide) detected at line 1743
+Overfull \hbox (137.60641pt too wide) detected at line 1777
 []\OT1/lmr/m/n/10 ([])+
  []
 
 
-Overfull \hbox (129.82843pt too wide) detected at line 1747
+Overfull \hbox (129.82843pt too wide) detected at line 1781
 []\OT1/lmr/m/n/10 ([])
  []
 
-[23]
-Overfull \hbox (265.4161pt too wide) detected at line 1782
+[25]
+Overfull \hbox (265.4161pt too wide) detected at line 1816
 \OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 O[]\OT1/lmr/m/n/10 ([] + \OML/lmm/m/it/10 O[][] \OT1/lmr/m/n/10 + \OML/lmm/m/it/10 O[][]\OT1/lmr/m/n/10 )
  []
 
-[24] (./Spatial-Availability-Refreshed.bbl [25]
-Underfull \hbox (badness 3209) in paragraph at lines 154--159
-[]\T1/lmr/m/n/10 (+20) Robbin De-boosere, Ahmed M. El-Geneidy, and David Levin-son.
- []
-
 [26]
-Underfull \hbox (badness 2460) in paragraph at lines 209--215
-[]\T1/lmr/m/n/10 (+20) Walter G. Hansen.  How ac-ces-si-bil-ity shapes land use.  \T1/lmr/m/it/10 (+20) Jour-
+Overfull \hbox (1.6811pt too wide) in paragraph at lines 1836--1841
+\T1/lmr/m/n/10 Sus-tain-able Trans-porta-tion 13, 639--651. doi:[]10.1080/15568318.2018.1498563[] 
  []
 
 
-Underfull \hbox (badness 2181) in paragraph at lines 209--215
-\T1/lmr/m/it/10 (+20) nal of the Amer-i-can In-sti-tute of Plan-ners\T1/lmr/m/n/10 (+20) , 25(2):73--76, 05 1959.
+Overfull \hbox (95.57463pt too wide) in paragraph at lines 1861--1867
+\T1/lmr/m/n/10 port in-vest-ments. Jour-nal of Trans-port Ge-og-ra-phy 24, 142--154. doi:[]10.1016/j.jtrangeo.2011.12.004[] 
+ []
+
+
+Overfull \hbox (89.35191pt too wide) in paragraph at lines 1893--1899
+\T1/lmr/m/n/10 sis-tance Pro-gram. The Pro-fes-sional Ge-og-ra-pher 71, 668--680. doi:[]10.1080/00330124.2019.1578978[] 
+ []
+
+
+Overfull \hbox (58.21326pt too wide) in paragraph at lines 1912--1917
+\T1/lmr/m/n/10 vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. doi:[]10.1016/j.jtrangeo.2018.05.015[] 
  []
 
 [27]
-Underfull \hbox (badness 7099) in paragraph at lines 289--301
-\T1/lmr/m/n/10 (+20) 10 . 1111 / j . 1538 -[] 4632 . 1998 . tb00396 . x$.  URL []$\T1/lmtt/m/n/10 http : / / onlinelibrary .
+Overfull \hbox (91.81992pt too wide) in paragraph at lines 1937--1941
+\T1/lmr/m/n/10 porta-tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 102319. doi:[]10.1016/j.trd.2020.102319[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--301
-\T1/lmtt/m/n/10 wiley . com / doi / abs / 10 . 1111 / j . 1538 -[] 4632 . 1998 . tb00396 . x$[]\T1/lmr/m/n/10 (+20) .
+Overfull \hbox (74.43596pt too wide) in paragraph at lines 1982--1987
+\T1/lmr/m/n/10 ac-ces-si-bil-ity. Jour-nal of Trans-port Ge-og-ra-phy 74, 278--288. doi:[]10.1016/j.jtrangeo.2018.12.002[] 
+ []
+
+[28]
+Overfull \hbox (9.50491pt too wide) in paragraph at lines 2042--2046
+\T1/lmr/m/n/10 plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080/01441647.2018.1492778[] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 289--301
-\T1/lmr/m/n/10 (+20) _eprint: https://onlinelibrary.wiley.com/doi/pdf/10.1111/j.1538-
+Overfull \hbox (14.53242pt too wide) in paragraph at lines 2099--2104
+\T1/lmr/m/n/10 mul-ti-modal trans-port net-works with R5 in r. Find-ings. doi:[]10.32866/001c.21262[] 
  []
 
-[28] [29] [30]) [31] (./Spatial-Availability-Refreshed.aux)
+[29]
+Overfull \hbox (10.31226pt too wide) in paragraph at lines 2119--2123
+\T1/lmr/m/n/10 Ac-ces-si-bil-ity Mea-sures: Which One to Use? Find-ings. doi:[]10.32866/001c.32444[] 
+ []
+
+
+Overfull \hbox (28.48636pt too wide) in paragraph at lines 2155--2160
+\T1/lmr/m/n/10 ron-ment and Ur-ban Sys-tems 90, 101713. doi:[]10.1016/j.compenvurbsys.2021.101713[] 
+ []
+
+[30] (./Spatial-Availability-Refreshed.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Spatial-Availability-Refreshed.out' has not changed.
-(rerunfilecheck)             Checksum: 9F206C0BEEDBDF814FEFFFF5CE41DA61;3444.
+(rerunfilecheck)             Checksum: 91C64AC9F7855593C9536E99A16CC84D;3540.
  ) 
 Here is how much of TeX's memory you used:
- 20587 strings out of 479638
- 387857 string characters out of 5877111
- 773544 words of memory out of 5000000
- 38372 multiletter control sequences out of 15000+600000
- 540716 words of font info for 186 fonts, out of 8000000 for 9000
+ 18112 strings out of 479983
+ 343028 string characters out of 5886474
+ 677379 words of memory out of 5000000
+ 35811 multiletter control sequences out of 15000+600000
+ 530002 words of font info for 72 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 72i,19n,77p,1027b,1129s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy6.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/paezha/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Spatial-Availability-Refreshed.pdf (31 pages, 3362251 bytes).
+ 72i,19n,77p,550b,960s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Spatial-Availability-Refreshed.pdf (30 pages, 3323230 bytes).
 PDF statistics:
- 793 PDF objects out of 1000 (max. 8388607)
- 679 compressed objects within 7 object streams
- 163 named destinations out of 1000 (max. 500000)
- 37560 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 646 PDF objects out of 1000 (max. 8388607)
+ 536 compressed objects within 6 object streams
+ 165 named destinations out of 1000 (max. 500000)
+ 192 words of extra memory for PDF output out of 10000 (max. 10000000)
 

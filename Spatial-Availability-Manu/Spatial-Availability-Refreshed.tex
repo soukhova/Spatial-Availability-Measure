@@ -1,9 +1,9 @@
 \documentclass[]{elsarticle} %review=doublespace preprint=single 5p=2 column
 %%% Begin My package additions %%%%%%%%%%%%%%%%%%%
-
 \usepackage[hyphens]{url}
 
   \journal{Some Journal} % Sets Journal name
+
 
 \usepackage{lineno} % add
   \linenumbers % turns line numbering on
@@ -30,9 +30,7 @@
 \fi
 % use microtype if available
 \IfFileExists{microtype.sty}{\usepackage{microtype}}{}
-\usepackage[]{natbib}
-\bibliographystyle{plainnat}
-
+\bibliographystyle{elsarticle-harv}
 \ifxetex
   \usepackage[setpagesize=false, % page size defined by xetex
               unicode=false, % unicode breaks when used with xetex
@@ -48,6 +46,7 @@
             urlcolor=blue,
             linkcolor=magenta,
             pdfborder={0 0 0}}
+\urlstyle{same}  % don't use monospace font for urls
 
 \setcounter{secnumdepth}{5}
 % Pandoc toggle for numbering sections (defaults to be off)
@@ -58,6 +57,35 @@
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 
+% Pandoc citation processing
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslentryspacingunit} % times entry-spacing
+\setlength{\cslentryspacingunit}{\parskip}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1
+  \let\oldpar\par
+  \def\par{\hangindent=\cslhangindent\oldpar}
+  \fi
+  % set entry spacing
+  \setlength{\parskip}{#2\cslentryspacingunit}
+ }%
+ {}
+\usepackage{calc}
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage[font=small,skip=0pt]{caption}
 \usepackage{booktabs}
@@ -92,8 +120,7 @@
 
   \title{Introducing spatial availability, a singly-constrained measure
 of competitive accessibility}
-      \cortext[cor1]{Corresponding author}
-  
+      
   \begin{abstract}
   Accessibility indicators are widely used in transportation, urban, and
   healthcare planning, among many other applications. These measures are
@@ -101,18 +128,19 @@ of competitive accessibility}
   conditional on the cost of movement, and are estimates of the
   potential for spatial interaction. Over time, various proposals have
   been forwarded to improve their interpretability, mainly by
-  introducing competition. In this paper we demonstrate how a widely
+  introducing competition. In this paper, we demonstrate how a widely
   used measure of accessibility with congestion fails to properly match
   the opportunity-seeking population. We then propose an alternative
   formulation of accessibility with competition, a measure we call
   \emph{spatial availability}. This measure results from using balancing
   factors that are equivalent to imposing a single constraint on
   conventional gravity-based accessibility. Further, we demonstrate how
-  Two-Stage Floating Catchment Area methods can be reconceptualized as
-  singly-constrained accessibility. To illustrate the application of
-  spatial availability and compare it to other relevant measures, we use
-  data from the 2016 Transportation Tomorrow Survey of the Greater
-  Golden Horseshoe area in southern Ontario, Canada.
+  Two-Stage Floating Catchment Area (2SFCA) methods can be
+  reconceptualized as singly-constrained accessibility. To illustrate
+  the application of spatial availability and compare it to other
+  relevant measures, we use data from the 2016 Transportation Tomorrow
+  Survey of the Greater Golden Horseshoe area in southern Ontario,
+  Canada.
   \end{abstract}
   
  \end{frontmatter}
@@ -124,113 +152,122 @@ of competitive accessibility}
 
 The concept of accessibility in transportation studies derives its
 appeal from the combination of the spatial distribution of opportunities
-and the cost of reaching them \citep{hansen1959, handy_measuring_1997}.
+and the cost of reaching them (Handy and Niemeier, 1997; Hansen, 1959).
 Accessibility analysis is employed in transportation, geography, public
 health, and many other areas, with the number of applications growing
-\citep{shi_literature_2020}, especially as mobility-based planning is
-de-emphasized in favor of access-oriented planning
-\citep{deboosere2018, handy2020, proffitt2017, yan2021}.
+(Shi et al., 2020), especially as mobility-based planning is
+de-emphasized in favor of access-oriented planning (Deboosere et al.,
+2018; Handy, 2020; Proffitt et al., 2017; Yan, 2021).
 
-Accessibility analysis stems from the foundational works of
-\citet{harris_market_1954} and \citet{hansen1959}. From these seminal
-efforts, many accessibility measures have been derived, particularly
-after the influential work of \citet{wilson1971} on spatial
-interaction\footnote{Utility-based measures derive from a very different
-  theoretical framework, random utility maximization}. Of these,
-gravity-type accessibility is arguably the most common; since its
-introduction in the literature it has been widely adopted in numerous
-forms
-\citep{cervero_transportation_2002, paez2004network, geurs2004, levinson_accessibility_1998, Arranz2019measuring}.
+Accessibility analysis stems from the foundational works of Harris
+(1954) and Hansen (1959). From these seminal efforts, many accessibility
+measures have been derived, particularly after the influential work of
+Wilson (1971) on spatial interaction\footnote{Utility-based measures
+  derive from a very different theoretical framework, random utility
+  maximization}. Of these, gravity-type accessibility is arguably the
+most common; since its introduction in the literature, it has been
+widely adopted in numerous forms (Arranz-López et al., 2019; Cervero et
+al., 2002; Geurs and van Wee, 2004; Levinson, 1998; Paez, 2004).
 Hanson-type accessibility indicators are essentially weighted sums of
 opportunities, with the weights given by an impedance function that
 depends on the cost of movement, and thus measure the \emph{intensity of
-the possibility of interaction} \citep{hansen1959}. This type of
+the possibility of interaction} (Hansen, 1959). This type of
 accessibility analysis offers a powerful tool to study the intersection
-between urban structure and transportation infrastructure
-\citep{handy_measuring_1997}.
+between urban structure and transportation infrastructure (Handy and
+Niemeier, 1997).
 
-Despite their usefulness, the interpretability of Hanson-type
-accessibility measures can be challenging \citep{geurs2004, miller2018}.
-Since they aggregate opportunities, the results are sensitive to the
-size of the region of interest (e.g., a large city has more jobs than a
-smaller city). As a consequence, raw outputs are not necessarily
-comparable across study areas \citep{allen2019}. This limitation becomes
-evident when surveying studies that implement this type of analysis. For
-example, \citet{paez_healthcare_2010} (in Montreal) and
-\citet{campbell_2019_accessibility} (in Nairobi) report accessibility as
-the number of health care facilities that can potentially be reached
-from origins. But what does it mean for a zone to have accessibility to
-less than 100 facilities in each of these two cities, with their
-different populations and number of facilities? For that matter, what
-does it mean for a zone to have accessibility to more than 700
-facilities in Montreal, besides being ``accessibility rich''? As another
-example, \citet{bocarejo_s_transport_2012} (in Bogota),
-\citet{elgeneidy_cost_2016} (in Montreal), and
-\citet{jiang_2016_accessibility} (in Beijing) report accessibility as
-numbers of jobs, with accessibility values often in the hundreds of
-thousands, and even exceeding one million jobs for some zones in Beijing
-and Montreal. As indicators of urban structure, these measures are
-informative, but the meaning of one million accessible jobs is harder to
-pin down: how many jobs must any single person have access to? Clearly,
-the answer to this question depends on how many people demand jobs.
+Despite their usefulness, the interpretability of Hansen-type
+accessibility measures can be challenging (Geurs and van Wee, 2004;
+Miller, 2018). Since they aggregate opportunities, the results are
+sensitive to the size of the region of interest (e.g., a large city has
+more jobs than a smaller city). As a consequence, raw outputs are not
+necessarily comparable across study areas (Allen and Farber, 2019). This
+limitation becomes evident when surveying studies that implement this
+type of analysis. For example, Páez et al. (2010) (in Montreal) and
+Campbell et al. (2019) (in Nairobi) report accessibility as the number
+of health care facilities that can potentially be reached from origins.
+But what does it mean for a zone to have accessibility to less than 100
+facilities in each of these two cities, with their different populations
+and number of facilities? For that matter, what does it mean for a zone
+to have accessibility to more than 700 facilities in Montreal, besides
+being ``accessibility rich''? As another example, Bocarejo S. and Oviedo
+H. (2012) (in Bogota), El-Geneidy et al. (2016) (in Montreal), and Jiang
+and Levinson (2016) (in Beijing) report accessibility as numbers of
+jobs, with accessibility values often in the hundreds of thousands, and
+even exceeding one million jobs for some zones in Beijing and Montreal.
+As indicators of urban structure, these measures are informative, but
+the meaning of one million accessible jobs is harder to pin down: how
+many jobs must any single person have access to? Clearly, the answer to
+this question depends on how many people demand jobs.
 
-The interpretability of Hanson-type accessibility has been discussed in
-numerous studies, including recently by \citet{hu_2019_measuring},
-\citet{kelobonye2020measuring}, and in greater depth by
-\citet{merlin2017competition}. As hinted above, the limitations in
-interpretability are frequently caused by ignoring competition - without
-competition, each opportunity is assumed to be equally available to
-every single opportunity-seeking individual that can reach it
-\citep{shen1998, paez2019, kelobonye2020measuring}. This assumption is
-appropriate when the opportunity of interest is non-exclusive, that is,
-if use by one unit of population does not preclude use by another. For
-instance, national parks with abundant space are seldom used to full
-capacity, so the presence of some population does not exclude use by
-others. When it comes to exclusive opportunities, or when operations may
-be affected by congestion, the solution has been to account for
-competition. Several efforts exist that do so. In our reckoning, the
-first such approach was proposed by \citet{weibull_axiomatic_1976},
-whereby the distance decay of the supply of employment and the demand
-for employment (by workers) were formulated under so-called axiomatic
-assumptions. This approach was then applied by \citet{joseph1984} in the
-context of healthcare, to quantify the availability of general
-practitioners in Canada. About two decades later, \citet{shen1998}
-independently re-discovered Weibull's
-\citeyearpar{weibull_axiomatic_1976} formula \citep[see footnote (7)
-in][]{shen1998} and deconstructed it to consider accessibility for
-different modes. These advances were subsequently popularized as the
-family of Two-Stage Floating Catchment area (2SFCA) methods
-\citep{luo2003} that have found widespread adoption in healthcare,
-education, and food systems
-\citep{yang_comparing_2006, chen_spatial_2020, ye_spatial_2018, chen_enhancing_2019, chen_evaluating_2020}.
+The interpretability of Hansen-type accessibility has been discussed in
+numerous studies, including recently by Hu and Downs (2019), Kelobonye
+et al. (2020), and in greater depth by Merlin and Hu (2017). As hinted
+above, the limitations in interpretability are frequently caused by
+ignoring competition - without competition, each opportunity is assumed
+to be equally available to every single opportunity-seeking individual
+that can reach it (Kelobonye et al., 2020; Paez et al., 2019; Shen,
+1998). This assumption is appropriate when the opportunity of interest
+is non-exclusive, that is, if use by one unit of population does not
+preclude use by another. For instance, national parks with abundant
+space are seldom used to full capacity, so the presence of some
+population does not exclude use by others. When it comes to exclusive
+opportunities, or when operations may be affected by congestion, the
+solution has been to account for competition. Several efforts exist that
+do so. In our reckoning, the first such approach was proposed by Weibull
+(1976), whereby the distance decay of the supply of employment and the
+demand for employment (by workers) were formulated under so-called
+axiomatic assumptions. This approach was then applied by Joseph and
+Bantock (1984) in the context of healthcare, to quantify the
+availability of general practitioners in Canada. About two decades
+later, Shen (1998) independently re-discovered Weibull's (1976) formula
+(see footnote (7) in Shen, 1998) and deconstructed it to consider
+accessibility for different modes. These advances were subsequently
+popularized as the family of Two-Stage Floating Catchment area (2SFCA)
+methods (Luo and Wang, 2003) that have found widespread adoption in
+healthcare, education, and food systems (B. Y. Chen et al., 2020; Chen,
+2019; Z. Chen et al., 2020; Yang et al., 2006; Ye et al., 2018).
 
-An important development due to Shen was to show that the
+An important development contained in Shen's work is a proof that the
 population-weighted sum of the accessibility measure with competition
-equates the number of opportunities available \citep[footnote (7) and
-Appendix A in][]{shen1998}. This demonstration gives the impression of a
-method that allocates all opportunities \emph{exactly}. In this paper we
-intend to revisit accessibility with competition. We argue that Shen's
-proof confuses the population that effectively seeks opportunities,
-given the cost of reaching them, with the total zonal population. This
-equivocation results in misleading allocations of opportunities to
-population that are masked by the presentation of results as rates
-(i.e., opportunities per capita). We then propose an alternative
-formulation of accessibility that incorporates competition by adopting a
-proportional allocation mechanism. The use of balancing factors for
-proportional allocation is akin to imposing a single constraint on the
-accessibility indicator, in the spirit of Wilson's
-\citeyearpar{wilson1971} spatial interaction model.
+equates to the number of opportunities available (footnote (7) and
+Appendix A in Shen, 1998). This demonstration gives the impression that
+Shen-type accessibility allocates \emph{all} opportunities to the
+origins, however to the authors' knowledge, it has not interpreted in
+this way in the literature. For instance, Hu (2014), Merlin and Hu
+(2017), , and Tao et al. (2020) all use Shen-type accessibility to
+calculate job access but report values as `competitive accessibility
+scores' or simply `job accessibility' and focus on the way in which job
+supply (opportunities) and demand (job-seeking population) are both
+discounted by travel cost. These works do not explicitly recognize that
+jobs that are assigned to each origin are in fact \emph{all} the
+opportunities in the system. This recognition, we argue, is critical to
+interpreting the meaning of the final result. Thus, in this paper we
+intend to revisit accessibility with competition within the context of
+disentangling how opportunities are allocated. We first argue that
+Shen's competitive accessibility misleadingly equates the travel-cost
+discounted opportunity-seeking population to the total zonal population
+provided in Shen's proof. This equivocation, we believe, results in a
+misleading interpretation of what Shen-type accessibility actually
+represents since the allocation of opportunities to population are
+masked by the presentation of results as rates (i.e., opportunities per
+capita). We then propose an alternative formulation of accessibility
+that incorporates competition by adopting a proportional allocation
+mechanism; we name this measure \emph{spatial availability}. The use of
+balancing factors for proportional allocation is akin to imposing a
+single constraint on the accessibility indicator, in the spirit of
+Wilson's (1971) spatial interaction model.
 
 In this way, the aim of the paper is three-fold:
 
 \begin{itemize}
 \item
-  First, we aim to demonstrate that Shen-type (and thus
-  \citet{weibull_axiomatic_1976} accessibility and the popular 2SFCA
-  methods) produce misleading estimates of the opportunities allocated;
+  First, we aim to demonstrate that Shen-type (and thus Weibull (1976)
+  accessibility and the popular 2SFCA methods) produce misleading
+  estimates of the opportunities allocated;
 \item
   Second, we introduce a new measure, \emph{spatial availability}, which
-  we submit is a more interpretable alternative to Shen-style
+  we submit is a more interpretable alternative to Shen-type
   accessibility, since opportunities in the system are preserved and
   proportionally allocated to the population; and
 \item
@@ -239,20 +276,20 @@ In this way, the aim of the paper is three-fold:
 \end{itemize}
 
 Discussion is supported by the use of the small synthetic example of
-\citet{shen1998} and empirical data drawn from the 2016 Transportation
+Shen (1998) and empirical data drawn from the 2016 Transportation
 Tomorrow Survey of the Greater Toronto and Hamilton Area in Ontario,
 Canada. In the spirit of openness of research in the spatial sciences
-\citep{brunsdon2021opening, paez2021open} this paper has a companion
-open data product \citep{arribas2021Open}, and all code is available for
+(Brunsdon and Comber, 2021; Páez, 2021) this paper has a companion open
+data product (Arribas-Bel et al., 2021), and all code is available for
 replicability and reproducibility purposes.
 
 \hypertarget{background}{%
 \section{Accessibility measures revisited}\label{background}}
 
-In this section we revisit Hanson-type and Shen-type accessibility
-indicators. We use the convention of using a capital letter for absolute
-values (number of opportunities) and lower case for rates (opportunities
-per capita).
+In this section we revisit Hansen-type and Shen-type accessibility
+indicators. We adopt the convention of using a capital letter for
+absolute values (number of opportunities) and lower case for rates
+(opportunities per capita).
 
 \hypertarget{hansen-type-accessibility}{%
 \subsection{Hansen-type accessibility}\label{hansen-type-accessibility}}
@@ -274,7 +311,7 @@ S_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 \item
   \(f(\cdot)\) is an impedance function of \(c_{ij}\); it can take the
   form of any monotonically decreasing function chosen based on positive
-  or normative criteria \citep{paez2012measuring}.
+  or normative criteria (Paez et al., 2012).
 \item
   \(i\) is a set of origin locations (\(i = 1,\cdots,N\)).
 \item
@@ -294,48 +331,47 @@ the neighborhood of \(i\) provides estimates of the number of
 opportunities that can \emph{potentially} be reached from \(i\). Several
 variants of this method result from using a variety of impedance
 functions; for example, cumulative opportunities measures are obtained
-when \(f(\cdot)\) is a binary or indicator function
-\citep[e.g.,][]{elgeneidy_cost_2016, rosik_forecast_2021, geurs2004, qi_decadelong_2018}.
-Other measures use impedance functions modeled after any monotonically
-decreasing function \citep[e.g., Gaussian, inverse power, negative
-exponential, or log-normal, among others, see, \emph{inter
-alia},][]{kwan_spacetime_1998, vale_influence_2017, reggiani_accessibility_2011, li_approach_2020}.
-In practice, accessibility measures with different impedance functions
-tend to be highly correlated
-\citep{higgins2019, santanapalacios2022, kwan_spacetime_1998}.
+when \(f(\cdot)\) is a binary or indicator function (e.g., El-Geneidy et
+al., 2016; Geurs and van Wee, 2004; Qi et al., 2018; Rosik et al.,
+2021). Other measures use impedance functions modeled after any
+monotonically decreasing function (e.g., Gaussian, inverse power,
+negative exponential, or log-normal, among others, see, \emph{inter
+alia}, Kwan, 1998; Li et al., 2020; Reggiani et al., 2011; Vale and
+Pereira, 2017). In practice, accessibility measures with different
+impedance functions tend to be highly correlated (Higgins, 2019; Kwan,
+1998; Santana Palacios and El-geneidy, 2022).
 
 Gravity-based accessibility has been shown to be an excellent indicator
 of the intersection between spatially distributed opportunities and
-transportation infrastructure
-\citep{shi_literature_2020, reggiani_accessibility_2011, kwan_spacetime_1998}.
-However, beyond enabling comparisons of relative values they are not
-highly interpretable on their own \citep{miller2018}. To address the
+transportation infrastructure (Kwan, 1998; Reggiani et al., 2011; Shi et
+al., 2020). However, beyond enabling comparisons of relative values they
+are not highly interpretable on their own (Miller, 2018). To address the
 issue or interpretability, previous research has aimed to index and
-normalize values on a per demand-population basis
-\citep[e.g.,][]{barboza_balancing_2021, pereira_distributional_2019, wang_access_2021}.
-However, as recent research on accessibility discusses
-\citep{merlin2017competition, allen2019, paez2019, kelobonye2020measuring},
-these steps do not adequately consider competition. In effect, when
-calculating \(S_i\), every opportunity enters the weighted sum once for
-every origin \(i\) that can reach it. This makes interpretability
-opaque, and to complicate matters, can also bias the estimated landscape
-of opportunity.
+normalize values on a per demand-population basis (e.g., Barboza et al.,
+2021; Pereira et al., 2019; Wang et al., 2021). However, as recent
+research on accessibility discusses (Allen and Farber, 2019; Kelobonye
+et al., 2020; Merlin and Hu, 2017; Paez et al., 2019), these steps do
+not adequately consider competition. In effect, when calculating
+\(S_i\), every opportunity enters the weighted sum once for every origin
+\(i\) that can reach it. This makes interpretability opaque, and to
+complicate matters, can also bias the estimated landscape of
+opportunity.
 
 \hypertarget{shen-type-competitive-accessibility}{%
 \subsection{Shen-type competitive
 accessibility}\label{shen-type-competitive-accessibility}}
 
-To account for competition, the influential works of \citet{shen1998}
-and \citet{weibull_axiomatic_1976}, as well as the widely used 2SFCA
-approach of \citet{luo2003}, adjust Hansen-type accessibility with the
-population in the region of interest. The mechanics of this approach
-consist of calculating, for every destination \(j\), the population that
-can reach it given the impedance function \(f(\cdot)\); let us call this
-the \emph{effective opportunity-seeking population} (Equation
-(\ref{eq:effective-opportunity-seeking-population}). This value can be
+To account for competition, the influential works of Shen (1998) and
+Weibull (1976), as well as the widely used 2SFCA approach of Luo and
+Wang (2003), adjust Hansen-type accessibility with the population in the
+region of interest. The mechanics of this approach consist of
+calculating, for every destination \(j\), the population that can reach
+it given the impedance function \(f(\cdot)\); let us call this the
+\emph{effective opportunity-seeking population} (Equation
+(\ref{eq:effective-opportunity-seeking-population})). This value can be
 seen as the Hansen-type \emph{market area} (accessibility to population)
 of \(j\). The opportunities at \(j\) are then divided by the sum of the
-effective opportunity-seeking population to obtain a measure of
+\emph{effective opportunity-seeking population} to obtain a measure of
 opportunities per capita, i.e., \(R_j\) in Equation
 (\ref{eq:level-of-service}). This can be thought of as the \emph{level
 of service} at \(j\). Per capita values are then allocated back to the
@@ -389,8 +425,8 @@ a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
   opportunities per capita found at \(j\).
 \end{itemize}
 
-\citet{shen1998} considers \(P_i\) as the ``the number of people in
-location \(i\) seeking opportunities''. In our view, this is somewhat
+Shen (1998) describes \(P_i\) as the \emph{``the number of people in
+location \(i\) seeking opportunities''}. In our view, this is somewhat
 equivocal. Consider a population center where the population are willing
 to travel at most 60 minutes. This is identical to the following
 impedance function:
@@ -412,7 +448,7 @@ represented by the impedance function. For the purpose of calculating
 accessibility, the impedance function defines what constitutes the
 population that effectively can seek opportunities at remote locations.
 
-According to \citet{shen1998}, the sum of \(A_i = a_i P_i\) over \(i\)
+According to Shen (1998), the sum of \(A_i = a_i P_i\) over \(i\)
 equates the total number of opportunities in the full study region.
 
 \begin{equation}
@@ -429,7 +465,7 @@ behavior of the population.
 \hypertarget{example}{%
 \subsection{Example}\label{example}}
 
-In this section we use the example in \citet{shen1998} to flesh out with
+In this section we use the example in Shen (1998) to flesh out with
 concrete detail the arguments above. The example is the simple system
 shown in Figure \ref{fig:plot-toy-example}.
 
@@ -618,8 +654,8 @@ shown in Figure \ref{fig:plot-toy-example}.
 
 Table \ref{tab:synthetic-example} contains the information needed to
 calculate \(S_i\) and \(a_i\) for this example. We use a negative
-exponential impedance function with \(\beta=0.1\) \citep[see][footnote
-(5)]{shen1998}: \[
+exponential impedance function with \(\beta=0.1\) (see Shen, 1998,
+footnote (5)): \[
 f(c_{ij}) = \exp(-\beta\cdot c_{ij})
 \] In the table we see that population centers \(A\) and \(B\) have
 equal Hansen-type accessibility (\(S_A = S_B=\) 27,292 jobs). On the
@@ -636,9 +672,9 @@ accessibility. The results indicate that \(a_A \approx\) 1.337 jobs per
 capita, \(a_B \approx\) 0.888, and \(a_C\approx\) 0.996. The latter
 value is sensible given the jobs-population balance of \(C\). Center
 \(A\) is relatively close to a large number of jobs (more jobs than the
-population of \(A\)). The opposite is true of \(B\). According to
-\citet{shen1998}, the sum of the population-weighted accessibility
-\(a_i\) is exactly equal to the number of jobs in the region: \[
+population of \(A\)). The opposite is true of \(B\). According to Shen
+(1998), the sum of the population-weighted accessibility \(a_i\) is
+exactly equal to the number of jobs in the region: \[
 \begin{array}{l}
 50,000\times 1.3366693 \\
 + 150,000 \times 0.8880224 \\
@@ -1001,10 +1037,10 @@ in the region: \[
 =\sum_{j=1}^J O_j = O
 \end{array}
 \] The terms \(F^p_{i}\) act here as the balancing factors of the
-gravity model when a single constraint is imposed \citep[i.e., to ensure
-that the sums of columns are equal to the number of opportunities per
-destination, see][pp.~179-180 and 183-184]{ortuzar_2011_modelling}. As a
-result, the sum of spatial availability for all population centers
+gravity model when a single constraint is imposed (i.e., to ensure that
+the sums of columns are equal to the number of opportunities per
+destination, see Ortúzar and Willumsen, 2011, pp. 179--180 and 183-184).
+As a result, the sum of spatial availability for all population centers
 equals the total number of opportunities.
 
 The discussion so far concerns only the mass effect (i.e., population
@@ -1389,13 +1425,12 @@ the regional benchmark, center \(B\) has more, and center \(C\) is at
 parity. Remarkably, the spatial availability per capita matches the
 values of \(a_i\) in Table \ref{tab:synthetic-example}. Appendix A has a
 proof of the mathematical equivalence between the two measures. It is
-interesting to notice how \citet{weibull_axiomatic_1976},
-\citet{shen1998}, as well as this paper, all reach identical expressions
-starting from different assumptions; this effect is known as
-\emph{equifinality}
-\citetext{\citealp[see][p.~333]{ortuzar_2011_modelling}; \citealp[and][]{williams_hall_1981}}.
-Interestingly, this result means that Shen-type accessibility and 2SFCA
-can be re-conceptualized as singly-constrained accessibility measures.
+interesting to notice how Weibull (1976), Shen (1998), as well as this
+paper, all reach identical expressions starting from different
+assumptions; this effect is known as \emph{equifinality} (see Ortúzar
+and Willumsen, 2011, p. 333; and Williams, 1981). Interestingly, this
+result means that Shen-type accessibility and 2SFCA can be
+re-conceptualized as singly-constrained accessibility measures.
 
 \hypertarget{why-does-proportional-allocation-matter}{%
 \subsection{Why does proportional allocation
@@ -1406,17 +1441,16 @@ produce equifinal results, it is reasonable to ask whether the
 distinction between them is of any import.
 
 Conceptually, we would argue that the internal inconsistency in the
-calculation of total opportunities in \citet{shen1998} points to a
-deeper issue that is only evident when we consider the internal values
-of the method. To illustrate, Table \ref{tab:synthetic-example} shows
-results of \(a_i\) that are reasonable (and they match exactly the
-spatial availability per capita). But when we dig deeper, these results
-mask potentially misleading values of jobs allocated and taken. In
-addition, the internal values also lead to estimates of the impact of
-accessibility that are deceptive \citep[see][]{sarlas_2020_betweenness}.
-For example, the estimated system-wide cost of travel considering the
-jobs allocated by \(a_i\) in Table \ref{tab:synthetic-example} is as
-follows: \[
+calculation of total opportunities in Shen (1998) points to a deeper
+issue that is only evident when we consider the internal values of the
+method. To illustrate, Table \ref{tab:synthetic-example} shows results
+of \(a_i\) that are reasonable (and they match exactly the spatial
+availability per capita). But when we dig deeper, these results mask
+potentially misleading values of jobs allocated and taken. In addition,
+the internal values also lead to estimates of the impact of
+accessibility that are deceptive (see Sarlas et al., 2020). For example,
+the estimated system-wide cost of travel considering the jobs allocated
+by \(a_i\) in Table \ref{tab:synthetic-example} is as follows: \[
 \begin{array}{l}
 11,157\times 15 \text{ min} + 2,489\times 30 \text{ min} + 2.27\times 100 \text{ min}\\
 7,468\times 30 \text{ min} + 33,470\times 15 \text{ min} + 6.81\times 100 \text{ min}\\
@@ -1457,27 +1491,26 @@ We obtained population and employment data from the 2016 Transportation
 Tomorrow Survey (TTS). This survey collects representative urban travel
 information from 20 municipalities contained within the GTHA area in the
 southern part of Ontario, Canada (see Figure
-\ref{fig:TTS-16-survey-area}) \citep{data_management_group_tts_2018}.
-The data set includes Traffic Analysis Zones (TAZ) (n=3,764), the number
-of jobs (n=3,081,885) and workers (n=3,446,957) at each origin and
-destination. The TTS data is based on a representative sample of between
-3\% to 5\% of households in the GTHA and is weighted to reflect the
-population covering the study area has a whole
-\citep{data_management_group_tts_2018}.
+\ref{fig:TTS-16-survey-area}) (Data Management Group, 2018). The data
+set includes Traffic Analysis Zones (TAZ) (n=3,764), the number of jobs
+(n=3,081,885) and workers (n=3,446,957) at each origin and destination.
+The TTS data is based on a representative sample of between 3\% to 5\%
+of households in the GTHA and is weighted to reflect the population
+covering the study area has a whole (Data Management Group, 2018).
 
 To generate the travel cost for these trips, travel times between
 origins and destinations are calculated for car travel using the
-\texttt{R} package \{r5r\} \citep{r5r_2021} with a street network
-retrieved from OpenStreetMap. For the calculations a 3 hr travel time
-threshold was selected as it captures 99\% of population-employment
-pairs (see the travel times summarized in Figure
+\texttt{R} package \{r5r\} (Rafael H. M. Pereira et al., 2021) with a
+street network retrieved from OpenStreetMap. For the calculations a 3 hr
+travel time threshold was selected as it captures 99\% of
+population-employment pairs (see the travel times summarized in Figure
 \ref{fig:TTS-16-survey-area}). This method does not account for traffic
 congestion or modal split, which can be estimated through other means
-\citep[e.g.,][]{allen_suburbanization_2021, higgins2021changes}. For
-simplicity, we carry on with the assumption that all trips are taken by
-car in uncongested travel conditions. All data and data preparation
-steps are documented and can be freely explored in the companion open
-data product \href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
+(e.g., Allen and Farber, 2021; Higgins et al., 2021). For simplicity, we
+carry on with the assumption that all trips are taken by car in
+uncongested travel conditions. All data and data preparation steps are
+documented and can be freely explored in the companion open data product
+\href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
 
 \begin{figure}
 
@@ -1493,20 +1526,21 @@ data product \href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
 function}\label{calibration-of-an-impedance-function}}
 
 In the synthetic example introduced in a preceding section, we used a
-negative exponential function with the parameter reported by
-\citet{shen1998}. For the empirical example, we calibrate an impedance
-function on the trip length distribution (TLD) of commute trips.
-Briefly, a TLD represents the proportion of trips that are taken at a
-specific travel cost (e.g., travel time); this distribution is commonly
-used to derive impedance functions in accessibility research
-\citep{lopez_2017_spatial, horbachov_theoretical_2018, batista_estimation_2019}.
+negative exponential function with the parameter reported by Shen
+(1998). For the empirical example, we calibrate an impedance function on
+the trip length distribution (TLD) of commute trips. Briefly, a TLD
+represents the proportion of trips that are taken at a specific travel
+cost (e.g., travel time); this distribution is commonly used to derive
+impedance functions in accessibility research (Batista et al., 2019;
+Horbachov and Svichynskyi, 2018; Lopez and Paez, 2017).
 
 The empirical and theoretical TLD for this data set are represented in
 the top-left panel of Figure \ref{fig:TLD-Gamma-plot}. Maximum
 likelihood estimation and the Nelder-Mead method for direct optimization
-available within the \{fitdistrplus\} package \citep{fitdistrplus_2015}
-were used. Based on goodness-of-fit criteria and diagnostics the gamma
-distribution was selected (see Figure \ref{fig:TLD-Gamma-plot}).
+available within the \{fitdistrplus\} package (Delignette-Muller and
+Dutang, 2015) were used. Based on goodness-of-fit criteria and
+diagnostics the gamma distribution was selected (see Figure
+\ref{fig:TLD-Gamma-plot}).
 
 \begin{figure}
 
@@ -1783,8 +1817,381 @@ v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f
 
 \newpage
 
-\renewcommand\refname{References}
-\bibliography{bibliography.bib}
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-allen2019}{}}%
+Allen, J., Farber, S., 2019. A Measure of Competitive Access to
+Destinations for Comparing Across Multiple Study Regions. Geographical
+Analysis 52, 69--86.
+doi:\href{https://doi.org/10.1111/gean.12188}{10.1111/gean.12188}
+
+\leavevmode\vadjust pre{\hypertarget{ref-allen_suburbanization_2021}{}}%
+Allen, J., Farber, S., 2021. Suburbanization of {Transport} {Poverty}.
+Annals of the American Association of Geographers 111, 18.
+
+\leavevmode\vadjust pre{\hypertarget{ref-Arranz2019measuring}{}}%
+Arranz-López, A., Soria-Lara, J.A., Witlox, F., Páez, A., 2019.
+Measuring relative non-motorized accessibility to retail activities.
+International Journal of Sustainable Transportation 13, 639--651.
+doi:\href{https://doi.org/10.1080/15568318.2018.1498563}{10.1080/15568318.2018.1498563}
+
+\leavevmode\vadjust pre{\hypertarget{ref-arribas2021Open}{}}%
+Arribas-Bel, D., Green, M., Rowe, F., Singleton, A., 2021. Open data
+products-a framework for creating valuable analysis ready data. Journal
+of Geographical Systems 23, 497--514.
+doi:\href{https://doi.org/10.1007/s10109-021-00363-5}{10.1007/s10109-021-00363-5}
+
+\leavevmode\vadjust pre{\hypertarget{ref-barboza_balancing_2021}{}}%
+Barboza, M.H.C., Carneiro, M.S., Falavigna, C., Luz, G., Orrico, R.,
+2021. Balancing time: {Using} a new accessibility measure in {Rio} de
+{Janeiro}. Journal of Transport Geography 90, 102924.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102924}{10.1016/j.jtrangeo.2020.102924}
+
+\leavevmode\vadjust pre{\hypertarget{ref-batista_estimation_2019}{}}%
+Batista, S.F.A., Leclercq, L., Geroliminis, N., 2019. Estimation of
+regional trip length distributions for the calibration of the aggregated
+network traffic models. Transportation Research Part B: Methodological
+122, 192--217.
+doi:\href{https://doi.org/10.1016/j.trb.2019.02.009}{10.1016/j.trb.2019.02.009}
+
+\leavevmode\vadjust pre{\hypertarget{ref-bocarejo_s_transport_2012}{}}%
+Bocarejo S., J.P., Oviedo H., D.R., 2012. Transport accessibility and
+social inequities: A tool for identification of mobility needs and
+evaluation of transport investments. Journal of Transport Geography 24,
+142--154.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2011.12.004}{10.1016/j.jtrangeo.2011.12.004}
+
+\leavevmode\vadjust pre{\hypertarget{ref-brunsdon2021opening}{}}%
+Brunsdon, C., Comber, A., 2021. Opening practice: Supporting
+reproducibility and critical spatial data science. Journal of
+Geographical Systems 23, 477--496.
+doi:\href{https://doi.org/10.1007/s10109-020-00334-2}{10.1007/s10109-020-00334-2}
+
+\leavevmode\vadjust pre{\hypertarget{ref-campbell_2019_accessibility}{}}%
+Campbell, K.B., Rising, J.A., Klopp, J.M., Mbilo, J.M., 2019.
+Accessibility across transport modes and residential developments in
+nairobi. Journal of Transport Geography 74, 77--90.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2018.08.002}{10.1016/j.jtrangeo.2018.08.002}
+
+\leavevmode\vadjust pre{\hypertarget{ref-cervero_transportation_2002}{}}%
+Cervero, R., Sandoval, O., Landis, J., 2002. Transportation as a
+{Stimulus} of {Welfare}-to-{Work}: {Private} versus {Public} {Mobility}.
+Journal of Planning Education and Research 22, 50--63.
+doi:\href{https://doi.org/10.1177/0739456X0202200105}{10.1177/0739456X0202200105}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_evaluating_2020}{}}%
+Chen, B.Y., Cheng, X.-P., Kwan, M.-P., Schwanen, T., 2020. Evaluating
+spatial accessibility to healthcare services under travel time
+uncertainty: {A} reliability-based floating catchment area approach.
+Journal of Transport Geography 87, 102794.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102794}{10.1016/j.jtrangeo.2020.102794}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_enhancing_2019}{}}%
+Chen, X., 2019. Enhancing the {Two}-{Step} {Floating} {Catchment} {Area}
+{Model} for {Community} {Food} {Access} {Mapping}: {Case} of the
+{Supplemental} {Nutrition} {Assistance} {Program}. The Professional
+Geographer 71, 668--680.
+doi:\href{https://doi.org/10.1080/00330124.2019.1578978}{10.1080/00330124.2019.1578978}
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen_spatial_2020}{}}%
+Chen, Z., Zhou, X., Yeh, A.G., 2020. Spatial accessibility to
+kindergartens using a spectrum combinational approach: {Case} study of
+{Shanghai} using cellphone data. Environment and Planning B: Urban
+Analytics and City Science 239980832095422.
+doi:\href{https://doi.org/10.1177/2399808320954221}{10.1177/2399808320954221}
+
+\leavevmode\vadjust pre{\hypertarget{ref-data_management_group_tts_2018}{}}%
+Data Management Group, 2018.
+\href{http://dmg.utoronto.ca/transportation-tomorrow-survey/tts-introduction}{{TTS}
+- {Transportation} {Tomorrow} {Survey} 2016}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-deboosere2018}{}}%
+Deboosere, R., El-Geneidy, A.M., Levinson, D., 2018.
+Accessibility-oriented development. Journal of Transport Geography 70,
+11--20.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2018.05.015}{10.1016/j.jtrangeo.2018.05.015}
+
+\leavevmode\vadjust pre{\hypertarget{ref-fitdistrplus_2015}{}}%
+Delignette-Muller, M.L., Dutang, C., 2015.
+\href{https://www.jstatsoft.org/article/view/v064i04}{{fitdistrplus}: An
+{R} package for fitting distributions}. Journal of Statistical Software
+64, 1--34.
+
+\leavevmode\vadjust pre{\hypertarget{ref-elgeneidy_cost_2016}{}}%
+El-Geneidy, A., Levinson, D., Diab, E., Boisjoly, G., Verbich, D.,
+Loong, C., 2016. The cost of equity: {Assessing} transit accessibility
+and social disparity using total travel cost. Transportation Research
+Part A: Policy and Practice 91, 302--316.
+doi:\href{https://doi.org/10.1016/j.tra.2016.07.003}{10.1016/j.tra.2016.07.003}
+
+\leavevmode\vadjust pre{\hypertarget{ref-geurs2004}{}}%
+Geurs, K.T., van Wee, B., 2004. Accessibility evaluation of land-use and
+transport strategies: review and research directions. Journal of
+Transport Geography 12, 127--140.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2003.10.005}{10.1016/j.jtrangeo.2003.10.005}
+
+\leavevmode\vadjust pre{\hypertarget{ref-handy2020}{}}%
+Handy, S., 2020. Is accessibility an idea whose time has finally come?
+Transportation Research Part D: Transport and Environment 83, 102319.
+doi:\href{https://doi.org/10.1016/j.trd.2020.102319}{10.1016/j.trd.2020.102319}
+
+\leavevmode\vadjust pre{\hypertarget{ref-handy_measuring_1997}{}}%
+Handy, S.L., Niemeier, D.A., 1997. Measuring {Accessibility}: {An}
+{Exploration} of {Issues} and {Alternatives}. Environment and Planning
+A: Economy and Space 29, 1175--1194.
+doi:\href{https://doi.org/10.1068/a291175}{10.1068/a291175}
+
+\leavevmode\vadjust pre{\hypertarget{ref-hansen1959}{}}%
+Hansen, W.G., 1959. How Accessibility Shapes Land Use. Journal of the
+American Institute of Planners 25, 73--76.
+doi:\href{https://doi.org/10.1080/01944365908978307}{10.1080/01944365908978307}
+
+\leavevmode\vadjust pre{\hypertarget{ref-harris_market_1954}{}}%
+Harris, C.D., 1954. \href{https://www.jstor.org/stable/2561395}{The
+{Market} as a {Factor} in the {Localization} of {Industry} in the
+{United} {States}}. Annals of the Association of American Geographers
+44, 315--348.
+
+\leavevmode\vadjust pre{\hypertarget{ref-higgins2019}{}}%
+Higgins, C.D., 2019. Accessibility toolbox for r and ArcGIS. Transport
+Findings. doi:\href{https://doi.org/10.32866/8416}{10.32866/8416}
+
+\leavevmode\vadjust pre{\hypertarget{ref-higgins2021changes}{}}%
+Higgins, C.D., Páez, A., Ki, G., Wang, J., 2021. Changes in
+accessibility to emergency and community food services during COVID-19
+and implications for low income populations in hamilton, ontario. Social
+Science \& Medicine 114442.
+doi:\href{https://doi.org/10.1016/j.socscimed.2021.114442}{10.1016/j.socscimed.2021.114442}
+
+\leavevmode\vadjust pre{\hypertarget{ref-horbachov_theoretical_2018}{}}%
+Horbachov, P., Svichynskyi, S., 2018.
+\href{https://www.jstor.org/stable/26622420}{Theoretical substantiation
+of trip length distribution for home-based work trips in urban transit
+systems}. Journal of Transport and Land Use 11, 593--632.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hu_changing_2014}{}}%
+Hu, L., 2014. Changing {Job} {Access} of the {Poor}: {Effects} of
+{Spatial} and {Socioeconomic} {Transformations} in {Chicago},
+1990--2010. Urban Studies 51, 675--692.
+doi:\href{https://doi.org/10.1177/0042098013492229}{10.1177/0042098013492229}
+
+\leavevmode\vadjust pre{\hypertarget{ref-hu_2019_measuring}{}}%
+Hu, Y., Downs, J., 2019. Measuring and visualizing place-based
+space-time job accessibility. Journal of Transport Geography 74,
+278--288.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2018.12.002}{10.1016/j.jtrangeo.2018.12.002}
+
+\leavevmode\vadjust pre{\hypertarget{ref-jiang_2016_accessibility}{}}%
+Jiang, H., Levinson, D.M., 2016. Accessibility and the evaluation of
+investments on the beijing subway. Journal of Transport and Land Use 10.
+doi:\href{https://doi.org/10.5198/jtlu.2016.884}{10.5198/jtlu.2016.884}
+
+\leavevmode\vadjust pre{\hypertarget{ref-joseph1984}{}}%
+Joseph, A.E., Bantock, P.R., 1984. Rural Accessibility of General
+Practitioners: the Case of Bruce and Grey Counties, ONTARIO,
+1901{\textendash}1981. The Canadian Geographer/Le Géographe canadien 28,
+226--239.
+doi:\href{https://doi.org/10.1111/j.1541-0064.1984.tb00788.x}{10.1111/j.1541-0064.1984.tb00788.x}
+
+\leavevmode\vadjust pre{\hypertarget{ref-kelobonye2020measuring}{}}%
+Kelobonye, K., Zhou, H., McCarney, G., Xia, J., 2020. Measuring the
+accessibility and spatial equity of urban services under competition
+using the cumulative opportunities measure. Journal of Transport
+Geography 85, 102706.
+doi:\url{https://doi.org/10.1016/j.jtrangeo.2020.102706}
+
+\leavevmode\vadjust pre{\hypertarget{ref-kwan_spacetime_1998}{}}%
+Kwan, M.-P., 1998. Space-{Time} and {Integral} {Measures} of
+{Individual} {Accessibility}: {A} {Comparative} {Analysis} {Using} a
+{Point}-based {Framework}. Geographical Analysis 30, 191--216.
+doi:\href{https://doi.org/10.1111/j.1538-4632.1998.tb00396.x}{10.1111/j.1538-4632.1998.tb00396.x}
+
+\leavevmode\vadjust pre{\hypertarget{ref-levinson_accessibility_1998}{}}%
+Levinson, D.M., 1998. Accessibility and the journey to work. Journal of
+Transport Geography 6, 11--21.
+doi:\href{https://doi.org/10.1016/S0966-6923(97)00036-7}{10.1016/S0966-6923(97)00036-7}
+
+\leavevmode\vadjust pre{\hypertarget{ref-li_approach_2020}{}}%
+Li, A., Huang, Y., Axhausen, K.W., 2020. An approach to imputing
+destination activities for inclusion in measures of bicycle
+accessibility. Journal of Transport Geography 82, 102566.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2019.102566}{10.1016/j.jtrangeo.2019.102566}
+
+\leavevmode\vadjust pre{\hypertarget{ref-lopez_2017_spatial}{}}%
+Lopez, F.A., Paez, A., 2017. Spatial clustering of high-tech
+manufacturing and knowledge-intensive service firms in the greater
+toronto area. Canadian Geographer-Geographe Canadien 61, 240--252.
+doi:\href{https://doi.org/10.1111/cag.12326}{10.1111/cag.12326}
+
+\leavevmode\vadjust pre{\hypertarget{ref-luo2003}{}}%
+Luo, W., Wang, F., 2003. Measures of Spatial Accessibility to Health
+Care in a GIS Environment: Synthesis and a Case Study in the Chicago
+Region. Environment and Planning B: Planning and Design 30, 865--884.
+doi:\href{https://doi.org/10.1068/b29120}{10.1068/b29120}
+
+\leavevmode\vadjust pre{\hypertarget{ref-merlin2017competition}{}}%
+Merlin, L.A., Hu, L., 2017. Does competition matter in measures of job
+accessibility? Explaining employment in los angeles. Journal of
+Transport Geography 64, 77--88.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2017.08.009}{10.1016/j.jtrangeo.2017.08.009}
+
+\leavevmode\vadjust pre{\hypertarget{ref-miller2018}{}}%
+Miller, E.J., 2018. Accessibility: measurement and application in
+transportation planning. Transport Reviews 38, 551--555.
+doi:\href{https://doi.org/10.1080/01441647.2018.1492778}{10.1080/01441647.2018.1492778}
+
+\leavevmode\vadjust pre{\hypertarget{ref-ortuzar_2011_modelling}{}}%
+Ortúzar, J.D., Willumsen, L.G., 2011. Modelling transport. Wiley, New
+York.
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez2004network}{}}%
+Paez, A., 2004. Network accessibility and the spatial distribution of
+economic activity in eastern asia. Urban Studies 41, 2211--2230.
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez2019}{}}%
+Paez, A., Higgins, C.D., Vivona, S.F., 2019. Demand and level of service
+inflation in Floating Catchment Area (FCA) methods. PLOS ONE 14,
+e0218773.
+doi:\href{https://doi.org/10.1371/journal.pone.0218773}{10.1371/journal.pone.0218773}
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez2012measuring}{}}%
+Paez, A., Scott, D.M., Morency, C., 2012. Measuring accessibility:
+Positive and normative implementations of various accessibility
+indicators. Journal of Transport Geography 25, 141--153.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2012.03.016}{10.1016/j.jtrangeo.2012.03.016}
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez2021open}{}}%
+Páez, A., 2021. Open spatial sciences: An introduction. Journal of
+Geographical Systems 23, 467--476.
+doi:\href{https://doi.org/10.1007/s10109-021-00364-4}{10.1007/s10109-021-00364-4}
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez_healthcare_2010}{}}%
+Páez, A., Mercado, R., Farber, S., Morency, C., Roorda, M., 2010.
+\href{http://www.ij-healthgeographics.com/content/9/1/52}{Accessibility
+to health care facilities in montreal island: An application of relative
+accessibility indicators from the perspective of senior and non-senior
+residents}. International Journal of Health Geographics 9, 1--9.
+
+\leavevmode\vadjust pre{\hypertarget{ref-pereira_distributional_2019}{}}%
+Pereira, R.H.M., Banister, D., Schwanen, T., Wessel, N., 2019.
+Distributional effects of transport policies on inequalities in access
+to opportunities in {Rio} de {Janeiro}. Journal of Transport and Land
+Use 12.
+doi:\href{https://doi.org/10.5198/jtlu.2019.1523}{10.5198/jtlu.2019.1523}
+
+\leavevmode\vadjust pre{\hypertarget{ref-proffitt2017}{}}%
+Proffitt, D.G., Bartholomew, K., Ewing, R., Miller, H.J., 2017.
+Accessibility planning in American metropolitan areas: Are we there yet?
+Urban Studies 56, 167--192.
+doi:\href{https://doi.org/10.1177/0042098017710122}{10.1177/0042098017710122}
+
+\leavevmode\vadjust pre{\hypertarget{ref-qi_decadelong_2018}{}}%
+Qi, Y., Fan, Y., Sun, T., Hu, L.(Ivy)., 2018. Decade-long changes in
+spatial mismatch in {Beijing}, {China}: {Are} disadvantaged populations
+better or worse off? Environment and Planning A: Economy and Space 50,
+848--868.
+doi:\href{https://doi.org/10.1177/0308518X18755747}{10.1177/0308518X18755747}
+
+\leavevmode\vadjust pre{\hypertarget{ref-r5r_2021}{}}%
+Rafael H. M. Pereira, Marcus Saraiva, Daniel Herszenhut, Carlos Kaue
+Vieira Braga, Matthew Wigginton Conway, 2021. r5r: Rapid realistic
+routing on multimodal transport networks with R5 in r. Findings.
+doi:\href{https://doi.org/10.32866/001c.21262}{10.32866/001c.21262}
+
+\leavevmode\vadjust pre{\hypertarget{ref-reggiani_accessibility_2011}{}}%
+Reggiani, A., Bucci, P., Russo, G., 2011. Accessibility and {Impedance}
+{Forms}: {Empirical} {Applications} to the {German} {Commuting}
+{Network}. International Regional Science Review 34, 230--252.
+doi:\href{https://doi.org/10.1177/0160017610387296}{10.1177/0160017610387296}
+
+\leavevmode\vadjust pre{\hypertarget{ref-rosik_forecast_2021}{}}%
+Rosik, P., Goliszek, S., Komornicki, T., Duma, P., 2021. Forecast of the
+{Impact} of {Electric} {Car} {Battery} {Performance} and
+{Infrastructural} and {Demographic} {Changes} on {Cumulative}
+{Accessibility} for the {Five} {Most} {Populous} {Cities} in {Poland}.
+Energies 14, 8350.
+doi:\href{https://doi.org/10.3390/en14248350}{10.3390/en14248350}
+
+\leavevmode\vadjust pre{\hypertarget{ref-santanapalacios2022}{}}%
+Santana Palacios, M., El-geneidy, A., 2022. Cumulative versus
+Gravity-based Accessibility Measures: Which One to Use? Findings.
+doi:\href{https://doi.org/10.32866/001c.32444}{10.32866/001c.32444}
+
+\leavevmode\vadjust pre{\hypertarget{ref-sarlas_2020_betweenness}{}}%
+Sarlas, G., Paez, A., Axhausen, K.W., 2020. Betweenness-accessibility:
+Estimating impacts of accessibility on networks. Journal of Transport
+Geography 84, 12.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102680}{10.1016/j.jtrangeo.2020.102680}
+
+\leavevmode\vadjust pre{\hypertarget{ref-shen1998}{}}%
+Shen, Q., 1998. Location characteristics of inner-city neighborhoods and
+employment accessibility of low-wage workers. Environment and Planning
+B: Planning and Design 25, 345--365.
+doi:\href{https://doi.org/10.1068/b250345}{10.1068/b250345}
+
+\leavevmode\vadjust pre{\hypertarget{ref-shi_literature_2020}{}}%
+Shi, Y., Blainey, S., Sun, C., Jing, P., 2020. A literature review on
+accessibility using bibliometric analysis techniques. Journal of
+Transport Geography 87, 102810.
+doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102810}{10.1016/j.jtrangeo.2020.102810}
+
+\leavevmode\vadjust pre{\hypertarget{ref-tao_investigating_2020}{}}%
+Tao, Z., Zhou, J., Lin, X., Chao, H., Li, G., 2020. Investigating the
+impacts of public transport on job accessibility in {Shenzhen}, {China}:
+A multi-modal approach. LAND USE POLICY 99.
+doi:\href{https://doi.org/10.1016/j.landusepol.2020.105025}{10.1016/j.landusepol.2020.105025}
+
+\leavevmode\vadjust pre{\hypertarget{ref-vale_influence_2017}{}}%
+Vale, D.S., Pereira, M., 2017. The influence of the impedance function
+on gravity-based pedestrian accessibility measures: {A} comparative
+analysis. Environment and Planning B: Urban Analytics and City Science
+44, 740--763.
+doi:\href{https://doi.org/10.1177/0265813516641685}{10.1177/0265813516641685}
+
+\leavevmode\vadjust pre{\hypertarget{ref-wang_access_2021}{}}%
+Wang, S., Wang, M., Liu, Y., 2021. Access to urban parks: {Comparing}
+spatial accessibility measures using three {GIS}-based approaches.
+Computers, Environment and Urban Systems 90, 101713.
+doi:\href{https://doi.org/10.1016/j.compenvurbsys.2021.101713}{10.1016/j.compenvurbsys.2021.101713}
+
+\leavevmode\vadjust pre{\hypertarget{ref-weibull_axiomatic_1976}{}}%
+Weibull, J.W., 1976. An axiomatic approach to the measurement of
+accessibility. Regional Science and Urban Economics 6, 357--379.
+doi:\href{https://doi.org/10.1016/0166-0462(76)90031-4}{10.1016/0166-0462(76)90031-4}
+
+\leavevmode\vadjust pre{\hypertarget{ref-williams_hall_1981}{}}%
+Williams, H.C.W.L., 1981. Travel demand forecasting: An overview of
+theoretical developments, in: Banister, D.J., Hall, P.G. (Eds.),
+Transport and Public Policy Planning. Mansell.
+
+\leavevmode\vadjust pre{\hypertarget{ref-wilson1971}{}}%
+Wilson, A.G., 1971. A Family of Spatial Interaction Models, and
+Associated Developments. Environment and Planning A: Economy and Space
+3, 1--32. doi:\href{https://doi.org/10.1068/a030001}{10.1068/a030001}
+
+\leavevmode\vadjust pre{\hypertarget{ref-yan2021}{}}%
+Yan, X., 2021. Toward Accessibility-Based Planning. Journal of the
+American Planning Association 87, 409--423.
+doi:\href{https://doi.org/10.1080/01944363.2020.1850321}{10.1080/01944363.2020.1850321}
+
+\leavevmode\vadjust pre{\hypertarget{ref-yang_comparing_2006}{}}%
+Yang, D.-H., Goerge, R., Mullner, R., 2006. Comparing {GIS}-{Based}
+{Methods} of {Measuring} {Spatial} {Accessibility} to {Health}
+{Services}. Journal of Medical Systems 30, 23--32.
+doi:\href{https://doi.org/10.1007/s10916-006-7400-5}{10.1007/s10916-006-7400-5}
+
+\leavevmode\vadjust pre{\hypertarget{ref-ye_spatial_2018}{}}%
+Ye, C., Zhu, Y., Yang, J., Fu, Q., 2018. Spatial equity in accessing
+secondary education: {Evidence} from a gravity-based model: {Spatial}
+equity in accessing secondary education. The Canadian Geographer / Le
+Géographe canadien 62, 452--469.
+doi:\href{https://doi.org/10.1111/cag.12482}{10.1111/cag.12482}
+
+\end{CSLReferences}
 
 
 \end{document}
