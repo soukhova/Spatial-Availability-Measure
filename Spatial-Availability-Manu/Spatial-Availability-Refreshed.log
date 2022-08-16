@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.28)  10 AUG 2022 19:44
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.7.28)  16 AUG 2022 10:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -613,7 +613,7 @@ File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
 LaTeX Warning: Label `fig:TTS-16-survey-area' multiply defined.
 
 
-LaTeX Warning: Label `fig:TLD-Gamma-plot' multiply defined.
+LaTeX Warning: Label `fig:TLD-norm-plot' multiply defined.
 
 
 LaTeX Warning: Label `fig:plot-Hansen-Type-S-TO' multiply defined.
@@ -710,447 +710,463 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 167.
 [2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 265.
+LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 263.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
 File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 ) [4] [5] [6]
-<Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf, id=132, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf, id=136, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 474.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 498.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (0.76764pt too wide) in paragraph at lines 649--649
+Overfull \hbox (0.76764pt too wide) in paragraph at lines 673--673
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (8.9842pt too wide) in alignment at lines 649--649
+Overfull \hbox (8.9842pt too wide) in alignment at lines 673--673
 [][][][][][][][][][] 
  []
 
-[7 <./Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>] [8]
-<Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=158, 469.755pt x 325.215pt>
+[7] [8 <./Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>] [9]
+<Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=171, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 732.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 764.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (9.0158pt too wide) in alignment at lines 903--903
+Overfull \hbox (9.0158pt too wide) in alignment at lines 935--935
 [][][][][][][][][][] 
  []
 
-[9 <./Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [10] [11] [12] [13]
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+[10 <./Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [11] [12] [13] [14]
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.817438[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.599006[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.182395[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.069227[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.238095[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000203[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.001013[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.049787[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.182395[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.400969[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.817438[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.930760[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 150,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.714286[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000203[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.003040[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 133,203[]
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.047619[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000166[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000024[] 
  []
 
 
-Overfull \hbox (0.54561pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (0.54561pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 100,000[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000045[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.047619[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000166[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.000013[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.223130[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.047619[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.999593[] 
  []
 
 
-Overfull \hbox (4.5316pt too wide) in paragraph at lines 1353--1353
+Overfull \hbox (4.5316pt too wide) in paragraph at lines 1406--1406
  [][]\T1/lmr/m/n/7 0.995947[] 
  []
 
 
-Overfull \hbox (9.97894pt too wide) in alignment at lines 1353--1353
+Overfull \hbox (9.97894pt too wide) in alignment at lines 1406--1406
 [][][][][][][][][][][] 
  []
 
-[14] [15] [16]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1503.
+[15] [16] [17] [18]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1600.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
-<images/TTS16-survey-area.png, id=235, 505.89pt x 505.89pt>
+<images/TTS16-survey-area.png, id=253, 505.89pt x 505.89pt>
 File: images/TTS16-survey-area.png Graphic file (type png)
 <use images/TTS16-survey-area.png>
-Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1517.
-(pdftex.def)             Requested size: 276.00105pt x 276.00177pt.
-<images/impedance_function.png, id=239, 481.8pt x 481.8pt>
+Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1614.
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+<images/spatial-dist-jobs-pop-Toronto-plot.png, id=255, 505.89pt x 505.89pt>
+File: images/spatial-dist-jobs-pop-Toronto-plot.png Graphic file (type png)
+<use images/spatial-dist-jobs-pop-Toronto-plot.png>
+Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot.png  used on input line 1626.
+(pdftex.def)             Requested size: 345.0pt x 345.00414pt.
+<images/spatial-dist-jobs-pop-Toronto-plot2.png, id=256, 526.95154pt x 325.215pt>
+File: images/spatial-dist-jobs-pop-Toronto-plot2.png Graphic file (type png)
+<use images/spatial-dist-jobs-pop-Toronto-plot2.png>
+Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot2.png  used on input line 1630.
+(pdftex.def)             Requested size: 345.0pt x 212.92558pt.
+[19] [20 <./images/TTS16-survey-area.png>] [21 <./images/spatial-dist-jobs-pop-Toronto-plot.png>]
+<images/impedance_function.png, id=281, 481.8pt x 481.8pt>
 File: images/impedance_function.png Graphic file (type png)
 <use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 1547.
+Package pdftex.def Info: images/impedance_function.png  used on input line 1688.
 (pdftex.def)             Requested size: 276.00105pt x 276.01096pt.
-[17] [18 <./images/TTS16-survey-area.png>] [19 <./images/impedance_function.png>]
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf, id=262, 469.755pt x 325.215pt>
+[22 <./images/spatial-dist-jobs-pop-Toronto-plot2.png>] [23 <./images/impedance_function.png>]
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf, id=297, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf  used on input line 1569.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf  used on input line 1712.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf, id=263, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf, id=298, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf  used on input line 1573.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf  used on input line 1716.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf, id=264, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf, id=299, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf  used on input line 1577.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf  used on input line 1720.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf, id=268, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf, id=303, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf  used on input line 1585.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf  used on input line 1728.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf, id=269, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf, id=304, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf  used on input line 1589.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf  used on input line 1732.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf, id=270, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf, id=305, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf  used on input line 1593.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf  used on input line 1736.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-<Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf, id=271, 469.755pt x 325.215pt>
+<Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf, id=306, 469.755pt x 325.215pt>
 File: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf Graphic file (type pdf)
 <use Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 1639.
+Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf  used on input line 1782.
 (pdftex.def)             Requested size: 345.0pt x 238.84406pt.
 
-Overfull \hbox (15.0pt too wide) in paragraph at lines 1639--1640
+Overfull \hbox (15.0pt too wide) in paragraph at lines 1782--1783
 [][] 
  []
 
-[20 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf>] [21 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>] [22 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>] [23 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>] [24]
-Overfull \hbox (162.30096pt too wide) detected at line 1773
-\OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = []([])+
+[24 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1.pdf>] [25 <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1.pdf>] [26 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1.pdf>] [27 <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1.pdf> <./Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1.pdf>] [28]
+Overfull \hbox (15.50087pt too wide) in paragraph at lines 1878--1883
+[]\T1/lmr/m/n/10 Hansen-style ac-ces-si-bilty should be used when op-por-tu-ni-ties are non-exclusive.
  []
 
 
-Overfull \hbox (137.60641pt too wide) detected at line 1777
+Overfull \hbox (162.30096pt too wide) detected at line 1936
+\OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = []([])+
+ []
+
+[29]
+Overfull \hbox (137.60641pt too wide) detected at line 1940
 []\OT1/lmr/m/n/10 ([])+
  []
 
 
-Overfull \hbox (129.82843pt too wide) detected at line 1781
+Overfull \hbox (129.82843pt too wide) detected at line 1944
 []\OT1/lmr/m/n/10 ([])
  []
 
-[25]
-Overfull \hbox (265.4161pt too wide) detected at line 1816
+
+Overfull \hbox (265.4161pt too wide) detected at line 1979
 \OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 O[]\OT1/lmr/m/n/10 ([] + \OML/lmm/m/it/10 O[][] \OT1/lmr/m/n/10 + \OML/lmm/m/it/10 O[][]\OT1/lmr/m/n/10 )
  []
 
-[26]
-Overfull \hbox (1.6811pt too wide) in paragraph at lines 1836--1841
+[30]
+Overfull \hbox (1.6811pt too wide) in paragraph at lines 1999--2004
 \T1/lmr/m/n/10 Sus-tain-able Trans-porta-tion 13, 639--651. doi:[]10.1080/15568318.2018.1498563[] 
  []
 
 
-Overfull \hbox (95.57463pt too wide) in paragraph at lines 1861--1867
+Overfull \hbox (95.57463pt too wide) in paragraph at lines 2024--2030
 \T1/lmr/m/n/10 port in-vest-ments. Jour-nal of Trans-port Ge-og-ra-phy 24, 142--154. doi:[]10.1016/j.jtrangeo.2011.12.004[] 
  []
 
 
-Overfull \hbox (89.35191pt too wide) in paragraph at lines 1893--1899
+Overfull \hbox (89.35191pt too wide) in paragraph at lines 2056--2062
 \T1/lmr/m/n/10 sis-tance Pro-gram. The Pro-fes-sional Ge-og-ra-pher 71, 668--680. doi:[]10.1080/00330124.2019.1578978[] 
  []
 
 
-Overfull \hbox (58.21326pt too wide) in paragraph at lines 1912--1917
+Overfull \hbox (58.21326pt too wide) in paragraph at lines 2075--2080
 \T1/lmr/m/n/10 vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. doi:[]10.1016/j.jtrangeo.2018.05.015[] 
  []
 
-[27]
-Overfull \hbox (91.81992pt too wide) in paragraph at lines 1937--1941
+[31]
+Overfull \hbox (91.81992pt too wide) in paragraph at lines 2100--2104
 \T1/lmr/m/n/10 porta-tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 102319. doi:[]10.1016/j.trd.2020.102319[] 
  []
 
 
-Overfull \hbox (74.43596pt too wide) in paragraph at lines 1982--1987
+Overfull \hbox (74.43596pt too wide) in paragraph at lines 2145--2150
 \T1/lmr/m/n/10 ac-ces-si-bil-ity. Jour-nal of Trans-port Ge-og-ra-phy 74, 278--288. doi:[]10.1016/j.jtrangeo.2018.12.002[] 
  []
 
-[28]
-Overfull \hbox (9.50491pt too wide) in paragraph at lines 2042--2046
+[32]
+Overfull \hbox (9.50491pt too wide) in paragraph at lines 2205--2209
 \T1/lmr/m/n/10 plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080/01441647.2018.1492778[] 
  []
 
 
-Overfull \hbox (14.53242pt too wide) in paragraph at lines 2099--2104
+Overfull \hbox (14.53242pt too wide) in paragraph at lines 2262--2267
 \T1/lmr/m/n/10 mul-ti-modal trans-port net-works with R5 in r. Find-ings. doi:[]10.32866/001c.21262[] 
  []
 
-[29]
-Overfull \hbox (10.31226pt too wide) in paragraph at lines 2119--2123
+[33]
+Overfull \hbox (10.31226pt too wide) in paragraph at lines 2282--2286
 \T1/lmr/m/n/10 Ac-ces-si-bil-ity Mea-sures: Which One to Use? Find-ings. doi:[]10.32866/001c.32444[] 
  []
 
 
-Overfull \hbox (28.48636pt too wide) in paragraph at lines 2155--2160
+Overfull \hbox (28.48636pt too wide) in paragraph at lines 2318--2323
 \T1/lmr/m/n/10 ron-ment and Ur-ban Sys-tems 90, 101713. doi:[]10.1016/j.compenvurbsys.2021.101713[] 
  []
 
-[30] (./Spatial-Availability-Refreshed.aux)
+[34] (./Spatial-Availability-Refreshed.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
 Package rerunfilecheck Info: File `Spatial-Availability-Refreshed.out' has not changed.
-(rerunfilecheck)             Checksum: 91C64AC9F7855593C9536E99A16CC84D;3540.
+(rerunfilecheck)             Checksum: 81BBFFEC80D49B09F0F9EC9A057A5DB7;3985.
  ) 
 Here is how much of TeX's memory you used:
- 18112 strings out of 479983
- 343028 string characters out of 5886474
- 677379 words of memory out of 5000000
- 35811 multiletter control sequences out of 15000+600000
- 530002 words of font info for 72 fonts, out of 8000000 for 9000
+ 18150 strings out of 479983
+ 344482 string characters out of 5886474
+ 679855 words of memory out of 5000000
+ 35838 multiletter control sequences out of 15000+600000
+ 534273 words of font info for 73 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 72i,19n,77p,550b,960s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Spatial-Availability-Refreshed.pdf (30 pages, 3323230 bytes).
+ 72i,19n,77p,550b,926s stack positions out of 10000i,1000n,20000p,200000b,200000s
+{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Spatial-Availability-Refreshed.pdf (34 pages, 7373019 bytes).
 PDF statistics:
- 646 PDF objects out of 1000 (max. 8388607)
- 536 compressed objects within 6 object streams
- 165 named destinations out of 1000 (max. 500000)
- 192 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 685 PDF objects out of 1000 (max. 8388607)
+ 565 compressed objects within 6 object streams
+ 173 named destinations out of 1000 (max. 500000)
+ 210 words of extra memory for PDF output out of 10000 (max. 10000000)
 
