@@ -452,16 +452,17 @@ accessibility, the impedance function defines what constitutes the
 population that effectively can seek opportunities at remote locations.
 Thus \(P_i\) should be plainly understood as the population at location
 \(i\) (as we define above) and not the \emph{``the number of people in
-location \(i\) seeking opportunities''}. In other words, Shen founds
+location \(i\) seeking opportunities''}. In other words, Shen confounds
 \(P_i\) with \(P_ij*\).
 
 Furthermore, the same misunderstanding can be described for \(O_j\)
-which Shen defines as \emph{``the number of relevant opportunities in
-location j''} . \(O_j\) is weighted down by the same \(f(c_{ij})\) in
-Equation (\ref{eq:2SFCA-step2}), so the \emph{relevancy} is determined
-by the travel behaviour associated with the impedance function not by
-\(O_j\) itself. For this reason, \(O_j\) should be understand plainly as
-the opportunities at location \(j\) (as we also define above).
+which Shen defines as \emph{``the number of \textbf{relevant}
+opportunities in location j''} . \(O_j\) is adjusted by the same
+\(f(c_{ij})\) in Equation (\ref{eq:2SFCA-step2}), so the
+\emph{relevancy} is determined by the travel behaviour associated with
+the impedance function not by \(O_j\) itself. For this reason, \(O_j\)
+should be understand plainly as the opportunities at location \(j\) (as
+we also define above).
 
 Misunderstanding \(P_i\) and \(O_j\) may led to a misinterpretation of
 the final result \(a_i\), especially as expressed in Shen's proof as
@@ -713,9 +714,9 @@ As mentioned earlier, this property under Shen's definition of \(P_i\)
 impression that all sought jobs are allocated to the people located at
 each origin \(i\). In other words, Shen defines \(P_i\) to mean
 \(P_{ij}^*\) (i.e., the \emph{effective opportunity-seeking population}
-which is already discounted by travel behaviour) while it in fact should
-be simply understood as the full population at \(i\) and it is
-discounted by \(a_i\) which already has travel behaviour embedded in its
+which is already adjusted by travel behaviour) while it in fact should
+be simply understood as the full population at \(i\) and it is adjusted
+by \(a_i\) which already has travel behaviour embedded in its
 formulation. As seen in column \textbf{Pop * f(TT)} in Table
 \ref{tab:synthetic-example} (i.e., \(P_{ij}^* = P_i\cdot f(c_{ij})\)),
 the number of individuals from population center \(A\) that are
@@ -1562,11 +1563,11 @@ sum to equal the total opportunities in the region.
 Toronto}\label{empirical-example-of-toronto}}
 
 In this section we illustrate the application of spatial availability
-through an empirical example. For this, we use population and employment
-data from the Greater Golden Horseshoe (GGH) area in Ontario, Canada.
+through an empirical example. For this, we use full-time employment
+flows from the Greater Golden Horseshoe (GGH) area in Ontario, Canada.
 Contained with the GGH is the Greater Toronto and Hamilton (GTHA) which
-form the most populous metropolitan regions in Canada and the core urban
-agglomeration in the GGH.
+forms the most populous metropolitan regions in Canada and the core
+urban agglomeration in the GGH.
 
 The GTHA contains the city of Toronto, the most populous city in Canada.
 The city of Toronto is the focus of this empirical example, it will be
@@ -1578,36 +1579,38 @@ calculated comparisons.
 \hypertarget{ggh-data}{%
 \subsection{GGH Data}\label{ggh-data}}
 
-We obtained population and employment data from the 2016 Transportation
+We obtained full-time employment flows from the 2016 Transportation
 Tomorrow Survey (TTS). This survey collects representative urban travel
 information from 20 municipalities contained within the GGH area in the
 southern part of Ontario, Canada (see Figure
 \ref{fig:TTS-16-survey-area}) (Data Management Group, 2018) every five
-years. The data set includes the number of jobs (n=3,081,885) and
-workers (n=3,446,957) at each origin and destination represented at the
-level of Traffic Analysis Zones (TAZ) (n=3,764). TAZ are a unit of
-spatial analysis which are defined as part of the TTS, however, TAZ are
-commonly used to ascribe production and attraction of trips in the
-context of transportation planning modelling. In the GGH data set, the
-TAZ contain on average 916 workers and jobs 819 with more detailed
-descriptive statistics discussed later. The TTS data is based on a
-representative sample of between 3\% to 5\% of households in the GGH and
-is weighted to reflect the population covering the study area as a whole
-(Data Management Group, 2018).
+years. The data set includes origin to destination flows associated with
+full-time employment trips; the number of jobs (n=3,081,885) and workers
+(n=3,446,957) (i.e., the number of originating trips and destination
+trips) at each origin and destination are represented at the level of
+Traffic Analysis Zones (TAZ) (n=3,764). TAZ are a unit of spatial
+analysis which are defined as part of the TTS, however, TAZ are commonly
+used to ascribe production and attraction of trips in the context of
+transportation planning modelling. In the GGH data set, the TAZ contain
+on average 916 workers and jobs 819 with more detailed descriptive
+statistics discussed later. The TTS data is based on a representative
+sample of between 3\% to 5\% of households in the GGH and is weighted to
+reflect the population covering the study area as a whole (Data
+Management Group, 2018).
 
-To generate the travel cost for these to-full-time employment trips,
-travel times between origins and destinations are calculated for car
-travel using the \texttt{R} package \{r5r\} (Rafael H. M. Pereira et
-al., 2021) with a street network retrieved from OpenStreetMap. For the
-calculations a 3 hr travel time threshold was selected as it captures
-99\% of population-employment pairs (see the travel times summarized in
-Figure \ref{fig:TTS-16-survey-area}). This method does not account for
-traffic congestion or modal split, which can be estimated through other
-means (e.g., Allen and Farber, 2021; Higgins et al., 2021). For
-simplicity, we carry on with the assumption that all trips are taken by
-car in uncongested travel conditions. All data and data preparation
-steps are documented and can be freely explored in the companion open
-data product \href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
+To generate the travel cost for the full-time employment trips, travel
+times between origins and destinations are calculated for car travel
+using the \texttt{R} package \{r5r\} (Rafael H. M. Pereira et al., 2021)
+with a street network retrieved from OpenStreetMap. For the calculations
+a 3 hr travel time threshold was selected as it captures 99\% of
+population-employment pairs (see the travel times summarized in Figure
+\ref{fig:TTS-16-survey-area}). This method does not account for traffic
+congestion or modal split, which can be estimated through other means
+(e.g., Allen and Farber, 2021; Higgins et al., 2021). For simplicity, we
+carry on with the assumption that all trips are taken by car in
+uncongested travel conditions. All data and data preparation steps are
+documented and can be freely explored in the companion open data product
+\href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
 
 \begin{figure}
 
@@ -1632,13 +1635,13 @@ Toronto}\label{spatial-employment-characteristics-in-toronto}}
 
 As mentioned, the focus of this empirical example is on the city of
 Toronto. It is the largest city in the GGH and represents a significant
-subset of workers and jobs in the GGH; 31\% of workers in the GGH travel
-live in Toronto and 39\% of jobs are located within Toronto. The spatial
-distribution of jobs (purple) and workers (orange) are captured in
-Figure \ref{fig:s-dist-Toronto-plot}. It can be seen that a large
-cluster of jobs can be found in the central southern part of Toronto
-(the downtown core). Spatial trends in the distribution of workers is
-less apparent relative to the distribution of jobs.
+subset of workers and jobs in the GGH; 22\% of workers in the GGH live
+in Toronto and 25\% of jobs are located within Toronto that these
+workers take. The spatial distribution of jobs (purple) and workers
+(orange) are captured in Figure \ref{fig:s-dist-Toronto-plot}. It can be
+seen that a large cluster of jobs can be found in the central southern
+part of Toronto (the downtown core). Spatial trends in the distribution
+of workers is less apparent relative to the distribution of jobs.
 
 Next, the spatial distribution of the jobs to workers ratio
 (jobs:workers) (red) and the estimated car travel time (grey) is
@@ -1655,7 +1658,7 @@ Nonetheless, the point of these visualizations are to demonstrate the
 spatial distribution of worker and job data in the city of Toronto to
 contextualize spatial availability and Shen- and Hansen- type measures.
 Assessing contributing factors to patterns of variable clustering are
-outside of the paper's scope.
+outside of the paper's scope and left to further research.
 
 \hypertarget{calibration-of-an-impedance-function-for-toronto}{%
 \subsection{Calibration of an impedance function for
@@ -1708,37 +1711,235 @@ f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\\
 \frac{1}{\sigma \sqrt{2\pi}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
 \]
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-S_i-1} \caption{\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:absolute-accessibility-plot-S_i}
-\end{figure}
+\hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
+\subsection{Accessibility and spatial availability of jobs in
+Toronto}\label{accessibility-and-spatial-availability-of-jobs-in-toronto}}
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-A2_i-1} \caption{\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values.}\label{fig:absolute-accessibility-plot-A2_i}
-\end{figure}
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-V_i-1} \caption{\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:absolute-accessibility-plot-V_i}
-\end{figure}
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:verify-employment}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
 
-Figures \ref{fig:plot-Hansen-Type-S-TO}, \ref{fig:plot-Shen-type-A-TO},
-and \ref{fig:plot-SA-TO} are the absolute accessibility values in number
-of jobs accessible/available.
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-s_i-1} \caption{\label{fig:plot-Hansen-Type-S-TO}Estimated accessibility per capita to employment in Toronto according to Hansen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:per-capita-accessibility-plot-s_i}
-\end{figure}
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-a_i-1} \caption{\label{fig:plot-Shen-type-A-TO}Estimated accessibility to employment in Toronto according to Shen-type indicator. Greyed out TAZ are zones with no residential population, i.e., with null accessibility values.}\label{fig:per-capita-accessibility-plot-a_i}
-\end{figure}
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{jobs} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
 
-\begin{figure}
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/per-capita-accessibility-plot-v_i-1} \caption{\label{fig:plot-SA-TO}Estimated spatial availability of employment in Toronto. Greyed out TAZ are zones with no residential population, i.e., with null spatial availability values.}\label{fig:per-capita-accessibility-plot-v_i}
-\end{figure}
 
-How do Shen-type internal values perform? The opportunity seeking
-population according to Shen-type measure greatly exceeds the
-population:
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 7.69e+05 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:verify-employment}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{jobs} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 7.69e+05 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:verify-population}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{workers} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.14e+06 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:verify-population}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{workers} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.98e+06 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+ 
+  \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
+  \providecommand{\huxvb}[2]{\color[RGB]{#1}\vrule width #2pt}
+  \providecommand{\huxtpad}[1]{\rule{0pt}{#1}}
+  \providecommand{\huxbpad}[1]{\rule[-#1]{0pt}{#1}}
+
+\begin{table}[ht]
+\begin{centerbox}
+\begin{threeparttable}
+ \label{tab:verify-population}
+\setlength{\tabcolsep}{0pt}
+\begin{tabular}{l}
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{workers} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.33e+06 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+
+
+\hhline{>{\huxb{0, 0, 0}{0.4}}-}
+\arrayrulecolor{black}
+\end{tabular}
+\end{threeparttable}\par\end{centerbox}
+
+\end{table}
+ 
+
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/absolute-accessibility-plot-creation-1}
+
+Figure \ref{fig:absolute-accessibility-plot} contains the absolute
+accessibility values in number of jobs accessible using Shen-type
+accessibility, Hansen-type accessibility, and the number of jobs
+\emph{available} using the spatial availability measure. The Shen-type
+accessibility is multiplied by the \emph{effective opportunity-seeking
+population} to yield a value that corresponds to absolute number of
+accessible jobs (considering competition) according to Shen's
+definition. The Hansen-type accessibility is an unconstrained case of
+accessibility in which all jobs which are in-reach of each origin
+(according to the impedance function); each value corresponds to the
+number of jobs which can be reach at each origin assuming no
+competition. Lastly, the spatial availability measure is a constrained
+case of accessibility which yields the number of jobs, at each origin,
+considering competition from the population in nearby origin and the
+relative travel cost (according to the impedance function).
+
+The proportional allocation mechanism of spatial availability ensures
+that the job availability value for each origin all sums to the
+city-wide total of 769,231 jobs (i.e., the number of destination flows
+from Toronto origins to Toronto destinations). The regional total for
+Hansen-type accessibility is 4,318,005 jobs, which as a value is
+practically meaningless since the measure is unconstrained; it
+represents the sum of opportunities that have been counted anywhere from
+1 to many times depending on the impedance function. As previously
+discussed, unconstrained counting of the same opportunity by all origins
+is not an issue if the opportunity itself is non-exclusive, but since
+one origin-to-destination full-time employment trip corresponds to 1 job
+and 1 worker, it is inappropriate to use unconstrained measures to
+capture employment characteristics. Though, using unconstrained
+Hansen-style measure for employment data can depicted urban form but
+applications to create actionable policy is lacking .
+
+On a similar note to Hasen-type, the \emph{absolute} Shen-type measure
+(as understood by Shen's definition of \(P_i\) being equal to
+\(P_{ij}^*\) sums to the city-wide value of 2,064,055 jobs; this value
+demonstrates how the Shen-type measure that is presented a rate (i.e.,
+opportunities per capita) can be misunderstood and multiplied by the
+\emph{effective opportunity-seeking population} (i.e., the denominator
+of the rate \(P_{ij}^*\)) to express an absolute accessibility score.
+The misleading interpretation of confounding \(P_i\) with \(P_{ij}^*\)
+yields an \emph{incorrect} competitively accessible job values because
+\(P_{ij}^*\) greatly exceeds greatly exceeds the city-wide total of
+workers (i.e., Toronto origin trips). To the authors' knowledge,
+Shen-type accessibility has not been converted to the absolute value in
+the way demonstrated within this paper perhaps potentially because the
+values are incorrect since Shen's proof (Shen (1998) footnote) does not
+hold true. However, we also have not seen the Shen-type measure
+converted from the opportunities per capita score to absolute
+opportunities, we suspect, because of the ambiguous definition which
+conflates \(P_{ij}^*\) with \(P_i\). If \(a_i\) is multiplied by
+\(P_i\), it yields the same value as \(V_i\), but, since the definition
+of Shen-type measure is equivocal doing so is not clear since the
+denominator of \(a_i\) (which is a rate) is \emph{not} \(P_i\).
 
  
   \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
@@ -1758,14 +1959,14 @@ population:
 \arrayrulecolor{black}
 
 \multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{osp} \hspace{6pt}\huxbpad{6pt}} &
-\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{population} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} \textbf{total\_workers} \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
 
 
 \hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.98e+06 \hspace{6pt}\huxbpad{6pt}} &
-\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.14e+06 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}r!{\huxvb{0, 0, 0}{0}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 1.73e+06 \hspace{6pt}\huxbpad{6pt}} &
+\multicolumn{1}{r!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedleft \hspace{6pt} 7.69e+05 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
 
 
 \hhline{>{\huxb{0, 0, 0}{0.4}}->{\huxb{0, 0, 0}{0.4}}-}
@@ -1776,15 +1977,24 @@ population:
 \end{table}
  
 
-The ratio of effective opportunity-seeking population to population is
-shown next:
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/ratio-OPS-to-pop-plot-creation-1}
 
-\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/unnamed-chunk-4-1}
+\begin{figure}
+\includegraphics[width=1\linewidth]{images/osp_plot_TO} \caption{\label{fig:ratio-OPS-to-pop-plot}  The ratio of the effective opportunity seeking population to the population in Toronto. Black lines represent expressways and black dashed lines represent subway lines.}\label{fig:ratio-OPS-to-pop-plot}
+\end{figure}
 
-The effect is not constant in space.
-
-As a consequence of the inflated population (osp \textgreater{}
-population), the travel time is exaggerated by Shen-type measure:
+It is important to understand the difference between \(P_i\) and
+\(P_{ij}^*\) since their impacts is not the same across space. See
+Figure \ref{fig:ratio-OPS-to-pop-plot} which presents the ratio of
+\(P_{ij}^*\) to \(P_i\) which presents how this effect is not constant
+across space. As a consequence of the inflated population (i.e.,
+\(P_{ij}^*\) \textgreater{} \(P_i\)), if attempting to calculate impacts
+associated with Shen-type measure (absolute value) such as the city-wide
+travel time, you can see how the travel time is exaggerated by the
+Shen-type measure. Consequently, when using spatial availability
+(recall: this equal to \(a_i\) multiplied by \(P_i\)) which sums to the
+\emph{total} number of jobs in the city, the travel time can be
+accuratedly calculated (as accurately as the input data).
 
  
   \providecommand{\huxb}[2]{\arrayrulecolor[RGB]{#1}\global\arrayrulewidth=#2pt}
@@ -1795,7 +2005,7 @@ population), the travel time is exaggerated by Shen-type measure:
 \begin{table}[ht]
 \begin{centerbox}
 \begin{threeparttable}
- \label{tab:unnamed-chunk-5}
+ \label{tab:unnamed-chunk-4}
 \setlength{\tabcolsep}{0pt}
 \begin{tabular}{l}
 
@@ -1809,7 +2019,7 @@ population), the travel time is exaggerated by Shen-type measure:
 \hhline{>{\huxb{0, 0, 0}{0.4}}-}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 668586.666173916 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 497258.183377296 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
 
 
 \hhline{>{\huxb{0, 0, 0}{0.4}}-}
@@ -1829,7 +2039,7 @@ population), the travel time is exaggerated by Shen-type measure:
 \begin{table}[ht]
 \begin{centerbox}
 \begin{threeparttable}
- \label{tab:unnamed-chunk-5}
+ \label{tab:unnamed-chunk-4}
 \setlength{\tabcolsep}{0pt}
 \begin{tabular}{l}
 
@@ -1843,7 +2053,7 @@ population), the travel time is exaggerated by Shen-type measure:
 \hhline{>{\huxb{0, 0, 0}{0.4}}-}
 \arrayrulecolor{black}
 
-\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 344376.94962808 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
+\multicolumn{1}{!{\huxvb{0, 0, 0}{0.4}}l!{\huxvb{0, 0, 0}{0.4}}}{\cellcolor[RGB]{242, 242, 242}\huxtpad{6pt + 1em}\raggedright \hspace{6pt} 187393.373611765 \hspace{6pt}\huxbpad{6pt}} \tabularnewline[-0.5pt]
 
 
 \hhline{>{\huxb{0, 0, 0}{0.4}}-}
@@ -1854,31 +2064,59 @@ population), the travel time is exaggerated by Shen-type measure:
 \end{table}
  
 
-Why do these differences matter? Think about equity analysis! With
-spatial availability, we can push accessibility analysis forward by
-making it more interpretable
+\includegraphics[width=1\linewidth]{Spatial-Availability-Refreshed_files/figure-latex/rate-accessibility-plot-creation-1}
 
-\hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
-\subsection{Accessibility and spatial availability of jobs in
-Toronto}\label{accessibility-and-spatial-availability-of-jobs-in-toronto}}
-
-Toronto is the largest city in the GGH and represents a significant
-subset of workers and jobs in the GTHA; 33\% of workers in the GTHA
-travel to jobs in Toronto and 43\% of jobs are located within Toronto.
+Spatial availability untangles Shen-stype measure so an absolute value
+of \emph{opportunity availability} is expressed. Because the
+proportional allocation mechanism makes clear that all the opportunities
+are being allocated proportionally to all the origins, it makes the
+interpretation more clear. It thus can be directly divided by origin
+population and expressed as an opportunities per capita score.
+Coincidentally, as mentioned, this score is equal to Shen-type measure,
+but with a renewed interpretability. When normalized spatial
+availability is compared to Hansen-type measure, normalizing the output
+by population directly is unique; spatial availability can be normalized
+by opportunities without the issue of multiple counting of opportunities
+which obscures accessibility's meaning. See Figure
+\ref{fig:rate-accessibility-plot} which displays the normalized
+opportunity per capita spatial availability score and plainly
+normalizing Hansen-type accessibility by dividing each value by the
+origin population.
 
 \newpage
 
-\hypertarget{discussion-and-conclusions}{%
-\section{Discussion and Conclusions}\label{discussion-and-conclusions}}
+\hypertarget{conclusions}{%
+\section{Conclusions}\label{conclusions}}
 
-Words go here.
+Why do differences between Hansen-style measure and the interpretation
+of Shen-type measure matter? Because of equity analysis and policy
+planning! With spatial availability, we can push accessibility analysis
+forward by making it more interpretable. As discussed, Hansen-style
+accessibility value cannot be interpreted directly in either form
+(though it can be interpreted relatively to speak about urban form). By
+contrast, spatial availability yields the number of jobs available
+directly.
 
-\begin{itemize}
+This property and understanding spatial availability (along with Shen's
+accessibility with competition and 2SFCA) as a singly-constrained
+measure are important to understanding how accessibility measures can be
+broadled interepted. The following are recommendations:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi})}
+\tightlist
 \item
-  Hansen-style accessibilty should be used when opportunities are
+  The Hansen-style accessibilty should be used when opportunities are
   non-exclusive. When opportunities are perfectly exclusive (i.e., 1
   spot for 1 person), spatial availability (i.e., accessibility with
   competition) should be used.
+\item
+  Though outside of scope, when opportunities are perfectly exclusive ad
+  -We argue that spatial availability should be used
+\end{enumerate}
+
+\begin{itemize}
+\tightlist
 \item
   some literature which uses Shen focuses on how travel cost discounts
   job supply (opportunities) and demand (opportunity-seeking
