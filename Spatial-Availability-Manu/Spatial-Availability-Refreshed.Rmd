@@ -207,7 +207,7 @@ The concept of accessibility in transportation studies derives its appeal from t
 
 <!-- Quickly review the backgroud for the research and identify problem -->
 
-Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures have been derived, particularly after the influential work of @wilson1971 on spatial interaction^[Utility-based measures derive from a very different theoretical framework, random utility maximization]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature, it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring]. Hanson-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
+Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures have been derived, particularly after the influential work of @wilson1971 on spatial interaction^[Utility-based measures derive from a very different theoretical framework, random utility maximization]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature, it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring]. Hansen-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
 
 <!-- Identify a problem -->
 
@@ -319,7 +319,7 @@ Misunderstanding $P_i$ and $O_j$ may lead to a misleading interpretation of the 
 \end{equation}
 ```
 
-Notice, confounding $P_i$ and $O_j$ with the effective opportunity-seeking population and the jobs they take may cause us to misunderstand $a_{i}$ as _"relevant opportunities"_ per _"people in location $i$ seeking opportunities"_. Instead, as mathematically expressed in the proof, $a_{i}$ is a proportion of the opportunities available to the population, since multiplying $a_i$ by the population at $i$ and summing for all origins in the system equals to the total number of opportunities in the system. Embedded in $a_i$ is already the travel behaviour so $P_i$ and $O_j$ must be plainly understand as population at $i$ and opportunities at $j$ to have Equation (\ref{eq:2SFCA-total}) hold true.
+Notice, confounding $P_i$ with the effective opportunity-seeking population and $O_j$ with the jobs taken may cause us to misunderstand $a_{i}$ as _"relevant opportunities"_ per _"people in location $i$ seeking opportunities"_. Instead, as mathematically expressed in the proof, $a_{i}$ is a proportion of the opportunities available to the population, since multiplying $a_i$ by the population at $i$ and summing for all origins in the system equals to the total number of opportunities in the system. Embedded in $a_i$ is already the travel behaviour so $P_i$ and $O_j$ must be plainly understand as population at $i$ and opportunities at $j$ to have Equation (\ref{eq:2SFCA-total}) hold true.
 
 ## Shen's synthetic example
 
@@ -428,95 +428,18 @@ od_tt1 <- merge(od_tt,
          pop_f = pop * f, 
          jobs_f = opp * f,
          S_i, 
-         a_i)
+         a_i)%>%
+  mutate(f = ifelse(f < 0.001, "< 0.001", round(f, 3)),
+         pop_f = ifelse(pop_f < 0.001, "< 0.001", round(pop_f, 3)),
+         jobs_f = ifelse(jobs_f < 0.001, "< 0.001", round(jobs_f, 3)))
 
 colnames(od_tt1) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i") #, "BFCA_i")
 
-od_tt1 <- od_tt1 %>% as_hux(scientific=FALSE)
-```
-
-```{r toy-example-table}
-table_toy  <- od_tt1 %>%
-  set_bold(1, everywhere) %>%
-  set_bottom_border(c(1,4,7), everywhere) %>%
-  set_align(everywhere, c(1, 3), "left") %>%
-  set_align(everywhere, c(2, 4:10), "center") %>%
-  set_number_format(everywhere, 2, fmt_pretty()) %>%
-  set_number_format(everywhere, 4, fmt_pretty()) %>%
-  set_number_format(everywhere, 6, 6) %>%
-  set_number_format(everywhere, 7:10, fmt_pretty(digits = 3, format = "f")) %>%
-  merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>%
-  merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>%
-  merge_cells(2:4, 9) %>% merge_cells(5:7, 9) %>% merge_cells(8:10, 9) %>% 
-  merge_cells(2:4, 10) %>% merge_cells(5:7, 10) %>% merge_cells(8:10, 10) %>% 
-  set_width(1.2) %>%
-  set_height(4) %>%
-  set_right_border(everywhere, 1:9, brdr(1, "solid", "grey")) %>%
-  set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.1") %>%
-  set_label("tab:synthetic-example")
-
-font_size(table_toy) <- 7
-
-table_toy[1:10,]
-```
-
-Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. We use a negative exponential impedance function with $\beta=0.1$ as done in @shen1998 [see footnote (5)]:
-$$
-f(c_{ij}) = \exp(-\beta\cdot c_{ij})
-$$
-
-In Table \ref{tab:synthetic-example}, we see that population centers $A$ and $B$ have equal Hansen-type accessibility ($S_A = S_B=$ 27,292 jobs). On the other hand, the isolated satellite town of $C$ has low accessibility ($S_C=$ 2,240 jobs). But center $B$, despite its high accessibility, is a large population center. $C$, in contrast, is smaller but also relatively isolated and has a balanced ratio of jobs (10,0000 jobs) to population (10,000 people). It is difficult from these outputs to determine whether the accessibility at $C$ is better or worse than that at $A$ or $B$.
-
-The results are easier to interpret when we consider Shen-type accessibility. The results indicate that $a_A \approx$ 1.337 jobs per capita, $a_B \approx$ 0.888, and $a_C\approx$ 0.996. The latter value is sensible given the jobs-population balance of $C$. Center $A$ is relatively close to a large number of jobs (more jobs than the population of $A$). The opposite is true of $B$. According to @shen1998, the sum of the population-weighted accessibility $a_i$ is exactly equal to the number of jobs in the region following Shen's proof:
-$$
-\begin{array}{l}
-\sum_{i=1}^N a_{i} P_i= \sum_{j=1}^JO_j\\
-50,000\times 1.3366693 \\
-+ 150,000 \times 0.8880224 \\
-+ 10,000 \times 0.9963171 = 210,000
-\end{array}
-$$
-
-As mentioned earlier, this property under Shen's definition of $P_i$  _"people in location $i$ seeking opportunities"_ , gives the impression that all jobs sought are allocated to the people located at each origin $i$. In other words, $P_i$ is used instead of $P_{ij}^*$ (i.e., the effective opportunity-seeking population which is already adjusted by travel behaviour) instead of simply the full population at $i$ which is adjusted in $a_i$ by the travel behaviour (the impedance function). As seen in column __Pop * f(TT)__ in Table \ref{tab:synthetic-example} (i.e., $P_{ij}^* = P_i\cdot f(c_{ij})$), the number of individuals from population center $A$ that are _willing to reach_ employment centers 1, 2, and 3 are 11,156, 2,489, and 2,27 respectively. Therefore, the total effective opportunity-seeking population at $A$ is $P_A^* = \sum_jP_{Aj}^*$, that is, 13,647.27 people, which is considerably lower than the total population of $A$ (i.e., $P_A=$ 50,000 people). Using $P_{ij}^*$ in the calculations shows that only 56,834.59 jobs are allocated to the population, instead of the nominal number of jobs in the region which is over three times this number (i.e., 210,000 jobs).
-$$
-\begin{array}{l}
-\sum_{i=1}^N a_{i} P_{ij}^* =\\
-(11,156.51 + 2,489.35 + 2.26)\times 1.3366693 \\
-+ (7,468.06 + 33,469.52 + 6.81)\times 0.8880224\\
-+ (4.54 + 4.54 + 2,231.20)\times 0.9963171 \approx 56,834.59
-\end{array}
-$$
-
-Furthermore, even when Shen's $P_i$ is understood plainly as the total population at $i$, the meaning of the proof may still be ambiguous. The proof can still give the impression that all jobs are allocated to the total population since total population ($\sum_{i=1}^N P_i$) goes into the equation and total jobs ($\sum_{j=1}^JO_j$) in the region is the result. However, this impression is incomplete since it does not reflect the amount of population which takes jobs and the number of people being considered for jobs; these magnitudes are a product of being weighted down by the impedance function. These magnitudes are not obious from $a_i$ is because the result is presented as a rate (i.e., opportunities per capita). 
-
-```{r reset-impedance-parameter, echo=FALSE}
-# Impedance parameter
-b <- 0.6
-```
-
-Let us consider a modification to the example in Table \ref{tab:synthetic-example-2}, to illustrate how the presentation of $a_i$ as a rate obscures the magnitude of the effective opportunity-seeking population and how this can impact the interpretation of the results. We modify the example by increasing the $\beta$ to 0.6 (compared to the previous value of 0.1; see Figure \ref{fig:impedance-functions-comparison}). This modification increases the cost of travel and thus the impedance function, which is an expression of the population's relative willingness to travel to opportunities, reflects a population which is relatively less willing to travel to opportunities further away compared to the previous $\beta$ value.
-
-```{r comparison-impedance-functions-synthetic-example, fig.cap="\\label{fig:impedance-functions-comparison}Comparison of two impedance functions in the example."}
-
-data.frame(tt = seq(0, 110, 1)) %>%
-  mutate(f1 = exp(-0.1 * tt),
-         f2 = exp(-b * tt)) %>%
-  pivot_longer(cols = -tt,
-               names_to = "Function",
-               values_to = "f") %>%
-  mutate(Function = case_when(Function == "f1" ~ "beta = 0.1",
-                              Function == "f2" ~ "beta = 0.6")) %>%
-  ggplot() +
-  xlab("TT") +
-  ylab("f(TT)") +
-  geom_line(aes(x = tt, 
-                y = f,
-                color = Function)) +
-  theme_minimal()
 ```
 
 ```{r access-calcs-table-2, include=FALSE}
-#table with all the accessibility calculations
+# Impedance parameter
+b <- 0.6
 
 # Calculate impedance function
 od_tt <- od_tt %>% mutate(f = exp(-b * tt))
@@ -540,7 +463,7 @@ S <- od_tt %>%
 ```
 
 ```{r toy-example-table-creation-2, include=FALSE, cache=FALSE}
-od_tt1 <- merge(od_tt, 
+od_tt2 <- merge(od_tt, 
                 S, 
                 by="i", 
                 all.x = TRUE) %>%
@@ -558,50 +481,248 @@ od_tt1 <- merge(od_tt,
          pop_f = ifelse(pop_f < 0.001, "< 0.001", round(pop_f, 3)),
          jobs_f = ifelse(jobs_f < 0.001, "< 0.001", round(jobs_f, 3)))
 
-colnames(od_tt1) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i") #, "BFCA_i")
+colnames(od_tt2) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i") #, "BFCA_i")
 
-od_tt1 <- od_tt1  %>%
+#merge 1 and 2 and 3
+od_tt3 <- rbind(od_tt1, od_tt2)
+
+od_tt3 <- od_tt3  %>%
   as_hux(scientific=TRUE)
 ```
 
-```{r toy-example-table-2, cache=FALSE}
-# Needed to update chunk
-beta <- b
+```{r calculating-beta-0.1-table-creation}
+#table with all the accessibility calculations
+# Impedance parameter
+b <- 0.1
 
-table_toy  <- od_tt1 %>%
-  set_bold(1, everywhere) %>%
-  set_bottom_border(c(1,4,7), everywhere) %>%
-  set_align(everywhere, c(1, 3), "left") %>%
-  set_align(everywhere, c(2, 4:10), "center") %>%
-  set_number_format(everywhere, 2, fmt_pretty()) %>%
-  set_number_format(everywhere, 4, fmt_pretty()) %>%
-  #set_number_format(everywhere, 6:8, 6) %>%
-  set_number_format(everywhere, 9:10, fmt_pretty(digits = 4, format = "f")) %>%
-  merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>%
-  merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>%
-  merge_cells(2:4, 9) %>% merge_cells(5:7, 9) %>% merge_cells(8:10, 9) %>% 
-  merge_cells(2:4, 10) %>% merge_cells(5:7, 10) %>% merge_cells(8:10, 10) %>% 
-  set_width(1.3) %>%
-  set_height(4) %>%
-  set_right_border(everywhere, 1:9, brdr(1, "solid", "grey")) %>%
-  set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.6") %>%
-  set_label("tab:synthetic-example-2")
+# Calculate impedance function
+od_tt1 <- od_tt %>% mutate(f = exp(-b * tt))
 
-font_size(table_toy) <- 7
+# Level of service 
+LOS_j <- od_tt1 %>%
+  group_by(j) %>%
+  summarize(opp = mean(opp),
+            R_j = sum(pop * f),
+            .groups = "drop") %>%
+  mutate(LOS_j = opp/R_j)
 
-table_toy[1:10,]
+# Hansen- and Shen-type accessibility
+S <- od_tt1 %>%
+  left_join(LOS_j %>% 
+              dplyr::select(j, LOS_j, opp, R_j),
+            by = "j") %>%
+  group_by(i) %>%
+  summarize(S_i = sum(opp.x * f), #first, hansen-type accessibility (unconstrained)
+            a_i = sum(LOS_j * f)) #second, shen/2SFCA (singly constrained)
+
+od_tt1 <- merge(od_tt1, 
+                S, 
+                by="i", 
+                all.x = TRUE) %>%
+  transmute(i, 
+            j,
+         pop, 
+         opp, 
+         tt, 
+         f, 
+         pop_f = pop * f, 
+         jobs_f = opp * f,
+         S_i, 
+         a_i)%>%
+  mutate(f = ifelse(f < 0.001, "< 0.001", round(f, 3)),
+         pop_f = ifelse(pop_f < 0.001, "< 0.001", round(pop_f, 3)),
+         jobs_f = ifelse(jobs_f < 0.001, "< 0.001", round(jobs_f, 3)))
+
+colnames(od_tt1) = c("Origin",  "Dest.","Pop.", "Jobs", "TT", "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i") #, "BFCA_i")
+od_tt1 <- t(od_tt1)
 ```
 
 
-As expected, Hansen-type accessibility drops quite dramatically after this $\beta$ modification: the friction of distance is so high that few opportunities are within reach. In contrast, Shen-type accessibility converges to the jobs:population ratio (i.e., origin $A$ is $\frac{100,000}{50,000} = 2$). This is explained by the way the impedance function excludes the population in droves, thus reducing the competition for jobs: as seen in Table \ref{tab:synthetic-example-2}, the effective opportunity-seeking population from $A$ is only about `r as.numeric(od_tt1[2, 7])`; likewise, the number of jobs at 1 weighted by the impedance is only `r as.numeric(od_tt1[2, 8])`. In other words, competition is low because jobs are expensive to reach, but those willing to reach jobs enjoy relatively high accessibility (in the limit, the jobs/population ratio). On the other hand, the accessibility is effectively zero for those in the population prevented by the impedance from reaching any jobs.
+```{r calculating-beta-0.6-table-creation}
+# Impedance parameter
+b <- 0.6
 
-In what follows, we propose an alternative derivation of @shen1998 accessibility with competition that explicitly clarifies the opportunities allocated to the _effective opportunity-seeking population_ within its formulation. Hence, the results are not only more interpretable, also extend the potential of accessibility analysis. 
+# Calculate impedance function
+od_tt2 <- od_tt %>% mutate(f = exp(-b * tt))
+
+# Level of service 
+LOS_j <- od_tt2 %>%
+  group_by(j) %>%
+  summarize(opp = mean(opp),
+            R_j = sum(pop * f),
+            .groups = "drop") %>%
+  mutate(LOS_j = opp/R_j)
+
+# Hansen- and Shen-type accessibility
+S <- od_tt2 %>%
+  left_join(LOS_j %>% 
+              dplyr::select(j, LOS_j, opp, R_j),
+            by = "j") %>%
+  group_by(i) %>%
+  summarize(S_i = sum(opp.x * f), #first, hansen-type accessibility (unconstrained)
+            a_i = sum(LOS_j * f)) #second, shen/2SFCA (singly constrained),
+
+od_tt2 <- merge(od_tt2, 
+                S, 
+                by="i", 
+                all.x = TRUE) %>%
+  transmute(f, 
+         pop_f = pop * f, 
+         jobs_f = opp * f,
+         S_i, 
+         a_i) %>%
+  mutate(f = ifelse(f < 0.001, "< 0.001", round(f, 3)),
+         pop_f = ifelse(pop_f < 0.001, "< 0.001", round(pop_f, 3)),
+         jobs_f = ifelse(jobs_f < 0.001, "< 0.001", round(jobs_f, 3)))
+
+colnames(od_tt2) = c("f(TT)", "Pop * f(TT)^1", "Jobs * f(TT)^1", "S_i^1", "a_i^1") #, "BFCA_i")
+od_tt2 <- t(od_tt2)
+```
+
+```{r calculating-beta-0.1-Vi-table-creation}
+# Reset impedance parameter
+b <- 0.1
+
+# Calculate impedance function
+od_tt3 <- od_tt %>% 
+  mutate(f = exp(-b * tt))
+
+od_tt3 <- od_tt3 %>%
+  mutate(catch = 1) %>%
+  sp_avail_detailed(o_id = i, #spatial availability
+                    d_id = j, 
+                    pop = pop,
+                    opp = opp,
+                    r = catch,
+                    f = f, 
+                    alpha = 1) %>%
+  transmute(i,
+            f, 
+         F_p = f_p, 
+         F_c = f_c, 
+         F_t = f_t,
+         V_ij)
+
+V_i <- od_tt3 %>%
+  group_by(i) %>%
+  summarize(V_i = sum(V_ij))
+
+od_tt3 <- od_tt3 %>%
+  left_join(V_i,
+            by = "i") %>% dplyr::select(-c(i,f)) %>%
+  mutate(F_p = ifelse(F_p < 0.001, "< 0.001", round(F_p, 3)),
+         F_c = ifelse(F_c < 0.001, "< 0.001", round(F_c, 3)),
+          F_t = ifelse(F_t < 0.001, "< 0.001", round(F_t, 3)),
+          V_ij = ifelse(V_ij < 0.001, "< 0.001", round(V_ij, 3)),
+         V_i = ifelse(V_i < 0.001, "< 0.001", round(V_i, 3)),)
+
+colnames(od_tt3) <- c("F^p", "F^c", "F", "V_ij", "V_i")
+od_tt3 <- t(od_tt3)
+```
+
+
+```{r merging-data-for-table}
+#merge 1 and 2 and 3
+od_tt4 <- rbind(od_tt1, od_tt2, od_tt3)
+
+rownames_od_tt4 <- c("Origin", 
+"Dest.", "Pop.", "Jobs", "TT", 
+"f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
+"f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
+"F^c", "F^p", "F", "V_ij", "V_i")
+
+od_tt4 <- cbind(rownames_od_tt4, od_tt4)
+
+od_tt4 <- od_tt4  %>%
+  as_hux()
+
+
+```
+
+
+```{r toy-example-table-all-values, cache=FALSE}
+table_toy  <- od_tt4 %>%
+  set_background_color(c(6:10,16:20), 1:10, "lightyellow") %>%
+  set_background_color(11:15, 1:10, "grey90") %>%
+  set_bold(1, everywhere) %>%
+  set_bottom_border(c(1,2,5,10,15,20), everywhere) %>%
+  set_right_border(everywhere, c(1,4,7,10), brdr(1, "solid", "grey")) %>%
+  set_align(1:20, 1, "left") %>%
+  set_align(1:20,  2:10, "center") %>%
+  set_number_format(c(6,10,11:15,16:18), everywhere, 3) %>% #the smaller numbers, have 3 decimals
+  set_number_format(c(7:9,19,20), everywhere, 1) %>% # the larger numbers, have 1 decimal
+  merge_cells(1, 2:4) %>% merge_cells(1, 5:7) %>% merge_cells(1, 8:10) %>%
+  # set_width(1.5) %>%
+  set_height(5) %>%
+  set_caption("Summary description of synthetic example: Hansen-type accessibility $S_i$, Shen-type accessibility $a_i$, and spatial availability $V_i$ with beta = 0.1 (light yellow) and beta = 0.6 (light grey).") %>%
+  set_label("tab:synthetic-example") %>% 
+  set_latex_float("h")
+
+font_size(table_toy) <- 7
+
+table_toy[1:20,]
+```
+
+
+Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. We use a negative exponential impedance function with $\beta=0.1$ as done in @shen1998 [see footnote (5)]:
+$$
+f(c_{ij}) = \exp(-\beta\cdot c_{ij})
+$$
+
+In Table \ref{tab:synthetic-example}, we see that population centers $A$ and $B$ have equal Hansen-type accessibility ($S_A = S_B=$ 27,292 jobs). On the other hand, the isolated satellite town of $C$ has low accessibility ($S_C=$ 2,240 jobs). But center $B$, despite its high accessibility, is a large population center. $C$, in contrast, is smaller but also relatively isolated and has a balanced ratio of jobs (10,0000 jobs) to population (10,000 people). It is difficult from these outputs to determine whether the accessibility at $C$ is better or worse than that at $A$ or $B$.
+
+The results are easier to interpret when we consider Shen-type accessibility. The results indicate that $a_A \approx$ 1.337 jobs per capita, $a_B \approx$ 0.888, and $a_C\approx$ 0.996. The latter value is sensible given the jobs-population balance of $C$. Center $A$ is relatively close to a large number of jobs (more jobs than the population of $A$). The opposite is true of $B$. According to @shen1998, the sum of the population-weighted accessibility $a_i$ is exactly equal to the number of jobs in the region following Shen's proof:
+$$
+\begin{array}{l}
+\sum_{i=1}^N a_{i} P_i= \sum_{j=1}^JO_j\\
+50,000\times 1.3366693 \\
++ 150,000 \times 0.8880224 \\
++ 10,000 \times 0.9963171 = 210,000
+\end{array}
+$$
+
+As mentioned earlier, this property under Shen's definition of $P_i$  _"people in location $i$ seeking opportunities"_ , gives the impression that all jobs sought are allocated to the people located at each origin $i$. In other words, Shen defines $P_i$ to mean $P_{ij}^*$ (i.e., the _effective opportunity-seeking population_ which is already adjusted by travel behaviour) instead of defining it to simply be the full population at $i$ (i.e., $P_i$). As seen in column __Pop * f(TT)__ in Table \ref{tab:synthetic-example} (i.e., $P_{ij}^* = P_i\cdot f(c_{ij})$), the number of individuals from population center $A$ that are _willing to reach_ employment centers 1, 2, and 3 are 11,156, 2,489, and 2.27 respectively. Therefore, the total effective opportunity-seeking population at $A$ is $P_A^* = \sum_jP_{Aj}^*$, that is, 13,647.27 people, which is considerably lower than the total population of $A$ (i.e., $P_A=$ 50,000 people). Demonstrated as follows, using $P_{ij}^*$ in the calculations associated with this proof results in only 56,834.59 jobs being allocated to the population, instead of the nominal number of jobs in the region that is over three times this number (i.e., 210,000 jobs).
+$$
+\begin{array}{l}
+\sum_{i=1}^N a_{i} P_{ij}^* =\\
+(11,156.51 + 2,489.35 + 2.26)\times 1.3366693 \\
++ (7,468.06 + 33,469.52 + 6.81)\times 0.8880224\\
++ (4.54 + 4.54 + 2,231.20)\times 0.9963171 \approx 56,834.59
+\end{array}
+$$
+
+Furthermore, even when Shen's $P_i$ is understood plainly as the total population at $i$, the meaning of the proof may still be ambiguous. The proof can still give the impression that all jobs are allocated to the total population since total population ($\sum_{i=1}^N P_i$) goes into the equation and total jobs ($\sum_{j=1}^JO_j$) in the region is the result. However, this impression is incomplete since it does not reflect the amount of population which takes jobs and the number of people being considered for jobs; these magnitudes are a product of being weighted down by the impedance function. These magnitudes are not obvious from $a_i$ is because the result is presented as a rate (i.e., opportunities per capita). 
+
+Let us consider a modification to the travel behaviour of the example discussed to illustrate how the presentation of $a_i$ as a rate obscures the magnitude of the effective opportunity-seeking population. We modify the example by increasing the $\beta$ to 0.6 (compared to the previous value of 0.1; see Figure \ref{fig:impedance-functions-comparison}). This modification increases the cost of travel and thus the impedance function, which is an expression of the population's relative willingness to travel to opportunities, reflects a population which is relatively less willing to travel to opportunities further away compared to the previous $\beta$ value. The Hansen-type and Shen-type values are presented in the yellow rows of Table \ref{tab:synthetic-example}.
+
+```{r comparison-impedance-functions-synthetic-example, fig.cap="\\label{fig:impedance-functions-comparison}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time."}
+b<-0.6
+data.frame(tt = seq(0, 110, 1)) %>%
+  mutate(f1 = exp(-0.1 * tt),
+         f2 = exp(-b * tt)) %>%
+  pivot_longer(cols = -tt,
+               names_to = "Function",
+               values_to = "f") %>%
+  mutate(Function = case_when(Function == "f1" ~ "beta = 0.1",
+                              Function == "f2" ~ "beta = 0.6")) %>%
+  ggplot() +
+  xlab("TT") +
+  ylab("f(TT)") +
+  geom_line(aes(x = tt, 
+                y = f,
+                color = Function)) +
+  theme_minimal()
+```
+
+As expected, Hansen-type accessibility drops quite dramatically after this $\beta$ modification: the friction of distance is so high that few opportunities are within reach. In contrast, Shen-type accessibility converges to the jobs:population ratio (i.e., origin $A$ is $\frac{100,000}{50,000} = 2$). This is explained by the way the impedance function excludes the population in droves, thus reducing the competition for jobs: as seen in Table \ref{tab:synthetic-example}, the effective opportunity-seeking population from $A$ is only about equal to `r as.numeric(od_tt4[12, 2])`; likewise, the number of jobs at 1 weighted by the impedance is only `r as.numeric(od_tt4[13, 2])`. In other words, competition is low because jobs are expensive to reach, but those willing to reach jobs enjoy relatively high accessibility (in the limit, the jobs/population ratio). On the other hand, the accessibility is effectively zero for those in the population prevented by the impedance from reaching any jobs.
+
+In what follows, we propose an alternative derivation of @shen1998 accessibility with competition that explicitly clarifies the opportunities allocated to the _effective opportunity-seeking population_ within its formulation. Hence, the results are not only more interpretable, but also extend the potential of accessibility analysis. 
 
 # Introducing spatial availability: a singly-constrained measure of accessibility
 
 In brief, we define the _spatial availability_ at $i$ ($V_{i}$) as the proportion of all opportunities $O$ that are allocated to $i$ from all destinations $j$:
 $$
-V_i = \sum_{j=1}^KO_jF^t_{ij}
+V_i = \sum_{j=1}^NO_jF^t_{ij}
 $$
 
 \noindent where:
@@ -641,7 +762,7 @@ $$
 \end{array}
 $$
 
-In the general case where there are $N$ population centers in the region, we define the following population-based balancing factors:
+In the general case where there are $N$ population centers in the region, we define the following population-based balancing factors in Equation (\ref{eq:population-balancing-factor}):
 ```{=tex}
 \begin{equation}
 \label{eq:population-balancing-factor}
@@ -653,12 +774,12 @@ Balancing factor $F^p_{i}$ corresponds to the proportion of the population in or
 
 Balancing factor $F^p_{i}$ can now be used to proportionally allocate a share of available jobs at $j$ to origin $i$. The number of jobs available to $i$ from $j$ balanced by population shares is defined as follows:
 $$
-V^p_{ij} = O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
+V^p_{ij} = O_j\frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}
 $$
 
 In the general case where there are $J$ employment centers, the total number of jobs available from all destinations to $i$ is simply the sum of $V^p_{ij}$ over $j=1,\cdots, J$:
 $$
-V^p_{i} = \sum_{j=1}^J O_j\frac{F^p_{i}}{\sum_{i=1}^K F^p_{i}}
+V^p_{i} = \sum_{j=1}^J O_j\frac{F^p_{i}}{\sum_{i=1}^N F^p_{i}}
 $$
 
 Since the factor $F^p_{i}$, when summed over $i=1,\cdots,N$ always equals to 1 (i.e., $\sum_{i=1}^{N} F^p_{i} = 1$), the sum of all spatially available jobs equals $O$, the total number of opportunities in the region:
@@ -698,19 +819,19 @@ F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^N f(c_{ij})}\\
 
 The total number of jobs available to $i$ from $j$ according to impedance is defined as follows:
 $$
-V^c_{ij} = O_j\frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}
+V^c_{ij} = O_j\frac{F^c_{ij}}{\sum_{i=1}^N F^c_{ij}}
 $$
 
 The total number of jobs available to $i$ from all destinations is:
 $$
-V^c_{i} = \sum_{j=1}^J O_j\frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}
+V^c_{i} = \sum_{j=1}^J O_j\frac{F^c_{ij}}{\sum_{i=1}^N F^c_{ij}}
 $$
 
-Like the population-based allocation factors, $F^c_{i}$ summed over $i=1,\cdots,N$ always equals to 1 (i.e., $\sum_{i=1}^{N} F^c_{i} = 1$). As before, the sum of all spatially available jobs equals $O$, the total number of opportunities in the region:
+Like the population-based allocation factors, $F^c_{i}$ summed over $i=1,\cdots,N$ always equals to 1 (i.e., $\sum_{i=1}^{N} F^c_{ij} = 1$). As before, the sum of all spatially available jobs equals $O$, the total number of opportunities in the region:
 $$
 \begin{array}{l}
-\sum_{i=1}^N V^c_i =\sum_{i=1}^N\sum_{j=1}^JO_j\frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}\\
-=\sum_{i=1}^N \frac{F^c_{i}}{\sum_{i=1}^N F^c_{i}}\cdot\sum_{j=1}^JO_j\\
+\sum_{i=1}^N V^c_i =\sum_{i=1}^N\sum_{j=1}^JO_j\frac{F^c_{ij}}{\sum_{i=1}^N F^c_{ij}}\\
+=\sum_{i=1}^N \frac{F^c_{ij}}{\sum_{i=1}^N F^c_{ij}}\cdot\sum_{j=1}^JO_j\\
 =\sum_{j=1}^J O_j = O
 \end{array}
 $$
@@ -746,72 +867,6 @@ The terms in Equation \ref{eq:spatial-availability} are as follows:
 
 Notice that, unlike $S_i$ in Hansen-type accessibility (Equation (\ref{eq:conventional-accessibility})), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to Shen's example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example-spatial-availability} contains the information needed to calculate $V_i$, with $\beta$ set again to 0.1 as in Table \ref{tab:synthetic-example}.
 
-```{r toy-example-spatial-availability-table-creation, include=FALSE}
-# Reset impedance parameter
-b <- 0.1
-
-# Calculate impedance function
-od_tt2 <- od_tt %>% 
-  mutate(f = exp(-b * tt))
-
-od_tt2 <- od_tt2 %>%
-  mutate(catch = 1) %>%
-  sp_avail_detailed(o_id = i,
-                    d_id = j, 
-                    pop = pop,
-                    opp = opp,
-                    r = catch,
-                    f = f, 
-                    alpha = 1) %>%
-  transmute(i, 
-         pop, 
-         j, 
-         opp, 
-         tt, 
-         f, 
-         F_p = f_p, 
-         F_c = f_c, 
-         F_t = f_t,
-         V_ij)
-
-V_i <- od_tt2 %>%
-  group_by(i) %>%
-  summarize(V_i = sum(V_ij))
-
-od_tt2 <- od_tt2 %>%
-  left_join(V_i,
-            by = "i")
-
-colnames(od_tt2) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "F^p", "F^c", "F", "V_ij", "V_i")
-
-od_tt2 <- od_tt2 %>% 
-  as_hux(scientific=FALSE)
-```
-
-```{r toy-example-spatial-availability-table}
-table_toy_2  <- od_tt2 %>%
-  set_bold(1, everywhere) %>%
-  set_bottom_border(c(1,4,7), everywhere) %>%
-  set_align(everywhere, c(1, 3), "left") %>%
-  set_align(everywhere, c(2, 4:10), "center") %>%
-  set_number_format(everywhere, 2, fmt_pretty()) %>%
-  set_number_format(everywhere, 4, fmt_pretty()) %>%
-  set_number_format(everywhere, 6:9, 6) %>%
-  set_number_format(everywhere, 10:11, fmt_pretty(digits = 2, format = "f")) %>%
-  merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>%
-  merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>%
-  merge_cells(2:4, 11) %>% merge_cells(5:7, 11) %>% merge_cells(8:10, 11) %>% 
-  set_width(1.2) %>%
-  set_height(4) %>%
-  set_right_border(everywhere, 1:10, brdr(1, "solid", "grey")) %>%
-  set_caption("Summary description of synthetic example: spatial availability") %>%
-  set_label("tab:synthetic-example-spatial-availability")
-
-font_size(table_toy_2) <- 7
-
-table_toy_2[1:10,]
-```
-
 In Table \ref{tab:synthetic-example-spatial-availability}, column __V_ij__ are the jobs available to each origin from each employment center. In this column $V_{A1}=$ 59,901 is the number of jobs available at $A$ from employment center 1. Column __V_i__ (i.e., $\sum_{j=1}^JV_{ij}$) gives the total number of jobs available to origin $i$. We can verify that the total number of jobs available is consistent with the total number of jobs in the region (with some small rounding error):
 $$
 \sum_{i=1}^N V_i = 66,833 + 133,203 + 9,963 \approx 210,000 
@@ -821,7 +876,7 @@ Compare the calculated values of $V_i$ to column __S_i__ (Hansen-type accessibil
 
 As discussed above, Hansen-type accessibility is not designed to preserve the number of jobs in the region. Shen-type accessibility ends up preserving the number of jobs in the region but the definitions of variables are internally obscured; the only way it preserves the number of jobs is if the effect of the impedance function is ignored when expanding the values of jobs per capita to obtain the total number of opportunities. The proportional allocation procedure described above, in contrast, consistently returns a number of jobs available that matches the total number of jobs in the region. 
 
-Since the jobs spatially available are consistent with the jobs in the region, it is possible to define a measure of spatial availability per capita:
+Since the jobs spatially available are consistent with the jobs in the region, it is possible to define a measure of spatial availability per capita as presented in Equation (\ref{eq:SA-per-capita}):
 ```{=tex}
 \begin{equation}
 \label{eq:SA-per-capita}
@@ -829,13 +884,7 @@ v_i = \frac{V_i}{P_i}
 \end{equation}
 ```
 
-And, since the jobs are preserved, it is possible to use the regional jobs per capita as a benchmark to compare the spatial availability of jobs per capita at each origin:
-```{=tex}
-\begin{equation}
-\label{eq:Regional-jobs-per-capita}
-\frac{\sum_{j=1}^J O_j}{\sum_{i=1}^N P_i}
-\end{equation}
-```
+And, since the jobs are preserved, it is possible to use the regional jobs per capita ($\frac{\sum_{j=1}^J O_j}{\sum_{i=1}^N P_i}$) as a benchmark to compare the spatial availability of jobs per capita at each origin.
 
 In the example, since the population is equal to the number of jobs, the regional value of jobs per capita is $1.0$. To complete the illustrative example, the spatial availability of jobs per capita by origin is:
 ```{r SA-6, eval=TRUE, include=FALSE}
@@ -896,9 +945,7 @@ The GTHA contains the city of Toronto, the most populous city in Canada. The cit
 
 We obtained full-time employment flows from the 2016 Transportation Tomorrow Survey (TTS). This survey collects representative urban travel information from 20 municipalities contained within the GGH area in the southern part of Ontario, Canada (see Figure \ref{fig:TTS-16-survey-area}) [@data_management_group_tts_2018] every five years. The data set includes origin to destination flows associated with full-time employment trips; the number of jobs (n=`r round(sum(TTS2016R::ggh_taz$jobs), 3) %>% prettyNum(big.mark = ",")`) and workers (n=`r round(sum(TTS2016R::ggh_taz$workers), 3) %>% prettyNum(big.mark = ",")`) (i.e., the number of originating trips and destination trips) at each origin and destination are represented at the level of Traffic Analysis Zones (TAZ) (n=`r round(length(TTS2016R::ggh_taz$GTA06), 3) %>% prettyNum(big.mark = ",")`). TAZ are a unit of spatial analysis which are defined as part of the TTS, however, TAZ are commonly used to ascribe production and attraction of trips in the context of transportation planning modelling. In the GGH data set, the TAZ contain on average `r round(mean(TTS2016R::ggh_taz$workers), 0) %>% prettyNum(big.mark = ",")` workers and jobs `r round(mean(TTS2016R::ggh_taz$jobs), 0) %>% prettyNum(big.mark = ",")` with more detailed descriptive statistics discussed later. The TTS data is based on a representative sample of between 3% to 5% of households in the GGH and is weighted to reflect the population covering the study area as a whole [@data_management_group_tts_2018]. 
 
-<!--NOTE: since we're doing Toronto... maybe only using car as a travel mode may not make sense? Maybe we can subset the population to just reflect those that travel by car? -->
-
-To generate the travel cost for the full-time employment trips, travel times between origins and destinations are calculated for car travel using the `R` package {r5r} [@r5r_2021] with a street network retrieved from OpenStreetMap. For the calculations a 3 hr travel time threshold was selected as it captures 99% of population-employment pairs (see the travel times summarized in Figure \ref{fig:TTS-16-survey-area}). This method does not account for traffic congestion or modal split, which can be estimated through other means [e.g., @allen_suburbanization_2021; @higgins2021changes]. For simplicity, we carry on with the assumption that all trips are taken by car in uncongested travel conditions. All data and data preparation steps are documented and can be freely explored in the companion open data product [{TTS2016R}](https://soukhova.github.io/TTS2016R/).
+To generate the travel cost for the full-time employment trips, travel times between origins and destinations (i.e., centroids of the TAZ) are calculated for car travel using the `R` package {r5r} [@r5r_2021] with a street network retrieved from OpenStreetMap. It is also assumed that intra-TAZ trips are equal to 0.1 minutes. For inter-TAZ trips, a 3 hr travel time threshold was selected as it captures 99% of population-employment pairs (see the travel times summarized in Figure \ref{fig:TTS-16-survey-area}). This method does not account for traffic congestion or modal split, which can be estimated through other means [e.g., @allen_suburbanization_2021; @higgins2021changes]. For simplicity, we carry on with the assumption that all trips are taken by car in uncongested travel conditions. All data and data preparation steps are documented and can be freely explored in the companion open data product [{TTS2016R}](https://soukhova.github.io/TTS2016R/).
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # grouping the planning boundaries/municipalities so they make up the 20 regions in the TTS 2016. Note: st_buffer is used as there are small existing gaps between some boundaries. st_buffer of 100 m is enough to widen all boundaries and complete the st_union without issue.
@@ -917,6 +964,7 @@ group_ggh_pd[group_ggh_pd$REGION_name=="Brant", "Y"] <- 4767466
 
 group_ggh_pd[group_ggh_pd$REGION_name=="Peterborough County", "Y"] <- 4921000
 ```
+
 ```{r, echo=FALSE, message=FALSE, warning=FALSE, include = FALSE}
 #plot 
 TTS_area_plot <- ggplot() +
@@ -1099,17 +1147,17 @@ Toronto_highways <- st_read("data-inputs/Toronto_highways.shp")
 TTC_lines <- st_read("data-inputs/TTC_lines.shp")
 ```
 
-```{r spatial-dist-Toronto-plot-creation}
+```{r spatial-dist-Toronto-plot-creation, include=FALSE, fig.width = 6}
 plot_TO_taz_jobs <- TO_taz %>% mutate(jobs = ifelse(jobs >= round(max(TO_taz$workers, na.rm=T)), round(max(TO_taz$workers, na.rm=T)), jobs),
                                  jobs = ifelse(jobs == 0, NA, jobs)) %>% #editing the higher range of jobs (10,000 to 41,821) to simply equal 15,000 for mapping purposes
   ggplot() +
   geom_sf(aes(fill = jobs), col = "grey90", size=0.1) +
      scale_fill_distiller(name = "Jobs",
-                       palette = "Purples", #legend scale bar
+                       palette = "Oranges", #legend scale bar
                        direction = 1,
                        na.value = "white",
-                       label = c( round(min(TO_taz$jobs, na.rm=T)), "187 (1st Qu.)", "426 (median)", "1079 (3rd Qu.)", "6777 to 27112"), 
-                       breaks = c( round(min(TO_taz$jobs, na.rm=T)), 187, 426, 1079, round(max(TO_taz$workers, na.rm=T)))) + 
+                       limits = c(0, 6777))+
+                       # label = c( round(min(TO_taz$jobs, na.rm=T)), "187 (1st Qu.)", "426 (median)", "1079 (3rd Qu.)", "6777 to 27112"), 
    annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
                          height = unit(0.5, "cm"), 
                          width = unit(0.5, "cm"),
@@ -1118,61 +1166,68 @@ plot_TO_taz_jobs <- TO_taz %>% mutate(jobs = ifelse(jobs >= round(max(TO_taz$wor
                                                           fill = c("white","dimgrey"),
                                                           text_size = 5),
                          which_north = "true") +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black",linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(0.8, 'cm'),
-        legend.title = element_text(size=10),
-        legend.text = element_text(size=5))+
-      coord_sf(crs = crs_string)
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black",linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.position = "none")+
+      coord_sf(crs = crs_string)+
+  ylab(expression("O"[j]))
 
-plot_TO_taz_workers <- TO_taz %>% mutate(workers = ifelse(workers == 0, NA, workers)) %>% 
+plot_TO_taz_workers <- TO_taz %>% mutate(workers = ifelse(workers == 0, NA, workers),
+                                         workers = ifelse(workers >= 6777, 6777, workers)) %>% 
   ggplot() +
   geom_sf(aes(fill = workers), col = "grey90", size=0.1) +
   scale_fill_distiller(name = "Workers",
                        palette = "Oranges", #legend scale bar
                        direction = 1,
                        na.value = "white",
-                       label = c( round(min(TO_taz$workers, na.rm=T)), "486 (1st Qu.)", "1035 (median)", "1698 (3rd Qu.)", round(max(TO_taz$workers, na.rm=T))), 
-                       breaks = c( round(min(TO_taz$workers, na.rm=T)), 486, 1035, 1698, round(max(TO_taz$workers, na.rm=T)))) + 
+                       label = c("0", "187 (Oj 1st qu.)", "", "486 (Pi 1st qu.)\n426 (Oj median)", "", "1079 (Oj 3rd qu.)\n1035 (Pi median) ", "1698 (Pi 3rd qu.)", "27112 (Oj max.) to \n6777 (Pi max.)"), 
+                       breaks = c(0, 187, 426, 486, 1035, 1079, 1698, 6777),
+                       limits = c(0, 6777)) + 
   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
                    location = "br",
                    height = unit(0.10, "cm"),
                    line_width = 0.5) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(0.75, 'cm'),
-        legend.title = element_text(size=10),
-        legend.text = element_text(size=5))+
-      coord_sf(crs = crs_string) 
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.height = unit(2, 'cm'),
+        legend.key.width = unit(0.4,"line"),
+        legend.position = c(1.15, 1),
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+      coord_sf(crs = crs_string)+
+  ylab(expression("P"[i]))
 
-# # the following saves the two plots as a png
-# plot_TO_taz_jobs / plot_TO_taz_workers
-# 
-# ggsave("images/spatial-dist-jobs-pop-Toronto-plot.png",dpi=700)
+# the following saves the two plots as a png
+plot_TO_taz_jobs / plot_TO_taz_workers
+
+ggsave("images/spatial-dist-jobs-pop-Toronto-plot.png",dpi=700)
 ```
 
-```{r, spatial-dist-Toronto-plot, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot}  Spatial distribution of full-time jobs (top) and full-time working population (bottom) for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines."}
+```{r, spatial-dist-Toronto-plot, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot}  Spatial distribution of full-time jobs (top) and full-time working population (bottom) at each TAZ for Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs.", out.width="100%"}
 knitr::include_graphics("images/spatial-dist-jobs-pop-Toronto-plot.png")
 png()
 ```
 
-```{r spatial-dist-Toronto2-plot-creation}
-plot_TO_taz_jobs_workers <- TO_taz %>% mutate(jwork = ifelse(jwork >= 3, 3, jwork),
-                                         jwork = ifelse(jwork ==0, NA, jwork)) %>%
+
+```{r spatial-dist-Toronto2-plot-creation, include=FALSE, fig.width = 6}
+plot_TO_taz_tt_mean <- TO_taz %>% mutate(workers = ifelse(tt_mean == 0, NA, tt_mean)) %>% 
   ggplot() +
-  geom_sf(aes(fill = jwork), col = "grey90", size=0.1) +
-  scale_fill_distiller(name = "Jobs:workers",
-                       palette = "Reds", #legend scale bar
+  geom_sf(aes(fill = tt_mean), col = "grey90", size=0.1) +
+     scale_fill_distiller(name = "Est. average \ntravel time (min)",
+                       palette = "Greens", #legend scale bar
                        direction = 1,
                        na.value = "white",
-                       label = c( round(min(TO_taz$jwork, na.rm=T)), "0.101 (1st Qu.)", "0.274 (median)", "0.692 (3rd Qu.)", "3 to 1918"),
-                       breaks = c( round(min(TO_taz$jwork, na.rm=T)), 0.101, 0.274, 0.692, 3)) +
+                       label = c( "0.00", "11.85 (1st qu.)", "", "17.31 (3rd qu.)\n15.01 (median)", "48.00"),
+                       breaks = c( 0.00, 11.85, 15.01, 17.31, 48.00)) +
   annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
                          height = unit(0.5, "cm"), 
                          width = unit(0.5, "cm"),
@@ -1181,56 +1236,65 @@ plot_TO_taz_jobs_workers <- TO_taz %>% mutate(jwork = ifelse(jwork >= 3, 3, jwor
                                                           fill = c("white","dimgrey"),
                                                           text_size = 5),
                          which_north = "true") +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(0.75, 'cm'),
-        legend.title = element_text(size=10),
-        legend.text = element_text(size=5))+
-      coord_sf(crs = crs_string)
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black",linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(legend.title = element_blank(),
+        axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.5,"line"),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string) +
+  ylab("Estimated \navg. TT (min)")
 
-plot_TO_taz_tt <- TO_taz %>% mutate(workers = ifelse(tt_mean == 0, NA, tt_mean)) %>% 
+
+plot_TO_taz_tt_sd <- TO_taz %>% mutate(tt_sd = ifelse(tt_sd >= 10, 10, tt_sd)) %>%
   ggplot() +
-  geom_sf(aes(fill = tt_mean), col = "grey90", size=0.1) +
-     scale_fill_distiller(name = "Est. average \ntravel time (min)",
+  geom_sf(aes(fill = tt_sd), col = "grey90", size=0.1) +
+     scale_fill_distiller(name = "Est. travel time SD",
                        palette = "Greys", #legend scale bar
                        direction = 1,
                        na.value = "white",
-                       label = c( round(min(TO_taz$tt_mean, na.rm=T)), "11.85 (1st Qu.)", "15.01 (median)", "17.31 (3rd Qu.)", "48.00"),
-                       breaks = c( round(min(TO_taz$tt_mean, na.rm=T)), 11.85, 15.01, 17.31, 48.00)) +
+                       label = c( "0.707", "5.612 (1st qu.)", "6.460 (median)", "7.357 (3rd qu.)", "10 to 42.020"),
+                       breaks = c(0.707, 5.612, 6.460, 7.357, 10),
+                       limits = c(0.707, 10)) +
   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
                    location = "br",
                    height = unit(0.10, "cm"),
                    line_width = 0.5) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(0.8, 'cm'),
-        legend.title = element_text(size=10),
-        legend.text = element_text(size=5))+
-      coord_sf(crs = crs_string)
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black",linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(legend.title = element_blank(),
+        axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.5,"line"),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string) +
+  ylab("Estimated avg. TT \nstandard deviation")
 
-# # the following saves the two plots as a png
-# plot_TO_taz_jobs_workers / plot_TO_taz_tt
-# 
-# ggsave("images/spatial-dist-jobs-pop-Toronto-plot2.png",dpi=700)
+
+# the following saves the two plots as a png
+plot_TO_taz_tt_mean / plot_TO_taz_tt_sd
+
+ggsave("images/spatial-dist-jobs-pop-Toronto-plot2.png",dpi=700)
 ```
 
-```{r, spatial-dist-Toronto-plot2, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot2}  Spatial distribution of full-time working jobs and worker ratio (top) and car travel time to jobs estimated using R5R for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines."}
+```{r, spatial-dist-Toronto-plot2, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot2}  Spatial distribution of full-time working population to jobs ratio (top) and car travel time to jobs estimated using R5R (bottom) for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. White TAZ represent a TAZ with no workers thus no travel time for the top plot, for the bottom plot they represent no travel time TAZ and TAZ with only 1 travel time.", out.width="100%"}
 knitr::include_graphics("images/spatial-dist-jobs-pop-Toronto-plot2.png")
 png()
 ```
 
-<!-- NOTE: AP, maybe this is worth explaining more..? or is it fine - I think it's okay but may be worth some additional discussion/relations to toronto-specific literature. Or even some descriptive statistics.
-Also check the jobs and worker counts... a total of 769,231 full-time jobs in 2016 in Toronto seems low? see: https://www.toronto.ca/wp-content/uploads/2020/01/9453-Toronto-Employment-Survey-2019-Bulletin.pdf perhaps these counts include employment of people in Toronto that don't live in Toronto; that would make sense.-->
 
-As mentioned, the focus of this empirical example is on the city of Toronto. It is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_taz$workers)/sum(TTS2016R::ggh_taz$workers))` of workers in the GGH live in Toronto and `r percent(sum(TO_taz$jobs)/sum(TTS2016R::ggh_taz$jobs))` of jobs that these workers take are located within Toronto. The spatial distribution of jobs (purple) and workers (orange) is shown in Figure \ref{fig:s-dist-Toronto-plot}. It can be seen that a large cluster of jobs can be found in the central southern part of Toronto (the downtown core). Spatial trends in the distribution of workers is less apparent relative to the distribution of jobs.
+As mentioned, the focus of this empirical example is on the city of Toronto. It is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_taz$workers)/sum(TTS2016R::ggh_taz$workers))` of workers in the GGH live in Toronto and `r percent(sum(TO_taz$jobs)/sum(TTS2016R::ggh_taz$jobs))` of jobs that these workers take are located within Toronto. The spatial distribution of jobs and workers is shown in Figure \ref{fig:s-dist-Toronto-plot}. It can be seen that a large cluster of jobs can be found in the central southern part of Toronto (the downtown core). Spatial trends in the distribution of workers is more even relative to the distribution of jobs.
 
-Next, the spatial distribution of the jobs to workers ratio (jobs:workers) (red) and the estimated car travel time (grey) is visualized in Figure \ref{fig:s-dist-Toronto-plot2}. Some of the jobs:workers balance predictably clusters near major transportation networks (i.e, the north-south subway line and highways) where surrounding land is more commonly zoned for commercial use. By contrast, the estimated average travel time to work is more even throughout the city, with lower travel times within the downtown core and longer travel times for TAZ located further and further from the core. Interestingly, travel times in certain TAZ with a high jobs:worker balance occur. 
+Next, the spatial distribution of the estimated car travel time (green) and the associated standard deviation (grey) is visualized in Figure \ref{fig:s-dist-Toronto-plot2}. It can be seen that the car travel time is lower within the downtown core and, unexpectedly higher as the TAZ is further from the downtown core. These travel time estimations are to be expected, as these car travel time are calculated using an uncongested OpenStreetMaps road network from the centroid of origin TAZ to destination TAZ. Since within Toronto trips are only considered, trips which originate from the center of Toronto, an area with high job density, relatively closer proximity to all other Toronto TAZ, and high road connectivity, travel times are lower than outside in an areas further from the downtown core. In terms of the variability of the travel times, the center TAZ of Toronto have lower variability than TAZ closer to the borders of Toronto. Trends from both plots indicate that trips originating from within the center of Toronto are shorter and more similar in length than traips originating from closer to the border of Toronto. 
 
 Nonetheless, the point of these visualizations is to demonstrate the spatial distribution of worker and job data in the city of Toronto to contextualize spatial availability and Shen- and Hansen- type measures. <!--Assessing contributing factors to patterns of variable clustering are outside of the paper's scope and left to further research. -->
 
@@ -1243,10 +1307,10 @@ As mentioned, the calculations are undertaken for the city of Toronto using only
 ```{r fitting-impedance-function, cache=TRUE}
 # using fitdist function to fit a distribution using the default maximum likelihood estimation method and Nelder-Mead method for direct optimization
 
-# gamma_ <- fitdistrplus::fitdist(data=all_tt, "gamma", method="mle", optim.method="Nelder-Mead") 
+# gamma_ <- fitdistrplus::fitdist(data=all_tt, "gamma", method="mle", optim.method="Nelder-Mead")
 # lnorm_ <- fitdistrplus::fitdist(data=all_tt, "lnorm", method="mle", optim.method="Nelder-Mead")
 norm_ <-fitdistrplus::fitdist(data=all_tt, "norm", method="mle", optim.method="Nelder-Mead")
-# #exp_ <- fitdistrplus::fitdist(data=all_tt, "exp", method="mle", optim.method="Nelder-Mead")
+#exp_ <- fitdistrplus::fitdist(data=all_tt, "exp", method="mme", optim.method="Brent")
 # pois_ <- fitdistrplus::fitdist(data=all_tt, "pois", method="mle", optim.method="Nelder-Mead")
 # nbinom_ <- fitdistrplus::fitdist(data=all_tt, "nbinom", method="mle", optim.method="Nelder-Mead")
 # geom_ <- fitdistrplus::fitdist(data=all_tt, "geom", method="mle", optim.method="Nelder-Mead")
@@ -1278,7 +1342,7 @@ plot(norm_)
 dev.off()
 ```
 
-```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:TLD-norm-plot}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on TTS 2016.", fig.show='hold', fig.align='center', out.width="80%"}
+```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:TLD-norm-plot}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on TTS 2016.", fig.show='hold', fig.align='center'}
 knitr::include_graphics("images/impedance_function.png")
 ```
 
@@ -1298,12 +1362,16 @@ $$
 
 ## Accessibility and spatial availability of jobs in Toronto
 
+### Absolute opportunity values
+
 ```{r prepare-table-for-calc-accessibility-Toronto}
 # f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]) #norm dis fits Toronto data better than gamma, this is for full GGH
 
 # transfer calibrated impedance function values to OD matrix
 TO_od_ft <- TO_od_ft %>%
   mutate(f = dnorm(travel_time, norm_$estimate["mean"], norm_$estimate["sd"]))
+         #f = dexp(travel_time, exp_$estimate["rate"]))
+         #f = dgamma(travel_time, gamma_$estimate["shape"], gamma_$estimate["rate"]))
 
 #table with all the accessibility calculations
 TO_od_ft <- TO_od_ft %>%
@@ -1320,6 +1388,7 @@ TO_od_ft <- TO_od_ft %>%
 LOS_j <- TO_od_ft %>%
   group_by(Destination) %>%
   summarize(R_j = first(jobs)/sum(workers_f),
+            sum_f_j = (sum(f)),
             .groups = "drop")
 
 # Hansen-type accessibility
@@ -1327,12 +1396,14 @@ S_i <- TO_od_ft %>%
   group_by(Origin) %>%
   summarize(S_i = sum(jobs_f)) # Hansen-type accessibility (unconstrained)
 
-# Shen-type accessibility
+# Shen-type accessibility and 'equivalent' balancing factor in Shen
 a_i <- TO_od_ft %>%
   left_join(LOS_j,
             by = "Destination") %>%
   group_by(Origin) %>%
-  summarize(a_i = sum(R_j * f),  #Shen/2SFCA
+  summarize(a_i = sum(R_j * f),  #Shen/2SFCA,
+            f_i = sum(f), #the sum of impedance at each origin
+            a_i_BFeq = sum(sum_f_j/workers_f), #the 'equivalent' balancing factor in Shen
             .groups = "drop")
   
 # Opportunity seeking population by origin in Shen-type measure
@@ -1342,16 +1413,32 @@ osp_i <- TO_od_ft %>%
             total_population = first(workers),
             .groups = "drop")
   
-# Spatial availabiity disaggregated
+# Spatial availability disaggregated
 V_ij <- TO_od_ft %>% # then Spatial Availability (singly constrained)
   mutate(r = 1) %>%
   sp_avail_detailed(o_id = Origin,
                     d_id = Destination, pop = workers, opp = jobs, r = r, f = f, alpha = 1.0) #alpha 1.54 
 
-# Spatial availabiity
+# Spatial availability and the balancing factor
 V_i <- V_ij %>%
   group_by(Origin) %>%
-  summarise(V_i = sum(V_ij))
+  summarise(V_i = sum(V_ij),
+            V_i_BF = mean(f_t),
+            V_i_sum_pa = sum(sum_pa),
+            i_sum_impedance = sum(sum_impedance),
+            V_i_f_p = sum(f_p),
+            V_i_f_c = sum(f_c)) #the proportion of jobs that the origin gets allocated based on all the destinations that origin can access + the competition
+```
+
+```{r, include=FALSE}
+V_ij %>%
+  group_by(Destination) %>%
+  summarise(V_i = sum(V_ij),
+            f_t = sum(f_t),
+            f_c = sum(f_c),
+            f_p = sum(f_p),
+            sum_pa = mean(sum_pa),
+            sum_impedance = mean(sum_impedance)) %>% summary()
 ```
 
 ```{r join-results}
@@ -1416,17 +1503,125 @@ TO_taz_acc %>%
   skim()
 ```
 
-```{r absolute-accessibility-plot-creation}
+```{r absolute-accessibility-plot-creation, include=FALSE, fig.width = 6, fig.height= 8}
 plot_TO_AS_i <- TO_taz_acc %>%
   ggplot() +
   geom_sf(aes(fill = A2_i),col = "grey90", size=0.1) +
   scale_fill_distiller(name = "Shen-type accessibility (a_i) x P_ij*",
+                       trans = "sqrt",
+                       palette = "BuPu", #legend scale bar,
+                       direction = 1,
+                       limits = c(0.1, 61079),
+                       na.value = "white")+
+  annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
+                         pad_x = unit(0.0, "cm"),
+                         height = unit(0.5, "cm"), 
+                         width = unit(0.5, "cm"),
+                         style = north_arrow_orienteering(line_width = 0.15,
+                                                          line_col = "dimgrey", 
+                                                          fill = c("white","dimgrey"),
+                                                          text_size = 5),
+                         which_north = "true") +
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.position="none",
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+
+      coord_sf(crs = crs_string)+
+    ylab(expression("a"[i]*"P"[ij]^'*'))
+
+plot_TO_Si <- TO_taz_acc %>% 
+  ggplot() +
+  geom_sf(aes(fill = S_i),col = "grey90", size=0.1) +
+  scale_fill_distiller(name = "Hansen-type accessibility (S_i)",
+                       trans = "sqrt",
+                       palette = "BuPu", #legend scale bar,
+                       direction = 1,
+                       na.value = "white", 
+                       label = c("0",
+                                 "",
+                                 "1193\n(ai Pij* median)\n804\n(Vi median)", 
+                                 "6922 \n(Si median)", 
+                                 "12060\n(Vi max.)", 
+                                 "23194\n(Si max.)", 
+                                 "61079\n(ai Pij* max.)"),
+                       # label = c("", "804 \n(V_i median) \n1193 \n(a_ixP_ij* median)", "6922 \n(S_i median)", "12060 \n(V_i max.)", "23194 \n(S_i max.)", "61079 \n(a_ixP_ij* max.)"),
+                       breaks = c(0.1, 804, 1193, 6922, 12060, 23194, 61079),
+                       limits = c(0.1, 61079)) +
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.height = unit(3, 'cm'),
+        legend.key.width = unit(0.4,"line"),
+        legend.title = element_blank(),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+      coord_sf(crs = crs_string)+
+  ylab(expression("S"[i]))
+
+plot_TO_SA <- TO_taz_acc %>%
+  ggplot() +
+  geom_sf(aes(fill = V_i),col = "grey90", size=0.1) +
+  scale_fill_distiller(name = "Spatial availability (V_i)",
+                       trans = "sqrt",
                        palette = "BuPu", #legend scale bar,
                        direction = 1,
                        na.value = "white",
-                       label = c("804 (V_i median)", "1193 (a_ixP_ij* median)", "6922 (S_i median)", "12060 (V_i max.)", "23194 (S_i max.)", "61079 (a_ixP_ij* max.)"),
-                       breaks = c(311, 804, 1795, 12060, 23194, 61079),
-                       limits = c(0, 61079)) +
+                       limits = c(0.1, 61079))+
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+                   location = "br",
+                   height = unit(0.10, "cm"),
+                   line_width = 0.5) +
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.position="none",
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+
+      coord_sf(crs = crs_string) +
+    ylab(expression("V"[i]))
+
+# # the following saves the plots as a png
+plot_TO_AS_i / plot_TO_Si / plot_TO_SA
+
+ggsave("images/access-job-Toronto-plot.png",dpi=700)
+```
+
+```{r absolute-accessibility-plot, fig.cap="\\label{fig:absolute-accessibility-plot}Estimated accessibility to jobs (\\# of jobs) in Toronto according to Shen-type measure times effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values. Legend scale is square root transformed to effectively visualize the spread range.", out.width="100%"}
+
+knitr::include_graphics("images/access-job-Toronto-plot.png")
+png()
+```
+
+Figure \ref{fig:absolute-accessibility-plot} contains the number of jobs accessible using Shen-type accessibility, Hansen-type accessibility, and the number of jobs _available_ using the spatial availability measure. The values from all these measures are represented on the same axis as they are comparable as they measure the absolute value of _jobs_ accessible to the workers in the origin. In the top plot, the Shen-type accessibility is multiplied by the _effective opportunity-seeking population_ to yield a value that corresponds to absolute number of accessible jobs (considering competition) according to Shen's definition. In the middle plot, the Hansen-type accessibility is an unconstrained case of accessibility in which all jobs which are in-reach of each origin (according to the impedance function); each value corresponds to the number of jobs which can be reach at each origin assuming no competition. Lastly, in the bottom plot, the spatial availability measure is a constrained case of accessibility which yields the number of jobs, at each origin, considering competition from the population in nearby origin and the relative travel cost (according to the impedance function).
+
+What is notable about the bottom plot is that the proportional allocation mechanism of spatial availability ensures that the job availability value for each origin all sums to the city-wide total of `r TO_taz_acc$V_i %>% sum(na.rm=T) %>% prettyNum(big.mark = ",")` jobs (i.e., the number of destination flows from Toronto origins to Toronto destinations). The number of accessible jobs at each origin can therefore be interpreted as the number of _available_ jobs to each origin based on the relative travel behaviour and density of competition for jobs (i.e., worker population). A proportion of each of the `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")` jobs in Toronto are only allocated once to each origin. In terms fo the middle plot, the city-wide total for Hansen-type accessibility is `r TO_taz_acc$S_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` jobs, which as a value is meaningless since the measure is unconstrained; it represents the sum of opportunities that have been counted anywhere from 1 to many times depending on the impedance function. As previously discussed, unconstrained counting of the same opportunity by all origins is not an issue if the opportunity itself is non-exclusive, but since one job can only be given to one worker (especially since the worker and job data is derived from origin-destination flows), it is inappropriate to use unconstrained measures to capture employment characteristics. Comparing the middle and bottom plots, it is evident that the unconstrained counting of opportunities (Hansen-style) results in absolute values that are higher throughout the city, particularly in TAZ that are in proximity to high job density (recall Figure \ref{fig:s-dist-Toronto-plot}). These same trends are not present in the spatial availability bottom plot, as the absolute value is lower than Hansen-style accessibility as the proximity to high job density and competition from worker density is proportionally metered; the resulting values are thus lower than the middle plot and reflect the spatial distribution trends of both the workers and job density (recall Figure \ref{fig:s-dist-Toronto-plot}).
+
+Lastly, the top plot that visualizes the _absolute_ Shen-type measure (as understood by Shen's definition of $P_i$ being equal to $P_{ij}^*$ sums to the city-wide value of `r TO_taz_acc$A2_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` by multiplying $a_i$ by the _effective opportunity-seeking population_  $P_{ij}^*$ (i.e., the denominator of the rate ). This plot thus demonstrates how confounding $P_i$ with $P_{ij}^*$ yields an _incorrect_ number of competitively accessible jobs: it is evidently incorrect because the sum of $a_iP_{ij}^*$ greatly exceeds the city-wide total of workers (i.e., `r TO_taz_acc$A2_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` > `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")`). To the authors' knowledge, literature has not attempted to convert Shen-type accessibility to the absolute value of accessible jobs in the way demonstrated in the top plot: we suspect this is the case because of the ambiguous definition that conflates $P_{ij}^*$ with $P_i$. If $a_i$ is multiplied by $P_i$, it yields the same value as $V_i$, but since the definition of Shen-type measure is equivocal doing so is not clear since the denominator of $a_i$ (which is a rate) is _not_ $P_i$. The resulting plot, spatially, is similar to spatial availability (bottom plot) but certain TAZ have exceptionally high values in an inconsistent way. This is because $a_i$ uses the impedance function values for both access to jobs (numerator) and the competition from neighboring workers (denominator  $P_{ij}^*$) to adjust their impact:  using $P_{ij}^*$ does not _consistently_ isolate the absolute value of accessible jobs. However, if $a_i$ is multiplied by $P_i$ it yields the same values at $V_i$ (bottom plot) (the proof for mathematically equivalency is in Appendix A). As also mentioned earlier, the formulation of the denominator and numerator of $a_i$ is ambigious so to presume that multiplying it by $P_i$ would disintangle the rate and yield the absolute value of accessible _and available_ (i.e., considering competition) jobs is unclear. 
+
+### Internal values
+```{r internal-values-plot-creation, include=FALSE, fig.width = 6}
+plot_TO_osp_i <- osp_i %>%
+  mutate(ratio = osp/total_population) %>% 
+  left_join(TO_taz,
+            by = c("Origin" = "GTA06")) %>%
+  st_sf() %>%
+  ggplot() +
+  geom_sf(aes(fill = ratio), col = "grey90", size=0.1) + #note: mappping 'ratio' is the same as mapping 'f_i'. 
+  scale_fill_distiller(name = expression('P'[ij]^'*'*'/P'[i]~'='~sum(f(c[ij]),j,J)),
+                       palette = "YlGn", #legend scale bar,
+                       direction = 1,
+                       na.value = "white",
+                       label = c("0.000001", "0.934 (1st Qu.)", "1.510 (median)", "2.214 (3rd Qu.)", "5.064"),
+                       breaks = c(0.001, 0.933648 , 1.509887 , 2.213611 , 5.064)) +
   annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
                          height = unit(0.5, "cm"), 
                          width = unit(0.5, "cm"),
@@ -1435,132 +1630,87 @@ plot_TO_AS_i <- TO_taz_acc %>%
                                                           fill = c("white","dimgrey"),
                                                           text_size = 5),
                          which_north = "true") +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(legend.position="none")+
-      coord_sf(crs = crs_string)
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+ theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.3,"line"),
+        legend.title = element_text(size=9),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string)
 
-plot_TO_Si <- TO_taz_acc %>% 
+#Some notes about this plot: The interpretation of this plot is tricky. A high average BF can be awarded to an origin if it 1) does not have any competing origins (so 100% F_p) AND/OR 2) it has a really high population relative to all TAZ in the region AND/OR 3) it has a really favourable TT relative to competing TAZ. Because the balancing factor combines all three of these cases AND doesnt include the magnitude of these cases (that comes from the jobs allocated), it's confusing to understand. summing f_p by origin is just a proportion of the population - the same spatial trend as if plotting the workers values. summing f_c by origin could be interesting since the TAZ with the best TT would get the highest score, however, this isn't always the case. Origins with only 1 destination TAZ are assigned 100% f_c because they have a relatively 'perfect' travel time (as they are the only option - so any travel time is 'perfect'). These TAZ typically are small in population/jobs, so when their high f_t (combined f_c and f_p) is multipled by the number of opportunities, they aren't notable to the region.
+
+plot_TO_Vi_BF <- TO_taz_acc %>%
   ggplot() +
-  geom_sf(aes(fill = S_i),col = "grey90", size=0.1) +
-  scale_fill_distiller(name = "Hansen-type accessibility (S_i)",
-                       palette = "BuPu", #legend scale bar,
+  geom_sf(aes(fill = V_i_BF),col = "grey90", size=0.1) +
+  scale_fill_distiller(name = expression('Avg. F'[ij]^'t'),
+                       palette = "YlGn", #legend scale bar,
                        direction = 1,
                        na.value = "white",
-                       label = c("804 (V_i median)", "1193 (a_ixP_ij* median)", "6922 (S_i median)", "12060 (V_i max.)", "23194 (S_i max.)", "61079 (a_ixP_ij* max.)"),
-                       breaks = c(804, 1193, 6922, 12060, 23194, 61079),
-                       limits = c(0, 61079)) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(2, 'cm'),
-        legend.title = element_blank(),
-        legend.text = element_text(size=8))+
-      coord_sf(crs = crs_string)
-
-plot_TO_SA <- TO_taz_acc %>%
-  ggplot() +
-  geom_sf(aes(fill = V_i),col = "grey90", size=0.1) +
-  scale_fill_distiller(name = "Spatial availability (V_i)",
-                       palette = "BuPu", #legend scale bar,
-                       direction = 1,
-                       na.value = "white",
-                       label = c("804 (V_i median)", "1193 (a_ixP_ij* median)", "6922 (S_i median)", "12060 (V_i max.)", "23194 (S_i max.)", "61079 (a_ixP_ij* max.)"),
-                       breaks = c(311, 804, 1795, 12060, 23194, 61079),
-                       limits = c(0, 61079)) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
+                       label = c("1 E -6", "0.0083 (1st qu.)", "0.0153 (median)", "0.0265 (3rd qu.)", "0.0900"),
+                       breaks = c(0.00001 , 0.00829    , 0.01532   , 0.02651  , 0.09)) +
+                       # label = c("", "", "", "1.442 (3rd qu.)\n0.633 (median)\n0.247 (1st qu.)\n1 E -10", "10.081"),
+                       # breaks = c(0.01 , 0.2470   , 0.6327  , 1.4421 , 10.08)) +
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
                    location = "br",
                    height = unit(0.10, "cm"),
                    line_width = 0.5) +
-  theme_void() + 
-  theme(legend.position="none")+
-      coord_sf(crs = crs_string)
+ theme_minimal() +
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.3,"line"),
+        legend.title = element_text(size=9),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string)
 
-# # the following saves the plots as a png
-plot_TO_AS_i / plot_TO_Si / plot_TO_SA
-# 
-# ggsave("images/access-job-Toronto-plot.png",dpi=700)
-```
+#NOTE: This plot doesn't make much practical sense 
 
-<!-- # ```{r absolute-accessibility-plot, fig.cap="\\label{fig:absolute-accessibility-plot}Estimated accessibility to jobs (# of jobs) in Toronto according to Shen-type measure times effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). All white TAZ have no worker population or jobs, i.e., with null accessibility values."} -->
-<!-- # knitr::include_graphics("images/access-job-Toronto-plot.png") -->
-<!-- # png() -->
-<!-- # ``` -->
-
-
-Figure \ref{fig:absolute-accessibility-plot} contains the absolute accessibility values in number of jobs accessible using Shen-type accessibility, Hansen-type accessibility, and the number of jobs _available_ using the spatial availability measure. The Shen-type accessibility is multiplied by the _effective opportunity-seeking population_ to yield a value that corresponds to absolute number of accessible jobs (considering competition) according to Shen's definition. The Hansen-type accessibility is an unconstrained case of accessibility in which all jobs which are in-reach of each origin (according to the impedance function); each value corresponds to the number of jobs which can be reach at each origin assuming no competition. Lastly, the spatial availability measure is a constrained case of accessibility which yields the number of jobs, at each origin, considering competition from the population in nearby origin and the relative travel cost (according to the impedance function).
-
-The proportional allocation mechanism of spatial availability ensures that the job availability value for each origin all sums to the city-wide total of `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")` jobs (i.e., the number of destination flows from Toronto origins to Toronto destinations). The regional total for Hansen-type accessibility is `r TO_taz_acc$S_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` jobs, which as a value is meaningless since the measure is unconstrained; it represents the sum of opportunities that have been counted anywhere from 1 to many times depending on the impedance function. As previously discussed, unconstrained counting of the same opportunity by all origins is not an issue if the opportunity itself is non-exclusive, but since there is a correspondence of one job and one worker, it is inappropriate to use unconstrained measures to capture employment characteristics.
-
-On a similar note to Hasen-type, the _absolute_ Shen-type measure (as understood by Shen's definition of $P_i$ being equal to $P_{ij}^*$ sums to the city-wide value of `r TO_taz_acc$A2_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` jobs; this value demonstrates how the Shen-type measure that is presented a rate (i.e., opportunities per capita) can be misunderstood and multiplied by the _effective opportunity-seeking population_  (i.e., the denominator of the rate $P_{ij}^*$) to express an absolute accessibility score. Confounding $P_i$ with $P_{ij}^*$ yields an _incorrect_ number of competitively accessible jobs because $P_{ij}^*$ greatly exceeds greatly exceeds the city-wide total of workers. To the authors' knowledge, Shen-type accessibility has not been converted to the absolute value in the way demonstrated within this paper. However, we also have not seen the Shen-type measure converted from the opportunities per capita score to absolute opportunities, we suspect, because of the ambiguous definition which conflates $P_{ij}^*$ with $P_i$. If $a_i$ is multiplied by $P_i$, it yields the same value as $V_i$, but, since the definition of Shen-type measure is equivocal doing so is not clear since the denominator of $a_i$ (which is a rate) is _not_ $P_i$. 
-
-```{r}
-osp_i %>%
-  summarize(osp = sum(osp),
-            total_workers = sum(total_population))
-```
-
-```{r ratio-OPS-to-pop-plot-creation}
-plot_TO_osp_i <- osp_i %>%
-  mutate(ratio = osp/total_population) %>%
-  left_join(TO_taz,
-            by = c("Origin" = "GTA06")) %>%
-  st_sf() %>%
-  ggplot() +
-  geom_sf(aes(fill = ratio), col = "grey90", size=0.1) +
-  geom_sf(data = TO_taz,
-          fill = NA) +
-  scale_fill_distiller(name = "P_ij*/P_i",
-                       palette = "BuPu", #legend scale bar,
-                       direction = 1,
-                       na.value = "white",
-                       label = c(0, "0.93 (1st Qu.)", "1.51 (median)", "2.21 (3rd Qu.)", "5.06"),
-                       breaks = c(0, 0.93, 1.51, 2.21, 5.06)) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   location = "br",
-                   height = unit(0.10, "cm"),
-                   line_width = 0.5) +
-  annotation_north_arrow(location = "tl", # north arrow for both the main plot and inset
-                         height = unit(0.8, "cm"), 
-                         width = unit(0.8, "cm"),
-                         style = north_arrow_orienteering(line_width = 0.25,
-                                                          line_col = "dimgrey", 
-                                                          fill = c("white","dimgrey"))) +
-  annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
-                   location = "br",
-                   height = unit(0.15, "cm")) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.key.height = unit(0.8, 'cm'),
-        legend.title = element_text(size=10),
-        legend.text = element_text(size=5))+
-      coord_sf(crs = crs_string)
+# plot_TO_ai_BF <- TO_taz_acc %>% mutate(a_i_BFeq = ifelse(a_i_BFeq >= 15, 15, a_i_BFeq)) %>%
+#   ggplot() +
+#   geom_sf(aes(fill = a_i_BFeq),col = "grey90", size=0.1) +
+#   scale_fill_distiller(name = "Shen-type balancing factor equivalent",
+#                        palette = "BuPu", #legend scale bar,
+#                        direction = 1,
+#                        na.value = "white")+
+#                        # label = c("0", "4.00 (1st Qu.)", "5.89 (median)", "8.31 (3rd Qu.) to 33.99 (max.)"),
+#                        # breaks = c(0, 4.00, 5.89, 8.31)) +
+#   geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
+#   geom_sf(data = Toronto_highways, col = "black")+ #highways
+#   geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
+#   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
+#                    location = "br",
+#                    height = unit(0.10, "cm"),
+#                    line_width = 0.5) +
+#   theme_void() + 
+#   theme(axis.text = element_blank(),
+#         legend.key.height = unit(0.3, 'cm'),
+#         legend.title = element_blank(),
+#         legend.text = element_text(size=8))+
+#       coord_sf(crs = crs_string)
 
 # the following saves the plot as a png
-plot_TO_osp_i
+plot_TO_osp_i / plot_TO_Vi_BF #/ plot_TO_ai_BF
 
-ggsave("images/osp_plot_TO.png",dpi=700)
+ggsave("images/internal-values-plot.png",dpi=700)
 ```
 
-```{r, ratio-OPS-to-pop-plot, echo=FALSE, fig.cap="\\label{fig:ratio-OPS-to-pop-plot}  The ratio of the effective opportunity seeking population to the population in Toronto. Black lines represent expressways and black dashed lines represent subway lines."}
-knitr::include_graphics("images/osp_plot_TO.png")
+```{r,  internal-values-plot, echo=FALSE, fig.cap="\\label{fig:internal-values-plot}  The ratio of the effective opportunity seeking population to the population (top) and the average spatial availability's balancing factor (Equation (9)) (bottom) for Toronto TAZ. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
+knitr::include_graphics("images/internal-values-plot.png")
 png()
 ```
 
-It is important to also highlight the differences between $P_i$ and $P_{ij}^*$ since they are not uniform across space. Figure \ref{fig:ratio-OPS-to-pop-plot} presents the ratio of $P_{ij}^*$ to $P_i$ which shows how the effective opportunity-seeking population is sometimes inflated and others deflated by $a_i$. As a consequence of the inflated population (i.e., $P_{ij}^*$ > $P_i$), any impacts of accessibility associated with the allocation of jobs to workers by the Shen-type measure will be misleading. In the case of city-wide travel time, we can see that travel time is exaggerated by the Shen-type measure. Consequently, when using spatial availability and the _total_ number of jobs in the city is preserved, travel time calculations are more reliable.
-
-```{r}
-TO_od_ft %>%
+```{r, include=FALSE}
+effpopTTT <- TO_od_ft %>%
   left_join(a_i,
             by = "Origin") %>%
   mutate(total_travel_time = a_i * workers_f * travel_time) %>%
@@ -1569,7 +1719,7 @@ TO_od_ft %>%
                                               min) %>%
            units::set_units(h))
 
-V_ij %>%
+ViTTT <- V_ij %>%
   mutate(total_travel_time = V_ij * travel_time) %>%
   summarize(total_travel_time = sum(total_travel_time)) %>%
   mutate(total_travel_time = units::set_units(total_travel_time,
@@ -1577,18 +1727,30 @@ V_ij %>%
            units::set_units(h))
 ```
 
+Carrying on the discussion on how to retrieve the absolute value of _available_ jobs using the Shen-type measure ($a_i$), Figure \ref{fig:internal-values-plot} highlights how the differences between $P_i$ and $P_{ij}^*$ are not uniform across space;  the values at each origin are equivalent to $\sum_j f(c_{ij})$.  Recall, $P_i$ is the number of workers at each TAZ (city-wide sum of `r osp_i$total_population %>% sum()%>% prettyNum(big.mark = ",")`) while $P_{ij}^*$ is the number of workers who _seek_ jobs (city-wide sum of `r osp_i$osp %>% sum() %>% prettyNum(big.mark = ",")`) in that TAZ based on their travel behaviour. $P_{ij}^*$  is an internal value of $a_i$ and the top plot presents the ratio of $P_{ij}^*$ to $P_i$ which reflects how the effective opportunity-seeking population is sometimes inflated (i.e., impedance values is greater than 1) and others deflated (i.e., impedance value is less than 1) by the Shen-type measure ($a_i$). As such, using $P_{ij}^*$ to untangle the absolute job availability from $a_i$ instead of $P_{ij}^*$ can lead to exaggerating the total travel time in the city since it does not represent the _actual_ number of workers but the _effective_ number of workers. For instance, if attempting to calculate the city-wide travel time using $a_i P_{ij}^*$, you will yield `r effpopTTT[1,]` instead of the city-wide travel time of `r ViTTT[1,]` that corresponds to the _absolute_ (i.e., the total number of jobs in the city is preserved) number of available jobs from $V_i$. The absolute number of opportunities cannot be easily distangled from $a_i$. 
 
-```{r rate-accessibility-plot-creation}
-plot_TO_Si_rate <- TO_taz_acc %>% mutate(s_i = ifelse(s_i>=8.31, 8.31, s_i)) %>%
+<!-- NOTE: not sure if this is worth leaving in? It may be a bit too confusing but I think it's an interesting feature to discuss... Shen doesn't have an equivalent.-->
+By contrast, not only are the absolute values a direct result of $V_i$, the internal combined balancing factor $F_{ij}^t$ (Equation (\ref{eq:balancing-factors})) can be used for analysis. The bottom plot showcases the average $F_{ij}^t$ for each TAZ which is the proportional allocation mechanism of opportunities to origins in the $V_i$ calculation. Practically, the visualized values corresponds to the average of the opportunity _proportions_ that a TAZ is allocated based on travel behaviour and population competition to work destinations. These values can allow the spatial availability analyst to understand the magnitude of the _proportion of opportunities_ that the origin TAZ is assigned based on the opportunities located at reachable destination TAZ. For instance, the TAZ with the maximum value of 0.090 has many origin to destination trips (112 trips, upper 3rd quantile), many workers (5538 workers, upper 3rd quantile), and located centrally within Toronto. Averaging $F_{ij}^t$ demonstrates that this TAZ is allocated many proportions of jobs from reachable TAZ. This doesn't necessarily mean TAZ with a high $V_i$ have an exceptionally high average $F_{ij}^t$; for instance, many TAZ around the downtown core have high $V_i$ values but don't have exceptionally high average $F_{ij}^t$. The average $F_{ij}^t$ can thus be used to identify which areas are being relatively _high_ opportunity attracters and can potentially be areas which can withstand a lower spatial availability value at the expense of increasing spatial availability elsewhere. The balancing factor is an interesting feauture of spatial availability which can open up avenues for future analysis. While this balancing factor from spatial availability can be used for analysis: there is no equivalent for the Shen-type measure; this is another advantage for spatial availability.
+
+<!-- NOTE: this is the equivalent internal for Shen-, can't really make sense of what it means -->
+<!-- $$ -->
+<!-- BFa_{i} = { \sum_j f(c_{ij}) \cdot \frac{1}{\sum_i P_i \cdot f(c_{ij})} }\\ -->
+<!-- $$ -->
+
+
+### Benchmarking opportunity availability
+
+```{r rate-accessibility-plot-creation, include=FALSE, fig.width=6, fig.height=9}
+plot_TO_Si_rate <- TO_taz_acc %>% #mutate(s_i = ifelse(s_i >= 3.99793, 3.99793, s_i )) %>%
   ggplot() +
   geom_sf(aes(fill = s_i),col = "grey90", size=0.1) +
-  scale_fill_distiller(name = "Hansen-type accessibility \nper capita (s_i)",
-                       palette = "BuPu", #legend scale bar,
+  scale_fill_distiller(name = expression("S"[i]~"per worker"),
+                       palette = "RdPu", #legend scale bar,
                        direction = 1,
                        na.value = "white",
-                       label = c("0", "4.00 (1st Qu.)", "5.89 (median)", "8.31 (3rd Qu.) to 33.99 (max.)"),
-                       breaks = c(0, 4.00, 5.89, 8.31),
-                       limits = c(0, 8.31)) +
+                       # trans = "sqrt",
+                       label = c("0.002", "", "", "8.305 (3rd qu.)\n5.891 (median)\n3.998 (1st qu.)", "33.993"),
+                       breaks = c(0.00163, 3.99793, 5.89111  , 8.30510 , 33.99289 )) +
   annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
                          height = unit(0.5, "cm"), 
                          width = unit(0.5, "cm"),
@@ -1597,77 +1759,111 @@ plot_TO_Si_rate <- TO_taz_acc %>% mutate(s_i = ifelse(s_i>=8.31, 8.31, s_i)) %>%
                                                           fill = c("white","dimgrey"),
                                                           text_size = 5),
                          which_north = "true") +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
-  theme_void() + 
-  theme(axis.text = element_blank(),
-        legend.position = c(1.2, 0),
-        legend.key.height = unit(1.5, 'cm'),
-        legend.title = element_blank(),
-        legend.text = element_text(size=8))+
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+  theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.1,"line"),
+        legend.title = element_text(size=9),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
       coord_sf(crs = crs_string)
+
+plot_TO_taz_jobs_workers <- TO_taz %>% mutate(jwork = ifelse(jwork >= 2.052, 2.052, jwork),
+                                         jwork = ifelse(jwork ==0, NA, jwork)) %>%
+  ggplot() +
+  geom_sf(aes(fill = jwork), col = "grey90", size=0.1) +
+  scale_fill_distiller(name = "Jobs per worker",
+                       palette = "Reds", #legend scale bar
+                       direction = 1,
+                       na.value = "white",
+                       label = c( "0.003", "", "0.331 (median)\n0.165 (1st qu.)", "0.833 (3rd qu.)", "2.052"),
+                       breaks = c(0.00287 , 0.16538 , 0.33056 , 0.83339 , 2.052)) +
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
+theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.1,"line"),
+        legend.title = element_text(size=9),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string)
 
 plot_TO_SA_rate <- TO_taz_acc %>%
   ggplot() +
   geom_sf(aes(fill = v_i),col = "grey90", size=0.1) +
-  scale_fill_distiller(name = "Spatial availability \nper capita (v_i)",
-                       palette = "BuPu", #legend scale bar,
+  scale_fill_distiller(name = expression("V"[i]~"per worker"),
+                       palette = "RdPu", #legend scale bar,
                        direction = 1,
                        na.value = "white",
-                       label = c("0", "4.00 (1st Qu.)", "5.89 (median)", "8.31 (3rd Qu.) to 33.99 (max.)"),
-                       breaks = c(0, 4.00, 5.89, 8.31)) +
-  geom_sf(data = toronto_muni_bound, fill=NA, size=0.5)+ #toronto border
-  geom_sf(data = Toronto_highways, col = "black")+ #highways
-  geom_sf(data = TTC_lines, col = "black", linetype = "dashed")+ #TTC lines
+                       # trans = "sqrt",
+                       label = c("0.000", "", "0.683 (median)\n0.432 (1st qu.)", "0.988 (3rd qu.)", "2.052"),
+                       breaks = c(0.0001  , 0.4317, 0.6828    , 0.9872   , 2.05)) +
+  geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
+  geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
+  geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
   annotation_scale(bar_cols = c("dimgrey", "white"), # scale bar for both the main plot and inset
                    location = "br",
                    height = unit(0.10, "cm"),
                    line_width = 0.5) +
-  theme_void() + 
-  theme(legend.position="none")+
-      coord_sf(crs = crs_string)
+ theme_minimal() + 
+  theme(axis.text = element_blank(), #removes lat/long from the axises
+        panel.grid.major=element_blank(), #removes grid lat/long lines
+        legend.key.width = unit(0.3,"line"),
+        legend.key.height = unit(1.1,"line"),
+        legend.title = element_text(size=9),
+        legend.text = element_text(size=8),
+        plot.margin = margin(-0.6, -0.6, -0.6, -0.6, "cm"))+ #expands margins
+  coord_sf(crs = crs_string)
 
-# # the following saves the plots as a png
-plot_TO_Si_rate / plot_TO_SA_rate
-# 
-# ggsave("images/access-job-Toronto-plot-rates.png",dpi=700)
+# the following saves the plots as a png
+plot_TO_Si_rate / plot_TO_taz_jobs_workers / plot_TO_SA_rate 
+
+ggsave("images/access-job-Toronto-plot-rates.png",dpi=700)
 ```
 
-<!-- # ```{r rate-accessibility-plot, fig.cap="\\label{fig:rate-accessibility-plot}Estimated accessibility to jobs (# of jobs per capita) in Toronto according to population-normalized Hansen-type measure (top) and spatial availability (bottom). All white TAZ have no worker population or jobs, i.e., with null accessibility values."} -->
-<!-- # knitr::include_graphics("images/access-job-Toronto-plot-rates.png") -->
-<!-- # png() -->
-<!-- # ``` -->
+```{r rate-accessibility-plot, fig.cap="\\label{fig:rate-accessibility-plot}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
+knitr::include_graphics("images/access-job-Toronto-plot-rates.png")
+png()
+```
 
+Figure \ref{fig:rate-accessibility-plot} presents the number of jobs per capita for Hansen-type accessibility (top plot), the raw number of jobs per capita (middle plot), and the spatially available jobs per capita (bottom plot).  In addition to clarifying the meaning of internal values, spatial availability can also be divided by population at each origin and expressed as a rate: this rate can be used as a benchmark for equity analysis and compared directly to the raw number of jobs per capita.
 
-Spatial availability untangles Shen-stype measure so an absolute value of _opportunity availability_ is expressed. Because the proportional allocation mechanism makes clear that all the opportunities are being allocated proportionally to origins, it makes the interpretation more clear. It thus can be directly divided by origin population and expressed as an opportunities per capita score. This score, while equal to the Shen-type measure, has a renewed interpretability. When spatial availability is compared to Hansen-type measure, normalizing the output by population directly is unique; spatial availability can be normalized by opportunities without the issue of multiple counting of opportunities which obscures accessibility's meaning. See Figure \ref{fig:rate-accessibility-plot} which displays the normalized opportunity per capita spatial availability score and plainly normalizing Hansen-type accessibility by dividing each value by the origin population. 
+The bottom plot features a value which is mathematically equivalent to Shen-type measure, but with a renewed interpretability. Because the proportional allocation mechanism makes clear that all the opportunities are being allocated proportionally to origins, it clarifies the interpretation since the $V_i$ values are the absolute value of _opportunity availability_. The value can thus can be directly divided by origin population and expressed as an opportunities per capita value. When spatial availability is compared to Hansen-type measure (top plot), dividing the output by population directly yield's a more difficult to interpret number of _unconstrained_ accessible jobs per capita. For instance, the median light-pink shaded TAZ corresponds to approximately 5.89 unconstrained accessible jobs per capita; this value is difficult to intercept, because as discussed in the introduction, jobs are _exclusive_ opportunity types so their accessibility value should take into consideration competition. 
 
-<!-- NOTE: notice, in this section I do not discuss urban form or what areas have a higher or lower value than other areas - this is so we don't lead readers into thinking that's the focus of the paper. the paper is to introduce the method and , lucky us, is equal to Shen's which is an established measure-->
+The bottom plot displays the spatially available jobs per capita. It can be interpreted as a benchmark its values can be compared directly to the raw number of jobs per capita (middle plot) since the total number of opportunities are preserved (and the population, in this case, is equivalent to the number of opportunities). For instance, a TAZ with a $v_i > 1$ have more _available jobs_ (based on travel behaviour and competition) than their working population. This TA has sufficient employment opportunities (under the assumptions of the input data), while TAZ with a $v_i < 1$ do not have sufficient employment opportunities. From an equity perspective, $v_i$ can be used to target where residential housing, job opportunities, and/or transportation system improvements should be created. For TAZ with $v_i$ values significantly greater than 1 (dark pinks), constructing more residential housing for the type of workers who occupy the _available jobs_ in the proximate TAZ should be considered. Assuming the input data is correct, increasing the competition in the area will decrease the $v_i$ score but if can be decreased up to threshold of $v_i = 1$. For TAZ with $v_i$ values significantly less than 1 (light pinks), constructing more employment opportunities for the type of workers who live in proximate TAZ and/or prioritizing transportation network improvements to create more favourable travel time conditions. Depending on the raw jobs per worker ratio, different approaches are appropriate. For instance, adding more residential locations near the downtown core (bottom center on the bottom plot) could be a good approach to increasing $v_i$ as there is already a high jobs per worker ratio (middle plot). However, doing so will decrease the $v_i$ availability in areas near the border of the city, so in addition to doing so, adding more employment opportunities to areas with low raw jobs per worker ratio and low $v_i$ is needed. In addition to these changes, the travel time landscape would also influence the resulting $v_i$ score, so transportation network improves to areas with low $v_i$ could also be considered. This is to say, $v_i$ is dependent on the magnitude and spatial distribution of residential housing, job opportunities, and transportation system so the region could be optimized to achieve thresholds of specific $v_i$ values and thus the difference in residential housing, job opportunities, and transportation system can become policy targets. It should also be kept in mind, that though $v_i = 1$ and the comparison to the raw jobs per worker values can be used for policy planning, $v_i$ can easily be transformed back to $V_i$ to understand the magnitude of the job availability within that origin.  
+
+<!-- Reminder for me: notice, in this section I do not discuss urban form or what areas have a higher or lower value than other areas - this is so we don't lead readers into thinking that's the focus of the paper. the paper is to introduce the method and , lucky us, is equal to Shen's which is an established measure-->
 
 \newpage
 
-# Conclusions
+# Conclusion
 
-<!-- NOTE: to discuss with AP -->
+In this paper we show how a widely used accessibility measure with competition obscures internal values of opportunities taken due to the confounding of population of zones with the _effective opportunity-seeking population_. We then propose an alternative derivation of accessibility with competition that we call spatail availability. This measure makes sures that the opportunities are allocated in a proportional way and preserved in the regional total. We also show that spatial availability and Shen-type accessibility are equifinal: formally the equations are the same (along with 2SFCA) and can be consider as singly-constrained measures. 
 
-Why do differences between Hansen-style measure and the interpretation of Shen-type measure matter? Because of equity analysis and policy planning! 
-With spatial availability, we can push accessibility analysis forward by making it more interpretable. As discussed, Hansen-style accessibility value cannot be interpreted directly in either form (though it can be interpreted relatively to speak about urban form). By contrast, spatial availability yields the number of jobs available directly. 
+Why do differences between Hansen-style measure and the interpretation of Shen-type measure matter? Because of equity analysis and policy planning. With spatial availability, we can push accessibility analysis forward by making it competitive accessibility more interpretable. Hansen-type measure tend to result in values which are very extreme as a result of multiple-counting opportunities as shown in empirical example. Multiple-counting may not be an issue if the opportunity-type is non-exclusive, but with the case of employment where one worker can only take one job, the resulting values are difficult to interpret (though it can be interpreted relatively to speak about urban form). In this paper, we also demonstrate that attempting to disentangle the absolute values of opportunities from the shen-type accessibility measure is difficult as a result of Shen's definition which confounds the population with the effective-opportunity seeking population. As demonstrated within this paper, spatial availability overcomes the interpretability issue associated with Shen's measure by presenting first, the absolute value of _available_ jobs and then by dividing the available jobs value by the number of working population. This rate is equivalent to Shen-type measure but contains internal values, such as the proportional allocation mechanism that yields the combined balancing factor, which can be used to interpet the absolute and rate values. 
 
-This property and understanding spatial availability (along with Shen's accessibility with competition and 2SFCA) as a singly-constrained measure are important to understanding how accessibility measures can be broadled interepted. The following are recommendations:
+Based on this research we suggest the following guidelines for the application of spatial availability and the topic of future work:
 
-1) The Hansen-style accessibilty should be used when opportunities are non-exclusive. When opportunities are perfectly exclusive (i.e., 1 spot for 1 person), spatial availability (i.e., accessibility with competition) should be used. 
-2) Though outside of scope, when opportunities are perfectly exclusive ad 
--We argue that spatial availability should be used 
-- some literature which uses Shen focuses on how travel cost discounts job supply (opportunities) and demand (opportunity-seeking population). This gets close to disentangling which population _effectively_ seeking opportunities - but comparing it to the population which doesn't seek opportunities has not been made, to the authors opportunity. This is critical for equity analysis; i.e., which populations can't seek opportunities because of friction of distance? 
-This can be plainly seen by seeing the proportion of population, in spatial availability, which is allocated to the origin 
+1) The Hansen-style accessibility should be used when opportunities are non-exclusive. When opportunities are perfectly exclusive (i.e., 1 spot for 1 person), spatial availability (i.e., accessibility with competition) should be used. 
+2) Shen-type accessibility can be used to compute the availability of jobs (the rate and the absolute values if the original definition is corrected), however, it should not be used if the analyst is not interested in internal values. If willing to push the analysis further, the use of spatial availability should be considered. 
+3) With the renewed interpretability of what the absolute _opportunity availability_ is at each origin, the spatial availability per capita (Equation X) value of 1 can be used as a policy goal. For areas with a value below 1, targeted increases to the quantity of opportunities, residential housing, and transportation system improvements can be theorized such that the number of _available jobs_ per capita in the region is at least equal to 1. Since spatial availability per capita implicitly preserves the number of opportunities in the region, it can be directly compared to the the region's raw jobs to population ratio to inform policy. Additionally, the absolute values of spatial availability can be used to understand the magnitude of the opportunity availability deficit (or surplus).
+4) Spatial availability per capita can also be compared directly to other regions as done by literature using Shen-type measure/2SFCA (e.g., @giannotti_inequalities_2021). However, as a result of the renewed interpretation, the magnitude of _spatially available_ opportunities can be quantified. 
+5) Lastly, since opportunities are preserved, many new avenues of analysis can be pursued which have not been conceptualized yet. This is especially important in light of emerging concerns with equity. For instance, the population and opportunities can be segmented (i.e., transit users, active transportation users, low income, low education, new comers, children) and their spatial availability to opportunities can be assessed, benchmarked, and corresponding policy to target inequities can be theorized. As another example, the combined balancing factor can be analysed to identify which populations currently do not seek opportunities because of friction of distance.
 
 # Appendix A
 
-Equivalence of Shen-type accessibility and spatial availability.
+The mathematical equivalence of Shen-type accessibility measure and spatial availability is provided in this appendix.
 
 The population-based balancing factor used in $V_i$ is defined as:
 $$
-F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}
+F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha}
 $$
 
 $$
@@ -1677,7 +1873,7 @@ $$
 The impedance-based balancing factor in $V_i$ is:
 
 $$
-F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
 $$
 
 $$
@@ -1695,7 +1891,7 @@ $$
 These factors when assembled together with $P$ makes the denominators cancel out:
 
 $$
-v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}
+v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^N f(c_{ij})}}{\sum_{i}^N \frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^N f(c_{ij})}}
 $$
 
 $$
@@ -1749,3 +1945,136 @@ $$
 \newpage
 
 # References {#references .unnumbered}
+
+
+
+<!-- # ```{r toy-example-table-2, cache=FALSE} -->
+<!-- # #old table -->
+<!-- # table_toy  <- od_tt3 %>% -->
+<!-- #   set_background_color(2:10, 1:10, "lightyellow") %>% -->
+<!-- #   set_background_color(11:19, 1:10, "lightgrey") %>% -->
+<!-- #   set_bold(1, everywhere) %>% -->
+<!-- #   set_bottom_border(c(1,4,7,10,13,16), everywhere) %>% -->
+<!-- #   set_align(everywhere, c(1, 3), "left") %>% -->
+<!-- #   set_align(everywhere, c(2, 4:10), "center") %>% -->
+<!-- #   set_number_format(everywhere, 2, fmt_pretty()) %>% -->
+<!-- #   set_number_format(everywhere, 4, fmt_pretty()) %>% -->
+<!-- #   #set_number_format(everywhere, 6:8, 6) %>% -->
+<!-- #   set_number_format(everywhere, 9:10, fmt_pretty(digits = 4, format = "f")) %>% -->
+<!-- #   merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>% merge_cells(11:13, 1) %>% merge_cells(14:16, 1) %>% merge_cells(17:19, 1)%>% -->
+<!-- #   merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>% merge_cells(11:13, 2) %>% merge_cells(14:16, 2) %>% merge_cells(17:19, 2)%>% -->
+<!-- #   merge_cells(2:4, 9) %>% merge_cells(5:7, 9) %>% merge_cells(8:10, 9) %>% merge_cells(11:13, 9) %>% merge_cells(14:16, 9) %>% merge_cells(17:19, 9)%>% -->
+<!-- #   merge_cells(2:4, 10) %>% merge_cells(5:7, 10) %>% merge_cells(8:10, 10) %>% merge_cells(11:13, 10) %>% merge_cells(14:16, 10) %>% merge_cells(17:19, 10)%>% -->
+<!-- #   set_width(1.2) %>% -->
+<!-- #   set_height(5) %>% -->
+<!-- #   set_right_border(everywhere, 1:9, brdr(1, "solid", "grey")) %>% -->
+<!-- #   set_caption("Summary description of synthetic example: Hansen-type accessibility and Shen-type accessibility with competition with beta = 0.1 (light yellow) and beta = 0.6 (light grey).") %>% -->
+<!-- #   set_label("tab:synthetic-example-2") -->
+<!-- #  -->
+<!-- # font_size(table_toy) <- 7 -->
+<!-- #  -->
+<!-- # table_toy[1:19,] -->
+<!-- # ``` -->
+
+<!-- # ```{r toy-example-spatial-availability-table} -->
+<!-- # table_toy_2  <- od_tt2 %>% -->
+<!-- #   set_bold(1, everywhere) %>% -->
+<!-- #   set_bottom_border(c(1,4,7), everywhere) %>% -->
+<!-- #   set_align(everywhere, c(1, 3), "left") %>% -->
+<!-- #   set_align(everywhere, c(2, 4:10), "center") %>% -->
+<!-- #   set_number_format(everywhere, 2, fmt_pretty()) %>% -->
+<!-- #   set_number_format(everywhere, 4, fmt_pretty()) %>% -->
+<!-- #   set_number_format(everywhere, 6:9, 6) %>% -->
+<!-- #   set_number_format(everywhere, 10:11, fmt_pretty(digits = 2, format = "f")) %>% -->
+<!-- #   merge_cells(2:4, 1) %>% merge_cells(5:7, 1) %>% merge_cells(8:10, 1) %>% -->
+<!-- #   merge_cells(2:4, 2) %>% merge_cells(5:7, 2) %>% merge_cells(8:10, 2) %>% -->
+<!-- #   merge_cells(2:4, 11) %>% merge_cells(5:7, 11) %>% merge_cells(8:10, 11) %>%  -->
+<!-- #   set_width(1.2) %>% -->
+<!-- #   set_height(4) %>% -->
+<!-- #   set_right_border(everywhere, 1:10, brdr(1, "solid", "grey")) %>% -->
+<!-- #   set_caption("Summary description of synthetic example: spatial availability") %>% -->
+<!-- #   set_label("tab:synthetic-example-spatial-availability") -->
+<!-- #  -->
+<!-- # font_size(table_toy_2) <- 7 -->
+<!-- #  -->
+<!-- # table_toy_2[1:10,] -->
+<!-- # ``` -->
+
+<!-- # ```{r toy-example-table-creation-3} -->
+<!-- # # Reset impedance parameter -->
+<!-- # b <- 0.1 -->
+<!-- #  -->
+<!-- # # Calculate impedance function -->
+<!-- # od_tt2 <- od_tt %>%  -->
+<!-- #   mutate(f = exp(-b * tt)) -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>% -->
+<!-- #   mutate(catch = 1) %>% -->
+<!-- #   sp_avail_detailed(o_id = i, #spatial availability -->
+<!-- #                     d_id = j,  -->
+<!-- #                     pop = pop, -->
+<!-- #                     opp = opp, -->
+<!-- #                     r = catch, -->
+<!-- #                     f = f,  -->
+<!-- #                     alpha = 1) %>% -->
+<!-- #   transmute(f,  -->
+<!-- #          F_p = f_p,  -->
+<!-- #          F_c = f_c,  -->
+<!-- #          F_t = f_t, -->
+<!-- #          V_ij) -->
+<!-- #  -->
+<!-- # V_i <- od_tt2 %>% -->
+<!-- #   group_by(i) %>% -->
+<!-- #   summarize(V_i = sum(V_ij)) -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>% -->
+<!-- #   left_join(V_i, -->
+<!-- #             by = "i") -->
+<!-- #  -->
+<!-- # colnames(od_tt2) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "F^p", "F^c", "F", "V_ij", "V_i") -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>%  -->
+<!-- #   as_hux(scientific=FALSE) -->
+<!-- # ``` -->
+
+<!-- # ```{r toy-example-spatial-availability-table-creation, include=FALSE} -->
+<!-- # # Reset impedance parameter -->
+<!-- # b <- 0.1 -->
+<!-- #  -->
+<!-- # # Calculate impedance function -->
+<!-- # od_tt2 <- od_tt %>%  -->
+<!-- #   mutate(f = exp(-b * tt)) -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>% -->
+<!-- #   mutate(catch = 1) %>% -->
+<!-- #   sp_avail_detailed(o_id = i, -->
+<!-- #                     d_id = j,  -->
+<!-- #                     pop = pop, -->
+<!-- #                     opp = opp, -->
+<!-- #                     r = catch, -->
+<!-- #                     f = f,  -->
+<!-- #                     alpha = 1) %>% -->
+<!-- #   transmute(i,  -->
+<!-- #          pop,  -->
+<!-- #          j,  -->
+<!-- #          opp,  -->
+<!-- #          tt,  -->
+<!-- #          f,  -->
+<!-- #          F_p = f_p,  -->
+<!-- #          F_c = f_c,  -->
+<!-- #          F_t = f_t, -->
+<!-- #          V_ij) -->
+<!-- #  -->
+<!-- # V_i <- od_tt2 %>% -->
+<!-- #   group_by(i) %>% -->
+<!-- #   summarize(V_i = sum(V_ij)) -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>% -->
+<!-- #   left_join(V_i, -->
+<!-- #             by = "i") -->
+<!-- #  -->
+<!-- # colnames(od_tt2) = c("Origin", "Pop.", "Dest.", "Jobs", "TT", "f(TT)", "F^p", "F^c", "F", "V_ij", "V_i") -->
+<!-- #  -->
+<!-- # od_tt2 <- od_tt2 %>%  -->
+<!-- #   as_hux(scientific=FALSE) -->
+<!-- # ``` -->
