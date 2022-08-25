@@ -1,5 +1,18 @@
 ---
 title: "Introducing spatial availability, a singly-constrained measure of competitive accessibility"
+author:
+  - name: "Anastasia Soukhov"
+    email: "soukhoa@mcmaster.ca"
+    code: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - name: "Antonio Paez"
+    email: "paezha@mcmaster.ca"
+    code: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - name: "Christopher D. Higgins"
+    email: "cd.higgins@utoronto.ca"
+    code: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C 1A4"
+  - name: "Moataz Mohamed"
+    email: "mmohame@mcmaster.ca"
+    code: "Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
 abstract: |
   Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability, mainly by introducing competition. In this paper, we demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure results from using balancing factors that are equivalent to imposing a single constraint on conventional gravity-based accessibility. Further, we demonstrate how Two-Stage Floating Catchment Area (2SFCA) methods can be reconceptualized as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada.
 
@@ -628,7 +641,7 @@ od_tt3 <- t(od_tt3)
 od_tt4 <- rbind(od_tt1, od_tt2, od_tt3)
 
 rownames_od_tt4 <- c("Origin", 
-"Dest.", "Pop.", "Jobs", "TT", 
+"Destination", "Pop.", "Jobs", "TT", 
 "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
 "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
 "F^c", "F^p", "F", "V_ij", "V_i")
@@ -654,17 +667,15 @@ table_toy  <- od_tt4 %>%
   set_number_format(c(6,10,11:15,16:18), everywhere, 3) %>% #the smaller numbers, have 3 decimals
   set_number_format(c(7:9,19,20), everywhere, 1) %>% # the larger numbers, have 1 decimal
   merge_cells(1, 2:4) %>% merge_cells(1, 5:7) %>% merge_cells(1, 8:10) %>%
-  # set_width(1.5) %>%
-  set_height(5) %>%
   set_caption("Summary description of synthetic example: Hansen-type accessibility $S_i$, Shen-type accessibility $a_i$, and spatial availability $V_i$ with beta = 0.1 (light yellow) and beta = 0.6 (light grey).") %>%
   set_label("tab:synthetic-example") %>% 
-  set_latex_float("h")
+  set_latex_float("h!")
 
 font_size(table_toy) <- 7
 
 table_toy[1:20,]
 ```
-
+comebackhere
 
 Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. We use a negative exponential impedance function with $\beta=0.1$ as done in @shen1998 [see footnote (5)]:
 $$
@@ -867,9 +878,7 @@ The terms in Equation \ref{eq:spatial-availability} are as follows:
 -   $O_j$ is the number of opportunities at location $j$.
 -   $V_{i}$ is the spatial availability at $i$.
 
-Notice that, unlike $S_i$ in Hansen-type accessibility (Equation (\ref{eq:conventional-accessibility})), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to Shen's example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example-spatial-availability} contains the information needed to calculate $V_i$, with $\beta$ set again to 0.1 as in Table \ref{tab:synthetic-example}.
-
-In Table \ref{tab:synthetic-example-spatial-availability}, column __V_ij__ are the jobs available to each origin from each employment center. In this column $V_{A1}=$ 59,901 is the number of jobs available at $A$ from employment center 1. Column __V_i__ (i.e., $\sum_{j=1}^JV_{ij}$) gives the total number of jobs available to origin $i$. We can verify that the total number of jobs available is consistent with the total number of jobs in the region (with some small rounding error):
+Notice that, unlike $S_i$ in Hansen-type accessibility (Equation (\ref{eq:conventional-accessibility})), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to the example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example} also contains the information needed to calculate $V_i$, with $\beta$ set again to 0.1. Column __V_ij__ are the jobs available to each origin from each employment center. In this column $V_{A1}=$ 59,901 is the number of jobs available at $A$ from employment center 1. Column __V_i__ (i.e., $\sum_{j=1}^JV_{ij}$) gives the total number of jobs available to origin $i$. We can verify that the total number of jobs available is consistent with the total number of jobs in the region (with some small rounding error):
 $$
 \sum_{i=1}^N V_i = 66,833 + 133,203 + 9,963 \approx 210,000 
 $$
@@ -912,7 +921,7 @@ We can see that population center $A$ has fewer jobs per capita than the regiona
 
 We have shown that Shen-type accessibility and spatial availability produce equifinal results when accessibility per-capita is computed. At this point it is reasonable to ask whether the distinction between these two measures is of any importance.
 
-Conceptually, we would argue that the confounded populations in Shen-type accessibility leads to internal inconsistency in the calculation of total opportunities in @shen1998: this points to a deeper issue that is only evident when we consider the intermediate values of the method. To illustrate, Table \ref{tab:synthetic-example} shows results of $a_i$ that are reasonable (and they match exactly the spatial availability per capita). But when we dig deeper, these results mask potentially misleading values for the jobs allocated and the number of jobs taken. For instance, a region with a high jobs:population ratio but a prohibitive transportation network which results in a high cost of travel may yield a high $a_i$ value. This value, however, can conceal a low _effective opportunity-seeking population_ and proportionally low number of allocated jobs while additionally obscuring the number of population which does _not_ take jobs and the jobs _not_ taken.
+Conceptually, we would argue that the confounded populations in Shen-type accessibility leads to internal inconsistency in the calculation of total opportunities in @shen1998: this points to a deeper issue that is only evident when we consider the intermediate values of the method. To illustrate, Table \ref{tab:synthetic-example} shows results of $a_i$ that are reasonable (and they match exactly the spatial availability per capita). But when we dig deeper, these results mask potentially misleading values for the jobs allocated and the number of jobs taken. For instance, a region with a high jobs:population ratio but a prohibitive transportation network that results in a high cost of travel may yield a high $a_i$ value. This value, however, can conceal a low _effective opportunity-seeking population_ and proportionally low number of allocated jobs while additionally obscuring the number of population which does _not_ take jobs and the jobs _not_ taken.
 
 In addition, the intermediate accessibility values of $a_i$ (Shen-type measure) may also lead to impact estimates that are deceptive [see @sarlas_2020_betweenness]. For example, the estimated region-wide cost of travel considering the jobs allocated by $a_i$ in Table \ref{tab:synthetic-example} (i.e., $Jobs*f(TT)$) is as follows:
 
@@ -924,7 +933,7 @@ $$
 \end{array}
 $$
 
-In contrast, the estimated region-wide cost of travel according to $V_i$ in Table \ref{tab:synthetic-example-spatial-availability} is as follows:
+In contrast, the estimated region-wide cost of travel according to $V_i$ in Table \ref{tab:synthetic-example} is as follows:
 $$
 \begin{array}{l}
 59,901\times 15 \text{ min} + 6,923\times 30 \text{ min} + 10\times 100 \text{ min}\\
@@ -1344,7 +1353,7 @@ plot(norm_)
 dev.off()
 ```
 
-```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:TLD-norm-plot}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on TTS 2016.", fig.show='hold', fig.align='center'}
+```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:TLD-norm-plot}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on the estimated car travel times for full-time employment and workers in Toronto from the TTS 2016.", fig.show='hold', fig.align='center'}
 knitr::include_graphics("images/impedance_function.png")
 ```
 
@@ -1464,7 +1473,7 @@ TO_taz_acc <- TO_taz %>%
          A2_i = a_i * osp)
 ```
 
-```{r verify-employment}
+```{r verify-employment, include=FALSE}
 # Regional total number of jobs (this is the number of jobs in each TAZ in Toronto as defined by the TTS)
 TO_taz_acc %>%
   st_drop_geometry() %>%
@@ -1478,7 +1487,7 @@ TO_taz_acc %>%
                        na.rm = TRUE))
 ```
 
-```{r verify-population}
+```{r verify-population, include=FALSE}
 # Regional total population
 TO_taz_acc %>%
   st_drop_geometry() %>%
@@ -1752,8 +1761,8 @@ plot_TO_Si_rate <- TO_taz_acc %>% #mutate(s_i = ifelse(s_i >= 3.99793, 3.99793, 
                        direction = 1,
                        na.value = "white",
                        # trans = "sqrt",
-                       label = c("0.002", "", "", "8.305 (3rd qu.)\n5.891 (median)\n3.998 (1st qu.)", "33.993"),
-                       breaks = c(0.00163, 3.99793, 5.89111  , 8.30510 , 33.99289 )) +
+                       label = c("0.002", "", "", "", "8.305 (3rd qu.)\n5.891 (median)\n3.998 (1st qu.)\n1 (city benchmark)", "33.993"),
+                       breaks = c(0.00163, 1, 3.99793, 5.89111  , 8.30510 , 33.99289 )) +
   annotation_north_arrow(location = "tr", # north arrow for both the main plot and inset
                          height = unit(0.5, "cm"), 
                          width = unit(0.5, "cm"),
@@ -1783,8 +1792,8 @@ plot_TO_taz_jobs_workers <- TO_taz %>% mutate(jwork = ifelse(jwork >= 2.052, 2.0
                        palette = "Reds", #legend scale bar
                        direction = 1,
                        na.value = "white",
-                       label = c( "0.003", "", "0.331 (median)\n0.165 (1st qu.)", "0.833 (3rd qu.)", "2.052"),
-                       breaks = c(0.00287 , 0.16538 , 0.33056 , 0.83339 , 2.052)) +
+                       label = c( "0.003","0.331 (median)\n0.165 (1st qu.)", "","", "1 (city benchmark)\n0.833 (3rd qu.)", "2.052"),
+                       breaks = c(0.00287 , 0.16538 , 0.33056 , 0.83339 , 1, 2.052)) +
   geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
   geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
   geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
@@ -1806,8 +1815,8 @@ plot_TO_SA_rate <- TO_taz_acc %>%
                        direction = 1,
                        na.value = "white",
                        # trans = "sqrt",
-                       label = c("0.000", "", "0.683 (median)\n0.432 (1st qu.)", "0.988 (3rd qu.)", "2.052"),
-                       breaks = c(0.0001  , 0.4317, 0.6828    , 0.9872   , 2.05)) +
+                       label = c("0.000", "0.683 (median)\n0.432 (1st qu.)", "","", "1 (city benchmark)\n0.988 (3rd qu.)", "2.052"),
+                       breaks = c(0.0001  , 0.4317, 0.6828    , 0.9872   , 1, 2.05)) +
   geom_sf(data = toronto_muni_bound, fill=NA, size=0.25)+ #toronto border
   geom_sf(data = Toronto_highways, col = "black", size=0.25)+ #highways
   geom_sf(data = TTC_lines, col = "black", linetype = "dashed", size=0.25)+ #TTC lines
@@ -1831,7 +1840,7 @@ plot_TO_Si_rate / plot_TO_taz_jobs_workers / plot_TO_SA_rate
 ggsave("images/access-job-Toronto-plot-rates.png",dpi=700)
 ```
 
-```{r rate-accessibility-plot, fig.cap="\\label{fig:rate-accessibility-plot}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
+```{r rate-accessibility-plot, fig.cap="\\label{fig:rate-accessibility-plot}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. The city benchmark corresponds to total number of jobs in Toronto divided by the number of workers in Toronto, since this is equal the value is 1. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
 knitr::include_graphics("images/access-job-Toronto-plot-rates.png")
 png()
 ```
@@ -1864,26 +1873,28 @@ Based on this research we suggest the following guidelines for the application o
 
 5) Lastly, since opportunities are preserved, many new avenues of analysis can be pursued. This is especially important in light of emerging concerns with equity. For instance, the population and opportunities can be segmented (i.e., transit users, active transportation users, low income, low education, new comers, children) and their spatial availability to opportunities can be assessed, benchmarked, and corresponding policy to target inequities can be theorized. As another example, the combined balancing factor can be analysed to identify which populations currently do not seek opportunities because of friction of distance. This is a topic for future research.
 
-# Appendix A
-
 \begin{landscape}
 
-The mathematical equivalence of Shen-type accessibility measure and spatial availability is provided, in 5XX steps, in this appendix. Spatial availability per population $v_i$ is solved for population center $A$ (Shen's synthetic example as discussed in Section 2.3): this value is represented by $v_A$ and is equivalent to $a_A$ as follows.
+\section{Appendix A}
 
-**First step** : the population-based balancing factor $F^p_{i}$ used in $V_i$ is defined as:
+The mathematical equivalence of Shen-type accessibility measure and spatial availability is provided in 4 steps in this appendix. Spatial availability per population $v_i$ is solved for population center $A$ (Shen's synthetic example as discussed in Section 2.3): this value is represented by $v_A$ and is equivalent to $a_A$ as follows.
+
+\textbf{First step}: the population-based balancing factor $F^p_{i}$ used in $V_i$ is defined as:
 $$
 F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i}^N P_{i}^\alpha}
 $$
+
 For population center $A$, $F^p_{i}$ is equal to:
 $$
 F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
 $$
 
-Second, the impedance-based balancing factor $F^c_{ij}$ in $V_i$ is:
+\textbf{Second step}: the impedance-based balancing factor $F^c_{ij}$ in $V_i$ is defined as:
 $$
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
 $$
-**Second step** : In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine origin-destination trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$). 
+
+In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine origin-destination trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$).
 $$
 F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
 $$
@@ -1919,14 +1930,13 @@ $$
 $$
 F^c_{C3} = \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
 $$
-**Third step** : when these balancing factors ($F^p_{i}$ and $F^c_{ij}$) concerning population center $A$ are assembled and divided by $P_i$ allow the denominators of the denominators to cancel out. The following equation is the assigned general form, with the strike-through indicating which values cancel out:
 
+\textbf{Third step}: when these balancing factors ($F^p_{i}$ and $F^c_{ij}$) concerning population center $A$ are assembled and divided by $P_i$ allow the denominators of the denominators to cancel out. The following equation is the assigned general form, with the strike-through indicating which values cancel out:
 $$
 v_{i} = \sum_{j}\frac{O_j}{P_{i }^\alpha}\frac{\frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}{\sum_{i}^N \frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}\
 $$
 
 To demonstrate that those denominator terms cancel out, the following following terms for $v_A$ are subbed into the general form as follows:
-
 $$
 v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
 $$
@@ -1939,8 +1949,7 @@ $$
 \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
 $$
 
-$v_A$ simplies to the following:
-
+$v_A$ simplifies to the following:
 $$
 v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
 \frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) + \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
@@ -1948,17 +1957,15 @@ $$
 
 
 Now, notice how the denominator of the denominator is the same as the denominator of the numerator for each $j$ (j=1, j=2, and j=3)? We remove those cancelled out terms (as indicated at the beginning of this step) and re-write $v_a$ as follows:
-
 $$
 v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
 $$
 
-
-**Fourth step** : We can now cancel out one more term, $P_{A}^\alpha$, from the denominator and numerator as follows:
-
+\textbf{Fourth step}: We can now cancel out one more term, $P_{A}^\alpha$, from the denominator and numerator as follows:
 $$
 v_{A} = \frac{O_1}{\cancel{P_{A}^\alpha}}(\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
 $$
+
 Which can be expressed as: 
 $$
 v_{A} = (\frac{O_1 \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + \frac{O_2  \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + \frac{O_3 \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
@@ -1969,8 +1976,6 @@ v_{i} = {a_i} = \sum_j{\frac{O_j \cdot f(c_{ij})}{\sum_i P_{i} \cdot f(c_{ij})}}
 $$
 
 \end{landscape}
-
-\newpage
 
 # References {#references .unnumbered}
 
