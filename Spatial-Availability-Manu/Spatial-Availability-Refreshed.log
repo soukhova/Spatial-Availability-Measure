@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.16)  22 AUG 2022 15:19
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.8.16)  25 AUG 2022 10:01
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -662,237 +662,22 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring OFF on input line 116.
-(./Spatial-Availability-Refreshed.out) (./Spatial-Availability-Refreshed.out)
-\@outlinefile=\write4
-\openout4 = `Spatial-Availability-Refreshed.out'.
-
-Package caption Info: Begin \AtBeginDocument code.
-Package caption Info: float package is loaded.
-Package caption Info: longtable package is loaded.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/ltcaption.sty
-Package: ltcaption 2021/01/08 v1.4c longtable captions (AR)
-)
-Package caption Info: threeparttable package is loaded.
-Package caption Info: wrapfig package is loaded.
-Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Trying to load font information for T1+lmss on input line 146.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmss.fd
-File: t1lmss.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [1
-
-
-{c:/Users/user/AppData/Roaming/TinyTeX/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ot1lmr.fd
-File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OML+lmm on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omllmm.fd
-File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omslmsy.fd
-File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/omxlmex.fd
-File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 151.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 151.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 151.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying to load font information for U+msb on input line 151.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 167.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 167.
-[2] [3]
-LaTeX Font Info:    Trying to load font information for TS1+lmr on input line 263.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/ts1lmr.fd
-File: ts1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-) [4] [5] [6]
-<Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf, id=150, 469.755pt x 325.215pt>
-File: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf Graphic file (type pdf)
-<use Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 500.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <9> on input line 819.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-[7] [8 <./Spatial-Availability-Refreshed_files/figure-latex/create-figure-with-toy-example-1.pdf>]
-<Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=177, 469.755pt x 325.215pt>
-File: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf Graphic file (type pdf)
-<use Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 912.
-(pdftex.def)             Requested size: 345.0pt x 238.84406pt.
-[9] [10 <./Spatial-Availability-Refreshed_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [11] [12] [13]
-
-LaTeX Warning: Reference `tab:synthetic-example-spatial-availability' on page 14 undefined on input line 1200.
-
-
-LaTeX Warning: Reference `tab:synthetic-example-spatial-availability' on page 14 undefined on input line 1204.
-
-[14] [15]
-
-LaTeX Warning: Reference `tab:synthetic-example-spatial-availability' on page 16 undefined on input line 1318.
-
-[16]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 1391.
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lm/t1lmtt.fd
-File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
-)
-<images/TTS16-survey-area.png, id=250, 469.755pt x 325.11176pt>
-File: images/TTS16-survey-area.png Graphic file (type png)
-<use images/TTS16-survey-area.png>
-Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1407.
-(pdftex.def)             Requested size: 345.0pt x 238.76822pt.
-<images/spatial-dist-jobs-pop-Toronto-plot.png, id=252, 433.51675pt x 325.11176pt>
-File: images/spatial-dist-jobs-pop-Toronto-plot.png Graphic file (type png)
-<use images/spatial-dist-jobs-pop-Toronto-plot.png>
-Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot.png  used on input line 1419.
-(pdftex.def)             Requested size: 345.0pt x 258.73544pt.
-<images/spatial-dist-jobs-pop-Toronto-plot2.png, id=253, 433.51675pt x 325.11176pt>
-File: images/spatial-dist-jobs-pop-Toronto-plot2.png Graphic file (type png)
-<use images/spatial-dist-jobs-pop-Toronto-plot2.png>
-Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot2.png  used on input line 1423.
-(pdftex.def)             Requested size: 345.0pt x 258.73544pt.
-[17] [18 <./images/TTS16-survey-area.png>] [19 <./images/spatial-dist-jobs-pop-Toronto-plot.png>] [20 <./images/spatial-dist-jobs-pop-Toronto-plot2.png>]
-<images/impedance_function.png, id=284, 481.8pt x 481.8pt>
-File: images/impedance_function.png Graphic file (type png)
-<use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 1485.
-(pdftex.def)             Requested size: 345.0pt x 345.00635pt.
-[21] [22 <./images/impedance_function.png>]
-<images/access-job-Toronto-plot.png, id=298, 433.51675pt x 578.05676pt>
-File: images/access-job-Toronto-plot.png Graphic file (type png)
-<use images/access-job-Toronto-plot.png>
-Package pdftex.def Info: images/access-job-Toronto-plot.png  used on input line 1687.
-(pdftex.def)             Requested size: 345.0pt x 460.03807pt.
-[23] [24 <./images/access-job-Toronto-plot.png>]
-<images/internal-values-plot.png, id=316, 433.51675pt x 325.11176pt>
-File: images/internal-values-plot.png Graphic file (type png)
-<use images/internal-values-plot.png>
-Package pdftex.def Info: images/internal-values-plot.png  used on input line 1773.
-(pdftex.def)             Requested size: 345.0pt x 258.73544pt.
-[25] [26 <./images/internal-values-plot.png>]
-<images/access-job-Toronto-plot-rates.png, id=331, 433.51675pt x 650.32675pt>
-File: images/access-job-Toronto-plot-rates.png Graphic file (type png)
-<use images/access-job-Toronto-plot-rates.png>
-Package pdftex.def Info: images/access-job-Toronto-plot-rates.png  used on input line 1834.
-(pdftex.def)             Requested size: 345.0pt x 517.55307pt.
-
-LaTeX Warning: Float too large for page by 11.55307pt on input line 1835.
-
-[27] [28 <./images/access-job-Toronto-plot-rates.png>] [29] [30] [31]
-Overfull \hbox (162.30096pt too wide) detected at line 2031
-\OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = []([])+
- []
-
-
-Overfull \hbox (137.60641pt too wide) detected at line 2035
-[]\OT1/lmr/m/n/10 ([])+
- []
-
-
-Overfull \hbox (129.82843pt too wide) detected at line 2039
-[]\OT1/lmr/m/n/10 ([])
- []
-
-
-Overfull \hbox (265.4161pt too wide) detected at line 2074
-\OML/lmm/m/it/10 v[] \OT1/lmr/m/n/10 = \OML/lmm/m/it/10 O[]\OT1/lmr/m/n/10 ([] + \OML/lmm/m/it/10 O[][] \OT1/lmr/m/n/10 + \OML/lmm/m/it/10 O[][]\OT1/lmr/m/n/10 )
- []
-
-[32] [33]
-Overfull \hbox (1.6811pt too wide) in paragraph at lines 2095--2100
-\T1/lmr/m/n/10 Sus-tain-able Trans-porta-tion 13, 639--651. doi:[]10.1080/15568318.2018.1498563[] 
- []
-
-
-Overfull \hbox (95.57463pt too wide) in paragraph at lines 2120--2126
-\T1/lmr/m/n/10 port in-vest-ments. Jour-nal of Trans-port Ge-og-ra-phy 24, 142--154. doi:[]10.1016/j.jtrangeo.2011.12.004[] 
- []
-
-
-Overfull \hbox (89.35191pt too wide) in paragraph at lines 2152--2158
-\T1/lmr/m/n/10 sis-tance Pro-gram. The Pro-fes-sional Ge-og-ra-pher 71, 668--680. doi:[]10.1080/00330124.2019.1578978[] 
- []
-
-
-Overfull \hbox (58.21326pt too wide) in paragraph at lines 2171--2176
-\T1/lmr/m/n/10 vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy 70, 11--20. doi:[]10.1016/j.jtrangeo.2018.05.015[] 
- []
-
-[34]
-Overfull \hbox (34.44968pt too wide) in paragraph at lines 2196--2203
-\T1/lmr/m/n/10 and North metropoli-tan re-gions. Cities 109, 103016. doi:[]10.1016/j.cities.2020.103016[] 
- []
-
-
-Overfull \hbox (91.81992pt too wide) in paragraph at lines 2204--2208
-\T1/lmr/m/n/10 porta-tion Re-search Part D: Trans-port and En-vi-ron-ment 83, 102319. doi:[]10.1016/j.trd.2020.102319[] 
- []
-
-
-Overfull \hbox (74.43596pt too wide) in paragraph at lines 2249--2254
-\T1/lmr/m/n/10 ac-ces-si-bil-ity. Jour-nal of Trans-port Ge-og-ra-phy 74, 278--288. doi:[]10.1016/j.jtrangeo.2018.12.002[] 
- []
-
-[35]
-Overfull \hbox (9.50491pt too wide) in paragraph at lines 2309--2313
-\T1/lmr/m/n/10 plan-ning. Trans-port Re-views 38, 551--555. doi:[]10.1080/01441647.2018.1492778[] 
- []
-
-[36]
-Overfull \hbox (14.53242pt too wide) in paragraph at lines 2366--2371
-\T1/lmr/m/n/10 mul-ti-modal trans-port net-works with R5 in r. Find-ings. doi:[]10.32866/001c.21262[] 
- []
-
-
-Overfull \hbox (10.31226pt too wide) in paragraph at lines 2386--2390
-\T1/lmr/m/n/10 Ac-ces-si-bil-ity Mea-sures: Which One to Use? Find-ings. doi:[]10.32866/001c.32444[] 
- []
-
-
-Overfull \hbox (28.48636pt too wide) in paragraph at lines 2422--2427
-\T1/lmr/m/n/10 ron-ment and Ur-ban Sys-tems 90, 101713. doi:[]10.1016/j.compenvurbsys.2021.101713[] 
- []
-
-[37] [38] [39] [40] (./Spatial-Availability-Refreshed.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package rerunfilecheck Info: File `Spatial-Availability-Refreshed.out' has not changed.
-(rerunfilecheck)             Checksum: 1B24F2BCB7276E37771C559AB57FCC35;4543.
- ) 
+(./Spatial-Availability-Refreshed.out) (./Spatial-Availability-Refreshed.out
+! I can't write on file `Spatial-Availability-Refreshed.pdf'.
+(Press Enter to retry, or Control-Z to exit; default file extension is `.pdf')
+Please type another file name for output
+! Emergency stop.
+\Hy@OutlineName ...utline goto name{#2}count#3{#4}
+                                                  
+l.1 ...\000o\000d\000u\000c\000t\000i\000o\000n}{}
+                                                  % 1 
 Here is how much of TeX's memory you used:
- 18148 strings out of 479638
- 340604 string characters out of 5877274
- 671564 words of memory out of 5000000
- 36168 multiletter control sequences out of 15000+600000
- 538287 words of font info for 78 fonts, out of 8000000 for 9000
+ 17477 strings out of 479638
+ 325031 string characters out of 5877274
+ 589212 words of memory out of 5000000
+ 35769 multiletter control sequences out of 15000+600000
+ 473808 words of font info for 33 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 72i,15n,77p,696b,986s stack positions out of 10000i,1000n,20000p,200000b,200000s
-{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathit.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-rm.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-mathex.enc}{c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}<c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbx7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmbxi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmmi9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmri8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmss8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Spatial-Availability-Refreshed.pdf (40 pages, 10656676 bytes).
-PDF statistics:
- 706 PDF objects out of 1000 (max. 8388607)
- 591 compressed objects within 6 object streams
- 187 named destinations out of 1000 (max. 500000)
- 214 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 72i,1n,77p,637b,382s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
+!  ==> Fatal error occurred, no output PDF file produced!
