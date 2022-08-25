@@ -13,6 +13,8 @@ csl: elsevier-harvard.csl
 output: rticles::elsevier_article
 header-includes:
 - \usepackage[font=small,skip=0pt]{caption}
+- \usepackage{amsmath}
+- \usepackage[makeroom]{cancel}
 ---
 
 ```{r knitr-setup, include=FALSE}
@@ -1859,40 +1861,66 @@ Based on this research we suggest the following guidelines for the application o
 
 # Appendix A
 
-The mathematical equivalence of Shen-type accessibility measure and spatial availability is provided in this appendix.
+\begin{landscape}
 
-The population-based balancing factor used in $V_i$ is defined as:
-$$
-F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha}
-$$
+The mathematical equivalence of Shen-type accessibility measure and spatial availability is provided, in 5XX steps, in this appendix. Spatial availability per population $v_i$ is solved for population center $A$ (Shen's synthetic example as discussed in Section 2.3): this value is represented by $v_A$ and is equivalent to $a_A$ as follows.
 
+**First step** : the population-based balancing factor $F^p_{i}$ used in $V_i$ is defined as:
+$$
+F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i}^N P_{i}^\alpha}
+$$
+For population center $A$, $F^p_{i}$ is equal to:
 $$
 F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
 $$
 
-The impedance-based balancing factor in $V_i$ is:
-
+Second, the impedance-based balancing factor $F^c_{ij}$ in $V_i$ is:
 $$
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
 $$
-
+**Second step** : In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine origin-destination trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$). 
 $$
 F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
 $$
 
 $$
-F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+F^c_{B1} = \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
 $$
 
 $$
-F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+F^c_{C1} = \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
 $$
 
-These factors when assembled together with $P$ makes the denominators cancel out:
+$$
+F^c_{A2} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
 
 $$
-v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^N f(c_{ij})}}{\sum_{i}^N \frac{P_{i\in r}^\alpha}{\sum_{i}^N P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^N f(c_{ij})}}
+F^c_{B2} = \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
 $$
+
+$$
+F^c_{C2} = \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
+
+$$
+F^c_{A3} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+
+$$
+F^c_{B3} = \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+
+$$
+F^c_{C3} = \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+**Third step** : when these balancing factors ($F^p_{i}$ and $F^c_{ij}$) concerning population center $A$ are assembled and divided by $P_i$ allow the denominators of the denominators to cancel out. The following equation is the assigned general form, with the strike-through indicating which values cancel out:
+
+$$
+v_{i} = \sum_{j}\frac{O_j}{P_{i }^\alpha}\frac{\frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}{\sum_{i}^N \frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}\
+$$
+
+To demonstrate that those denominator terms cancel out, the following following terms for $v_A$ are subbed into the general form as follows:
 
 $$
 v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
@@ -1906,41 +1934,36 @@ $$
 \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
 $$
 
-First, notice how the denominator on the denominator is the same across the summation. Simplifying:
+$v_A$ simplies to the following:
 
 $$
-v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}})
-$$
-
-$$\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}})
-$$
-
-$$
-\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) + \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
 $$
 
 
-Notice how the denominator of the denominator is the same as the denominator of the numerator for each $J$ (J=1, J=2, and J=3)? Cancel those out and simplify:
+Now, notice how the denominator of the denominator is the same as the denominator of the numerator for each $j$ (j=1, j=2, and j=3)? We remove those cancelled out terms (as indicated at the beginning of this step) and re-write $v_a$ as follows:
 
 $$
-v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}
-$$
-
-$$\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}
-$$
-
-$$
-\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
 $$
 
 
-Next, we can cancel out the $P_{A}^\alpha$:
+**Fourth step** : We can now cancel out one more term, $P_{A}^\alpha$, from the denominator and numerator as follows:
 
 $$
-v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
+v_{A} = \frac{O_1}{\cancel{P_{A}^\alpha}}(\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
 $$
-\noindent which shows how $v_A$ if formally indentical to the Shen-type accessibility measure with competition.
+Which can be expressed as: 
+$$
+v_{A} = (\frac{O_1 \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + \frac{O_2  \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + \frac{O_3 \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
+$$
+And generalized to be formally identical to the Shen-type accessibility measure with competition as follows:
+$$
+v_{i} = {a_i} = \sum_j{\frac{O_j \cdot f(c_{ij})}{\sum_i P_{i} \cdot f(c_{ij})}}
+$$
 
+\end{landscape}
 
 \newpage
 
