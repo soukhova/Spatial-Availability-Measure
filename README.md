@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Introducing spatial availability, a singly-constrained competitive-access accessibility measure
+# Introducing spatial availability, a singly-constrained measure of competitive accessibility
 
 Anastasia Soukhov (School of Earth, Environment and Society, McMaster
 University, Canada) Antonio Paez (School of Earth, Environment and
