@@ -17,30 +17,7 @@ Forthcoming in *Some Journal*
 
 # Abstract
 
-Accessibility measures are widely used in transportation, urban and
-healthcare planning, among other applications. These measures are
-weighted sums of the opportunities that can be reached given the cost of
-movement and are interpreted to represent the potential for spatial
-interaction. Though these measures are useful in understanding spatial
-structure, their methodologies count available opportunities multiple
-times. This leads to interpretability issues, as noted in recent
-research on balanced floating catchment areas (BFCA) and competitive
-measures of accessibility. In this paper, we respond to the limitations
-of the accessibility measure by proposing a new measure of *spatial
-availability* which is calculated by imposing a single constraint on the
-conventional gravity-based accessibility. Similar to the gravity model
-from which spatial availability is derived, a single constraint ensures
-that the marginals at the destination are met and thus the number of
-opportunities are preserved. Through examples, we detail the formulation
-of the proposed measure. Further, we use data from the 2016
-Transportation Tomorrow Survey of the Greater Golden Horseshoe area in
-southern Ontario, Canada, to contrast how the conventional accessibility
-measure tends to overestimate and underestimate the number of jobs
-*available* to workers. We conclude with some discussion of the possible
-uses of spatial availability and argue that, compared to conventional
-measures of accessibility, it can offer a more meaningful and
-interpretable measure of opportunity access. All data and code used in
-this research are openly available.
+Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability, mainly by introducing competition. In this paper, we demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure results from using balancing factors that are equivalent to imposing a single constraint on conventional gravity-based accessibility. Further, we demonstrate how Two-Stage Floating Catchment Area (2SFCA) methods can be reconceptualized as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada.
 
 # Keywords
 
