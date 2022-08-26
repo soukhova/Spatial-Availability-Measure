@@ -10,7 +10,7 @@ of Geography & Planning, University of Toronto Scarborough, Canada)
 Moataz Mohamed (Department of Civil Engineering, McMaster University,
 Canada)
 
-Forthcoming in *Journal of Transport Geography*
+Forthcoming in *Some Journal*
 
 <!-- badges: start -->
 <!-- badges: end -->
