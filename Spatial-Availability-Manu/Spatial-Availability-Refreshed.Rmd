@@ -1,33 +1,41 @@
 ---
 title: "Introducing spatial availability, a singly-constrained measure of competitive accessibility"
 author:
-  - name: "Anastasia Soukhov"
-    email: "soukhoa@mcmaster.ca"
-    code: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
-  - name: "Antonio Paez"
-    email: "paezha@mcmaster.ca"
-    code: "School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada"
-  - name: "Christopher D. Higgins"
-    email: "cd.higgins@utoronto.ca"
-    code: "Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C 1A4"
-  - name: "Moataz Mohamed"
-    email: "mmohame@mcmaster.ca"
-    code: "Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada"
+  - name: Anastasia Soukhov
+    email: soukhoa@mcmaster.ca
+    affiliation: SEES
+    corresponding: soukhoa@mcmaster.ca
+  - name: Antonio Paez
+    email: paezha@mcmaster.ca
+    affiliation: SEES
+  - name: Christopher D. Higgins
+    email: cd.higgins@utoronto.ca
+    affiliation: UoTS
+  - name: Moataz Mohamed
+    email: mmohame@mcmaster.ca
+    affiliation: CIV
+address:
+  - code: SEES
+    address: School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada
+  - code: UoTS
+    address: Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C 1A4
+  - code: CIV
+    address: Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada
 abstract: |
-  Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability, mainly by introducing competition. In this paper, we demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure results from using balancing factors that are equivalent to imposing a single constraint on conventional gravity-based accessibility. Further, we demonstrate how Two-Stage Floating Catchment Area (2SFCA) methods can be reconceptualized as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada.
+  Accessibility indicators are widely used in transportation, urban, and healthcare planning, among many other applications. These measures are weighted sums of reachable opportunities from a given origin conditional on the cost of movement, and are estimates of the potential for spatial interaction. Over time, various proposals have been forwarded to improve their interpretability: one of those methodological additions have been the introduction of competition. In this paper, we focus on competition, but first demonstrate how a widely used measure of accessibility with congestion fails to properly match the opportunity-seeking population. We then propose an alternative formulation of accessibility with competition, a measure we call _spatial availability_. This measure relies on proportional allocation balancing factors (fricition of distance and population competition) that are equivalent to imposing a single constraint on conventional gravity-based accessibility. In other words, the proportional allocation of opportunities results in a _spatially available opportunities_ value which is assigned to each origin that, when all origin values are summed, equals the total number of opportunities in the region. We also demonstrate how Two-Stage Floating Catchment Area (2SFCA) methods are equvialent to spatial availabiltiy and can be reconceptualized as singly-constrained accessibility. To illustrate the application of spatial availability and compare it to other relevant measures, we use data from the 2016 Transportation Tomorrow Survey of the Greater Golden Horseshoe area in southern Ontario, Canada. Spatial availability is an important contribution since it clarifies the interpretation of accessibility with competition and paves the way for future applications in equity analysis.  
 
-journal: "Some Journal"
-date: "`r Sys.Date()`"
 bibliography: bibliography.bib
 linenumbers: true
-linespacing: 1.5
+# linespacing: 1.5
 numbersections: true
-csl: elsevier-harvard.csl
-output: rticles::elsevier_article
+# plos.csl can be download and used locally
+csl: http://www.zotero.org/styles/plos
+output: rticles::plos_article
 header-includes:
 - \usepackage[font=small,skip=0pt]{caption}
 - \usepackage{amsmath}
 - \usepackage[makeroom]{cancel}
+- \usepackage{pdflscape}
 ---
 
 ```{r knitr-setup, include=FALSE}
@@ -222,7 +230,7 @@ The concept of accessibility in transportation studies derives its appeal from t
 
 <!-- Quickly review the backgroud for the research and identify problem -->
 
-Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures have been derived, particularly after the influential work of @wilson1971 on spatial interaction^[Utility-based measures derive from a very different theoretical framework, random utility maximization]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature, it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring]. Hansen-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
+Accessibility analysis stems from the foundational works of @harris_market_1954 and @hansen1959. From these seminal efforts, many accessibility measures have been derived, particularly after the influential work of @wilson1971 on spatial interaction^[Utility-based measures derive from a very different theoretical framework, random utility maximization]. Of these, gravity-type accessibility is arguably the most common; since its introduction in the literature, it has been widely adopted in numerous forms [@cervero_transportation_2002; @paez2004network; @geurs2004; @levinson_accessibility_1998; @Arranz2019measuring; @yangStudyImpactHighSpeed2018]. Hansen-type accessibility indicators are essentially weighted sums of opportunities, with the weights given by an impedance function that depends on the cost of movement, and thus measure the _intensity of the possibility of interaction_ [@hansen1959]. This type of accessibility analysis offers a powerful tool to study the intersection between urban structure and transportation infrastructure [@handy_measuring_1997]. 
 
 <!-- Identify a problem -->
 
@@ -234,9 +242,15 @@ The interpretability of Hansen-type accessibility has been discussed in numerous
 
 An important development contained in Shen's work is a proof that the population-weighted sum of the accessibility measure with competition equates to the number of opportunities available [footnote (7) and Appendix A in @shen1998]. This demonstration gives the impression that Shen-type accessibility allocates _all_ opportunities to the origins, however to the authors' knowledge, it has not interpreted by literature in this way. For instance, @hu_changing_2014, @merlin2017competition, and @tao_investigating_2020 all use Shen-type accessibility to calculate job access but report values as 'competitive accessibility scores' or simply 'job accessibility'. These works do not explicitly recognize that jobs that are assigned to each origin are in fact a proportion of _all_ the opportunities in the system. This recognition, we argue, is critical to interpreting the meaning of the final result. Thus, in this paper we intend to revisit accessibility with competition within the context of disentangling how opportunities are allocated. We first argue that Shen's competitive accessibility misleadingly refers to the the total zonal population to equal the travel-cost discounted opportunity-seeking population. This equivocation, we believe, results in a ambigious interpretation of what Shen-type accessibility represents as the allocation of opportunities to population is masked by the results presenting as rates (i.e., opportunities per capita). We then propose an alternative formulation of accessibility that incorporates competition by adopting a proportional allocation mechanism; we name this measure _spatial availability_. The use of balancing factors for proportional allocation is akin to imposing a single constraint on the accessibility indicator, in the spirit of Wilson's [-@wilson1971] spatial interaction model.
 
+The key motivations of this paper are as follows:
+
+- To address and improve on the interpretability of Hansen-type accessibility measure; and
+
+- To consider competition from the perspective of the population for opportunities within an accessibility measure. 
+
 <!-- Clearly state objectives of paper -->
  
-In this way, the aim of the paper is three-fold:
+In this way, the paper's aim is three-fold:
 
 - First, we aim to demonstrate that Shen-type (and thus @weibull_axiomatic_1976 accessibility and the popular 2SFCA methods) produce equivocal estimates of opportunities allocated as the result is presented as a rate (i.e., opportunities per capita);
 
@@ -280,21 +294,21 @@ To account for competition, the influential works of @shen1998 and @weibull_axio
 ```{=tex}
 \begin{equation}
 \label{eq:effective-opportunity-seeking-population}
-P_{ij}^* = P_{i} \cdot f(c_{ij})\\
+P_{ij}^{*} = {P_{i} \cdot f(c_{ij})}
 \end{equation}
 ```
 
 ```{=tex}
 \begin{equation}
 \label{eq:level-of-service}
-R_{j} = \frac{O_{j}}{\sum_i P_{ij}^*}\\
+R_{j} = \frac{O_{j}}{\sum_i P_{ij}^*}
 \end{equation}
 ```
 
 ```{=tex}
 \begin{equation}
 \label{eq:2SFCA-step2}
-a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}\\
+a_{i} = {\sum_j R_{j} \cdot f(c_{ij})}
 \end{equation}
 ```
 
@@ -330,7 +344,7 @@ Misunderstanding $P_i$ and $O_j$ may lead to a misleading interpretation of the 
 ```{=tex}
 \begin{equation}
 \label{eq:2SFCA-total}
-\sum_{i=1}^N a_{i} P_i= \sum_{j=1}^JO_j\\
+\sum_{i=1}^N a_{i} P_i= \sum_{j=1}^JO_j
 \end{equation}
 ```
 
@@ -635,13 +649,12 @@ colnames(od_tt3) <- c("F^p", "F^c", "F", "V_ij", "V_i")
 od_tt3 <- t(od_tt3)
 ```
 
-
 ```{r merging-data-for-table}
 #merge 1 and 2 and 3
 od_tt4 <- rbind(od_tt1, od_tt2, od_tt3)
 
 rownames_od_tt4 <- c("Origin", 
-"Destination", "Pop.", "Jobs", "TT", 
+"Dest.", "Pop.", "Jobs", "TT", 
 "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
 "f(TT)", "Pop * f(TT)", "Jobs * f(TT)", "S_i", "a_i", 
 "F^c", "F^p", "F", "V_ij", "V_i")
@@ -650,16 +663,13 @@ od_tt4 <- cbind(rownames_od_tt4, od_tt4)
 
 od_tt4 <- od_tt4  %>%
   as_hux()
-
-
 ```
-
 
 ```{r toy-example-table-all-values, cache=FALSE}
 table_toy  <- od_tt4 %>%
   set_background_color(c(6:10,16:20), 1:10, "lightyellow") %>%
   set_background_color(11:15, 1:10, "grey90") %>%
-  set_bold(1, everywhere) %>%
+  set_bold(1:2, everywhere) %>%
   set_bottom_border(c(1,2,5,10,15,20), everywhere) %>%
   set_right_border(everywhere, c(1,4,7,10), brdr(1, "solid", "grey")) %>%
   set_align(1:20, 1, "left") %>%
@@ -669,13 +679,13 @@ table_toy  <- od_tt4 %>%
   merge_cells(1, 2:4) %>% merge_cells(1, 5:7) %>% merge_cells(1, 8:10) %>%
   set_caption("Summary description of synthetic example: Hansen-type accessibility $S_i$, Shen-type accessibility $a_i$, and spatial availability $V_i$ with beta = 0.1 (light yellow) and beta = 0.6 (light grey).") %>%
   set_label("tab:synthetic-example") %>% 
-  set_latex_float("h!")
+  set_latex_float("h!") %>% 
+  set_width(1.1)
 
 font_size(table_toy) <- 7
 
 table_toy[1:20,]
 ```
-comebackhere
 
 Table \ref{tab:synthetic-example} contains the information needed to calculate $S_i$ and $a_i$ for this example. We use a negative exponential impedance function with $\beta=0.1$ as done in @shen1998 [see footnote (5)]:
 $$
@@ -826,7 +836,7 @@ In the general case where there are $N$ population centers and $J$ employment ce
 ```{=tex}
 \begin{equation}
 \label{eq:impedance-balancing-factor}
-F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^N f(c_{ij})}\\
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^N f(c_{ij})}
 \end{equation}
 ```
 
@@ -1857,11 +1867,13 @@ The bottom plot displays the spatially available jobs per capita. It can be inte
 
 # Conclusion
 
-In this paper we show how a widely used measure of accessibility with competition obscures some important internal values of opportunities taken. This is caused by confounding the population of zones with the _effective opportunity-seeking population_. We then propose an alternative derivation of accessibility with competition that we call spatial availability. This measure ensures that opportunities are allocated in a proportional way and preserved in the regional total. We also show that spatial availability and Shen-type accessibility are equifinal: formally the equations are the same (along with 2SFCA) and can be consider as singly-constrained measures. 
+In this paper we show how a widely used measure of accessibility with competition (Shen-type accessibility) obscures some important internal values of opportunities taken. This is caused by confounding the population of zones with the _effective opportunity-seeking population_. We then propose an alternative derivation of accessibility with competition that we call spatial availability. This measure ensures that opportunities are allocated in a proportional way and preserved in the regional total. We also show that spatial availability and Shen-type accessibility are equifinal: formally the equations are the same (along with 2SFCA) and can be consider as singly-constrained measures. 
 
-Why do differences between Hansen-style measure and the interpretation of Shen-type measure matter? In equity analysis and policy planning, an analyst might be interested in the internal values of their accessibility analysis, for example travel times, and who pays how much for accessibility. The increased interpretability and internal consistency of spatial availability can help to push accessibility analysis forward. Hansen-type measure tend to result in values which are very extreme as a result of multiple-counting opportunities as shown in empirical example. Multiple-counting may not be an issue if the opportunity-type is non-exclusive, but with the case of employment where one worker can only take one job, the resulting values are difficult to interpret (though it can be interpreted relatively to speak about urban form). In this paper, we also demonstrated how attempting to disentangle the absolute values of opportunities from the Shen-type measure is difficult as a result of Shen's definition which confounds the population with the effective-opportunity seeking population. As demonstrated in this paper, spatial availability increases interpretability by presenting first, the absolute value of _available_ jobs and then by dividing the available jobs value by the number of working population. This rate is equivalent to Shen-type measure but contains internal values, such as the proportional allocation mechanism, that yield more realistic estimates of opportunities taken, as well as a set of balancing factors that can be used to better understand the absolute and rate values obtained. 
+Spatial availability matters because competition is an important consideration for certain opportunity types and conventional Hansen-type accessibility does not capture it [@merlin2017competition]. Spatial availability also brings forward a different interpretation to competition than the Shen-type measure through its intermediate values. In equity analysis and policy planning, an analyst might be interested in the internal values of their accessibility analysis, for example travel times, and who pays how much for accessibility. The increased interpretability and internal consistency of spatial availability can help to push accessibility analysis forward. Hansen-type measure tends to result in values which are very extreme as a result of multiple-counting opportunities as shown in empirical example. Multiple-counting may not be an issue if the opportunity-type is non-exclusive, but with the case of employment where one worker can only take one job, the resulting values are difficult to interpret (though it can be interpreted relatively to speak about urban form). In this paper, we also demonstrated how attempting to disentangle the absolute values of opportunities from the Shen-type measure is difficult as a result of Shen's definition which confounds the population with the effective-opportunity seeking population.
 
-Based on this research we suggest the following guidelines for the application of spatial availability and the topic of future work:
+As demonstrated in this paper, spatial availability increases interpretability by first presenting the absolute value of _available_ jobs and then by dividing the available jobs value by the number of working population. This rate is equivalent to Shen-type measure but contains internal values, such as the proportional allocation mechanism, that yield more realistic estimates of opportunities taken, as well as a set of balancing factors that can be used to better understand the absolute and rate values obtained. 
+
+Based on the research presented, we suggest the following guidelines for the application of spatial availability and the topic of future work:
 
 1) The Hansen-style accessibility should be used when opportunities are non-exclusive. When opportunities are perfectly exclusive (i.e., 1 spot for 1 person), spatial availability (i.e., accessibility with competition) should be used.
 
@@ -1869,9 +1881,9 @@ Based on this research we suggest the following guidelines for the application o
 
 3) With the renewed interpretability of what the absolute _opportunity availability_ is at each origin, the spatial availability per capita $v_i$ value of 1 can be used as a policy goal. For areas with a value below 1, targeted increases to the quantity of opportunities, residential housing, and transportation system improvements can be considered such that the number of _available jobs_ per capita in the zone is at least equal to 1. Since spatial availability per capita implicitly preserves the number of opportunities in the region, it can be directly compared to the the region's raw jobs to population ratio to inform policy. Additionally, the absolute values of spatial availability can be used to understand the magnitude of the opportunity availability deficit (or surplus).
 
-4) Spatial availability per capita can also be compared directly to other regions as done by literature using Shen-type measure/2SFCA (e.g., @giannotti_inequalities_2021). However, as a result of the renewed interpretation, the magnitude of _spatially available_ opportunities can be quantified. 
+4) Spatial availability per capita can also be compared directly to other regions as done by literature using Shen-type measure/2SFCA (e.g., @giannotti_inequalities_2021; @zhouTransportationAccessibilityEvaluation2021; @zhangDifferencesAccessibilityPublic2021). However, as a result of the renewed interpretation, the magnitude of _spatially available_ opportunities can be quantified. 
 
-5) Lastly, since opportunities are preserved, many new avenues of analysis can be pursued. This is especially important in light of emerging concerns with equity. For instance, the population and opportunities can be segmented (i.e., transit users, active transportation users, low income, low education, new comers, children) and their spatial availability to opportunities can be assessed, benchmarked, and corresponding policy to target inequities can be theorized. As another example, the combined balancing factor can be analysed to identify which populations currently do not seek opportunities because of friction of distance. This is a topic for future research.
+5) Lastly, since opportunities are preserved, many new avenues of analysis can be pursued. This is especially important in light of emerging concerns with equity. For instance, the population and opportunities can be segmented (i.e., transit users, active transportation users, low income, low education, new comers, children) and their spatial availability to opportunities can be assessed, benchmarked, and corresponding policy to target inequities can be theorized. As another example, the combined balancing factor can be analysed to identify which populations currently do not seek opportunities because of friction of distance. 
 
 \begin{landscape}
 
@@ -1973,13 +1985,13 @@ $$
 And generalized to be formally identical to the Shen-type accessibility measure with competition as follows:
 $$
 v_{i} = {a_i} = \sum_j{\frac{O_j \cdot f(c_{ij})}{\sum_i P_{i} \cdot f(c_{ij})}}
-$$
+$$\\
+
 
 \end{landscape}
 
-# References {#references .unnumbered}
 
-
+\section{References}
 
 <!-- # ```{r toy-example-table-2, cache=FALSE} -->
 <!-- # #old table -->
