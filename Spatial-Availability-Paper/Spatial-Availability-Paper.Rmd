@@ -354,9 +354,8 @@ Confounding $P_i$ with the effective opportunity-seeking population and confound
 
 In this section we use the synthetic example in @shen1998 to highlight the importance of understanding $P_i$ and $O_j$ as simply the population at the origin $i$ and the opportunities at destination $j$, respectively. This is critical to understanding how opportunities are allocated to the population based on the impedance function.
 
-```{r, create-figure-with-toy-example, fig.cap="\\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.", fig.show='hold', fig.align='center'}
-
-ggplot() + 
+```{r, creating-toy-example-plot, eval=FALSE}
+toy_example_plot <- ggplot() + 
   # Plot centers
   geom_circle(data = centers,
              aes(x0 = x, 
@@ -413,8 +412,14 @@ ggplot() +
            size=3) +
   # Theme the plot
   coord_fixed() + 
-  theme_void() +
-  guides(shape = "none", size = "none", color = "none", linetype ="none") 
+  theme_void() + guides(shape = "none", size = "none", color = "none", linetype ="none") 
+
+toy_example_plot
+ggsave("images/Fig1.png",dpi=600)
+```
+
+```{r, synthetic-example-plot, fig.cap="\\label{fig:Fig1} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.", fig.show='hold', fig.align='center'}
+knitr::include_graphics("images/Fig1.png")
 ```
 
 ```{r access-calcs-table, include=FALSE}
@@ -716,11 +721,12 @@ $$
 
 Furthermore, even when Shen's $P_i$ is understood plainly as the total population at $i$, the meaning of the proof may still be ambiguous. The proof can still give the impression that all jobs are allocated to the total population, since total population ($\sum_{i=1}^N P_i$) goes into the equation and total jobs ($\sum_{j=1}^JO_j$) in the region is the result. However, this impression is incomplete as it does not reflect the amount of population which takes jobs and the number of people being considered for jobs: these magnitudes are a product of being weighted down by the impedance function. The magnitudes are not obvious  because the result, $a_i$, is a rate (i.e., opportunities per capita). 
 
-Let us consider a modification to the travel behaviour of the example discussed to illustrate how the presentation of $a_i$ as a rate obscures the magnitude of the effective opportunity-seeking population. We modify the example by increasing the $\beta$ to 0.6 (compared to the previous value of 0.1; see Figure \ref{fig:impedance-functions-comparison}). This modification increases the cost of travel and thus the impedance function, which is an expression of the population's relative willingness to travel to opportunities, reflects a population which is relatively less willing to travel to opportunities further away compared to the previous $\beta$ value. The Hansen-type and Shen-type values are presented in the yellow rows of Table \ref{tab:synthetic-example}.
+Let us consider a modification to the travel behaviour of the example discussed to illustrate how the presentation of $a_i$ as a rate obscures the magnitude of the effective opportunity-seeking population. We modify the example by increasing the $\beta$ to 0.6 (compared to the previous value of 0.1; see Figure \ref{fig:Fig2}). This modification increases the cost of travel and thus the impedance function, which is an expression of the population's relative willingness to travel to opportunities, reflects a population which is relatively less willing to travel to opportunities further away compared to the previous $\beta$ value. The Hansen-type and Shen-type values are presented in the yellow rows of Table \ref{tab:synthetic-example}.
 
-```{r comparison-impedance-functions-synthetic-example, fig.cap="\\label{fig:impedance-functions-comparison}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time."}
+```{r comparison-impedance-functions-synthetic-example-creation, include=FALSE}
 b<-0.6
-data.frame(tt = seq(0, 110, 1)) %>%
+
+com_impeds <- data.frame(tt = seq(0, 110, 1)) %>%
   mutate(f1 = exp(-0.1 * tt),
          f2 = exp(-b * tt)) %>%
   pivot_longer(cols = -tt,
@@ -735,6 +741,14 @@ data.frame(tt = seq(0, 110, 1)) %>%
                 y = f,
                 color = Function)) +
   theme_minimal()
+com_impeds
+
+ggsave("images/Fig2.png",dpi=600)
+```
+
+
+```{r comparison-impedance-functions-synthetic-example, fig.cap="\\label{fig:Fig2}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time."}
+knitr::include_graphics("images/Fig2.png")
 ```
 
 As expected, Hansen-type accessibility drops quite dramatically after this $\beta$ modification: the friction of distance is so high that few opportunities are within reach. In contrast, Shen-type accessibility converges to the jobs:population ratio (i.e., origin $A$ is $\frac{100,000}{50,000} = 2$). This is explained by the way the impedance function excludes the population in droves, thus reducing the competition for jobs: as seen in Table \ref{tab:synthetic-example}, the effective opportunity-seeking population from $A$ is only about equal to `r as.numeric(od_tt4[12, 2])`; likewise, the number of jobs at 1 weighted by the impedance is only `r as.numeric(od_tt4[13, 2])`. In other words, competition is low because jobs are expensive to reach, but those willing to reach jobs enjoy relatively high accessibility (in the limit, the jobs:population ratio). On the other hand, the accessibility is effectively zero for those in the population prevented by the impedance from reaching any jobs.
@@ -888,7 +902,7 @@ The terms in Equation \ref{eq:spatial-availability}:
 -   $O_j$ is the number of opportunities at location $j$.
 -   $V_{i}$ is the spatial availability at $i$.
 
-Notice that, unlike $S_i$ in Hansen-type accessibility (Equation (\ref{eq:conventional-accessibility})), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to the example in Figure \ref{fig:plot-toy-example}, Table \ref{tab:synthetic-example} also contains the information needed to calculate $V_i$, with $\beta$ set again to 0.1. Column __V_ij__ are the jobs available to each origin from each employment center. In this column $V_{A1}=$ 59,901 is the number of jobs available at $A$ from employment center 1. Column __V_i__ (i.e., $\sum_{j=1}^JV_{ij}$) gives the total number of jobs available to origin $i$. We can verify that the total number of jobs available is consistent with the total number of jobs in the region (with some small rounding error):
+Notice that, unlike $S_i$ in Hansen-type accessibility (Equation (\ref{eq:conventional-accessibility})), the population enters the calculation of $V_{i}$ through $F^p_i$. Returning to the example in Figure \ref{fig:Fig1}, Table \ref{tab:synthetic-example} also contains the information needed to calculate $V_i$, with $\beta$ set again to 0.1. Column __V_ij__ are the jobs available to each origin from each employment center. In this column $V_{A1}=$ 59,901 is the number of jobs available at $A$ from employment center 1. Column __V_i__ (i.e., $\sum_{j=1}^JV_{ij}$) gives the total number of jobs available to origin $i$. We can verify that the total number of jobs available is consistent with the total number of jobs in the region (with some small rounding error):
 $$
 \sum_{i=1}^N V_i = 66,833 + 133,203 + 9,963 \approx 210,000 
 $$
@@ -964,9 +978,9 @@ The GTHA contains the city of Toronto, the most populous city in Canada. The cit
 
 ## GGH Data
 
-We obtained full-time employment flows from the 2016 Transportation Tomorrow Survey (TTS). This survey collects representative urban travel information from 20 municipalities contained within the GGH area in the southern part of Ontario, Canada (see Figure \ref{fig:TTS-16-survey-area}) [@data_management_group_tts_2018] every five years. The data set includes origin to destination flows associated with full-time employment trips; the number of jobs (n=`r round(sum(TTS2016R::ggh_taz$jobs), 3) %>% prettyNum(big.mark = ",")`) and workers (n=`r round(sum(TTS2016R::ggh_taz$workers), 3) %>% prettyNum(big.mark = ",")`) (i.e., the number of originating trips and destination trips) at each origin and destination are represented at the level of Traffic Analysis Zones (TAZ) (n=`r round(length(TTS2016R::ggh_taz$GTA06), 3) %>% prettyNum(big.mark = ",")`). TAZ are a unit of spatial analysis which are defined as part of the TTS, however, TAZ are commonly used to ascribe production and attraction of trips in the context of transportation planning modelling. In the GGH data set, the TAZ contain on average `r round(mean(TTS2016R::ggh_taz$workers), 0) %>% prettyNum(big.mark = ",")` workers and jobs `r round(mean(TTS2016R::ggh_taz$jobs), 0) %>% prettyNum(big.mark = ",")` with more detailed descriptive statistics discussed later. The TTS data is based on a representative sample of between 3% to 5% of households in the GGH and is weighted to reflect the population covering the study area as a whole [@data_management_group_tts_2018]. 
+We obtained full-time employment flows from the 2016 Transportation Tomorrow Survey (TTS). This survey collects representative urban travel information from 20 municipalities contained within the GGH area in the southern part of Ontario, Canada (see Figure \ref{fig:Fig3}) [@data_management_group_tts_2018] every five years. The data set includes origin to destination flows associated with full-time employment trips; the number of jobs (n=`r round(sum(TTS2016R::ggh_taz$jobs), 3) %>% prettyNum(big.mark = ",")`) and workers (n=`r round(sum(TTS2016R::ggh_taz$workers), 3) %>% prettyNum(big.mark = ",")`) (i.e., the number of originating trips and destination trips) at each origin and destination are represented at the level of Traffic Analysis Zones (TAZ) (n=`r round(length(TTS2016R::ggh_taz$GTA06), 3) %>% prettyNum(big.mark = ",")`). TAZ are a unit of spatial analysis which are defined as part of the TTS, however, TAZ are commonly used to ascribe production and attraction of trips in the context of transportation planning modelling. In the GGH data set, the TAZ contain on average `r round(mean(TTS2016R::ggh_taz$workers), 0) %>% prettyNum(big.mark = ",")` workers and jobs `r round(mean(TTS2016R::ggh_taz$jobs), 0) %>% prettyNum(big.mark = ",")` with more detailed descriptive statistics discussed later. The TTS data is based on a representative sample of between 3% to 5% of households in the GGH and is weighted to reflect the population covering the study area as a whole [@data_management_group_tts_2018]. 
 
-To generate the travel cost for the full-time employment trips, travel times between origins and destinations (i.e., centroids of the TAZ) are calculated for car travel using the `R` package {r5r} [@r5r_2021] with a street network retrieved from OpenStreetMap. It is also assumed that intra-TAZ trips are equal to 0.1 minutes. For inter-TAZ trips, a 3 hr travel time threshold was selected as it captures 99% of population-employment pairs (see the travel times summarized in Figure \ref{fig:TTS-16-survey-area}). This method does not account for traffic congestion or modal split, which can be estimated through other means [e.g., @allen_suburbanization_2021; @higgins2021changes]. For simplicity, we carry on with the assumption that all trips are taken by car in uncongested travel conditions. All data and data preparation steps are documented and can be freely explored in the companion open data product [{TTS2016R}](https://soukhova.github.io/TTS2016R/).
+To generate the travel cost for the full-time employment trips, travel times between origins and destinations (i.e., centroids of the TAZ) are calculated for car travel using the `R` package {r5r} [@r5r_2021] with a street network retrieved from OpenStreetMap. It is also assumed that intra-TAZ trips are equal to 0.1 minutes. For inter-TAZ trips, a 3 hr travel time threshold was selected as it captures 99% of population-employment pairs (see the travel times summarized in Figure \ref{fig:Fig3}). This method does not account for traffic congestion or modal split, which can be estimated through other means [e.g., @allen_suburbanization_2021; @higgins2021changes]. For simplicity, we carry on with the assumption that all trips are taken by car in uncongested travel conditions. All data and data preparation steps are documented and can be freely explored in the companion open data product [{TTS2016R}](https://soukhova.github.io/TTS2016R/).
 
 ```{r, echo=FALSE, message=FALSE, warning=FALSE}
 # grouping the planning boundaries/municipalities so they make up the 20 regions in the TTS 2016. Note: st_buffer is used as there are small existing gaps between some boundaries. st_buffer of 100 m is enough to widen all boundaries and complete the st_union without issue.
@@ -1018,20 +1032,20 @@ TTS_area_plot <- ggplot() +
 
 Statistics <- data.frame("Statistic" = c("Min.", "1st Qu.", "Median", "Mean", "3rd Qu.", "Max.", "NA's"))
 
-Trips <- data.frame("Trips" = c(summary(od_ft_tt$trips)[[1]] %>% round(), 
-                                   summary(od_ft_tt$trips)[[2]] %>% round(),  
-                                   summary(od_ft_tt$trips)[[3]] %>% round(), 
-                                   summary(od_ft_tt$trips)[[4]] %>% round(), 
-                                   summary(od_ft_tt$trips)[[5]] %>% round(),
-                                   summary(od_ft_tt$trips)[[6]]%>% round(),
+Links <- data.frame("Links" = c(summary(TTS2016R::od$Persons)[[1]] %>% round(), 
+                                   summary(TTS2016R::od$Persons)[[2]] %>% round(),  
+                                   summary(TTS2016R::od$Persons)[[3]] %>% round(), 
+                                   summary(TTS2016R::od$Persons)[[4]] %>% round(), 
+                                   summary(TTS2016R::od$Persons)[[5]] %>% round(),
+                                   summary(TTS2016R::od$Persons)[[6]]%>% round(),
                                    NA))
 
-Travel_time <- data.frame("TT" = c(summary(od_ft_tt$travel_time)[[1]] %>% round(), 
-                                               summary(od_ft_tt$travel_time)[[2]] %>% round(),  
-                                               summary(od_ft_tt$travel_time)[[3]] %>% round(), 
-                                               summary(od_ft_tt$travel_time)[[4]] %>% round(), 
-                                               summary(od_ft_tt$travel_time)[[5]] %>% round(), 
-                                               summary(od_ft_tt$travel_time)[[6]] %>% round(),  
+Travel_time <- data.frame("TT" = c(summary(TTS2016R::od$travel_time)[[1]] %>% round(), 
+                                               summary(TTS2016R::od$travel_time)[[2]] %>% round(),  
+                                               summary(TTS2016R::od$travel_time)[[3]] %>% round(), 
+                                               summary(TTS2016R::od$travel_time)[[4]] %>% round(), 
+                                               summary(TTS2016R::od$travel_time)[[5]] %>% round(), 
+                                               summary(TTS2016R::od$travel_time)[[6]] %>% round(),  
                                                3507)) 
 
 # TAZ_Area <- data.frame("TAZ_Area" = c(summary(ggh_taz$AREA)[[1]] %>% round(1), 
@@ -1058,17 +1072,21 @@ Jobs <- data.frame("Jobs" = c(summary(ggh_taz$jobs)[[1]] %>% round(),
                               summary(ggh_taz$jobs)[[6]] %>% round(), 
                               NA)) 
 
-desc_stats <- cbind(Statistics, Trips, Travel_time, Workers, Jobs)
+desc_stats <- cbind(Statistics, Links, Travel_time, Workers, Jobs)
 ```
 
-```{r, TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:TTS-16-survey-area}TTS 2016 study area (GGH, Ontario, Canada) along with the descriptive statistics of the trips, calculated origin-destination car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 regions (black boundaries) and sub-regions (dark gray boundaries).", fig.show='hold', fig.align='center'}
+```{r, TTS-16-survey-area-creation, eval=FALSE}
 TTS_area_plot <- TTS_area_plot + annotate(geom = "table",
             x = 915000, y = 4880000, 
            label = list(desc_stats))
-ggsave("images/TTS16-survey-area.png",dpi=700)
-knitr::include_graphics("images/TTS16-survey-area.png")
+TTS_area_plot
 
-png()
+ggsave("images/Fig3.png",dpi=600)
+```
+
+
+```{r, TTS-16-survey-area, echo=FALSE, fig.cap="\\label{fig:Fig3}TTS 2016 study area (GGH, Ontario, Canada) along with the descriptive statistics of the origin destination (OD) links (count of workers potentially interacting with their place of employment) by origin TAZ, calculated OD car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 regions (black boundaries) and sub-regions (dark gray boundaries).", fig.show='hold', fig.align='center'}
+knitr::include_graphics("images/Fig3.png")
 ```
 
 ## Spatial employment characteristics in Toronto
@@ -1084,9 +1102,9 @@ TO_taz <- ggh_taz %>%
 ```
 
 ```{r data-for-Toronto-trips, include=FALSE}
-TO_od_ft  <- od_ft_tt %>% 
+TO_od_ft  <- TTS2016R::od %>% 
   filter( !is.na(travel_time)) %>% 
-  mutate(travel_time = ifelse(travel_time == 0, 0.1, travel_time), # remove all NA trips from dataset and set all 0min travel times to 0.1 min
+  mutate(travel_time = ifelse(travel_time == 0, 0.1, travel_time), # remove all NA Persons from dataset and set all 0min travel times to 0.1 min
          In_dest = ifelse(Destination %in% TO_taz$GTA06, 1, 0), #jobs and origins at destinations IN Toronto; i.e., workers who are from Toronto but travel outside of Toronto and workers who travel to Toronto from outside are not included. They are considered edge effects.
          In_org = ifelse(Origin %in% TO_taz$GTA06, 1, 0)) %>%
   filter(In_dest == 1 & In_org == 1) %>%
@@ -1094,11 +1112,11 @@ TO_od_ft  <- od_ft_tt %>%
                    In_org))
 
 all_tt <- TO_od_ft  %>% 
-  dplyr::select(trips, travel_time)
+  dplyr::select(Persons, travel_time)
 
-sum((TO_od_ft$trips))
+sum((TO_od_ft$Persons))
 
-all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$trips), 2]
+all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$Persons), 2]
 ```
 
 ```{r data-for-Toronto-boundaries2}
@@ -1106,14 +1124,14 @@ all_tt <- all_tt[rep(seq_len(dim(all_tt)[1]), all_tt$trips), 2]
 #NOTE this used to just draw the job and worker counts from the full GGH taz (i.e., the Toronto TAZ but the workers and jobs from all over the GGH) 
 workers_ft <- TO_od_ft %>%
   group_by(Origin) %>%
-  summarize(workers = sum(trips),
+  summarize(workers = sum(Persons),
             .groups = "drop") %>%
   transmute(GTA06 = Origin,
             workers)
 #now jobs
 jobs_ft <- TO_od_ft %>%
   group_by(Destination) %>%
-  summarize(jobs = sum(trips),
+  summarize(jobs = sum(Persons),
             .groups = "drop") %>%
   transmute(GTA06 = Destination,
             jobs)
@@ -1129,7 +1147,7 @@ TO_taz <- TO_taz %>%
   mutate(workers = replace_na(workers, 0),
          jobs = replace_na(jobs, 0))
 
-#add the number of jobs and workers to the od_ft_tt matrix
+#add the number of jobs and workers to the od matrix
 TO_od_ft <- TO_od_ft %>%
   merge(TO_taz %>%
           dplyr::select(GTA06, workers) %>%
@@ -1230,12 +1248,11 @@ plot_TO_taz_workers <- TO_taz %>% mutate(workers = ifelse(workers == 0, NA, work
 # the following saves the two plots as a png
 plot_TO_taz_jobs / plot_TO_taz_workers
 
-ggsave("images/spatial-dist-jobs-pop-Toronto-plot.png",dpi=700)
+ggsave("images/Fig4.png",dpi=600)
 ```
 
-```{r, spatial-dist-Toronto-plot, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot}  Spatial distribution of full-time jobs (top) and full-time working population (bottom) at each TAZ for Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs.", out.width="100%"}
-knitr::include_graphics("images/spatial-dist-jobs-pop-Toronto-plot.png")
-png()
+```{r, spatial-dist-Toronto-plot, echo=FALSE, fig.cap="\\label{fig:Fig4}  Spatial distribution of full-time jobs (top) and full-time working population (bottom) at each TAZ for Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs.", out.width="100%"}
+knitr::include_graphics("images/Fig4.png")
 ```
 
 
@@ -1304,18 +1321,17 @@ plot_TO_taz_tt_sd <- TO_taz %>% mutate(tt_sd = ifelse(tt_sd >= 10, 10, tt_sd)) %
 # the following saves the two plots as a png
 plot_TO_taz_tt_mean / plot_TO_taz_tt_sd
 
-ggsave("images/spatial-dist-jobs-pop-Toronto-plot2.png",dpi=700)
+ggsave("images/Fig5.png",dpi=600)
 ```
 
-```{r, spatial-dist-Toronto-plot2, echo=FALSE, fig.cap="\\label{fig:s-dist-Toronto-plot2}  Spatial distribution of full-time working population to jobs ratio (top) and car travel time to jobs estimated using R5R (bottom) for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. White TAZ represent a TAZ with no workers thus no travel time for the top plot, for the bottom plot they represent no travel time TAZ and TAZ with only 1 travel time.", out.width="100%"}
-knitr::include_graphics("images/spatial-dist-jobs-pop-Toronto-plot2.png")
-png()
+```{r, spatial-dist-Toronto-plot2, echo=FALSE, fig.cap="\\label{fig:Fig5}  Spatial distribution of full-time working population to jobs ratio (top) and car travel time to jobs estimated using R5R (bottom) for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. White TAZ represent a TAZ with no workers thus no travel time for the top plot, for the bottom plot they represent no travel time TAZ and TAZ with only 1 travel time.", out.width="100%"}
+knitr::include_graphics("images/Fig5.png")
 ```
 
 
-As mentioned, the focus of this empirical example is on the city of Toronto. It is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_taz$workers)/sum(TTS2016R::ggh_taz$workers))` of workers in the GGH live in Toronto and `r percent(sum(TO_taz$jobs)/sum(TTS2016R::ggh_taz$jobs))` of jobs that these workers take are located within Toronto. The spatial distribution of jobs and workers is shown in Figure \ref{fig:s-dist-Toronto-plot}. It can be seen that a large cluster of jobs can be found in the central southern part of Toronto (the downtown core). Spatial trends in the distribution of workers is more even relative to the distribution of jobs.
+As mentioned, the focus of this empirical example is on the city of Toronto. It is the largest city in the GGH and represents a significant subset of workers and jobs in the GGH; `r percent(sum(TO_taz$workers)/sum(TTS2016R::ggh_taz$workers))` of workers in the GGH live in Toronto and `r percent(sum(TO_taz$jobs)/sum(TTS2016R::ggh_taz$jobs))` of jobs that these workers take are located within Toronto. The spatial distribution of jobs and workers is shown in Figure \ref{fig:Fig4}. It can be seen that a large cluster of jobs can be found in the central southern part of Toronto (the downtown core). Spatial trends in the distribution of workers is more even relative to the distribution of jobs.
 
-Next, the spatial distribution of the estimated car travel time (green) and the associated standard deviation (grey) is visualized in Figure \ref{fig:s-dist-Toronto-plot2}. It can be seen that the car travel time is lower within the downtown core and, unexpectedly higher as the TAZ is further from the downtown core. These travel time estimations are to be expected, as these car travel time are calculated using an uncongested OpenStreetMaps road network from the centroid of origin TAZ to destination TAZ. Since within Toronto trips are only considered, trips which originate from the center of Toronto, an area with high job density, relatively closer proximity to all other Toronto TAZ, and high road connectivity, travel times are lower than outside in areas further from the downtown core. In terms of the variability of the travel times, the center TAZ of Toronto have lower variability than TAZ closer to the borders of Toronto. Trends from both plots indicate that trips originating from within the center of Toronto are shorter and more similar in length than traips originating from closer to the border of Toronto. 
+Next, the spatial distribution of the estimated car travel time (green) and the associated standard deviation (grey) is visualized in Figure \ref{fig:Fig5}. It can be seen that the car travel time is lower within the downtown core and, unexpectedly higher as the TAZ is further from the downtown core. These travel time estimations are to be expected, as these car travel time are calculated using an uncongested OpenStreetMaps road network from the centroid of origin TAZ to destination TAZ. Since within Toronto trips are only considered, trips which originate from the center of Toronto, an area with high job density, relatively closer proximity to all other Toronto TAZ, and high road connectivity, travel times are lower than outside in areas further from the downtown core. In terms of the variability of the travel times, the center TAZ of Toronto have lower variability than TAZ closer to the borders of Toronto. Trends from both plots indicate that trips originating from within the center of Toronto are shorter and more similar in length than traips originating from closer to the border of Toronto. 
 
 Nonetheless, the point of these visualizations is to demonstrate the spatial distribution of worker and job data in the city of Toronto to contextualize spatial availability and Shen- and Hansen- type measures. <!--Assessing contributing factors to patterns of variable clustering are outside of the paper's scope and left to further research. -->
 
@@ -1323,7 +1339,7 @@ Nonetheless, the point of these visualizations is to demonstrate the spatial dis
 
 In the synthetic example introduced before, we used a negative exponential function with the parameter reported by @shen1998. For the empirical Toronto data set, we calibrate an impedance function on the trip length distribution (TLD) of commute trips. Briefly, a TLD represents the proportion of trips that are taken at a specific travel cost (e.g., travel time); this distribution is commonly used to derive impedance functions in accessibility research [@lopez_2017_spatial; @horbachov_theoretical_2018; @batista_estimation_2019].
 
-As mentioned, the calculations are undertaken for the city of Toronto using only the employed population in the city and jobs taken by residents of Toronto. Specifically, edge trips are not included, such as trips originating in Toronto but finishing outside of Toronto and trips originating outside of Toronto but finishing in Toronto. The empirical and theoretical TLD for this Toronto data set are represented in the top-left panel of Figure \ref{fig:TLD-norm-plot}. Maximum likelihood estimation and the Nelder-Mead method for direct optimization available within the {fitdistrplus} package [@fitdistrplus_2015] were used. Based on goodness-of-fit criteria and diagnostics, the normal distribution was selected (see Figure \ref{fig:TLD-norm-plot}).
+As mentioned, the calculations are undertaken for the city of Toronto using only the employed population in the city and jobs taken by residents of Toronto. Specifically, edge trips are not included, such as trips originating in Toronto but finishing outside of Toronto and trips originating outside of Toronto but finishing in Toronto. The empirical and theoretical TLD for this Toronto data set are represented in the top-left panel of Figure \ref{fig:Fig6}. Maximum likelihood estimation and the Nelder-Mead method for direct optimization available within the {fitdistrplus} package [@fitdistrplus_2015] were used. Based on goodness-of-fit criteria and diagnostics, the normal distribution was selected (see Figure \ref{fig:Fig6}).
 
 ```{r fitting-impedance-function, cache=TRUE}
 # using fitdist function to fit a distribution using the default maximum likelihood estimation method and Nelder-Mead method for direct optimization
@@ -1358,13 +1374,13 @@ norm_ <-fitdistrplus::fitdist(data=all_tt, "norm", method="mle", optim.method="N
 
 ```{r save-impedance-plot, include=FALSE, cache=TRUE}
 # For some reason plot(norm_) does not play well with knitr, so instead we save the figure and then include it as a graphic in the following chunk
-png("images/impedance_function.png")
+png("images/Fig6.png")
 plot(norm_)
 dev.off()
 ```
 
-```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:TLD-norm-plot}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on the estimated car travel times for full-time employment and workers in Toronto from the TTS 2016.", fig.show='hold', fig.align='center'}
-knitr::include_graphics("images/impedance_function.png")
+```{r TLD-norm-plot, cache=TRUE, fig.cap="\\label{fig:Fig6}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on the estimated car travel times for full-time employment and workers in Toronto from the TTS 2016.", fig.show='hold', fig.align='center'}
+knitr::include_graphics("images/Fig6.png")
 ```
 
 For reference, the normal distribution is defined in Equation (\ref{norm-dist}), where we see that it depends on a mean parameter $\mu$ and a standard deviation parameter $\sigma$. The estimated values of these parameters are $\mu=$ `r round(norm_$estimate[1], 3)` and $\sigma =$ `r round(norm_$estimate[2], 3)`.
@@ -1613,18 +1629,16 @@ plot_TO_SA <- TO_taz_acc %>%
 # # the following saves the plots as a png
 plot_TO_AS_i / plot_TO_Si / plot_TO_SA
 
-ggsave("images/access-job-Toronto-plot.png",dpi=700)
+ggsave("images/Fig7.png",dpi=600)
 ```
 
-```{r absolute-accessibility-plot, fig.cap="\\label{fig:absolute-accessibility-plot}Estimated accessibility to jobs (\\# of jobs) in Toronto according to Shen-type measure multipled by the effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values. Legend scale is square root transformed to effectively visualize the spread range.", out.width="100%"}
-
-knitr::include_graphics("images/access-job-Toronto-plot.png")
-png()
+```{r absolute-accessibility-plot, fig.cap="\\label{fig:Fig7}Estimated accessibility to jobs (\\# of jobs) in Toronto according to Shen-type measure multipled by the effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values. Legend scale is square root transformed to effectively visualize the spread range.", out.width="100%"}
+knitr::include_graphics("images/Fig7.png")
 ```
 
-Figure \ref{fig:absolute-accessibility-plot} contains the number of jobs accessible using Shen-type accessibility, Hansen-type accessibility, and the number of jobs _available_ using the spatial availability measure. The values from all these measures are represented on the same axis as they measure the absolute value of _jobs_ accessible to the workers in the origin. In the top plot, the Shen-type accessibility is multiplied by the _effective opportunity-seeking population_ to yield a value that corresponds to absolute number of accessible jobs (considering competition) according to Shen's definition. In the middle plot, the Hansen-type accessibility is an unconstrained case of accessibility in which all jobs which are in-reach of each origin (according to the impedance function); each value corresponds to the number of jobs which can be reach at each origin assuming no competition. Lastly, in the bottom plot, the proposed spatial availability measure is a constrained case of accessibility which yields the number of jobs, at each origin, considering competition from the population in nearby origin and the relative travel cost (according to the impedance function).
+Figure \ref{fig:Fig7} contains the number of jobs accessible using Shen-type accessibility, Hansen-type accessibility, and the number of jobs _available_ using the spatial availability measure. The values from all these measures are represented on the same axis as they measure the absolute value of _jobs_ accessible to the workers in the origin. In the top plot, the Shen-type accessibility is multiplied by the _effective opportunity-seeking population_ to yield a value that corresponds to absolute number of accessible jobs (considering competition) according to Shen's definition. In the middle plot, the Hansen-type accessibility is an unconstrained case of accessibility in which all jobs which are in-reach of each origin (according to the impedance function); each value corresponds to the number of jobs which can be reach at each origin assuming no competition. Lastly, in the bottom plot, the proposed spatial availability measure is a constrained case of accessibility which yields the number of jobs, at each origin, considering competition from the population in nearby origin and the relative travel cost (according to the impedance function).
 
-What is notable about the bottom plot is that the proportional allocation mechanism of spatial availability ensures that the job availability value for each origin all sums to the city-wide total of `r TO_taz_acc$V_i %>% sum(na.rm=T) %>% prettyNum(big.mark = ",")` jobs (i.e., the number of destination flows from Toronto origins to Toronto destinations). The number of accessible jobs at each origin can therefore be interpreted as the number of _available_ jobs to each origin based on the relative travel behaviour and density of competition for jobs (i.e., worker population). A proportion of each of the `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")` jobs in Toronto are only allocated once to each origin. In terms fo the middle plot, the city-wide total for Hansen-type accessibility is `r TO_taz_acc$S_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` jobs, which as a value is meaningless since the measure is unconstrained; it represents the sum of opportunities that have been counted anywhere from 1 to many times depending on the impedance function. As previously discussed, unconstrained counting of the same opportunity by all origins is not an issue if the opportunity itself is non-exclusive, but since one job can only be given to one worker (especially since the worker and job data is derived from origin-destination flows), it is inappropriate to use unconstrained measures to capture employment characteristics. Comparing the middle and bottom plots, it is evident that the unconstrained counting of opportunities (Hansen-type) results in absolute values that are higher throughout the city, particularly in TAZ that are in proximity to high job density (recall Figure \ref{fig:s-dist-Toronto-plot}). These same trends are not present in the spatial availability bottom plot, as the absolute value is lower than Hansen-type accessibility as the proximity to high job density and competition from worker density is proportionally metered; the resulting values are thus lower than the middle plot and reflect the spatial distribution trends of both the workers and job density (recall Figure \ref{fig:s-dist-Toronto-plot}).
+What is notable about the bottom plot is that the proportional allocation mechanism of spatial availability ensures that the job availability value for each origin all sums to the city-wide total of `r TO_taz_acc$V_i %>% sum(na.rm=T) %>% prettyNum(big.mark = ",")` jobs (i.e., the number of destination flows from Toronto origins to Toronto destinations). The number of accessible jobs at each origin can therefore be interpreted as the number of _available_ jobs to each origin based on the relative travel behaviour and density of competition for jobs (i.e., worker population). A proportion of each of the `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")` jobs in Toronto are only allocated once to each origin. In terms fo the middle plot, the city-wide total for Hansen-type accessibility is `r TO_taz_acc$S_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` jobs, which as a value is meaningless since the measure is unconstrained; it represents the sum of opportunities that have been counted anywhere from 1 to many times depending on the impedance function. As previously discussed, unconstrained counting of the same opportunity by all origins is not an issue if the opportunity itself is non-exclusive, but since one job can only be given to one worker (especially since the worker and job data is derived from origin destination (OD) flows), it is inappropriate to use unconstrained measures to capture employment characteristics. Comparing the middle and bottom plots, it is evident that the unconstrained counting of opportunities (Hansen-type) results in absolute values that are higher throughout the city, particularly in TAZ that are in proximity to high job density (recall Figure \ref{fig:Fig4}). These same trends are not present in the spatial availability bottom plot, as the absolute value is lower than Hansen-type accessibility as the proximity to high job density and competition from worker density is proportionally metered; the resulting values are thus lower than the middle plot and reflect the spatial distribution trends of both the workers and job density (recall Figure \ref{fig:Fig4}).
 
 Lastly, the top plot that visualizes the _absolute_ Shen-type measure (as understood by Shen's definition of $P_i$ being equal to $P_{ij}^*$ sums to the city-wide value of `r TO_taz_acc$A2_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` by multiplying $a_i$ by the _effective opportunity-seeking population_  $P_{ij}^*$ (i.e., the denominator of the rate ). This plot thus demonstrates how confounding $P_i$ with $P_{ij}^*$ yields an _incorrect_ number of competitively accessible jobs: it is evidently incorrect because the sum of $a_iP_{ij}^*$ greatly exceeds the city-wide total of workers (i.e., `r TO_taz_acc$A2_i %>% sum(na.rm = T) %>% sum() %>% prettyNum(big.mark = ",")` > `r TO_taz_acc$jobs %>% sum() %>% prettyNum(big.mark = ",")`). To the authors' knowledge, literature has not attempted to convert Shen-type accessibility to the absolute value of accessible jobs in the way demonstrated in the top plot: we suspect this is the case because of the ambiguous definition that conflates $P_{ij}^*$ with $P_i$. If $a_i$ is multiplied by $P_i$, it yields the same value as $V_i$, but since the definition of Shen-type measure is equivocal doing so is not clear since the denominator of $a_i$ (which is a rate) is _not_ $P_i$. The resulting plot, spatially, is similar to spatial availability (bottom plot) but certain TAZ have exceptionally high values in an inconsistent way. This is because $a_i$ uses the impedance function values for both access to jobs (numerator) and the competition from neighboring workers (denominator  $P_{ij}^*$) to adjust their impact:  using $P_{ij}^*$ does not _consistently_ isolate the absolute value of accessible jobs. However, if $a_i$ is multiplied by $P_i$ it yields the same values at $V_i$ (bottom plot) (the proof for mathematically equivalency is in Appendix A). As also mentioned earlier, the formulation of the denominator and numerator of $a_i$ is ambigious so to presume that multiplying it by $P_i$ would disintangle the rate and yield the absolute value of accessible _and available_ (i.e., considering competition) jobs is unclear. 
 
@@ -1723,12 +1737,11 @@ plot_TO_Vi_BF <- TO_taz_acc %>%
 # the following saves the plot as a png
 plot_TO_osp_i / plot_TO_Vi_BF #/ plot_TO_ai_BF
 
-ggsave("images/internal-values-plot.png",dpi=700)
+ggsave("images/Fig8.png",dpi=600)
 ```
 
-```{r,  internal-values-plot, echo=FALSE, fig.cap="\\label{fig:internal-values-plot}  The ratio of the effective opportunity seeking population to the population (top) and the average spatial availability's balancing factor (Equation (9)) (bottom) for Toronto TAZ. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
-knitr::include_graphics("images/internal-values-plot.png")
-png()
+```{r,  internal-values-plot, echo=FALSE, fig.cap="\\label{fig:Fig8}  The ratio of the effective opportunity seeking population to the population (top) and the average spatial availability's balancing factor (Equation (9)) (bottom) for Toronto TAZ. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
+knitr::include_graphics("images/Fig8.png")
 ```
 
 ```{r, include=FALSE}
@@ -1749,7 +1762,7 @@ ViTTT <- V_ij %>%
            units::set_units(h))
 ```
 
-Carrying on the discussion on how to retrieve the absolute value of _available_ jobs using the Shen-type measure ($a_i$), Figure \ref{fig:internal-values-plot} highlights how the differences between $P_i$ and $P_{ij}^*$ are not uniform across space;  the values at each origin are equivalent to $\sum_j f(c_{ij})$.  Recall, $P_i$ is the number of workers at each TAZ (city-wide sum of `r osp_i$total_population %>% sum()%>% prettyNum(big.mark = ",")`) while $P_{ij}^*$ is the number of workers who _seek_ jobs (city-wide sum of `r osp_i$osp %>% sum() %>% prettyNum(big.mark = ",")`) in that TAZ based on their travel behaviour. $P_{ij}^*$  is an internal value of $a_i$ and the top plot presents the ratio of $P_{ij}^*$ to $P_i$ which reflects how the effective opportunity-seeking population is sometimes inflated (i.e., impedance values is greater than 1) and others deflated (i.e., impedance value is less than 1) by the Shen-type measure ($a_i$). As such, using $P_{ij}^*$ to untangle the absolute job availability from $a_i$ instead of $P_{ij}^*$ can lead to exaggerating the total travel time in the city since it does not represent the _actual_ number of workers but the _effective_ number of workers. For instance, when trying to calculate the city-wide travel time using $a_i P_{ij}^*$, Shen-type accessibility yields `r effpopTTT[1,] %>% prettyNum(big.mark = ",")` instead of the city-wide travel time of `r ViTTT[1,] %>% prettyNum(big.mark = ",")` that corresponds to the _absolute_ (i.e., the total number of jobs in the city is preserved) number of available jobs from $V_i$. The absolute number of opportunities cannot be easily disentangled from $a_i$. 
+Carrying on the discussion on how to retrieve the absolute value of _available_ jobs using the Shen-type measure ($a_i$), Figure \ref{fig:Fig8} highlights how the differences between $P_i$ and $P_{ij}^*$ are not uniform across space;  the values at each origin are equivalent to $\sum_j f(c_{ij})$.  Recall, $P_i$ is the number of workers at each TAZ (city-wide sum of `r osp_i$total_population %>% sum()%>% prettyNum(big.mark = ",")`) while $P_{ij}^*$ is the number of workers who _seek_ jobs (city-wide sum of `r osp_i$osp %>% sum() %>% prettyNum(big.mark = ",")`) in that TAZ based on their travel behaviour. $P_{ij}^*$  is an internal value of $a_i$ and the top plot presents the ratio of $P_{ij}^*$ to $P_i$ which reflects how the effective opportunity-seeking population is sometimes inflated (i.e., impedance values is greater than 1) and others deflated (i.e., impedance value is less than 1) by the Shen-type measure ($a_i$). As such, using $P_{ij}^*$ to untangle the absolute job availability from $a_i$ instead of $P_{ij}^*$ can lead to exaggerating the total travel time in the city since it does not represent the _actual_ number of workers but the _effective_ number of workers. For instance, when trying to calculate the city-wide travel time using $a_i P_{ij}^*$, Shen-type accessibility yields `r effpopTTT[1,] %>% prettyNum(big.mark = ",")` instead of the city-wide travel time of `r ViTTT[1,] %>% prettyNum(big.mark = ",")` that corresponds to the _absolute_ (i.e., the total number of jobs in the city is preserved) number of available jobs from $V_i$. The absolute number of opportunities cannot be easily disentangled from $a_i$. 
 
 <!-- NOTE: not sure if this is worth leaving in? It may be a bit too confusing but I think it's an interesting feature to discuss... Shen doesn't have an equivalent.-->
 By contrast, not only are the absolute values a direct result of $V_i$, the internal combined balancing factor $F_{ij}^t$ (Equation (\ref{eq:balancing-factors})) can be used for analysis. The bottom plot shows the average $F_{ij}^t$ for each TAZ which is the proportional allocation mechanism of opportunities to origins in the $V_i$ calculation. Practically, the visualized values corresponds to the average _proportion_ of opportunities available that are claimed by the zone based on travel behaviour and population competition for opportunities. These values can allow the analyst to understand the magnitude of the _proportion of opportunities_ that the origin TAZ is assigned based on the opportunities located at reachable destination TAZ. For instance, the TAZ with the maximum value of 0.090 has many origin to destination trips (112 trips, upper 3rd quantile), many workers (5,538 workers, upper 3rd quantile), and is located centrally within Toronto. Averaging $F_{ij}^t$ demonstrates that this TAZ claims on average a high proportion of jobs from reachable TAZs. This does not necessarily mean TAZ with a high $V_i$ have an exceptionally high average $F_{ij}^t$; for instance, many TAZ around the downtown core have high $V_i$ values but do not have exceptionally high average $F_{ij}^t$. The average $F_{ij}^t$ can thus be used to identify relatively "greedy" areas that could possibly withstand reductions in availability, if that meant increasing spatial availability in areas with a deficit of jobs available. The balancing factor is an interesting feature of spatial availability which opens up avenues for future analysis; alas, there does not seem to be an equivalent for the Shen-type measure.
@@ -1847,15 +1860,14 @@ plot_TO_SA_rate <- TO_taz_acc %>%
 # the following saves the plots as a png
 plot_TO_Si_rate / plot_TO_taz_jobs_workers / plot_TO_SA_rate 
 
-ggsave("images/access-job-Toronto-plot-rates.png",dpi=700)
+ggsave("images/Fig9.png",dpi=600)
 ```
 
-```{r rate-accessibility-plot, fig.cap="\\label{fig:rate-accessibility-plot}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. The city benchmark corresponds to total number of jobs in Toronto divided by the number of workers in Toronto, since this is equal the value is 1. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
-knitr::include_graphics("images/access-job-Toronto-plot-rates.png")
-png()
+```{r rate-accessibility-plot, fig.cap="\\label{fig:Fig9}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. The city benchmark corresponds to total number of jobs in Toronto divided by the number of workers in Toronto, since this is equal the value is 1. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values."}
+knitr::include_graphics("images/Fig9.png")
 ```
 
-Figure \ref{fig:rate-accessibility-plot} presents the number of jobs per capita for Hansen-type accessibility (top plot), the raw number of jobs per capita (middle plot), and the spatially available jobs per capita (bottom plot).  In addition to clarifying the meaning of internal values, spatial availability can also be divided by population at each origin and expressed as a rate: this rate can be used as a benchmark for equity analysis and compared directly to the raw number of jobs per capita.
+Figure \ref{fig:Fig9} presents the number of jobs per capita for Hansen-type accessibility (top plot), the raw number of jobs per capita (middle plot), and the spatially available jobs per capita (bottom plot).  In addition to clarifying the meaning of internal values, spatial availability can also be divided by population at each origin and expressed as a rate: this rate can be used as a benchmark for equity analysis and compared directly to the raw number of jobs per capita.
 
 The bottom plot features a value which is mathematically equivalent to Shen-type measure, but with stronger interpretability thanks to the proportional allocation mechanism. This mechanism makes clear that all the opportunities are allocated proportionally to origins, which improves interpretability since the $V_i$ values are the absolute value of _opportunity availability_. The value can thus can be directly divided by the population at the origin and expressed as opportunities per capita. When spatial availability is compared to Hansen-type measure (top plot), dividing the output by population directly yields a more difficult to interpret number of _unconstrained_ accessible jobs per capita. For instance, the median light-pink shaded TAZ corresponds to approximately 5.89 unconstrained accessible jobs per capita; this value is difficult to intercept, because as discussed in the introduction, jobs are _exclusive_ opportunity types so their accessibility value should take into consideration competition. 
 
@@ -1908,7 +1920,7 @@ $$
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
 $$
 
-In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine origin-destination trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$).
+In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine OD trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$).
 $$
 F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
 $$
