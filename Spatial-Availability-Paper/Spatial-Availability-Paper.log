@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.9.22)  22 SEP 2022 23:32
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2022.10.23)  24 OCT 2022 20:13
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **Spatial-Availability-Paper.tex
 (./Spatial-Availability-Paper.tex
 LaTeX2e <2022-06-01> patch level 5
-L3 programming layer <2022-08-30> (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
+L3 programming layer <2022-09-28> (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/size10.clo
 File: size10.clo 2021/10/04 v1.4n Standard LaTeX file (size option)
@@ -581,12 +581,12 @@ Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
-(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty
-Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+(c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
 )))
 \c@section@level=\count276
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hyperref.sty
-Package: hyperref 2022-06-20 v7.00s Hypertext links for LaTeX
+Package: hyperref 2022-09-22 v7.00t Hypertext links for LaTeX
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
 Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
 Package pdftexcmds Info: \pdf@primitive is available.
@@ -607,7 +607,7 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 \Hy@linkcounter=\count277
 \Hy@pagecounter=\count278
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/pd1enc.def
-File: pd1enc.def 2022-06-20 v7.00s Hyperref: PDFDocEncoding definition (HO)
+File: pd1enc.def 2022-09-22 v7.00t Hyperref: PDFDocEncoding definition (HO)
 Now handling font encoding PD1 ...
 ... no UTF-8 mapping file for font encoding PD1
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/intcalc/intcalc.sty
@@ -617,7 +617,7 @@ Package: etexcmds 2019/12/15 v1.7 Avoid name clashes with e-TeX commands (HO)
 )
 \Hy@SavedSpaceFactor=\count279
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/puenc.def
-File: puenc.def 2022-06-20 v7.00s Hyperref: PDF Unicode definition (HO)
+File: puenc.def 2022-09-22 v7.00t Hyperref: PDF Unicode definition (HO)
 Now handling font encoding PU ...
 ... no UTF-8 mapping file for font encoding PU
 )
@@ -627,29 +627,31 @@ Package hyperref Info: Hyper index ON on input line 4170.
 Package hyperref Info: Plain pages OFF on input line 4177.
 Package hyperref Info: Backreferencing OFF on input line 4182.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
-Package hyperref Info: Bookmarks ON on input line 4408.
+\stockwidth=\dimen157
+\stockheight=\dimen158
+Package hyperref Info: Bookmarks ON on input line 4410.
 \c@Hy@tempcnt=\count280
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
-LaTeX Info: Redefining \url on input line 4746.
-\XeTeXLinkMargin=\dimen157
+LaTeX Info: Redefining \url on input line 4748.
+\XeTeXLinkMargin=\dimen159
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
 \Fld@menulength=\count281
-\Field@Width=\dimen158
-\Fld@charsize=\dimen159
-Package hyperref Info: Hyper figures OFF on input line 6024.
-Package hyperref Info: Link nesting OFF on input line 6029.
-Package hyperref Info: Hyper index ON on input line 6032.
-Package hyperref Info: backreferencing OFF on input line 6039.
-Package hyperref Info: Link coloring OFF on input line 6044.
-Package hyperref Info: Link coloring with OCG OFF on input line 6049.
-Package hyperref Info: PDF/A mode OFF on input line 6054.
+\Field@Width=\dimen160
+\Fld@charsize=\dimen161
+Package hyperref Info: Hyper figures OFF on input line 6027.
+Package hyperref Info: Link nesting OFF on input line 6032.
+Package hyperref Info: Hyper index ON on input line 6035.
+Package hyperref Info: backreferencing OFF on input line 6042.
+Package hyperref Info: Link coloring OFF on input line 6047.
+Package hyperref Info: Link coloring with OCG OFF on input line 6052.
+Package hyperref Info: PDF/A mode OFF on input line 6057.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atbegshi-ltx.sty
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
@@ -660,7 +662,7 @@ package with kernel methods
 )
 Package hyperref Info: Driver (autodetected): hpdftex.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/hyperref/hpdftex.def
-File: hpdftex.def 2022-06-20 v7.00s Hyperref driver for pdfTeX
+File: hpdftex.def 2022-09-22 v7.00t Hyperref driver for pdfTeX
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/atveryend-ltx.sty
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
@@ -680,16 +682,16 @@ Package: lineno 2005/11/02 line numbers on paragraphs v4.41
 \linenopenalty=\count287
 \output=\toks25
 \linenoprevgraf=\count288
-\linenumbersep=\dimen160
-\linenumberwidth=\dimen161
+\linenumbersep=\dimen162
+\linenumberwidth=\dimen163
 \c@linenumber=\count289
 \c@pagewiselinenumber=\count290
 \c@LN@truepage=\count291
 \c@internallinenumber=\count292
 \c@internallinenumbers=\count293
-\quotelinenumbersep=\dimen162
-\bframerule=\dimen163
-\bframesep=\dimen164
+\quotelinenumbersep=\dimen164
+\bframerule=\dimen165
+\bframesep=\dimen166
 \bframebox=\box53
 LaTeX Info: Redefining \\ on input line 3056.
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype.sty
@@ -705,7 +707,7 @@ LaTeX Info: Redefining \noprotrusionifhmode on input line 1045.
 LaTeX Info: Redefining \leftprotrusion on input line 1046.
 LaTeX Info: Redefining \rightprotrusion on input line 1056.
 LaTeX Info: Redefining \textls on input line 1234.
-\MT@outer@kern=\dimen165
+\MT@outer@kern=\dimen167
 LaTeX Info: Redefining \textmicrotypecontext on input line 1858.
 \MT@listname@count=\count296
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/microtype/microtype-pdftex.def
@@ -724,14 +726,14 @@ File: color.cfg 2016/01/02 v1.6 sample color configuration
 )
 Package xcolor Info: Driver file: pdftex.def on input line 227.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2020/10/05 v1.2a Graphics/color driver for pdftex
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/colortbl/colortbl.sty
 Package: colortbl 2022/06/20 v1.0f Color table columns (DPC)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/array.sty
 Package: array 2022/03/10 v2.5f Tabular extension package (FMi)
-\col@sep=\dimen166
+\col@sep=\dimen168
 \ar@mcellbox=\box55
-\extrarowheight=\dimen167
+\extrarowheight=\dimen169
 \NC@list=\toks27
 \extratabsurround=\skip54
 \backup@length=\skip55
@@ -756,21 +758,21 @@ Package xcolor Info: Model `wave' substituted by `hsb' on input line 1376.
 Package: caption 2022/03/01 v3.6b Customizing captions (AR)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/caption/caption3.sty
 Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
-\caption@tempdima=\dimen168
-\captionmargin=\dimen169
-\caption@leftmargin=\dimen170
-\caption@rightmargin=\dimen171
-\caption@width=\dimen172
-\caption@indent=\dimen173
-\caption@parindent=\dimen174
-\caption@hangindent=\dimen175
+\caption@tempdima=\dimen170
+\captionmargin=\dimen171
+\caption@leftmargin=\dimen172
+\caption@rightmargin=\dimen173
+\caption@width=\dimen174
+\caption@indent=\dimen175
+\caption@parindent=\dimen176
+\caption@hangindent=\dimen177
 Package caption Info: Standard document class detected.
 )
 \c@caption@flags=\count298
 \c@continuedfloat=\count299
 Package caption Info: changepage package is loaded.
-\caption@adjustwidth@hsize=\dimen176
-\caption@adjustwidth@linewidth=\dimen177
+\caption@adjustwidth@hsize=\dimen178
+\caption@adjustwidth@linewidth=\dimen179
 Package caption Info: hyperref package is loaded.
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/lastpage/lastpage.sty
 Package: lastpage 2021/09/03 v1.2n Refers to last page's name (HMM; JPG)
@@ -796,8 +798,8 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 )
 Package graphics Info: Driver file: pdftex.def on input line 107.
 )
-\Gin@req@height=\dimen178
-\Gin@req@width=\dimen179
+\Gin@req@height=\dimen180
+\Gin@req@width=\dimen181
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/epstopdf-pkg/epstopdf.sty
 Package: epstopdf 2020-01-24 v2.11 Conversion with epstopdf on the fly (HO)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/grfext/grfext.sty
@@ -818,8 +820,8 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
 \calc@Acount=\count300
 \calc@Bcount=\count301
-\calc@Adimen=\dimen180
-\calc@Bdimen=\dimen181
+\calc@Adimen=\dimen182
+\calc@Bdimen=\dimen183
 \calc@Askip=\skip70
 \calc@Bskip=\skip71
 LaTeX Info: Redefining \setlength on input line 80.
@@ -836,23 +838,23 @@ Package: lscape 2020/05/28 v3.02 Landscape Pages (DPC)
 Package pdflscape Info: Auto-detected driver: pdftex on input line 81.
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/booktabs/booktabs.sty
 Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
-\heavyrulewidth=\dimen182
-\lightrulewidth=\dimen183
-\cmidrulewidth=\dimen184
-\belowrulesep=\dimen185
-\belowbottomsep=\dimen186
-\aboverulesep=\dimen187
-\abovetopsep=\dimen188
-\cmidrulesep=\dimen189
-\cmidrulekern=\dimen190
-\defaultaddspace=\dimen191
+\heavyrulewidth=\dimen184
+\lightrulewidth=\dimen185
+\cmidrulewidth=\dimen186
+\belowrulesep=\dimen187
+\belowbottomsep=\dimen188
+\aboverulesep=\dimen189
+\abovetopsep=\dimen190
+\cmidrulesep=\dimen191
+\cmidrulekern=\dimen192
+\defaultaddspace=\dimen193
 \@cmidla=\count303
 \@cmidlb=\count304
-\@aboverulesep=\dimen192
-\@belowrulesep=\dimen193
+\@aboverulesep=\dimen194
+\@belowrulesep=\dimen195
 \@thisruleclass=\count305
 \@lastruleclass=\count306
-\@thisrulewidth=\dimen194
+\@thisrulewidth=\dimen196
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/longtable.sty
 Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTleft=\skip73
@@ -860,7 +862,7 @@ Package: longtable 2021-09-01 v4.17 Multi-page Table package (DPC)
 \LTpre=\skip75
 \LTpost=\skip76
 \LTchunksize=\count307
-\LTcapwidth=\dimen195
+\LTcapwidth=\dimen197
 \LT@head=\box57
 \LT@firsthead=\box58
 \LT@foot=\box59
@@ -876,10 +878,10 @@ Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
 \multirow@colwidth=\skip77
 \multirow@cntb=\count312
 \multirow@dima=\skip78
-\bigstrutjot=\dimen196
+\bigstrutjot=\dimen198
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/wrapfig/wrapfig.sty
-\wrapoverhang=\dimen197
-\WF@size=\dimen198
+\wrapoverhang=\dimen199
+\WF@size=\dimen256
 \c@WF@wrappedlines=\count313
 \WF@box=\box62
 \WF@everypar=\toks30
@@ -897,8 +899,8 @@ Package: tabu 2019/01/11 v2.9 - flexible LaTeX tabulars (FC+tabu-fixed)
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \@vwid@box=\box65
 \sift@deathcycles=\count315
-\@vwid@loff=\dimen199
-\@vwid@roff=\dimen256
+\@vwid@loff=\dimen257
+\@vwid@roff=\dimen258
 )
 \c@taburow=\count316
 \tabu@nbcols=\count317
@@ -906,15 +908,15 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 \tabu@Xcol=\count319
 \tabu@alloc=\count320
 \tabu@nested=\count321
-\tabu@target=\dimen257
-\tabu@spreadtarget=\dimen258
-\tabu@naturalX=\dimen259
-\tabucolX=\dimen260
-\tabu@Xsum=\dimen261
-\extrarowdepth=\dimen262
-\abovetabulinesep=\dimen263
-\belowtabulinesep=\dimen264
-\tabustrutrule=\dimen265
+\tabu@target=\dimen259
+\tabu@spreadtarget=\dimen260
+\tabu@naturalX=\dimen261
+\tabucolX=\dimen262
+\tabu@Xsum=\dimen263
+\extrarowdepth=\dimen264
+\abovetabulinesep=\dimen265
+\belowtabulinesep=\dimen266
+\tabustrutrule=\dimen267
 \tabu@thebody=\toks33
 \tabu@footnotes=\toks34
 \tabu@box=\box66
@@ -938,20 +940,20 @@ Package: trimspaces 2009/09/17 v1.1 Trim spaces around a token list
 \UL@hyphenbox=\box72
 \UL@skip=\skip81
 \UL@hook=\toks35
-\UL@height=\dimen266
+\UL@height=\dimen268
 \UL@pe=\count322
-\UL@pixel=\dimen267
+\UL@pixel=\dimen269
 \ULC@box=\box73
 Package: ulem 2019/11/18
-\ULdepth=\dimen268
+\ULdepth=\dimen270
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/makecell/makecell.sty
 Package: makecell 2009/08/03 V0.1e Managing of Tab Column Heads and Cells
-\rotheadsize=\dimen269
+\rotheadsize=\dimen271
 \c@nlinenum=\count323
 \TeXr@lab=\toks36
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/siunitx/siunitx.sty
-Package: siunitx 2022-09-07 v3.1.7 A comprehensive (SI) units package
-\l__siunitx_angle_tmp_dim=\dimen270
+Package: siunitx 2022-10-04 v3.1.8 A comprehensive (SI) units package
+\l__siunitx_angle_tmp_dim=\dimen272
 \l__siunitx_angle_marker_box=\box74
 \l__siunitx_angle_unit_box=\box75
 \l__siunitx_compound_count_int=\count324
@@ -963,14 +965,14 @@ Package: siunitx 2022-09-07 v3.1.7 A comprehensive (SI) units package
 \l__siunitx_number_group_size_int=\count330
 \l__siunitx_number_group_minimum_int=\count331
 \l__siunitx_table_tmp_box=\box76
-\l__siunitx_table_tmp_dim=\dimen271
-\l__siunitx_table_column_width_dim=\dimen272
+\l__siunitx_table_tmp_dim=\dimen273
+\l__siunitx_table_column_width_dim=\dimen274
 \l__siunitx_table_integer_box=\box77
 \l__siunitx_table_decimal_box=\box78
 \l__siunitx_table_before_box=\box79
 \l__siunitx_table_after_box=\box80
-\l__siunitx_table_before_dim=\dimen273
-\l__siunitx_table_carry_dim=\dimen274
+\l__siunitx_table_before_dim=\dimen275
+\l__siunitx_table_carry_dim=\dimen276
 \l__siunitx_unit_tmp_int=\count332
 \l__siunitx_unit_position_int=\count333
 \l__siunitx_unit_total_int=\count334
@@ -978,15 +980,15 @@ Package: siunitx 2022-09-07 v3.1.7 A comprehensive (SI) units package
 Package: hhline 2020/01/04 v2.04 Table rule package (DPC)
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/tools/tabularx.sty
 Package: tabularx 2020/01/15 v2.11c `tabularx' package (DPC)
-\TX@col@width=\dimen275
-\TX@old@table=\dimen276
-\TX@old@col=\dimen277
-\TX@target=\dimen278
-\TX@delta=\dimen279
+\TX@col@width=\dimen277
+\TX@old@table=\dimen278
+\TX@old@col=\dimen279
+\TX@target=\dimen280
+\TX@delta=\dimen281
 \TX@cols=\count335
 \TX@ftn=\toks37
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/adjustbox.sty
-Package: adjustbox 2020/08/19 v1.3 Adjusting TeX boxes (trim, clip, ...)
+Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/xkeyval/xkeyval.sty
 Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkeyval.tex (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/generic/xkeyval/xkvutils.tex
@@ -1000,25 +1002,25 @@ Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/trimclip.sty
 Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/collectbox/collectbox.sty
-Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
 \collectedbox=\box81
 )
-\tc@llx=\dimen280
-\tc@lly=\dimen281
-\tc@urx=\dimen282
-\tc@ury=\dimen283
+\tc@llx=\dimen282
+\tc@lly=\dimen283
+\tc@urx=\dimen284
+\tc@ury=\dimen285
 Package trimclip Info: Using driver 'tc-pdftex.def'.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
 File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
 ))
-\adjbox@Width=\dimen284
-\adjbox@Height=\dimen285
-\adjbox@Depth=\dimen286
-\adjbox@Totalheight=\dimen287
-\adjbox@pwidth=\dimen288
-\adjbox@pheight=\dimen289
-\adjbox@pdepth=\dimen290
-\adjbox@ptotalheight=\dimen291
+\adjbox@Width=\dimen286
+\adjbox@Height=\dimen287
+\adjbox@Depth=\dimen288
+\adjbox@Totalheight=\dimen289
+\adjbox@pwidth=\dimen290
+\adjbox@pheight=\dimen291
+\adjbox@pdepth=\dimen292
+\adjbox@ptotalheight=\dimen293
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/forarray/forarray.sty
 Package: forarray 2008/06/20 Version 1.01 -- Using array structures in LaTeX
 \fe@toks=\toks40
@@ -1033,26 +1035,10 @@ Package: forarray 2008/06/20 Version 1.01 -- Using array structures in LaTeX
 )
 Package: xstring 2021/07/21 v1.84 String manipulations (CT)
 ) (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2022-08-30 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2022-09-28 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count344
 \l__pdf_internal_box=\box82
-) (./Spatial-Availability-Paper.aux
-
-LaTeX Warning: Label `fig:TTS-16-survey-area' multiply defined.
-
-
-LaTeX Warning: Label `fig:TLD-norm-plot' multiply defined.
-
-
-LaTeX Warning: Label `fig:absolute-accessibility-plot' multiply defined.
-
-
-LaTeX Warning: Label `fig:internal-values-plot' multiply defined.
-
-
-LaTeX Warning: Label `fig:rate-accessibility-plot' multiply defined.
-
-)
+) (./Spatial-Availability-Paper.aux)
 \openout1 = `Spatial-Availability-Paper.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 248.
@@ -1168,11 +1154,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 [3] [4] [5]
-<Spatial-Availability-Paper_files/figure-latex/create-figure-with-toy-example-1.pdf, id=156, 469.755pt x 325.215pt>
-File: Spatial-Availability-Paper_files/figure-latex/create-figure-with-toy-example-1.pdf Graphic file (type pdf)
-<use Spatial-Availability-Paper_files/figure-latex/create-figure-with-toy-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Paper_files/figure-latex/create-figure-with-toy-example-1.pdf  used on input line 667.
-(pdftex.def)             Requested size: 379.4175pt x 262.67339pt.
+<images/Fig1.png, id=156, 500.31488pt x 309.10912pt>
+File: images/Fig1.png Graphic file (type png)
+<use images/Fig1.png>
+Package pdftex.def Info: images/Fig1.png  used on input line 667.
+(pdftex.def)             Requested size: 379.4175pt x 234.41125pt.
 
 Overfull \hbox (3.99998pt too wide) in alignment at lines 986--986
 [][][][][][][][][][] 
@@ -1181,138 +1167,134 @@ Overfull \hbox (3.99998pt too wide) in alignment at lines 986--986
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[6 <./Spatial-Availability-Paper_files/figure-latex/create-figure-with-toy-example-1.pdf>] [7]
-<Spatial-Availability-Paper_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf, id=191, 469.755pt x 325.215pt>
-File: Spatial-Availability-Paper_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf Graphic file (type pdf)
-<use Spatial-Availability-Paper_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>
-Package pdftex.def Info: Spatial-Availability-Paper_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf  used on input line 1079.
-(pdftex.def)             Requested size: 379.4175pt x 262.67339pt.
-[8] [9 <./Spatial-Availability-Paper_files/figure-latex/comparison-impedance-functions-synthetic-example-1.pdf>] [10] [11] [12] [13] [14]
-LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1551.
+[6 <./images/Fig1.png>] [7]
+<images/Fig2.png, id=187, 469.755pt x 325.09454pt>
+File: images/Fig2.png Graphic file (type png)
+<use images/Fig2.png>
+Package pdftex.def Info: images/Fig2.png  used on input line 1078.
+(pdftex.def)             Requested size: 379.4175pt x 262.57608pt.
+[8] [9 <./images/Fig2.png>] [10] [11] [12] [13] [14]
+LaTeX Font Info:    Trying to load font information for OMS+cmr on input line 1550.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1551.
-<images/TTS16-survey-area.png, id=268, 469.755pt x 325.11176pt>
-File: images/TTS16-survey-area.png Graphic file (type png)
-<use images/TTS16-survey-area.png>
-Package pdftex.def Info: images/TTS16-survey-area.png  used on input line 1566.
-(pdftex.def)             Requested size: 379.4175pt x 262.58998pt.
-<images/spatial-dist-jobs-pop-Toronto-plot.png, id=270, 433.51675pt x 325.11176pt>
-File: images/spatial-dist-jobs-pop-Toronto-plot.png Graphic file (type png)
-<use images/spatial-dist-jobs-pop-Toronto-plot.png>
-Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot.png  used on input line 1578.
-(pdftex.def)             Requested size: 379.4175pt x 284.54648pt.
-<images/spatial-dist-jobs-pop-Toronto-plot2.png, id=271, 433.51675pt x 325.11176pt>
-File: images/spatial-dist-jobs-pop-Toronto-plot2.png Graphic file (type png)
-<use images/spatial-dist-jobs-pop-Toronto-plot2.png>
-Package pdftex.def Info: images/spatial-dist-jobs-pop-Toronto-plot2.png  used on input line 1582.
-(pdftex.def)             Requested size: 379.4175pt x 284.54648pt.
-[15] [16 <./images/TTS16-survey-area.png> <./images/spatial-dist-jobs-pop-Toronto-plot.png>] [17 <./images/spatial-dist-jobs-pop-Toronto-plot2.png>]
-<images/impedance_function.png, id=302, 481.8pt x 481.8pt>
-File: images/impedance_function.png Graphic file (type png)
-<use images/impedance_function.png>
-Package pdftex.def Info: images/impedance_function.png  used on input line 1643.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 1550.
+<images/Fig3.png, id=261, 469.755pt x 325.09454pt>
+File: images/Fig3.png Graphic file (type png)
+<use images/Fig3.png>
+Package pdftex.def Info: images/Fig3.png  used on input line 1565.
+(pdftex.def)             Requested size: 379.4175pt x 262.57608pt.
+<images/Fig4.png, id=262, 433.49956pt x 325.09454pt>
+File: images/Fig4.png Graphic file (type png)
+<use images/Fig4.png>
+Package pdftex.def Info: images/Fig4.png  used on input line 1577.
+(pdftex.def)             Requested size: 379.4175pt x 284.55621pt.
+<images/Fig5.png, id=263, 433.49956pt x 325.09454pt>
+File: images/Fig5.png Graphic file (type png)
+<use images/Fig5.png>
+Package pdftex.def Info: images/Fig5.png  used on input line 1581.
+(pdftex.def)             Requested size: 379.4175pt x 284.55621pt.
+[15] [16 <./images/Fig3.png> <./images/Fig4.png>] [17 <./images/Fig5.png>]
+<images/Fig6.png, id=293, 481.8pt x 481.8pt>
+File: images/Fig6.png Graphic file (type png)
+<use images/Fig6.png>
+Package pdftex.def Info: images/Fig6.png  used on input line 1641.
 (pdftex.def)             Requested size: 379.4175pt x 379.42685pt.
-<images/access-job-Toronto-plot.png, id=304, 433.51675pt x 578.05676pt>
-File: images/access-job-Toronto-plot.png Graphic file (type png)
-<use images/access-job-Toronto-plot.png>
-Package pdftex.def Info: images/access-job-Toronto-plot.png  used on input line 1675.
-(pdftex.def)             Requested size: 379.4175pt x 505.93074pt.
-[18] [19 <./images/impedance_function.png>] [20 <./images/access-job-Toronto-plot.png>]
-LaTeX Font Info:    Trying to load font information for OML+cmr on input line 1735.
+<images/Fig7.png, id=295, 433.49956pt x 578.03955pt>
+File: images/Fig7.png Graphic file (type png)
+<use images/Fig7.png>
+Package pdftex.def Info: images/Fig7.png  used on input line 1673.
+(pdftex.def)             Requested size: 379.4175pt x 505.95976pt.
+[18] [19 <./images/Fig6.png>] [20 <./images/Fig7.png>]
+LaTeX Font Info:    Trying to load font information for OML+cmr on input line 1732.
 (c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1735.
-[21]
-<images/internal-values-plot.png, id=338, 433.51675pt x 325.11176pt>
-File: images/internal-values-plot.png Graphic file (type png)
-<use images/internal-values-plot.png>
-Package pdftex.def Info: images/internal-values-plot.png  used on input line 1761.
-(pdftex.def)             Requested size: 379.4175pt x 284.54648pt.
-[22 <./images/internal-values-plot.png>]
-<images/access-job-Toronto-plot-rates.png, id=349, 433.51675pt x 650.32675pt>
-File: images/access-job-Toronto-plot-rates.png Graphic file (type png)
-<use images/access-job-Toronto-plot-rates.png>
-Package pdftex.def Info: images/access-job-Toronto-plot-rates.png  used on input line 1820.
-(pdftex.def)             Requested size: 379.4175pt x 569.18335pt.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 1732.
+<images/Fig8.png, id=324, 433.49956pt x 325.09454pt>
+File: images/Fig8.png Graphic file (type png)
+<use images/Fig8.png>
+Package pdftex.def Info: images/Fig8.png  used on input line 1758.
+(pdftex.def)             Requested size: 379.4175pt x 284.55621pt.
+[21] [22 <./images/Fig8.png>]
+<images/Fig9.png, id=340, 433.49956pt x 650.30956pt>
+File: images/Fig9.png Graphic file (type png)
+<use images/Fig9.png>
+Package pdftex.def Info: images/Fig9.png  used on input line 1817.
+(pdftex.def)             Requested size: 379.4175pt x 569.21793pt.
 
-LaTeX Warning: Float too large for page by 2.82086pt on input line 1821.
+LaTeX Warning: Float too large for page by 2.85544pt on input line 1818.
 
-[23] [24 <./images/access-job-Toronto-plot-rates.png>] [25] [26] [27] [28
+[23] [24 <./images/Fig9.png>] [25] [26] [27] [28
 
 ] [29] [30] [31
 
 ]
-Underfull \hbox (badness 5119) in paragraph at lines 2207--2207
+Underfull \hbox (badness 5119) in paragraph at lines 2204--2204
 []\OT1/cmr/m/n/10 (+20) Deboosere R, El-Geneidy AM, Levin-son D. Accessibility-oriented de-
  []
 
 
-Underfull \hbox (badness 7925) in paragraph at lines 2207--2207
+Underfull \hbox (badness 7925) in paragraph at lines 2204--2204
 \OT1/cmr/m/n/10 (+20) vel-op-ment. Jour-nal of Trans-port Ge-og-ra-phy. 2018;70: 11--20.
  []
 
 [32]
-Underfull \hbox (badness 1122) in paragraph at lines 2317--2317
+Underfull \hbox (badness 1122) in paragraph at lines 2314--2314
 []\OT1/cmr/m/n/10 (+20) Jiang H, Levin-son DM. Ac-ces-si-bil-ity and the eval-u-a-tion of in-vest-ments
  []
 
 
-Underfull \hbox (badness 1418) in paragraph at lines 2324--2324
+Underfull \hbox (badness 1418) in paragraph at lines 2321--2321
 []\OT1/cmr/m/n/10 (+20) Hu Y, Downs J. Mea-sur-ing and vi-su-al-iz-ing place-based space-time job
  []
 
 
-Underfull \hbox (badness 3861) in paragraph at lines 2324--2324
+Underfull \hbox (badness 3861) in paragraph at lines 2321--2321
 \OT1/cmr/m/n/10 (+20) ac-ces-si-bil-ity. Jour-nal of Trans-port Ge-og-ra-phy. 2019;74: 278--288.
  []
 
 
-Underfull \hbox (badness 1215) in paragraph at lines 2406--2406
+Underfull \hbox (badness 1215) in paragraph at lines 2403--2403
 []\OT1/cmr/m/n/10 (+20) Chen X. En-hanc-ing the Two-Step Float-ing Catch-ment Area Model for
  []
 
 
-Underfull \hbox (badness 1062) in paragraph at lines 2406--2406
+Underfull \hbox (badness 1062) in paragraph at lines 2403--2403
 \OT1/cmr/m/n/10 (+20) As-sis-tance Pro-gram. The Pro-fes-sional Ge-og-ra-pher. 2019;71: 668--680.
  []
 
 [33] [34]
-Underfull \hbox (badness 10000) in paragraph at lines 2560--2560
+Underfull \hbox (badness 10000) in paragraph at lines 2557--2557
 \OT1/cmr/m/n/10 (+20) Avail-able: []$\OT1/cmtt/m/n/10 http : / / dmg . utoronto . ca / transportation-[]tomorrow-[]survey /
  []
 
 
-Underfull \hbox (badness 1286) in paragraph at lines 2603--2603
+Underfull \hbox (badness 1286) in paragraph at lines 2600--2600
 \OT1/cmr/m/n/10 (+20) dis-tri-bu-tions for the cal-i-bra-tion of the ag-gre-gated net-work traf-fic mod-
  []
 
 
 AED: lastpage setting LastPage
 [35] (./Spatial-Availability-Paper.aux)
-
-LaTeX Warning: There were multiply-defined labels.
-
 Package rerunfilecheck Info: File `Spatial-Availability-Paper.out' has not changed.
 (rerunfilecheck)             Checksum: 778AF1F21408662725154C1A3EABE196;4503.
  ) 
 Here is how much of TeX's memory you used:
- 20983 strings out of 477035
- 387801 string characters out of 5826808
- 907512 words of memory out of 5000000
- 41435 multiletter control sequences out of 15000+600000
+ 20995 strings out of 477031
+ 385038 string characters out of 5826714
+ 909813 words of memory out of 5000000
+ 41452 multiletter control sequences out of 15000+600000
  484693 words of font info for 149 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  67i,19n,76p,1023b,1023s stack positions out of 10000i,1000n,20000p,200000b,200000s
  <c:/Users/user/AppData/Roaming/TinyTeX/texmf-var/fonts/pk/ljfour/jknappen/ec/tcrm1000.600pk><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmbxti10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt8.pfb><c:/Users/user/AppData/Roaming/TinyTeX/texmf-dist/fonts/type1/public/amsfonts/latxfont/line10.pfb>
-Output written on Spatial-Availability-Paper.pdf (35 pages, 10539754 bytes).
+Output written on Spatial-Availability-Paper.pdf (35 pages, 9360437 bytes).
 PDF statistics:
- 737 PDF objects out of 1000 (max. 8388607)
- 620 compressed objects within 7 object streams
+ 728 PDF objects out of 1000 (max. 8388607)
+ 611 compressed objects within 7 object streams
  184 named destinations out of 1000 (max. 500000)
  36054 words of extra memory for PDF output out of 42996 (max. 10000000)
 
