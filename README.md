@@ -10,7 +10,7 @@ of Geography & Planning, University of Toronto Scarborough, Canada)
 Moataz Mohamed (Department of Civil Engineering, McMaster University,
 Canada)
 
-Forthcoming in *Some Journal*
+Soukhov A, Páez A, Higgins CD, Mohamed M (2023) Introducing spatial availability, a singly-constrained measure of competitive accessibility. PLOS ONE 18(1): e0278468. https://doi.org/10.1371/journal.pone.0278468
 
 <!-- badges: start -->
 <!-- badges: end -->
