@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Spatial availability: a way to measure accessibility to competitive opportunities</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Anastasia Soukhov, A. Paez, C.D. Higgins, M. Mohamed" />
+    <meta name="date" content="2023-02-17" />
+    <script src="Northern-Illinois-University-Presentation_files/header-attrs-2.20/header-attrs.js"></script>
+    <script src="Northern-Illinois-University-Presentation_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="Northern-Illinois-University-Presentation_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+.title[
+# Spatial availability: a way to measure accessibility to competitive opportunities
+]
+.author[
+### Anastasia Soukhov, A. Paez, C.D. Higgins, M. Mohamed
+]
+.date[
+### 2023-02-17
+]
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Overview
+
+- Conventional accessibility measures
+
+- An alternative approach: **spatial availability**
+
+- Toronto full-time job availability example
+
+- Potential applications  
+  - Benchmarking: jobs per person     
+  - Targeting improvements  
+  - Quantifying scenario impacts  
+ 
+- Limitations - the input data
+
+???
+conventional accessibility, spatial availability, empirical ex., potential applications, and limitiations. 
+
+---
+#Overview of accessibility measures
+
+.pull-left[
+
+#### Conventional accessibility (Hansen-style)
+
+`$$A_i = \sum_{j}O_jf(c_{ij})$$`
+
+- Suffers from interpretability issues _(Handy and Niemeier, 1997; Miller et al., 2018)_
+- Does not include competition _(Shen, 1998; Merlin and Hu, 2018)_
+
+]
+
+--
+
+.pull-right[
+
+#### Competitive accessibility (Shen-style, 2SFCA)
+
+Shen (1998) modified accessibility popularized as the **two-step floating catchment approach (2SFCA)** _(Luo and Wang, 2003)_:
+
+`$$S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}$$`
+
+with:
+`$$D_j = \sum_kP_kf(c_{jk})$$`
+
+
+- `\(S_{i}\)` is Shen-style accessibility.   
+- `\(P_{k}\)` is the number of people in location `\(k\)` seeking opportunities `\(k=1,2,..., N\)`.
+
+]
+
+???
+-**Hansen**-style accessibility - the sum of opportunities multiplied by a function which measures of the cost of moving between i and j.
+
+- this measure suffers from interpretability issues - what is travel-cost adjusted opportunities? 
+
+- it also doesn't consider competition, which has been shown to reflect empirical accessibility to competitive-opportunities worse than competitive accessibility measures. 
+
+- **Shen**-style accessibility - the sum of travel-cost adjusted opportunities (supply) divided by travel-cost adjusted demand! It considers travel-cost from both the opportunities perspective and the population side. 
+
+It should be mentioned that Weibull (1976) was the first to arrive to this same formula from axiomatic approach. Joseph and Bantock (1982) then applied it to health care access. 
+
+---
+## Impedance functions - quantifying how people travel
+
+.left-column[
+
+`\(f(c_{ij})\)` is a function of the cost of moving between `\(i\)` and `\(j\)`.
+
+]
+
+.right-column[]
+
+---
+count: false
+## Impedance functions - quantifying how people travel
+
+.left-column[
+
+`\(f(c_{ij})\)` is a function of the cost of moving between `\(i\)` and `\(j\)`.
+
+`\(f(c_{ij}) = \exp(-0.1\cdot c_{ij})\)`
+
+]
+
+.right-column[
+![\label{fig:impedance-functions-comparison1}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time.](Northern-Illinois-University-Presentation_files/figure-html/comparison-impedance-functions-synthetic-example1-1.png)
+]
+
+---
+count: false
+## Impedance functions - quantifying how people travel
+
+.left-column[
+
+`\(f(c_{ij})\)` is a function of the cost of moving between `\(i\)` and `\(j\)`.
+
+`\(f(c_{ij}) = \exp(-0.1\cdot c_{ij})\)`
+
+`\(f(c_{ij}) = \exp(-0.6\cdot c_{ij})\)`
+
+]
+
+.right-column[
+![\label{fig:impedance-functions-comparison2}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time.](Northern-Illinois-University-Presentation_files/figure-html/comparison-impedance-functions-synthetic-example2-1.png)
+]
+
+---
+count: false
+## Impedance functions - quantifying how people travel
+
+.left-column[
+
+`\(f(c_{ij})\)` is a function of the cost of moving between `\(i\)` and `\(j\)`.
+
+`\(f(c_{ij}) = \exp(-0.1\cdot c_{ij})\)`
+
+`\(f(c_{ij}) = \exp(-0.6\cdot c_{ij})\)`
+
+`\(f(c_{ij}) = 1\)` if `\(c_{ij} \leq 30\)` else 
+  `\(f(c_{ij}) = 0\)`
+
+]
+
+.right-column[
+![\label{fig:impedance-functions-comparison3}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time.](Northern-Illinois-University-Presentation_files/figure-html/comparison-impedance-functions-synthetic-example3-1.png)
+]
+---
+count: false
+## Impedance functions - quantifying how people travel
+
+.left-column[
+
+`\(f(c_{ij})\)` is a function of the cost of moving between `\(i\)` and `\(j\)`.
+
+`\(f(c_{ij}) = \exp(-0.1\cdot c_{ij})\)`
+
+]
+
+.right-column[
+![\label{fig:impedance-functions-comparison4}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time.](Northern-Illinois-University-Presentation_files/figure-html/comparison-impedance-functions-synthetic-example4-1.png)
+]
+
+---
+## Toy example - Hansen-style accessibility
+
+
+
+
+
+
+.pull-left[
+
+![\label{fig:plot-toy-example} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.](Northern-Illinois-University-Presentation_files/figure-html/create-figure-with-toy-example-1.png)
+]
+
+--
+
+.pull-right[
+
+`\(A_i = \sum_jO_jf(c_{ij})\)`
+
+Impedance function: `\(f(c_{ij}) = exp(-0.1 \cdot c_{ij})\)`; 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A_i &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27292.18 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27292.18 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2240.38 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+
+???
+- explain the map; blue and orange dots are origins and employment centers respectively. Travel time within each center is 15 mins, travel time between sub and urban is 30 mins and travel time to the satellite town from sub / urban is 100 mins.
+
+- then explain the accessibility formula; the impedance function is a negative exponential (Wilson 1971), beta 0.1, like in the example.
+
+- Accessibility can be interpreted as a score, such as, population center at A and B has the same _potential_ access to 27,292 jobs. It is difficult to understand the meaning of the value other than A and B have a higher score than C.  
+
+---
+
+## Toy example - Shen-style accessibility
+
+.pull-left[
+![](Northern-Illinois-University-Presentation_files/figure-html/create-figure-with-toy-example3-1.png)&lt;!-- --&gt;
+]
+
+--
+
+.pull-right[
+`\(S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}\)` where `\(D_j = \sum_kP_kf(c_{kj})\)` and same `\(f(c_{ij})\)`
+
+
+
+The intermediates `\(O_jf(c_{ij})\)` and `\(D_{j}\)`: 
+
+&lt;table class="kable_wrapper table" style="font-size: 13px; margin-left: auto; margin-right: auto;"&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td&gt; 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; i/j &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 3 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22313.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4978.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.45 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4978.71 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 22313.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.45 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.54 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4.54 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2231.30 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+   &lt;td&gt; 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; k/j &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 1 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 2 &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; 3 &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A|B|C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 18625.02 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 35959.33 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2240.38 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+Hansen- `\(A_{i}\)` and Shen- `\(S_{i}\)` style accessibility:
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; A_i &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; S_i &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27292.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.34 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 27292.18 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 0.89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2240.38 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1.00 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+]
+
+???
+
+Now let's look at Shen's accessibility, same impedance function.
+
+First and foremost, we see that Shen's accessibility can still be interpreted as as score, like Hansen-style accessibility. But it can also be interpreted as travel-cost adjusted jobs per travel-cost adjusted capita (potential supply over potential demand).
+
+But, let's take a look at the intermediates! We can see that at the numerator, that's conventional accessibility, the opportunities from each job center are distributed to each population center A, B,C. For instance, jobs at A come from 1, 2, 3 and these potential jobs sum up to A_j=A (27,292 jobs). Next, let's look at the denominator, the _potential demand_. At each population center, the demand always sums up to ~58,000 workers.
+
+From shen's accessibility we see that A, the suburb, has the highest accessibility when competition is considered. This is because it has a 2 times fewer workers than the urban center and same number of jobs as the Urban center. This is the result of accounting for competition.
+
+Now we can see, that though conventional accessibility is the same at A and B, Shen's accessibility is not the same. It's not the same because jobs (numerator) is weighted by the demand (denominator). You can seee how in B, supply of jobs is sometimes greater than demand from workers while at A the supply of jobs IS always greater than demand from workers. 
+
+- that said... what does this _potential_ supply and _potential_ demand even mean!! We know that there are 210,000 people in this system looking for work and we know that there are 210,000 jobs. However.. we can see that when you sum up all _potential_ supply and demand they don't come close to this number!
+
+`\(D_{1} = 50000*exp(-0.1*15)+150000*exp(-0.1*30)+10000*exp(-0.1*100)= 18625.02\)`
+
+---
+## Shen's property - with inconsistent logic
+
+.pull-left[
+
+`\(S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}\)` 
+
+- **An important property**: `\(\sum_{i} S_{i}\cdot P_{i} = \sum_{j} O_{j}\)`
+
+
+
+&lt;table class="kable_wrapper"&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td&gt; 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; S_i &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; P_i &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; S_i*P_i &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1.34 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 50000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 66833.47 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0.89 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 150000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 133203.36 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 9963.17 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; TOTAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3.22 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 210000 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 210000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+   &lt;td&gt; 
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; j &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; O_j &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 100000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 10000 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; TOTAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 210000 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+ &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+--
+.pull-right[
+
+Demand `\(D_{j}\)` by each origin `\(i\)`
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; i &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; Sum_j(D_ij) &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; S_i * Sum_j(D_ij) &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; A &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 13648.13 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 18243.04 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; B &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 40944.39 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 36359.54 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; C &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2232.21 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2223.99 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; TOTAL &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56824.73 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 56826.57 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+- TOTAL `\(D_{ij}\)` is less than TOTAL worker population.
+
+- TOTAL `\(S_{i} D_{ij}\)` (i.e., `\(\frac{jobs}{worker} \cdot workers\)`) is less than TOTAL jobs.
+
+- What's the value of this property?
+
+]
+
+???
+
+- Let's break down Shen's accessibility scores down further. 
+
+- Shen's formula has an important property. That is that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system. Look at the table, sum of column 4 is 210,000. 
+
+- This property - while very neat! - doesn't make sense when combined with the logic of the intermediate values discussed in the last slide. We know that the impedance function is adjusting which workers demand for jobs - this results in `\(D_{ij}\)` (demand at each population center) to be equal to ~56,824 workers which is less than the TOTAL sum of population (210,000 workers). Look at column 5 sum.
+&lt;!-- `\(D_{j}\)` for A is, 100,000*exp(-0.1*15) + 100,000*exp(-0.1*30) + 100,000*exp(-0.1*100)--&gt;
+
+&lt;!-- `\(D_{ij}\)` for A is 50000*exp(-0.1*15) + 50000*exp(-0.1*30) + 50000*exp(-0.1*100) --&gt;
+
+- So in reality, both the jobs and the workers are LESS than the actual number of jobs and workers in the system but the rate at which they are discounted by the impedance function is proportional. Thus, this property holds true! (i.e., that the weighted average value of accessibility scores (by the total population) is always equal to the ratio of the total number of opportunities in the system).
+
+- From the example, In the suburb, there is the same number of opportunities, and a smaller number of workers than the urban center so more people _seek_ work. 
+
+- However, We know that the _demand_ for jobs is less than the total population so it doesn't actually allocate ALL the jobs... it only allocates some of the jobs based on the travel behaviour. What's the value of this property if it tells you that there are 210,000 jobs... but only ends up giving out the sum of D_j (~57,000). It's only a proof a certain constraint and it is not really useful for us. 
+
+---
+
+### Spatial availability - like conventional accessibility but competitive
+
+.pull-left[
+
+- Spatial availability:
+
+`\(V_{i} = \sum_{j} O_j F_{ij}\)`
+
+- The proportional allocation factor combines two aspects of the problem, population and cost:
+
+`\(F_{ij} = \frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}\)`
+
+- Where `\(F^p_{ij}\)` is population allocation factor:
+
+`\(F^p_{ij} = \frac{P_{i}}{\sum_{i} P_{i}}\)`
+
+- And the `\(F^c_{ij}\)` is a cost allocation factor:
+
+`\(F^c_{ij} = \frac{f(c_{ij})}{\sum_{i} f(c_{ij})}\)`
+]
+
+--
+
+.pull-right[
+
+- And spatial availability per capita:
+
+`\(v_{i} = \sum_{j} \frac{O_j}{P_{i}}\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}\)`
+
+- Normalized _spatial availability_ is equivalent to Shen-style accessibility 
+
+- Both are **competitive** and **singly-constrained** accessibility measures
+
+]
+
+???
+
+- This important property doesn't appear to be used in literature. We believe this is because of the inconsistent logic outlined in the last slide - specifically, that Shen's score, when multiplied by the population and summed together equals the total number of opportunities. 
+
+- what's interesting is that we ended up developing the same formula as Shen but from the perspective of proportional allocation! I was faced with a data problem, how do I assign this population to specific opportunities while considering travel cost and ensure that every person gets assigned to an opportunity. 
+
+- we didn't know it yielded the same results as Shen until we computed both measures. 
+
+- So let me introduce spatial availability, it consists of proportional allocation factors and the opportunities. the population allocation factor is the allocation of opportunities, proportional to the population size. It is always a proportion between 0 to 1. There's an alpha here - which can modulate the impact of population but we'll discuss it later.
+
+- The cost factor allocates opportunities proportionally based on the impedance function. The impedance function can be anything - gravity-based like Hansen, cumulative, etc. It is also always a proportion between 0 to 1. 
+
+- When you multiple both factors together along with the total summation in the denominator, the allocation factors retain the property of being between 0 to 1. 
+
+- And finally, if you divide spatial availability by the population, it can be simply normalized to be opportunities available per capita. This is equivalent to Shen-style accessibility. Both competitive and singly-constrained 
+  -supply of population and demand for opportunities are both travel-cost and population adjusted
+  - why singly-constrained? the sum of all accessibility values for i equals all the opportunities for i to j (like in a singly constrained gravity model - it is attraction constrained)
+
+
+---
+### Spatial availability - solving for suburban center A
+
+
+`\(V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i}^K F^p_{i} \cdot F^c_{ij}}\)`
+
+--
+
+Let's solve `\(V_A\)`,
+
+Population allocation factor:
+`\(F^p_{A} = \frac{P_{A}}{P_{A}+P_{B}+P_{C}} = \frac{50000}{210000} = 0.24\)`
+`\(...\)`
+
+Cost allocation factor:
+`\(F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} = \frac{0.22}{0.22+0.05+0.00} = 0.82\)`
+`\(...\)`
+
+--
+
+Put it together:
+
+`\(V_{A} = O_1\frac{F^p_{A} \cdot F^c_{A1}}{F^p_{A} \cdot F^c_{A1} + F^p_{B} \cdot F^c_{B1} + F^p_{C} \cdot F^c_{C1}} + O_2\frac{F^p_{A} \cdot F^c_{A2}}{F^p_{A} \cdot F^c_{A2} + F^p_{B} \cdot F^c_{B2} + F^p_{C} \cdot F^c_{C2}} + O_3\frac{F^p_{A} \cdot F^c_{A3}}{F^p_{A} \cdot F^c_{A3} + F^p_{B} \cdot F^c_{B3} + F^p_{C} \cdot F^c_{C3}}\)`
+
+`\(V_{A} = 100000 \frac{0.24 \cdot 0.82}{0.32} + 100000 \frac{0.24 \cdot 0.18}{0.63} + 10000 \frac{0.24 \cdot 0.00}{0.05}\)`
+
+`\(V_{A} = 59900.64 + 6922.69 + 10.13 =\)` **66833.46** spatially available jobs
+
+
+
+???
+- We begin with population allocation factor. You take the population at A and divide it by the sum of A, B, and C. It's population represents 24% of the total population in the system so thus A will get allocated 24% of the opportunities. Do this for all the other population centers.
+
+- then cost allocation factor. You take the impedance function from A to 1, and divide it by A1+B1+C1. This means that 82% of the opportunities will get allocated to A based on the willingness-to-travel (impedance function). Do this for all the other trips (i to j). Something interesting. 82% of trips are between A-&gt;1, and B-&gt;2. These are interzonal trips. 100% of trips are between C-&gt;3 however, as the impedance function makes it so that no one is willing to travel INTO the town. Thus, the v_ij for C is 1, indicating perfect match between opportunities and jobs.
+
+- next, we can put these allocation factors all together, and allocate the opportunities at O1 plus O2 plus O3 to A to get the V_A. 
+
+#### Spatial availability and Shen-style accessibility differences
+- we presented this formula to a few accessibility academics and because the way we explained it - from the perspective of proportional allocation - made it appear to be different than shen's. It was a surprise to see the denominators cancel out to equal shen's! 
+
+- Spatial availability's intermediate proportional allocation factors are a potentially powerful communication and planning tool. 
+
+- Spatial availability begins with the proportional allocation of opportunities and then normalizes per capita. 
+  - Shen's arrives at the opportunities per capita score and identifies that the score multiplies with the population to equal the total opportunities. 
+
+---
+### Empirical example: 2016 Transportation Tomorrow Survey (TTS) employment data 
+
+&lt;img src="TTS16-survey-area.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+???
+- full time workers and jobs, at the traffic analysis zone (TAZ) level in the Greater Golden Horseshoe Area (GTHA)
+- travel time is calculated for car-only travel using the R-package `R5R`
+
+---
+### Empirical example: calibrated impedance function
+
+&lt;img src="impedance_function.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+
+???
+It takes the following general form where `\(\alpha = 2.019\)`, `\(\beta = 0.094\)`, and `\(\Gamma(\alpha)\)` is defined in:
+
+`\(f(x, \alpha, \beta) = \frac {x^{\alpha-1}e^{-\frac{x}{\beta}}}{ \beta^{\alpha}\Gamma(\alpha)} \quad \text{for } 0 \leq x \leq \infty\\\)`
+`\(\Gamma(\alpha) =  \int_{0}^{\infty} x^{\alpha-1}e^{-x} \,dx\)`
+
+- trip-length distribution (TLD) is used to calibrate the impedance function (gamma distribution _(Ingram, 1971)_) 
+
+---
+
+### Empirical example: Hansen-style accessibility and spatial availability
+
+
+
+&lt;img src="mplot_access_TO.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+.pull-left[
+`$$A_i = \sum_{j}O_jf(c_{ij})$$`
+]
+
+.pull-right[
+`\(V_{i} = \sum_{j} O_j\frac{F^p_{i} \cdot F^c_{ij}}{\sum_{i} F^p_{i} \cdot F^c_{ij}}\)`
+]
+
+
+---
+
+### Empirical example: jobs:population and spatial availability per capita
+
+
+
+&lt;img src="mplot_jobspop_TO.png" width="60%" style="display: block; margin: auto;" /&gt;
+
+
+
+
+
+.pull-center[
+`\(v_{i} = \frac{V_i}{P_{i}} = S_i = \sum_j \frac{O_jf(c_{ij})}{D_j}\)`
+]
+
+
+
+
+???
+
+- shen's accessibility which is equal to normalized spatial availability. The average is 0.87 jobs per worker, and you can see that places of high accessibility are more spread out - competition.
+
+- this matches those values in shen. This shows that 2 stage floating catchment methods are actually singly-constrained accessibility measure
+
+In the proportional allocation map, you can see exactly where the opportunities are being allocated too based on the travel-cost (impedance) and the population. You can see which areas are getting LESS and which areas are getting more. This could mean 1) increase opportunities at those locations and/or 2) decrease the cost of travel. 
+
+---
+## Network wide-results
+
+XX travel time
+
+XX carbon emissions
+
+What if... we improved the transportation network? what if we added opportunities? what if we added residential buildings?
+
+---
+
+## Conclusions
+
+#### Spatial availability:
+
+- Singly-constrained accessibility reinterpretation of 2SFCA
+
+- Solves logical inconsistencies with Shen-style accessibility
+
+- Can serve as a cross-regional benchmark for opportunities per capita
+
+
+
+???
+
+- Increases interpretability of Shen-style accessibility
+
+- Shows that Shen-style accessibility (and 2SFCA) are actually singly-constrained accessibility measures
+
+- Competitive measures can serve as a cross-regional a benchmark for opportunities per capita and thus show where more opportunities are needed 
+
+
+&lt;!-- - intermediate values can be used to inform prescriptive analysis --&gt;
+&lt;!--   - how should travel cost be altered to achieve population-to-employment parity? --&gt;
+&lt;!--   - how should the allocation of opportunities or residential locations be altered to achieve parity? --&gt;
+
+---
+class: center, middle, inverse
+
+## Acknowledgments
+
+&lt;img src="MJ_logo.png" width="20%" /&gt;
+
+&lt;img src="mcm-sci-sees_left-col.png" width="30%" /&gt;
+
+### Any questions? Remarks?
+
+#### Antonio Paez, **paezha@mcmaster.ca** 
+
+#### Paper is open access: \url{https://doi.org/10.1371/journal.pone.0278468}
+
+---
+class: center, middle, inverse
+
+#Extra slides
+
+---
+### Empirical example: intermediates - spatial availability's proportional allocation and Shen's demand
+
+
+&lt;img src="mplot_SumPA_Dij_TO.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+### Proof: Spatial availability cancels out into Shen-style accessibility
+
+Population allocation factor:
+`\(F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha}\)`
+
+`\(F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}\)`
+
+Cost allocation factor:
+`\(F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^K f(c_{ij})}\)`
+
+`\(F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}\)`
+`\(F^c_{B1} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}\)`
+`\(F^c_{C1} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}\)`
+
+Now let's put it together with P, and see how the denominators end up cancelling out:
+`\(v_{i} = \sum_{j}\frac{O_j}{P_{i\in r}^\alpha}\frac{\frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}{\sum_{i}^K \frac{P_{i\in r}^\alpha}{\sum_{i}^K P_{i\in r}^\alpha} \cdot \frac{f(c_{ij})}{\sum_{i}^K f(c_{ij})}}\)`
+
+???
+
+- we presented this formula to a few accessibility academics and because the way we explained it - from the perspective of proportional allocation - made it appear to be different than shen's. It was a surprise to see the denominators cancel out to equal shen's! 
+
+---
+
+`\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +\)`
+
+`\(\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+\)`
+
+`\(\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )\)`
+
+First, notice how the denominator on the denominator is the same across the summation? Let's simplify it:
+
+`\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +\)`
+`\(\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) +\)`
+`\(\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )\)`
+
+See how the denominator of the denominator is the same as the denominator of the numerator's denominator for each J (J=1, J=2, and J=3)? Let's cancel those out and simplify:
+
+`\(v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} +\)`
+`\(\frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} +\)`
+`\(\frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )\)`
+
+---
+
+Next, see how we can cancel out the `\(P_{A}^\alpha\)`? Let's do that.
+
+`\(v_{A} = O_1(\frac{f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + O_2\frac{f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + O_3\frac{f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )\)`
+
+
+
+
+
+Shen's accessibility:
+
+`\(S_i = \sum_j \frac{O_jf(c_{ij})}{\sum_kP_kf(c_{jk})}\)`
+
+---
+
+&lt;!-- ##Extras --&gt;
+
+&lt;!-- - should we still consider alpha here? not enough time I think. --&gt;
+&lt;!-- - acknowledgements?  --&gt;
+&lt;!-- - how is it singly-constrained? From the perspective of opportunities correct...? explain more --&gt;
+
+&lt;!-- ### Presentation plan, slide-by-slide layou:t --&gt;
+
+&lt;!-- 1. Our **research** proportionally allocates based on travel cost - it is singly constrainted accessibility. The final result coincidentally yields the same results as Shen, the 2-step FCA but our logic, and the intermediate values, remains consistent. Shen's does not. Both Spatial availability and shen's model is a accessibility witha single constraint. --&gt;
+&lt;!-- 2. Show accessibility then show shen's inconsistency using Shen's example.  --&gt;
+&lt;!-- 3. Show how shen's work has been used in the literature dispite this inconsistency. --&gt;
+&lt;!-- 4. Present spatial availability (proportional allocation factors) and the intermediates using shen's example. Both V_i and v_i. --&gt;
+&lt;!-- 5. Show how spatial availability v_i cancels out to equal shen's. Remind readers of our intermediates. --&gt;
+&lt;!-- 6. Show empirical example of Toronto; both accessibility (not constrained) and then single constrained (spatial avail and shen is the same). --&gt;
+&lt;!-- 7. Show empirical example of Toronto - but the intermediates of spatial avail, i.e., prop allocation factor population and cost. This tell us where people are being allocated from. --&gt;
+&lt;!-- 8. Show how alpha can be adjusted to reach employment parity - this can be used as a planning tool to _change _ accessibility such that parity is achieved. This is the accessibility we need. --&gt;
+&lt;!-- 9. Highlight shen's logical inconsistencies again. The logical inconsistencies are masked if you only look at the outputs. How spatial availability BEGINS with these assumptions so it makes all the assumptions clear from the start.  --&gt;
+&lt;!-- 10. Spatial availability potential uses - --&gt;
+&lt;!-- - like Shen's can be used for different modes --&gt;
+&lt;!-- - different times --&gt;
+&lt;!-- - but since it begins from proportional allocation, may inspire uses for prescriptive policy directions.  --&gt;
+
+&lt;!-- ###Old notes --&gt;
+
+&lt;!-- Spatial availability's objective: --&gt;
+&lt;!-- 1) the ability to get to get the same end results but stays proportional throughout and the logic is consistent. FCA, just like spatial availability, is a single-constrained accessibility measure. --&gt;
+&lt;!-- 2) by putting it in this format, (we allocate based on size, then based on impedance). It makes it clear that the things we can adjust give us some possibility for prescriptive analysis (what sort of travel behaviour will be needed for achieving parity. Or what distirbution of opp or population will be needed to reach partiity). Extends our analytical possibilities which are clearer.  --&gt;
+&lt;!-- 3) it replicates FCA.. by dividing by population at center --&gt;
+
+&lt;!-- for the comparision of the two measures: --&gt;
+&lt;!-- - shen continues to call the population ' opportunity seeking population' this term is problematic bc it is not consistent with the travel behaviour. For spatial availability, the opp seeking population is ALL the population but with the proportional allocation. --&gt;
+&lt;!-- - when spatial availability takes about the opp seeking population (it's all the population). In shen's the opp seeking population is the demand. This difference conceptually matters. --&gt;
+
+&lt;!-- We propose an alt derivation (benefits put in another way) --&gt;
+&lt;!-- - shows that FCA are really just accessibility with a single constraint --&gt;
+&lt;!-- - it is internally consistent (shen has flaw) --&gt;
+&lt;!-- - by making all the assumptions clear from the start ( not as a by-produce, like shen's), we can realize that there's a lot of things we can fiddle with to expand our analysis in perspective directions --&gt;
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"slideNumberFormat": "%current% / 16",
+"highlightStyle": "github",
+"highlightLines": true,
+"ratio": "16:9",
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
