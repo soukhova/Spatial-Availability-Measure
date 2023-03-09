@@ -1,0 +1,144 @@
+---
+title: "Appendix A for: Introducing spatial availability, a singly-constrained measure of competitive accessibility"
+author:
+  - name: Anastasia Soukhov
+    email: soukhoa@mcmaster.ca
+    affiliation: SEES
+    corresponding: soukhoa@mcmaster.ca
+  - name: Antonio Páez
+    email: paezha@mcmaster.ca
+    affiliation: SEES
+  - name: Christopher D. Higgins
+    email: cd.higgins@utoronto.ca
+    affiliation: UoTS
+  - name: Moataz Mohamed
+    email: mmohame@mcmaster.ca
+    affiliation: CIV
+address:
+  - code: SEES
+    address: School of Earth, Environment and Society, McMaster University, Hamilton, ON, L8S 4K1, Canada
+  - code: UoTS
+    address: Department of Geography & Planning, University of Toronto Scarborough, 1265 Military Trail, Toronto, ON M1C 1A4
+  - code: CIV
+    address: Department of Civil Engineering, McMaster University, Hamilton, ON, L8S 4K1, Canada
+
+bibliography: bibliography.bib
+linenumbers: true
+# linespacing: 1.5
+numbersections: true
+# plos.csl can be download and used locally
+csl: http://www.zotero.org/styles/plos
+output: rticles::plos_article
+documentclass: 
+  - landscape
+header-includes:
+- \usepackage[font=small,skip=0pt]{caption}
+- \usepackage{amsmath}
+- \usepackage[makeroom]{cancel}
+# - \usepackage{fullpage}
+- \usepackage{pdflscape}
+---
+\begin{landscape}
+\section{Appendix A}
+
+In this appendix, we solve for spatial availability per capita ($v_i$) for population center $A$ (Shen's synthetic example as discussed in Section 2.3) to demonstrate its mathematical equivalence to the Shen-type accessibility measure ($a_i$). The demonstration is shown in the following four steps.
+
+\textbf{First step}: the population-based balancing factor $F^p_{i}$ used in $V_i$ is defined as:
+$$
+F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i}^N P_{i}^\alpha}
+$$
+
+For population center $A$, $F^p_{i}$ is equal to:
+$$
+F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
+$$
+
+\textbf{Second step}: the impedance-based balancing factor $F^c_{ij}$ in $V_i$ is defined as:
+$$
+F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
+$$
+
+In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine OD trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$).
+$$
+F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
+$$
+
+$$
+F^c_{B1} = \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
+$$
+
+$$
+F^c_{C1} = \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
+$$
+
+$$
+F^c_{A2} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
+
+$$
+F^c_{B2} = \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
+
+$$
+F^c_{C2} = \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
+$$
+
+$$
+F^c_{A3} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+
+$$
+F^c_{B3} = \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+
+$$
+F^c_{C3} = \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
+$$
+
+\textbf{Third step}: when the balancing factors ($F^p_{i}$ and $F^c_{ij}$) concerning population center $A$ are assembled and divided by $P_i$, the denominators of the denominators cancel out. The following equation is the assigned general form, with the strike-through indicating which values cancel out:
+$$
+v_{i} = \sum_{j}\frac{O_j}{P_{i }^\alpha}\frac{\frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}{\sum_{i}^N \frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}\
+$$
+
+To demonstrate that the strike-through terms cancel out, the following following terms for $v_A$ are subbed into the general form:
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
+$$
+
+$$
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+
+$$
+
+$$
+\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
+$$
+
+$v_A$ simplifies to the following:
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
+\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) + \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
+$$
+
+
+Notice,the denominator of the denominator is the same as the denominator of the numerator for each $j$ (j=1, j=2, and j=3). Now, we remove those strike-through terms (as indicated at the beginning of this step) and re-write $v_a$ as follows:
+$$
+v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
+$$
+
+\textbf{Fourth step}: We can now cancel out one more term, $P_{A}^\alpha$ as follows:
+$$
+v_{A} = \frac{O_1}{\cancel{P_{A}^\alpha}}(\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
+$$
+
+Which can be expressed as: 
+$$
+v_{A} = (\frac{O_1 \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + \frac{O_2  \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + \frac{O_3 \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
+$$
+
+
+And generalized to be formally identical to the Shen-type accessibility measure with competition as follows:
+$$
+v_{i} = {a_i} = \sum_j{\frac{O_j \cdot f(c_{ij})}{\sum_i P_{i} \cdot f(c_{ij})}}
+$$
+\end{landscape}
+

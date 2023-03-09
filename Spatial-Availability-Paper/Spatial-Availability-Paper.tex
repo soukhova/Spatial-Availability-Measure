@@ -260,7 +260,7 @@ accessibility} % Please use "sentence case" for title and headings (capitalize o
 % Insert author names, affiliations and corresponding author email (do not include titles, positions, or degrees).
 \\
 Anastasia Soukhov\textsuperscript{\getAff{SEES}}\textsuperscript{*},
-Antonio Paez\textsuperscript{\getAff{SEES}},
+Antonio Páez\textsuperscript{\getAff{SEES}},
 Christopher D. Higgins\textsuperscript{\getAff{UoTS}},
 Moataz Mohamed\textsuperscript{\getAff{CIV}}\\
 \bigskip
@@ -275,33 +275,35 @@ University, Hamilton, ON, L8S 4K1, Canada\\
 \end{flushleft}
 % Please keep the abstract below 300 words
 \section*{Abstract}
-Accessibility indicators are widely used in transportation, urban, and
+Accessibility indicators are widely used in transportation, urban and
 healthcare planning, among many other applications. These measures are
-weighted sums of reachable opportunities from a given origin conditional
-on the cost of movement and are estimates of the potential for spatial
-interaction. Over time, various proposals have been forwarded to improve
-their interpretability: one of those methodological additions have been
-the introduction of competition. In this paper, we focus on competition,
-but first demonstrate how a widely used measure of accessibility with
-congestion fails to properly match the opportunity-seeking population.
-We then propose an alternative formulation of accessibility with
-competition, a measure we call \emph{spatial availability}. This measure
-relies on proportional allocation balancing factors (friction of
-distance and population competition) that are equivalent to imposing a
-single constraint on conventional gravity-based accessibility. In other
-words, the proportional allocation of opportunities results in a
-\emph{spatially available opportunities} value which is assigned to each
-origin that, when all origin values are summed, equals the total number
-of opportunities in the region. We also demonstrate how Two-Stage
-Floating Catchment Area (2SFCA) methods are equivalent to spatial
-availability and can be reconceptualized as singly-constrained
-accessibility. To illustrate the application of spatial availability and
-compare it to other relevant measures, we use data from the 2016
-Transportation Tomorrow Survey of the Greater Golden Horseshoe area in
-southern Ontario, Canada. Spatial availability is an important
-contribution since it clarifies the interpretation of accessibility with
-competition and paves the way for future applications in equity
-analysis.
+weighted sums of reachable opportunities from a given origin,
+conditional on the cost of movement, and are estimates of the potential
+for spatial interaction. Over time, various proposals have been
+forwarded to improve their interpretability: one of those methodological
+additions have been the introduction of competition. In this paper we
+focus on competition, but first demonstrate how a widely used measure of
+accessibility with congestion fails to properly match the
+opportunity-seeking population. We then propose an alternative
+formulation of accessibility with competition, a measure we call
+\emph{spatial availability}. This measure relies on proportional
+allocation balancing factors (friction of distance and population
+competition) that are equivalent to imposing a single constraint on
+conventional gravity-based accessibility. In other words, the
+proportional allocation of opportunities results in a \emph{spatially
+available opportunities} value which is assigned to each origin that,
+when all origin values are summed, equals the total number of
+opportunities in the region. We also demonstrate how Two-Stage Floating
+Catchment Area (2SFCA) methods are equivalent to spatial availability
+and can be reconceptualized as singly-constrained accessibility. To
+illustrate the application of spatial availability and compare it to
+other relevant measures, we use data from the 2016 Transportation
+Tomorrow Survey of the Greater Golden Horseshoe area in southern
+Ontario, Canada. Spatial availability is an important contribution since
+it clarifies the interpretation of accessibility with competition and
+paves the way for future applications in equity analysis (e.g., spatial
+mismatch, opportunity benchmarking, policy intervention scenario
+analysis).
 
 % Please keep the Author Summary between 150 and 200 words
 % Use first person. PLOS ONE authors please skip this step.
@@ -324,20 +326,20 @@ among other areas, with the number of applications growing {[}14{]},
 especially as mobility-based planning is de-emphasized in favor of
 access-oriented planning {[}15--18{]}.
 
-Accessibility analysis stems from the foundational works of {[}19{]} and
-{[}1{]}. From these seminal efforts, many accessibility measures have
-been derived, particularly after the influential work of {[}20{]} on
-spatial interaction\footnote{Utility-based measures derive from a very
-  different theoretical framework, random utility maximization}. Of
-these, gravity-type accessibility is arguably the most common; since its
-introduction in the literature, it has been widely adopted in numerous
-forms {[}13,21--25{]}. Hansen-type accessibility indicators are
-essentially weighted sums of opportunities, with the weights given by an
-impedance function that depends on the cost of movement, and thus
-measure the \emph{intensity of the possibility of interaction} {[}1{]}.
-This type of accessibility analysis offers a powerful tool to study the
-intersection between urban structure and transportation infrastructure
-{[}2{]}.
+Accessibility analysis stems from the foundational works of Harris
+(1954) {[}19{]} and Hansen (1959) {[}1{]}. From these seminal efforts,
+many accessibility measures have been derived, particularly after the
+influential work of Wilson (1971) {[}20{]} on spatial interaction (nb.,
+utility-based measures derive from a very different theoretical
+framework, random utility maximization). Of these, gravity-type
+accessibility is arguably the most common; since its introduction in the
+literature, it has been widely adopted in numerous forms
+{[}13,21--25{]}. Hansen-type accessibility indicators are essentially
+weighted sums of opportunities, with the weights given by an impedance
+function that depends on the cost of movement and thus measures the
+\emph{intensity of the possibility} of interaction {[}1{]}. This type of
+accessibility analysis offers a powerful tool to study the intersection
+between urban structure and transportation infrastructure {[}2{]}.
 
 Despite their usefulness, the interpretability of Hansen-type
 accessibility measures can be challenging {[}13,26{]}. Since they
@@ -346,21 +348,21 @@ region of interest (e.g., a large city has more jobs than a smaller
 city). As a consequence, raw outputs are not necessarily comparable
 across study areas {[}27{]}. This limitation becomes evident when
 surveying studies that implement this type of analysis. For example,
-{[}5{]} (in Montreal) and {[}28{]} (in Nairobi) report accessibility as
-the number of health care facilities that can potentially be reached
-from origins. But what does it mean for a zone to have accessibility to
-less than 100 facilities in each of these two cities, with their
-different populations and number of facilities? For that matter, what
-does it mean for a zone to have accessibility to more than 700
-facilities in Montreal, besides being ``accessibility rich''? As another
-example, {[}29{]} (in Bogota), {[}30{]} (in Montreal), and {[}31{]} (in
-Beijing) report accessibility as numbers of jobs, with accessibility
-values often in the hundreds of thousands, and even exceeding one
-million jobs for some zones in Beijing and Montreal. As indicators of
-urban structure, these measures are informative, but the meaning of one
-million accessible jobs is harder to pin down: how many jobs must any
-single person have access to? Clearly, the answer to this question
-depends on how many people demand jobs.
+studies {[}5{]} (in Montréal) and {[}28{]} (in Nairobi) report
+accessibility as the number of health care facilities that can
+potentially be reached from origins. But what does it mean for a zone to
+have accessibility to less than 100 facilities in each of these two
+cities, with their different populations and number of facilities? For
+that matter, what does it mean for a zone to have accessibility to more
+than 700 facilities in Montréal, besides being ``accessibility rich''?
+As another example, studies {[}29{]} (in Bogota), {[}30{]} (in
+Montréal), and {[}31{]} (in Beijing) report accessibility as numbers of
+jobs, with accessibility values often in the hundreds of thousands, and
+even exceeding one million jobs for some zones in Beijing and Montréal.
+As indicators of urban structure, these measures are informative, but
+the meaning of one million accessible jobs is harder to pin down: how
+many jobs must any single person have access to? Clearly, the answer to
+this question depends on how many people demand jobs.
 
 The interpretability of Hansen-type accessibility has been discussed in
 numerous studies, including recently by {[}32{]}, {[}33{]}, and in
@@ -375,46 +377,47 @@ abundant space are seldom used to full capacity, so the presence of some
 population does not exclude use by others. When it comes to exclusive
 opportunities, or when operations may be affected by congestion, the
 solution has been to account for competition. Several efforts exist that
-do so. In our reckoning, the first such approach was proposed by
-{[}37{]}, whereby the distance decay of the supply of employment and the
-demand for employment (by workers) were formulated under so-called
-axiomatic assumptions. This approach was then applied by {[}38{]} in the
-context of healthcare, to quantify the availability of general
-practitioners in Canada. About two decades later, {[}35{]} independently
-re-discovered Weibull's {[}37{]} formula {[}see footnote (7) in 35{]}
-and deconstructed it to consider accessibility for different modes.
-These advances were subsequently popularized as the family of Two-Stage
+do so. In our reckoning, the first such approach was proposed by Weibull
+(1976) {[}37{]}, whereby the distance decay of the supply of employment
+and the demand for employment (by workers) were formulated under
+so-called axiomatic assumptions. This approach was then applied by
+Joseph (1984) {[}38{]} in the context of healthcare, to quantify the
+availability of general practitioners in Canada. About two decades
+later, Shen (1998) {[}35{]} independently re-discovered Weibull's
+{[}37{]} formula {[}see footnote (7) in Shen (1998) 35{]} and
+deconstructed it to consider accessibility for different modes. These
+advances were subsequently popularized as the family of Two-Stage
 Floating Catchment area (2SFCA) methods {[}39{]} that have found
 widespread adoption in healthcare, education, and food systems
 {[}40--44{]}.
 
-An important development contained in Shen's work is a proof that the
-population-weighted sum of the accessibility measure with competition
-equates to the number of opportunities available {[}footnote (7) and
-Appendix A in 35{]}. This demonstration gives the impression that
-Shen-type accessibility allocates \emph{all} opportunities to the
-origins, however to the authors' knowledge, it has not been interpreted
-by literature in this way. For instance, {[}45{]}, {[}34{]}, and
-{[}46{]} all use Shen-type accessibility to calculate job access but
-report values as `competitive accessibility scores' or simply `job
+An important development contained in Shen (1998)`s work is a proof that
+the population-weighted sum of the accessibility measure with
+competition equates to the number of opportunities available {[}footnote
+(7) and Appendix A in 35{]}. This demonstration gives the impression
+that Shen-type accessibility allocates \emph{all} opportunities to the
+origins, however to our knowledge, it has not been interpreted by
+literature in this way. For instance, {[}45{]}, {[}34{]}, and {[}46{]}
+all use Shen-type accessibility to calculate job access but report
+values as 'competitive accessibility scores' or simply `job
 accessibility'. These works do not explicitly recognize that jobs that
 are assigned to each origin are in fact a proportion of \emph{all} the
 opportunities in the system. This recognition, we argue, is critical to
 interpreting the meaning of the final result. Thus, in this paper we
 intend to revisit accessibility with competition within the context of
-disentangling how opportunities are allocated. We first argue that
-Shen's competitive accessibility misleadingly refers to the total zonal
-population to equal the travel-cost discounted opportunity-seeking
-population. This equivocation, we believe, results in an ambiguous
-interpretation of what Shen-type accessibility represents as the
-allocation of opportunities to population is masked by the results
-presenting as rates (i.e., opportunities per capita). We then propose an
-alternative formulation of accessibility that incorporates competition
-by adopting a proportional allocation mechanism; we name this measure
-\emph{spatial availability}. The use of balancing factors for
-proportional allocation is akin to imposing a single constraint on the
-accessibility indicator, in the spirit of Wilson's {[}20{]} spatial
-interaction model.
+disentangling how opportunities are allocated. We first argue that Shen
+(1998)`s competitive accessibility ('Shen-type accessibility' in this
+paper) misleadingly refers to the total zonal population to equal the
+travel-cost discounted opportunity-seeking population. This
+equivocation, we believe, results in an ambiguous interpretation of what
+Shen-type accessibility represents as the allocation of opportunities to
+population is masked by the results presenting as rates (i.e.,
+opportunities per capita). We then propose an alternative formulation of
+accessibility that incorporates competition by adopting a proportional
+allocation mechanism; we name this measure \emph{spatial availability}.
+The use of balancing factors for proportional allocation is akin to
+imposing a single constraint on the accessibility indicator, in the
+spirit of Wilson (1971)'s {[}20{]} spatial interaction model.
 
 The key motivations of this paper are as follows:
 
@@ -431,8 +434,8 @@ In this way, the paper's aim is three-fold:
 
 \begin{itemize}
 \item
-  First, we aim to demonstrate that Shen-type (and thus {[}37{]}
-  accessibility and the popular 2SFCA methods) produce equivocal
+  First, we aim to demonstrate that Shen-type (and hence Weibull (1976)
+  {[}37{]} accessibility and the popular 2SFCA method) produce equivocal
   estimates of opportunities allocated as the result is presented as a
   rate (i.e., opportunities per capita);
 \item
@@ -446,12 +449,12 @@ In this way, the paper's aim is three-fold:
 \end{itemize}
 
 Discussion is supported by the use of the small synthetic example of
-{[}35{]} and empirical data drawn from the 2016 Transportation Tomorrow
-Survey of the Greater Toronto and Hamilton Area in Ontario, Canada. In
-the spirit of openness of research in the spatial sciences {[}47,48{]}
-this paper has a companion open data product\footnote{\url{https://soukhova.github.io/TTS2016R/}}
-{[}49{]}, and all code is available for replicability and
-reproducibility purposes\footnote{\url{https://github.com/soukhova/Spatial-Availability-Measure}}.
+Shen (1998) {[}35{]} and empirical data drawn from the 2016
+Transportation Tomorrow Survey of the Greater Toronto and Hamilton Area
+in Ontario, Canada. In the spirit of openness of research in the spatial
+sciences {[}47--49{]} this paper has a companion open data product
+{[}50{]}. All code is available for replicability and reproducibility
+purposes at the cited GitHub repository {[}51{]}.
 
 \hypertarget{background}{%
 \section{Accessibility measures revisited}\label{background}}
@@ -481,7 +484,7 @@ S_i = \sum_{j=1}^JO_j \cdot f(c_{ij})
 \item
   \(f(\cdot)\) is an impedance function of \(c_{ij}\); it can take the
   form of any monotonically decreasing function chosen based on positive
-  or normative criteria {[}50{]}.
+  or normative criteria {[}52{]}.
 \item
   \(i\) is a set of origin locations (\(i = 1,\cdots,N\)).
 \item
@@ -501,39 +504,38 @@ the neighborhood of \(i\) provides estimates of the number of
 opportunities that can \emph{potentially} be reached from \(i\). Several
 measures result from using a variety of impedance functions; for
 example, cumulative opportunities measures are obtained when
-\(f(\cdot)\) is a binary or indicator function {[}13,e.g., 30,51,52{]}.
+\(f(\cdot)\) is a binary or indicator function {[}13,e.g., 30,53,54{]}.
 Other measures use impedance functions modeled after any monotonically
 decreasing function {[}e.g., Gaussian, inverse power, negative
 exponential, or log-normal, among others, see, \emph{inter alia},
-53,54--56{]}. In practice, accessibility measures with different
-impedance functions tend to be highly correlated {[}53,57,58{]}.
+55,56--58{]}. In practice, accessibility measures with different
+impedance functions tend to be highly correlated {[}55,59,60{]}.
 
 Gravity-based accessibility has been shown to be an excellent indicator
 of the intersection between spatially distributed opportunities and
-transportation infrastructure {[}14,53,55{]}. However, beyond enabling
+transportation infrastructure {[}14,55,57{]}. However, beyond enabling
 comparisons of relative values, they are not highly interpretable on
 their own {[}26{]}. To address the issue of interpretability, previous
 research has aimed to index and normalize values on a per
-demand-population basis {[}e.g., 59,60,61{]}. However, as recent
-research on accessibility discusses {[}27,33,e.g., 34,36{]}, these steps
-do not adequately consider competition. In effect, when calculating
-\(S_i\), every opportunity enters the weighted sum once for every origin
-\(i\) that can reach it. This makes interpretability opaque, and to
-complicate matters, can also bias the estimated landscape of
-opportunity.
+demand-population basis {[}61--63{]}. However, as recent research on
+accessibility discusses {[}27,33,34,36{]}, these steps do not adequately
+consider competition. In effect, when calculating \(S_i\), every
+opportunity enters the weighted sum once for every origin \(i\) that can
+reach it. This makes interpretability opaque, and to complicate matters,
+can also bias the estimated landscape of opportunity.
 
 \hypertarget{shen-type-competitive-accessibility}{%
 \subsection{Shen-type competitive
 accessibility}\label{shen-type-competitive-accessibility}}
 
-To account for competition, the influential works of {[}35{]} and
-{[}37{]}, as well as the widely used 2SFCA approach of {[}39{]}, adjust
-Hansen-type accessibility to account for the population's demand for
-opportunities in the region of interest. The mechanics of this approach
-consist of calculating, for every destination \(j\), the population that
-can reach the opportunity(ies) given the impedance function
-\(f(\cdot)\); let us call this the \emph{effective opportunity-seeking
-population} (Equation
+To account for competition, the influential works of Shen (1998)
+{[}35{]} and Weibull (1976) {[}37{]}, as well as the widely used 2SFCA
+approach of Luo \& Wang (2003) {[}39{]}, adjust Hansen-type
+accessibility to account for the population's demand for opportunities
+in the region of interest. The mechanics of this approach consist of
+calculating, for every destination \(j\), the population that can reach
+the opportunity(ies) given the impedance function \(f(\cdot)\); let us
+call this the \emph{effective opportunity-seeking population} (Equation
 (\ref{eq:effective-opportunity-seeking-population})). This value can be
 seen as the Hansen-type \emph{market area} (accessibility to population)
 of \(j\). The opportunities at \(j\) are divided by the sum of the
@@ -656,9 +658,9 @@ for Equation (\ref{eq:2SFCA-total}) to hold true.
 \hypertarget{shens-synthetic-example}{%
 \subsection{Shen's synthetic example}\label{shens-synthetic-example}}
 
-In this section we use the synthetic example in {[}35{]} to highlight
-the importance of understanding \(P_i\) and \(O_j\) as simply the
-population at the origin \(i\) and the opportunities at destination
+In this section we use the synthetic example in Shen (1998) {[}35{]} to
+highlight the importance of understanding \(P_i\) and \(O_j\) as simply
+the population at the origin \(i\) and the opportunities at destination
 \(j\), respectively. This is critical to understanding how opportunities
 are allocated to the population based on the impedance function.
 
@@ -668,7 +670,7 @@ are allocated to the population based on the impedance function.
 
 }
 
-\caption{\label{fig:Fig1} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population, and travel times.}\label{fig:synthetic-example-plot}
+\caption{\label{fig:Fig1} Shen (1998) synthetic example with locations of employment centers (in orange), population centers (in blue), number of jobs and population and travel times.}\label{fig:synthetic-example-plot}
 \end{figure}
 
  
@@ -991,8 +993,8 @@ are allocated to the population based on the impedance function.
 
 Table \ref{tab:synthetic-example} contains the information needed to
 calculate \(S_i\) and \(a_i\) for this example. We use a negative
-exponential impedance function with \(\beta=0.1\) as also used in {[}35,
-see footnote (5){]}: \[
+exponential impedance function with \(\beta=0.1\) as also used in Shen
+(1998) {[}35, see footnote (5){]}: \[
 f(c_{ij}) = \exp(-\beta\cdot c_{ij})
 \]
 
@@ -1011,10 +1013,10 @@ accessibility. The results indicate that \(a_A \approx\) 1.337 jobs per
 capita, \(a_B \approx\) 0.888, and \(a_C\approx\) 0.996. The latter
 value is sensible given the jobs-population balance of \(C\). Center
 \(A\) is relatively close to a large number of jobs (more jobs than the
-population of \(A\)). The opposite is true of \(B\). According to
-{[}35{]}, the sum of the population-weighted accessibility \(a_i\) is
-exactly equal to the number of jobs in the region following Shen's
-proof: \[
+population of \(A\)). The opposite is true of \(B\). According to Shen
+(1998) {[}35{]}, the sum of the population-weighted accessibility
+\(a_i\) is exactly equal to the number of jobs in the region following
+Shen's proof: \[
 \begin{array}{l}
 \sum_{i=1}^N a_{i} P_i= \sum_{j=1}^JO_j\\
 50,000\times 1.3366693 \\
@@ -1028,14 +1030,14 @@ As mentioned earlier, this property under Shen's definition of \(P_i\)
 impression that all jobs sought are allocated to the people located at
 each origin \(i\). In other words, Shen defines \(P_i\) to mean
 \(P_{ij}^*\) (i.e., the \emph{effective opportunity-seeking population}
-which is already adjusted by travel behaviour) instead of defining it to
+that is already adjusted by travel behaviour) instead of defining it to
 simply be the full population at \(i\) (i.e., \(P_i\)). As seen in
 column \textbf{Pop * f(TT)} in Table \ref{tab:synthetic-example} (i.e.,
 \(P_{ij}^* = P_i\cdot f(c_{ij})\)), the number of individuals from
 population center \(A\) that are \emph{willing to reach} employment
 centers 1, 2, and 3 are 11,156, 2,489, and 2.27 respectively. Therefore,
 the total effective opportunity-seeking population at \(A\) is
-\(P_A^* = \sum_jP_{Aj}^*\), that is, 13,647.27 people, which is
+\(P_A^* = \sum_jP_{Aj}^*\), that is, 13,647.27 people: this is
 considerably lower than the total population of \(A\) (i.e., \(P_A=\)
 50,000 people). Demonstrated as follows, using \(P_{ij}^*\) in the
 calculations associated with this proof results in only 56,834.59 jobs
@@ -1056,23 +1058,22 @@ The proof can still give the impression that all jobs are allocated to
 the total population, since total population (\(\sum_{i=1}^N P_i\)) goes
 into the equation and total jobs (\(\sum_{j=1}^JO_j\)) in the region is
 the result. However, this impression is incomplete as it does not
-reflect the amount of population which takes jobs and the number of
-people being considered for jobs: these magnitudes are a product of
-being weighted down by the impedance function. The magnitudes are not
-obvious because the result, \(a_i\), is a rate (i.e., opportunities per
-capita).
+reflect the magnitude of population that takes jobs and the number of
+people being considered for jobs: these magnitudes are a product of the
+impedance function. The magnitudes are not obvious because the result,
+\(a_i\), is a rate (i.e., opportunities per capita).
 
 Let us consider a modification to the travel behaviour of the example
 discussed to illustrate how the presentation of \(a_i\) as a rate
 obscures the magnitude of the effective opportunity-seeking population.
 We modify the example by increasing the \(\beta\) to 0.6 (compared to
 the previous value of 0.1; see Figure \ref{fig:Fig2}). This modification
-increases the cost of travel and thus the impedance function, which is
-an expression of the population's relative willingness to travel to
-opportunities, reflects a population which is relatively less willing to
-travel to opportunities further away compared to the previous \(\beta\)
-value. The Hansen-type and Shen-type values are presented in the yellow
-rows of Table \ref{tab:synthetic-example}.
+increases the cost of travel and thus the impedance function (an
+expression of the population's relative willingness to travel to
+opportunities). The modification reflects a population that is
+relatively less willing to travel to opportunities further away compared
+to the previous \(\beta\) value. The Hansen-type and Shen-type values
+are presented in the yellow rows of Table \ref{tab:synthetic-example}.
 
 \begin{figure}
 \includegraphics[width=1\linewidth]{images/Fig2} \caption{\label{fig:Fig2}Comparison of two negative exponential impedance functions used in the synthetic example. The x-axis represents the travel time (in mins) and the y-axis represents the impedance function at each travel time.}\label{fig:comparison-impedance-functions-synthetic-example}
@@ -1086,15 +1087,17 @@ converges to the jobs:population ratio (i.e., origin \(A\) is
 impedance function excludes the population in droves, thus reducing the
 competition for jobs: as seen in Table \ref{tab:synthetic-example}, the
 effective opportunity-seeking population from \(A\) is only about equal
-to 6.17; likewise, the number of jobs at 1 weighted by the impedance is
-only 12.341. In other words, competition is low because jobs are
-expensive to reach, but those willing to reach jobs enjoy relatively
-high accessibility (in the limit, the jobs:population ratio). On the
-other hand, the accessibility is effectively zero for those in the
-population prevented by the impedance from reaching any jobs.
+to 6.17. Likewise, the number of jobs at 1 weighted by the impedance is
+only 12.341. In other words, competition is low (limited onto the the
+population close to job centers) because jobs are expensive to reach,
+but those willing to reach jobs enjoy relatively high accessibility (in
+the limit, the jobs:population ratio). On the other hand, the
+accessibility is effectively zero for those in the population prevented
+by the impedance from reaching any jobs (the population not near the job
+centers).
 
-In what follows, we propose an alternative derivation of {[}35{]}
-accessibility with competition that explicitly clarifies the
+In what follows, we propose an alternative derivation of Shen (1998)
+{[}35{]} accessibility with competition that explicitly clarifies the
 opportunities allocated to the \emph{effective opportunity-seeking
 population} within its formulation. Hence, the results are not only more
 interpretable, but also extend the potential of accessibility analysis.
@@ -1125,12 +1128,12 @@ V_i = \sum_{j=1}^NO_jF^t_{ij}
 \end{itemize}
 
 The general form of spatial availability is also as a sum, and the
-fundamental difference with Hansen- and Shen-type accessibility is that
-opportunities are allocated proportionally. Balancing factor
+fundamental difference between Hansen- and Shen-type accessibility is
+that opportunities are allocated proportionally. Balancing factor
 \(F^t_{ij}\) consists of two components: a population-based balancing
 factor \(F^p_{i}\) and an impedance-based balancing factor \(F^c_{ij}\)
-which, respectively, allocate opportunities to \(i\) in proportion to
-the size of the population of the different competing centers (the mass
+that, respectively, allocate opportunities to \(i\) in proportion to the
+size of the population of the different competing centers (the mass
 effect of the gravity model) and the cost of reaching opportunities (the
 impedance effect). In the next two subsections, we explain the intuition
 behind the method before defining it in full.
@@ -1144,7 +1147,7 @@ interaction depends on the mass (i.e., the population) and the friction
 of distance (i.e., the impedance function). We begin by describing the
 proposed proportional allocation mechanism based on demand by the
 population. Recall, the total population in the example is 210,000. The
-proportion of the population by population center is as follows: \[
+proportion of the population by population center is: \[
 \begin{array}{l}
 F^p_A = \frac{50,000}{210,000}\\
 \\
@@ -1220,11 +1223,11 @@ in the region: \[
 =\sum_{j=1}^J O_j = O
 \end{array}
 \] The terms \(F^p_{i}\) act here as the balancing factors of the
-gravity model when a single constraint is imposed {[}i.e., to ensure
-that the sums of columns are equal to the number of opportunities per
-destination, see 62 and 183-184{]}. As a result, the sum of spatial
-availability for all population centers equals the total number of
-opportunities.
+gravity model when a single constraint is imposed (i.e., to ensure that
+the sums of columns are equal to the number of opportunities per
+destination, see Ortúzar \& Willumsen (2011) {[}64{]}, pp.~179-180 and
+pp.~183-184). As a result, the sum of spatial availability for all
+population centers equals the total number of opportunities.
 
 The discussion so far concerns only the mass effect (i.e., population
 size) of the gravity model. In addition, the potential for interaction
@@ -1271,7 +1274,7 @@ and the number allocated to population center \(C\) is
 the total number of jobs at the employment center is preserved at
 100,000. In this example, the proportional allocation mechanism assigns
 the largest share of jobs to population center \(A\), which is the
-closest to employment center 1, and the smallest to the more distant
+closest to employment center 1 and the smallest to the more distant
 population center \(C\).
 
 In the general case where there are \(N\) population centers and \(J\)
@@ -1313,16 +1316,15 @@ effects}\label{assembling-mass-and-impedance-effects}}
 
 Population and the cost of travel are both part of the gravity modelling
 framework. Since the balancing factors defined in the preceding sections
-are proportions (alternatively, can be understood as probabilities),
-they can be combined multiplicatively to obtain their joint effect. This
-multiplicative relationship can alternatively be understood as the joint
-probability of allocating opportunities and is captured by Equation
-(\ref{eq:balancing-factors}), where \(F^p_{i}\) is the population-based
-balancing factor that grants a larger share of the existing
-opportunities to larger centers and \(F^c_{ij}\) is the impedance-based
-balancing factor that grants a larger share of the existing
-opportunities to closer centers. This is in line with the tradition of
-gravity modeling.
+are proportions, they can be combined multiplicatively to obtain their
+joint effect. This multiplicative relationship can alternatively be
+understood as the joint probability of allocating opportunities and is
+captured by Equation (\ref{eq:balancing-factors}), where \(F^p_{i}\) is
+the population-based balancing factor that grants a larger share of the
+existing opportunities to larger centers and \(F^c_{ij}\) is the
+impedance-based balancing factor that grants a larger share of the
+existing opportunities to closer centers. This is in line with the
+tradition of gravity modeling.
 
 \begin{equation}
 \label{eq:balancing-factors}
@@ -1341,7 +1343,7 @@ from \(j\) to \(i\). Hence, spatial availability is given by Equation
 V_{i} = \sum_{j=1}^J O_j\ F^t_{ij}
 \end{equation}
 
-The terms in Equation \ref{eq:spatial-availability}:
+The terms in Equation (\ref{eq:spatial-availability}):
 
 \begin{itemize}
 \tightlist
@@ -1430,12 +1432,14 @@ the regional benchmark, center \(B\) has more, and center \(C\) is at
 parity. Remarkably, the spatial availability per capita matches the
 values of \(a_i\) in Table \ref{tab:synthetic-example}. Appendix A has a
 proof of the mathematical equivalence between the two measures. It is
-interesting to notice how {[}37{]}, {[}35{]}, as well as this paper, all
-reach identical expressions starting from different assumptions; this
-effect is known as \emph{equifinality} {[}see 62,and 63{]}. This result
-means that Shen-type accessibility and 2SFCA can be re-conceptualized as
-singly-constrained accessibility measures along with the propose spatial
-availability measure.
+interesting to notice how Weibull (1976) {[}37{]} and Shen (1998)
+{[}35{]}, as well as this paper, all reach identical expressions
+starting from different assumptions; this effect is known as
+\emph{equifinality} (see Ortúzar \& Willumsen (2011) {[}64{]}, p.~333
+and Williams (1981) {[}65{]}). This result means that Shen-type
+accessibility and 2SFCA can be re-conceptualized as singly-constrained
+accessibility measures along with the proposed spatial availability
+measure.
 
 \hypertarget{why-does-proportional-allocation-matter}{%
 \subsection{Why does proportional allocation
@@ -1448,10 +1452,10 @@ two measures is of any importance.
 
 Conceptually, we would argue that the confounded populations in
 Shen-type accessibility leads to internal inconsistency in the
-calculation of total opportunities in {[}35{]}: this points to a deeper
-issue that is only evident when we consider the intermediate values of
-the method. To illustrate, Table \ref{tab:synthetic-example} shows
-results of \(a_i\) that are reasonable (and they match exactly the
+calculation of total opportunities in Shen (1998) {[}35{]}: this points
+to a deeper issue that is only evident when we consider the intermediate
+values of the method. To illustrate, Table \ref{tab:synthetic-example}
+shows results of \(a_i\) that are reasonable (and they match exactly the
 spatial availability per capita). But when we dig deeper, these results
 mask potentially misleading values for the jobs allocated and the number
 of jobs taken. For instance, a region with a high jobs:population ratio
@@ -1462,15 +1466,15 @@ proportionally low number of allocated jobs, while also obscuring the
 magnitude of the population that does and does \emph{not} take jobs.
 
 In addition, the intermediate accessibility values of \(a_i\) (Shen-type
-measure) may also lead to impact estimates that are deceptive {[}see
-64{]}. For example, the estimated region-wide cost of travel considering
-the jobs allocated by \(a_i\) in Table \ref{tab:synthetic-example}
-(i.e., \(Jobs*f(TT)\)) is as follows:
+measure) may also lead to impact estimates that are deceptive {[}66{]}.
+For example, the estimated region-wide cost of travel considering the
+jobs allocated by \(a_i\) in Table \ref{tab:synthetic-example} (i.e.,
+\(Jobs*f(TT)\)) is as follows:
 
 \[
 \begin{array}{l}
-22,313\times 15 \text{ min} + 4,979\times 30 \text{ min} + 0.454\times 100 \text{ min}\\
-4,979\times 30 \text{ min} + 22,313\times 15 \text{ min} + 0.454\times 100 \text{ min}\\
+22,313\times 15 \text{ min} + 4,979\times 30 \text{ min} + 0.454\times 100 \text{ min } + \\
+4,979\times 30 \text{ min} + 22,313\times 15 \text{ min} + 0.454\times 100 \text{ min } + \\
 4.54\times 100 \text{ min} + 4.54\times 100 \text{ min} + 2,231\times 15 \text{ min} = 1,002,594\text{ min}
 \end{array}
 \]
@@ -1478,8 +1482,8 @@ the jobs allocated by \(a_i\) in Table \ref{tab:synthetic-example}
 In contrast, the estimated region-wide cost of travel according to
 \(V_i\) in Table \ref{tab:synthetic-example} is as follows: \[
 \begin{array}{l}
-59,901\times 15 \text{ min} + 6,923\times 30 \text{ min} + 10\times 100 \text{ min}\\
-40,097\times 30 \text{ min} + 93,076\times 15 \text{ min} + 30\times 100 \text{ min}\\
+59,901\times 15 \text{ min} + 6,923\times 30 \text{ min} + 10\times 100 \text{ min } +\\
+40,097\times 30 \text{ min} + 93,076\times 15 \text{ min} + 30\times 100 \text{ min } +\\
 2.4\times 100 \text{ min} + 1.3\times 100 \text{ min} + 9,959\times 15 \text{ min} = 3,859,054\text{ min}
 \end{array}
 \]
@@ -1511,54 +1515,56 @@ equal the total opportunities in the region.
 Toronto}\label{empirical-example-of-toronto}}
 
 In this section we illustrate the application of spatial availability
-through an empirical example. For this, we use full-time employment
-flows from the Greater Golden Horseshoe (GGH) area in Ontario, Canada.
-Contained with the GGH is the Greater Toronto and Hamilton (GTHA) which
-forms the most populous metropolitan regions in Canada and the core
-urban agglomeration in the GGH.
+through an empirical example. We use full-time employment
+origin-destination flows from the city of Toronto. Toronto is within the
+Greater Golden Horseshoe (GGH) (31,500 km\textsuperscript{2}), the most
+densely populated and industrialized region in Canada. Within the GGH is
+the Greater Toronto and Hamilton (GTHA); it forms the most populous
+metropolitan regions in Canada and the core urban agglomeration in the
+GGH.
 
-The GTHA contains the city of Toronto, the most populous city in Canada.
-The city of Toronto is the focus of this empirical example; it will be
-used to demonstrate the application of the proposed spatial availability
-measure along with how it compares to Hansen- and Shen-type measures. We
-begin this section by explaining the data and then detailing the
-calculated comparisons.
+The GTHA contains the city of Toronto, the most populous city in Canada,
+and the focus of this empirical example; it is used to demonstrate the
+application of the proposed spatial availability measure along with how
+it compares to Hansen- and Shen-type measures. We explain the data and
+then detail the calculated comparisons.
 
 \hypertarget{ggh-data}{%
 \subsection{GGH Data}\label{ggh-data}}
 
 We obtained full-time employment flows from the 2016 Transportation
-Tomorrow Survey (TTS). This survey collects representative urban travel
-information from 20 municipalities contained within the GGH area in the
-southern part of Ontario, Canada (see Figure \ref{fig:Fig3}) {[}65{]}
-every five years. The data set includes origin to destination flows
-associated with full-time employment trips; the number of jobs
-(n=3,081,900) and workers (n=3,446,957) (i.e., the number of originating
-trips and destination trips) at each origin and destination are
-represented at the level of Traffic Analysis Zones (TAZ) (n=3,764). TAZ
-are a unit of spatial analysis which are defined as part of the TTS,
-however, TAZ are commonly used to ascribe production and attraction of
+Tomorrow Survey (TTS). This household travel survey collects
+representative travel journey information from all 20 municipalities
+contained within the GGH area (Figure \ref{fig:Fig3}) every five years
+{[}67{]}. The data set includes origin to destination flows associated
+with full-time employed people at the level of Traffic Analysis Zones
+(TAZ) (3,764 TAZ in the GGH) i.e., the number of full-time workers at
+origin household TAZ (3,446,957 workers in the GGH) and their matching
+employment destination TAZ (3,081,900 associated jobs in the GGH). TAZ
+are a unit of spatial analysis that are defined as part of the TTS. More
+broadly, TAZ are commonly used to ascribe production and attraction of
 trips in the context of transportation planning modelling. In the GGH
-data set, the TAZ contain on average 916 workers and jobs 819 with more
-detailed descriptive statistics discussed later. The TTS data is based
-on a representative sample of between 3\% to 5\% of households in the
-GGH and is weighted to reflect the population covering the study area as
-a whole {[}65{]}.
+data set, TAZ contain on average 916 workers and 819 jobs (descriptive
+statistics in Figure \ref{fig:Fig3}). The TTS data is based on a
+representative sample of between 3\% to 5\% of households in the GGH and
+is weighted to reflect the population covering the study area as a whole
+{[}67{]}.
 
 To generate the travel cost for the full-time employment trips, travel
 times between origins and destinations (i.e., centroids of the TAZ) are
-calculated for car travel using the \texttt{R} package \{r5r\} {[}66{]}
-with a street network retrieved from OpenStreetMap. It is also assumed
-that intra-TAZ trips are equal to 0.1 minutes. For inter-TAZ trips, a 3
-hr travel time threshold was selected as it captures 99\% of
-population-employment pairs (see the travel times summarized in Figure
+calculated for car travel using the \texttt{R} package \{r5r\} with a
+street network retrieved from OpenStreetMap {[}68,69{]}. For inter-TAZ
+trips, a 3 hr travel time threshold is selected as it captures 99\% of
+population-employment pairs (travel times summarized in Figure
 \ref{fig:Fig3}). This method does not account for traffic congestion or
-modal split, which can be estimated through other means {[}e.g.,
-67,68{]}. For simplicity, we carry on with the assumption that all trips
-are taken by car in uncongested travel conditions. All data and data
-preparation steps are documented and can be freely explored in the
-companion open data product
-\href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}}.
+modal split, which can be approximated through additional methods
+{[}70,71{]}. For simplicity, we carry on with the assumption that all
+trips are taken by car in uncongested travel conditions. Additionally,
+we assume all intra-TAZ trips are equal to 0.1 minutes for illustrative
+purposes. All data and data preparation steps are documented and can be
+freely explored in the companion open data product
+\href{https://soukhova.github.io/TTS2016R/}{\{TTS2016R\}} and discussed
+.
 
 \begin{figure}
 
@@ -1566,7 +1572,7 @@ companion open data product
 
 }
 
-\caption{\label{fig:Fig3}TTS 2016 study area (GGH, Ontario, Canada) along with the descriptive statistics of the origin destination (OD) links (count of workers potentially interacting with their place of employment) by origin TAZ, calculated OD car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 regions (black boundaries) and sub-regions (dark gray boundaries).}\label{fig:TTS-16-survey-area}
+\caption{\label{fig:Fig3}TTS 2016 study area (GGH, Ontario, Canada) along with the descriptive statistics of the origin destination (OD) pairs (count of workers that travel to their place of employment) by origin TAZ, calculated OD car travel time (TT), workers per TAZ, and jobs per TAZ. Contains 20 municipalities/regions (black boundaries) and sub-regions (dark gray boundaries).}\label{fig:TTS-16-survey-area}
 \end{figure}
 
 \hypertarget{spatial-employment-characteristics-in-toronto}{%
@@ -1578,7 +1584,7 @@ Toronto}\label{spatial-employment-characteristics-in-toronto}}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{images/Fig5} \caption{\label{fig:Fig5}  Spatial distribution of full-time working population to jobs ratio (top) and car travel time to jobs estimated using R5R (bottom) for the city of Toronto as provided by the 2016 TTS. Black lines represent expressways and black dashed lines represent subway lines. White TAZ represent a TAZ with no workers thus no travel time for the top plot, for the bottom plot they represent no travel time TAZ and TAZ with only 1 travel time.}\label{fig:spatial-dist-Toronto-plot2}
+\includegraphics[width=1\linewidth]{images/Fig5} \caption{\label{fig:Fig5}  Mean car travel time to jobs per origin (top) and standard deviation of car travel times per origin (bottom) for the city of Toronto. Origin destination flows are provided by the 2016 TTS and car travel times estimated using r5r. Black lines represent expressways and black dashed lines represent subway lines. White TAZ represent a TAZ with no workers hence no travel time.}\label{fig:spatial-dist-Toronto-plot2}
 \end{figure}
 
 As mentioned, the focus of this empirical example is on the city of
@@ -1586,55 +1592,44 @@ Toronto. It is the largest city in the GGH and represents a significant
 subset of workers and jobs in the GGH; 22\% of workers in the GGH live
 in Toronto and 25\% of jobs that these workers take are located within
 Toronto. The spatial distribution of jobs and workers is shown in Figure
-\ref{fig:Fig4}. It can be seen that a large cluster of jobs can be found
-in the central southern part of Toronto (the downtown core). Spatial
-trends in the distribution of workers is more even relative to the
-distribution of jobs.
+\ref{fig:Fig4}. A high density of jobs can be found in the central
+southern part of Toronto (the downtown core). Spatial trends in the
+distribution of workers is more uniform relative to the distribution of
+jobs.
 
 Next, the spatial distribution of the estimated car travel time (green)
 and the associated standard deviation (grey) is visualized in Figure
-\ref{fig:Fig5}. It can be seen that the car travel time is lower within
-the downtown core and, unexpectedly higher as the TAZ is further from
-the downtown core. These travel time estimations are to be expected, as
-these car travel time are calculated using an uncongested OpenStreetMaps
-road network from the centroid of origin TAZ to destination TAZ. Since
-within Toronto trips are only considered, trips which originate from the
-center of Toronto, an area with high job density, relatively closer
-proximity to all other Toronto TAZ, and high road connectivity, travel
-times are lower than outside in areas further from the downtown core. In
-terms of the variability of the travel times, the center TAZ of Toronto
-have lower variability than TAZ closer to the borders of Toronto. Trends
+\ref{fig:Fig5}. Overall, it can be seen that car travel time is lower
+within the downtown core and higher outside of the downtown core. Trends
 from both plots indicate that trips originating from within the center
-of Toronto are shorter and more similar in length than traips
-originating from closer to the border of Toronto.
-
-Nonetheless, the point of these visualizations is to demonstrate the
-spatial distribution of worker and job data in the city of Toronto to
-contextualize spatial availability and Shen- and Hansen- type measures.
+of Toronto are shorter and more similar in length than trips originating
+from closer to the Toronto boundaries.
 
 \hypertarget{calibration-of-an-impedance-function-for-toronto}{%
 \subsection{Calibration of an impedance function for
 Toronto}\label{calibration-of-an-impedance-function-for-toronto}}
 
-In the synthetic example introduced before, we used a negative
-exponential function with the parameter reported by {[}35{]}. For the
-empirical Toronto data set, we calibrate an impedance function on the
-trip length distribution (TLD) of commute trips. Briefly, a TLD
-represents the proportion of trips that are taken at a specific travel
-cost (e.g., travel time); this distribution is commonly used to derive
-impedance functions in accessibility research {[}69--71{]}.
+In the synthetic example introduced in Section 2, we use a negative
+exponential function with the parameter reported by Shen (1998)
+{[}35{]}. For the empirical Toronto data set, we calibrate an impedance
+function on the trip length distribution (TLD) of commute trips.
+Briefly, a TLD represents the proportion of trips that are taken at a
+specific travel cost (e.g., travel time); this distribution is commonly
+used to derive impedance functions in accessibility research
+{[}72--74{]}.
 
 As mentioned, the calculations are undertaken for the city of Toronto
-using only the employed population in the city and jobs taken by
-residents of Toronto. Specifically, edge trips are not included, such as
-trips originating in Toronto but finishing outside of Toronto and trips
-originating outside of Toronto but finishing in Toronto. The empirical
-and theoretical TLD for this Toronto data set are represented in the
-top-left panel of Figure \ref{fig:Fig6}. Maximum likelihood estimation
-and the Nelder-Mead method for direct optimization available within the
-\{fitdistrplus\} package {[}72{]} were used. Based on goodness-of-fit
-criteria and diagnostics, the normal distribution was selected (see
-Figure \ref{fig:Fig6}).
+using only the full-time employed population in the city and associated
+jobs in Toronto. Specifically, edge trips are not included, such as
+trips originating in Toronto but finishing outside of Toronto (i.e.,
+jobs not in Toronto) and trips originating outside of Toronto but
+finishing in Toronto (i.e., full-time employed people living outside of
+Toronto). The empirical and theoretical TLD for this Toronto data set
+are represented in the top-left panel of Figure \ref{fig:Fig6}. Maximum
+likelihood estimation and the Nelder-Mead method for direct optimization
+available within the \{fitdistrplus\} package {[}75{]} is used. Based on
+goodness-of-fit criteria and associated diagnostics, the normal
+distribution is selected (see Figure \ref{fig:Fig6}).
 
 \begin{figure}
 
@@ -1642,13 +1637,13 @@ Figure \ref{fig:Fig6}).
 
 }
 
-\caption{\label{fig:Fig6}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on the estimated car travel times for full-time employment and workers in Toronto from the TTS 2016.}\label{fig:TLD-norm-plot}
+\caption{\label{fig:Fig6}Car trip length distribution and calibrated normal distribution impedance function (red line) with associated Q-Q and P-P plots. Based on the estimated car travel times for full-time employment OD trips in Toronto from the TTS 2016.}\label{fig:TLD-norm-plot}
 \end{figure}
 
 For reference, the normal distribution is defined in Equation
-(\ref{norm-dist}), where we see that it depends on a mean parameter
-\(\mu\) and a standard deviation parameter \(\sigma\). The estimated
-values of these parameters are \(\mu=\) 14.169 and \(\sigma =\) 7.369.
+(\ref{norm-dist}). It depends on a mean parameter \(\mu\) (estimated to
+be 14.169) and a standard deviation parameter \(\sigma\) (estimated to
+be 7.369).
 
 \begin{equation}
 \label{norm-dist}
@@ -1657,9 +1652,10 @@ f(x) = \frac{1}{\sigma \sqrt{2\pi}}e^{-\frac{1}{2}(\frac{x-\mu}{\sigma})^2}\\
 \end{array}
 \end{equation}
 
-\[
-\frac{1}{\sigma \sqrt{2\pi}}e^{\frac{1}{2}(\frac{x-\mu}{\sigma})^2}
-\]
+Together, Figure \ref{fig:Fig4}, Figure \ref{fig:Fig5} and the
+calibrated impedance function demonstrate the spatial distribution of
+worker and job data in Toronto and the inputs for this study's
+calculation of spatial availability, Shen- and Hansen- type measures.
 
 \hypertarget{accessibility-and-spatial-availability-of-jobs-in-toronto}{%
 \subsection{Accessibility and spatial availability of jobs in
@@ -1670,26 +1666,28 @@ Toronto}\label{accessibility-and-spatial-availability-of-jobs-in-toronto}}
 values}\label{absolute-opportunity-values}}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{images/Fig7} \caption{\label{fig:Fig7}Estimated accessibility to jobs (\# of jobs) in Toronto according to Shen-type measure multipled by the effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values. Legend scale is square root transformed to effectively visualize the spread range.}\label{fig:absolute-accessibility-plot}
+\includegraphics[width=1\linewidth]{images/Fig7} \caption{\label{fig:Fig7}Estimated accessibility to jobs (\# of jobs) in Toronto according to Shen-type measure multipled by the effective opportunity-seeking population (top), Hansen-type measure (middle), and spatial availability (bottom). Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values. Legend scale is square root transformed to effectively visualize the range of values.}\label{fig:absolute-accessibility-plot}
 \end{figure}
 
 Figure \ref{fig:Fig7} contains the number of jobs accessible using
 Shen-type accessibility, Hansen-type accessibility, and the number of
 jobs \emph{available} using the spatial availability measure. The values
-from all these measures are represented on the same axis as they measure
-the absolute value of \emph{jobs} accessible to the workers in the
-origin. In the top plot, the Shen-type accessibility is multiplied by
-the \emph{effective opportunity-seeking population} to yield a value
-that corresponds to absolute number of accessible jobs (considering
+from all measures are represented on the same axis as they measure the
+absolute value of jobs accessible to the workers at the origin. In the
+top plot, the Shen-type accessibility is multiplied by the
+\emph{effective opportunity-seeking population} to yield a value that
+corresponds to absolute number of accessible jobs (considering
 competition) according to Shen's definition. In the middle plot, the
-Hansen-type accessibility is an unconstrained case of accessibility in
-which all jobs which are in-reach of each origin (according to the
-impedance function); each value corresponds to the number of jobs which
-can be reach at each origin assuming no competition. Lastly, in the
-bottom plot, the proposed spatial availability measure is a constrained
-case of accessibility which yields the number of jobs, at each origin,
-considering competition from the population in nearby origin and the
-relative travel cost (according to the impedance function).
+Hansen-type accessibility is an unconstrained case of accessibility
+where all jobs that are in-reach of each origin (according to the
+impedance function). In other words, in this plot, each value
+corresponds to the number of jobs that can be reach at each origin
+assuming no competition. Lastly, in the bottom plot, the proposed
+spatial availability measure is shown. Spatial availability is a
+constrained case of accessibility that proportionally allocates the
+number of jobs, at each origin, considering competition from the
+population in nearby origin and the relative travel cost (according to
+the impedance function).
 
 What is notable about the bottom plot is that the proportional
 allocation mechanism of spatial availability ensures that the job
@@ -1700,56 +1698,58 @@ can therefore be interpreted as the number of \emph{available} jobs to
 each origin based on the relative travel behaviour and density of
 competition for jobs (i.e., worker population). A proportion of each of
 the 771,496 jobs in Toronto are only allocated once to each origin. In
-terms fo the middle plot, the city-wide total for Hansen-type
-accessibility is 4,370,250 jobs, which as a value is meaningless since
-the measure is unconstrained; it represents the sum of opportunities
-that have been counted anywhere from 1 to many times depending on the
-impedance function. As previously discussed, unconstrained counting of
-the same opportunity by all origins is not an issue if the opportunity
-itself is non-exclusive, but since one job can only be given to one
-worker (especially since the worker and job data is derived from origin
-destination (OD) flows), it is inappropriate to use unconstrained
-measures to capture employment characteristics. Comparing the middle and
-bottom plots, it is evident that the unconstrained counting of
-opportunities (Hansen-type) results in absolute values that are higher
-throughout the city, particularly in TAZ that are in proximity to high
-job density (recall Figure \ref{fig:Fig4}). These same trends are not
-present in the spatial availability bottom plot, as the absolute value
-is lower than Hansen-type accessibility as the proximity to high job
-density and competition from worker density is proportionally metered;
-the resulting values are thus lower than the middle plot and reflect the
-spatial distribution trends of both the workers and job density (recall
-Figure \ref{fig:Fig4}).
+terms of the middle plot, the city-wide total sum of Hansen-type
+accessibility is 4,370,250 jobs. This value is relatively meaningless
+since the measure is unconstrained and represents the sum of
+opportunities that have been counted anywhere from 1 to many times
+depending on the impedance function. As previously discussed,
+unconstrained counting of the same opportunity by all origins is not an
+issue if the opportunity itself is non-exclusive, but since one job can
+only be given to one worker (especially since the worker and job data is
+derived from origin destination (OD) flows), it is inappropriate to use
+unconstrained measures to capture employment characteristics. Comparing
+the middle and bottom plots, it is evident that the unconstrained
+counting of opportunities (Hansen-type) results in absolute values that
+are higher throughout the city, particularly in TAZ that are in
+proximity to high job density (recall Figure \ref{fig:Fig4}). These same
+trends are not present in the spatial availability bottom plot as the
+absolute value is lower than Hansen-type accessibility middle plot since
+the proximity to high job density and competition from worker density is
+proportionally metered.
 
-Lastly, the top plot that visualizes the \emph{absolute} Shen-type
-measure (as understood by Shen's definition of \(P_i\) being equal to
-\(P_{ij}^*\) sums to the city-wide value of 2,125,281 by multiplying
-\(a_i\) by the \emph{effective opportunity-seeking population}
-\(P_{ij}^*\) (i.e., the denominator of the rate ). This plot thus
+Lastly, the top plot visualizes the \emph{absolute} Shen-type measure
+(as understood by Shen's definition of \(P_i\) being equal to
+\(P_{ij}^*\)) and sums to the city-wide value of 2,125,281 jobs by
+multiplying \(a_i\) by the \emph{effective opportunity-seeking
+population} \(P_{ij}^*\) (i.e., the denominator of the rate). This plot
 demonstrates how confounding \(P_i\) with \(P_{ij}^*\) yields an
-\emph{incorrect} number of competitively accessible jobs: it is
+\emph{incorrect} number of competitively accessible jobs: this is
 evidently incorrect because the sum of \(a_iP_{ij}^*\) greatly exceeds
 the city-wide total of workers (i.e., 2,125,281 \textgreater{} 771,496).
 To the authors' knowledge, literature has not attempted to convert
 Shen-type accessibility to the absolute value of accessible jobs in the
 way demonstrated in the top plot: we suspect this is the case because of
-the ambiguous definition that conflates \(P_{ij}^*\) with \(P_i\). If
-\(a_i\) is multiplied by \(P_i\), it yields the same value as \(V_i\),
-but since the definition of Shen-type measure is equivocal doing so is
-not clear since the denominator of \(a_i\) (which is a rate) is
-\emph{not} \(P_i\). The resulting plot, spatially, is similar to spatial
-availability (bottom plot) but certain TAZ have exceptionally high
-values in an inconsistent way. This is because \(a_i\) uses the
-impedance function values for both access to jobs (numerator) and the
-competition from neighboring workers (denominator \(P_{ij}^*\)) to
-adjust their impact: using \(P_{ij}^*\) does not \emph{consistently}
-isolate the absolute value of accessible jobs. However, if \(a_i\) is
-multiplied by \(P_i\) it yields the same values at \(V_i\) (bottom plot)
-(the proof for mathematically equivalency is in Appendix A). As also
-mentioned earlier, the formulation of the denominator and numerator of
-\(a_i\) is ambigious so to presume that multiplying it by \(P_i\) would
-disintangle the rate and yield the absolute value of accessible
-\emph{and available} (i.e., considering competition) jobs is unclear.
+the ambiguous definition in the Shen-type measure that conflates
+\(P_{ij}^*\) with \(P_i\). If \(a_i\) is multiplied by \(P_i\), it
+yields the same value as \(V_i\), but since the definition of Shen-type
+measure is equivocal, doing so is not clear since the denominator of
+\(a_i\) (note: which is a rate) is \emph{not} \(P_i\). The resulting
+plot, spatially, is similar to spatial availability (bottom plot) but
+certain TAZ have exceptionally high values in an inconsistent way. This
+is because \(a_i\) uses the impedance function values for both access to
+jobs (numerator) and the competition from neighboring workers
+(denominator \(P_{ij}^*\)) to adjust their impact: using \(P_{ij}^*\)
+does not consistently isolate the absolute value of accessible jobs.
+However, readers should note that if \(a_i\) is multiplied by \(P_i\) it
+yields the same values at \(V_i\) (bottom plot) (the proof for
+mathematically equivalency is in Appendix A). As also mentioned earlier,
+the formulation of the denominator and numerator of \(a_i\) is
+ambiguous. To presume that multiplying it by \(P_i\) would disentangle
+the rate and yield the absolute value of accessible and available (i.e.,
+considering competition) jobs is not clear within Shen-type measure's
+definition. However, through the calculation of spatial availability
+\(V_i\), the absolute value of accessible and available opportunities at
+a zone \(i\) is clear.
 
 \hypertarget{internal-values}{%
 \subsubsection{Internal values}\label{internal-values}}
@@ -1760,36 +1760,34 @@ disintangle the rate and yield the absolute value of accessible
 
 Carrying on the discussion on how to retrieve the absolute value of
 \emph{available} jobs using the Shen-type measure (\(a_i\)), Figure
-\ref{fig:Fig8} highlights how the differences between \(P_i\) and
+\ref{fig:Fig8} highlights how differences between \(P_i\) and
 \(P_{ij}^*\) are not uniform across space; the values at each origin are
 equivalent to \(\sum_j f(c_{ij})\). Recall, \(P_i\) is the number of
 workers at each TAZ (city-wide sum of 771,496) while \(P_{ij}^*\) is the
 number of workers who \emph{seek} jobs (city-wide sum of 1,776,458) in
 that TAZ based on their travel behaviour. \(P_{ij}^*\) is an internal
 value of \(a_i\) and the top plot presents the ratio of \(P_{ij}^*\) to
-\(P_i\) which reflects how the effective opportunity-seeking population
-is sometimes inflated (i.e., impedance values is greater than 1) and
-others deflated (i.e., impedance value is less than 1) by the Shen-type
-measure (\(a_i\)). As such, using \(P_{ij}^*\) to untangle the absolute
-job availability from \(a_i\) instead of \(P_{ij}^*\) can lead to
-exaggerating the total travel time in the city since it does not
-represent the \emph{actual} number of workers but the \emph{effective}
-number of workers. For instance, when trying to calculate the city-wide
-travel time using \(a_i P_{ij}^*\), Shen-type accessibility yields
-501,114.9 {[}h{]} instead of the city-wide travel time of 183,802.4
-{[}h{]} that corresponds to the \emph{absolute} (i.e., the total number
-of jobs in the city is preserved) number of available jobs from \(V_i\).
-The absolute number of opportunities cannot be easily disentangled from
-\(a_i\).
+\(P_i\). It reflects how the effective opportunity-seeking population is
+sometimes inflated (i.e., impedance values is greater than 1) and others
+deflated (i.e., impedance value is less than 1) by the Shen-type measure
+(\(a_i\)). As such, using \(P_{ij}^*\) to untangle the absolute job
+availability from \(a_i\) instead of \(P_i\) can lead to exaggerating
+the total travel time in the city since it does not represent the
+\emph{actual} number of workers but the \emph{effective} number of
+workers. For instance, when trying to calculate the city-wide travel
+time using \(a_i P_{ij}^*\), Shen-type accessibility yields 501,114.9
+{[}h{]} instead of an interpretable city-wide travel time of 183,802.4
+{[}h{]} that results if spatial availability \(V_i\) is used. Again,
+following the Shen-type accessibility definition, the absolute number of
+opportunities cannot be easily disentangled from \(a_i\).
 
-By contrast, not only are the absolute values a direct result of
+Not only are the number of available opportunities a direct result of
 \(V_i\), the internal combined balancing factor \(F_{ij}^t\) (Equation
 (\ref{eq:balancing-factors})) can be used for analysis. The bottom plot
-shows the average \(F_{ij}^t\) for each TAZ which is the proportional
-allocation mechanism of opportunities to origins in the \(V_i\)
-calculation. Practically, the visualized values corresponds to the
-average \emph{proportion} of opportunities available that are claimed by
-the zone based on travel behaviour and population competition for
+in Figure \ref{fig:Fig8} demonstrates the average \(F_{ij}^t\) for each
+TAZ. Practically, the visualized values corresponds to the average
+\emph{proportion} of opportunities available that are claimed by the
+zone based on travel behaviour and population competition for
 opportunities. These values can allow the analyst to understand the
 magnitude of the \emph{proportion of opportunities} that the origin TAZ
 is assigned based on the opportunities located at reachable destination
@@ -1797,60 +1795,58 @@ TAZ. For instance, the TAZ with the maximum value of 0.090 has many
 origin to destination trips (112 trips, upper 3rd quantile), many
 workers (5,538 workers, upper 3rd quantile), and is located centrally
 within Toronto. Averaging \(F_{ij}^t\) demonstrates that this TAZ claims
-on average a high proportion of jobs from reachable TAZs. This does not
+on average a high proportion of jobs from reachable TAZ. This does not
 necessarily mean TAZ with a high \(V_i\) have an exceptionally high
-average \(F_{ij}^t\); for instance, many TAZ around the downtown core
-have high \(V_i\) values but do not have exceptionally high average
-\(F_{ij}^t\). The average \(F_{ij}^t\) can thus be used to identify
-relatively ``greedy'' areas that could possibly withstand reductions in
-availability, if that meant increasing spatial availability in areas
-with a deficit of jobs available. The balancing factor is an interesting
-feature of spatial availability which opens up avenues for future
-analysis; alas, there does not seem to be an equivalent for the
-Shen-type measure.
+average \(F_{ij}^t\); many TAZ around the downtown core have high
+\(V_i\) values but do not have exceptionally high average \(F_{ij}^t\).
+The average \(F_{ij}^t\) can therefore be used to identify relatively
+``greedy'' areas that could possibly withstand reductions in
+availability if spatial availability in areas with a deficit of jobs
+available is increased (through policy intervention). The balancing
+factor is an interesting feature of spatial availability that opens
+avenues for future analysis; alas, there does not seem to be an
+equivalent within the current formulation of the Shen-type measure.
 
 \hypertarget{benchmarking-opportunity-availability}{%
 \subsubsection{Benchmarking opportunity
 availability}\label{benchmarking-opportunity-availability}}
 
 \begin{figure}
-\includegraphics[width=1\linewidth]{images/Fig9} \caption{\label{fig:Fig9}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. The city benchmark corresponds to total number of jobs in Toronto divided by the number of workers in Toronto, since this is equal the value is 1. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values.}\label{fig:rate-accessibility-plot}
+\includegraphics[width=1\linewidth]{images/Fig9} \caption{\label{fig:Fig9}Hansen-type accessible jobs per capita (top), number of jobs to population ratio (middle), and spatially available jobs per capita (bottom) for Toronto. An arbitrary jobs-to-workers ratio is assumed to be 1 in the paper, this is the hypothetical opportunity availability benchmark. Black lines represent expressways and black dashed lines represent subway lines. All white TAZ have no worker population or jobs, i.e., with null accessibility values.}\label{fig:rate-accessibility-plot}
 \end{figure}
 
 Figure \ref{fig:Fig9} presents the number of jobs per capita for
 Hansen-type accessibility (top plot), the raw number of jobs per capita
 (middle plot), and the spatially available jobs per capita (bottom
-plot). In addition to clarifying the meaning of internal values, spatial
-availability can also be divided by population at each origin and
-expressed as a rate: this rate can be used as a benchmark for equity
-analysis and compared directly to the raw number of jobs per capita.
+plot). For the purpose of discussion, a hypothetical benchmark of 1 job
+per capita is assumed for the city.
 
-The bottom plot features a value which is mathematically equivalent to
-Shen-type measure, but with stronger interpretability thanks to the
+The bottom plot displays the spatially available jobs per capita
+\(v_i\). This value is mathematically equivalent to the Shen-type
+measure \(a_i\), but with higher interpretability as a result of the
 proportional allocation mechanism. This mechanism makes clear that all
-the opportunities are allocated proportionally to origins, which
-improves interpretability since the \(V_i\) values are the absolute
-value of \emph{opportunity availability}. The value can thus can be
+the opportunities are allocated proportionally to origins and \(V_i\)
+values represent the number of available opportunities. \(V_i\) can be
 directly divided by the population at the origin and expressed as
-opportunities per capita. When spatial availability is compared to
-Hansen-type measure (top plot), dividing the output by population
-directly yields a more difficult to interpret number of
-\emph{unconstrained} accessible jobs per capita. For instance, the
-median light-pink shaded TAZ corresponds to approximately 5.89
+opportunities per capita \(v_i\). When spatial availability per capita
+(bottom plot) is compared to Hansen-type measure (top plot), dividing
+the output by population directly yields a more difficult to interpret
+number of \emph{unconstrained} accessible jobs per capita. For instance,
+the median light-pink shaded TAZ corresponds to approximately 5.90
 unconstrained accessible jobs per capita; this value is difficult to
-intercept, because as discussed in the introduction, jobs are
-\emph{exclusive} opportunity types so their accessibility value should
-take into consideration competition.
+interpret because, as discussed in the Introduction Section, jobs are an
+exclusive opportunity types so their accessibility value should take
+into consideration competition.
 
-The bottom plot also displays the spatially available jobs per capita.
-It can be interpreted as a benchmark its values can be compared directly
-to the raw number of jobs per capita (middle plot) since the total
-number of opportunities are preserved (and the population, in this case,
-is equivalent to the number of opportunities). For instance, a TAZ with
-a \(v_i > 1\) have more \emph{available jobs} (based on travel behaviour
-and competition) than their working population. This TA has sufficient
+The spatially available jobs per capita \(v_i\) (bottom plot) can also
+be used for benchmarking. The values can be compared directly to the raw
+number of jobs per capita (middle plot) since the total number of
+opportunities are preserved (and the population, in this case, is
+equivalent to the number of opportunities). For instance, a TAZ with a
+\(v_i > 1\) has more available jobs (based on travel behaviour and
+competition) than their working population. This TAZ has sufficient
 employment opportunities (under the assumptions of the input data),
-while TAZ with a \(v_i < 1\) do not have sufficient employment
+while a TAZ with a \(v_i < 1\) does not have sufficient employment
 opportunities. From an equity perspective, \(v_i\) can be used to target
 where residential housing, job opportunities, and/or transportation
 system improvements should be created.
@@ -1858,93 +1854,104 @@ system improvements should be created.
 For TAZ with \(v_i\) values significantly greater than 1 (dark pinks),
 constructing more residential housing for the type of workers who occupy
 the \emph{available jobs} in the proximate TAZ should be considered.
-Assuming the input data is correct, increasing the competition in the
-area will decrease the \(v_i\) score, but it can be decreased up to
-threshold of \(v_i = 1\). For TAZ with \(v_i\) values significantly less
-than 1 (light pinks), constructing more employment opportunities for the
-type of workers who live in proximate TAZ and/or prioritizing
+Assuming accurate and realistic input data, increasing the competition
+in the area will decrease the \(v_i\) score, but it can be decreased up
+to threshold of \(v_i = 1\). For TAZ with \(v_i\) values significantly
+less than 1 (light pinks), constructing more employment opportunities
+for the type of workers who live in proximate TAZ and/or prioritizing
 transportation network improvements to create more favourable travel
-time conditions.
+time conditions can be considered.
 
 Depending on the raw jobs per worker ratio, different approaches are
 appropriate. For instance, adding more residential locations near the
 downtown core (bottom center on the bottom plot) could be a good
 approach to increasing \(v_i\) as there is already a high jobs per
 worker ratio (middle plot). However, doing so will decrease the \(v_i\)
-availability in areas near the border of the city, so in addition to
-doing so, adding more employment opportunities to areas with low raw
-jobs per worker ratio and low \(v_i\) is needed. In addition to these
-changes, the travel time landscape would also influence the resulting
-\(v_i\) score, so transportation network improves to areas with low
-\(v_i\) could also be considered. This is to say, \(v_i\) is dependent
-on the magnitude and spatial distribution of residential housing, job
-opportunities, and transportation system so the region could be
-optimized to achieve thresholds of specific \(v_i\) values and thus the
-difference in residential housing, job opportunities, and transportation
-system can become policy targets. It should also be kept in mind, that
+availability in areas near the border of the city, so in addition,
+adding more employment opportunities to areas with low raw jobs per
+worker ratio and low \(v_i\) is needed. Furthermore, the travel time
+landscape would also influence the resulting \(v_i\) score, so
+transportation network improvements to areas with low \(v_i\) could also
+be considered. This is to say, \(v_i\) is dependent on the magnitude and
+spatial distribution of residential housing, job opportunities, and
+transportation system. The region could be optimized to achieve
+thresholds of specific \(v_i\) values and thus the difference in
+residential housing, job opportunities, and transportation system can
+become policy intervention targets. It should also be kept in mind, that
 though \(v_i = 1\) and the comparison to the raw jobs per worker values
-can be used for policy planning, \(v_i\) can easily be transformed back
-to \(V_i\) to understand the magnitude of the job availability within
-that origin.
+can be used for intervention planning, \(v_i\) can easily be transformed
+back to \(V_i\) to understand the magnitude of the job availability
+within that origin.
 
 \newpage
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
 
-In this paper we show how a widely used measure of accessibility with
-competition (Shen-type accessibility) obscures some important internal
-values of opportunities taken. This is caused by confounding the
-population of zones with the \emph{effective opportunity-seeking
-population}. We then propose an alternative derivation of accessibility
-with competition that we call spatial availability. This measure ensures
-that opportunities are allocated in a proportional way and are preserved
-in the regional total. We also show that spatial availability and
-Shen-type accessibility are equifinal: formally the equations are the
-same (along with 2SFCA) and can be considered as singly-constrained
-measures.
+In this paper we show how Shen-type accessibility, a widely used measure
+of accessibility with competition, obscures some important internal
+values associated with `demanded' opportunities. The Shen-type measure's
+formulation confounds the population of origin-zones with the
+\emph{effective opportunity-seeking population}. We propose an
+alternative derivation of accessibility with competition that we call
+\emph{spatial availability} \(V_i\). This measure ensures that
+opportunities are allocated in a proportional way and are preserved in
+the regional total. We demonstrate that spatial availability and
+Shen-type accessibility (along with 2SFCA) are equifinal: formally the
+equations can be made equivalent and can be considered as
+singly-constrained (and competitive) accessibility measures, however,
+spatial availability has the additional feature of proportional
+allocation. We argue the feature of proportional allocation improves
+interpretability of the final values and, as follows, the per capita
+opportunity spatial availability values (\(v_i\)).
 
-Spatial availability matters because competition is an important
-consideration for certain opportunity types and conventional Hansen-type
-accessibility does not capture it {[}34{]}. Through its intermediate
-values, Spatial availability also brings forward a different
-interpretation to competition than the Shen-type measure. In equity
-analysis and policy planning, an analyst might be interested in the
-internal values of their accessibility analysis, for example travel
-times, and who pays how much for accessibility. The increased
-interpretability and internal consistency of spatial availability can
-help to push accessibility analysis forward. Hansen-type measure tends
-to result in values which are very extreme as a result of
-multiple-counting opportunities as shown in the empirical example.
+Why does spatial availability matter? Because competition in
+accessibility matters, so precise interpretation of the output is
+critical. Competition is an important consideration for certain
+opportunity types, and conventional Hansen-type accessibility does not
+capture it {[}34{]}. Through its intermediate values, spatial
+availability brings forward a different interpretation to competition
+than the Shen-type measure. As demonstrated in this paper, spatial
+availability increases interpretability by first presenting the absolute
+value of \emph{available} jobs (\(V_i\)) and then by dividing the
+available jobs value by the number of working population (\(v_i\)). This
+rate \(v_i\) is equivalent to Shen-type measure but contains internal
+values, such as the proportional allocation mechanism, that yield more
+realistic estimates of opportunities taken. Spatial availability's
+proportional allocation is a result of its balancing factors; these
+balancing factors can also be used to better understand the absolute and
+rate values obtained.
+
+Spatial availability measure can be applied in many contexts,
+particularly in equity analysis and policy planning, fields where
+analysis of comparative and relative differences are pertinent. As shown
+in the empirical example, Hansen-type measure tends to result in values
+that are very extreme as a result of multiple-counting of opportunities.
 Multiple-counting may not be an issue if the opportunity-type is
-non-exclusive: but in the case of employment, where one worker can only
-take one job, the resulting values are difficult to interpret (though it
-can be interpreted relatively to comment on urban form). In this paper,
-we also demonstrated how attempting to disentangle the absolute values
-of opportunities from the Shen-type measure is difficult as a result of
-Shen's definition, which confounds the population with the
-effective-opportunity seeking population.
-
-As demonstrated in this paper, spatial availability increases
-interpretability by first presenting the absolute value of
-\emph{available} jobs and then by dividing the available jobs value by
-the number of working population. This rate is equivalent to Shen-type
-measure but contains internal values, such as the proportional
-allocation mechanism, that yield more realistic estimates of
-opportunities taken. Spatial availability's formulation also includes a
-set of balancing factors that can be used to better understand the
-absolute and rate values obtained.
+non-exclusive: but in the case of employment for example, where one
+worker can only take one job, the resulting values are difficult to
+interpret. In this respect, the increased interpretability and internal
+consistency of spatial availability can help to push accessibility
+analysis forward in ways Shen-type accessibility's formulation cannot.
+For instance, an analyst may use spatial availability if they are
+interested in analysing the internal values of their accessibility
+analysis (e.g., which zones are the most and least competitive in terms
+of travel cost and demanding-population as informed by the balancing
+factors). Additionally analysts may use spatial availability to
+understand or benchmark the magnitude of spatially available
+opportunities of zones under current transportation system conditions or
+within possible policy scenarios.
 
 Based on the research presented, we suggest the following guidelines for
-the application of spatial availability and the topic of future work:
+the application of spatial availability and topics of future work:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \item
   The Hansen-type accessibility should be used when opportunities are
-  non-exclusive. When opportunities are perfectly exclusive (i.e., 1
-  spot for 1 person), spatial availability (i.e., accessibility with
-  competition) should be used.
+  non-exclusive. When opportunities are exclusive (i.e., one opportunity
+  spot for one person), the competitive accessibility measure of spatial
+  availability should be strongly considered.
 \item
   Shen-type accessibility can be used to compute the availability of
   jobs (the rate and the absolute values if the original definition is
@@ -1953,141 +1960,42 @@ the application of spatial availability and the topic of future work:
   considered.
 \item
   With the renewed interpretability of what the absolute
-  \emph{opportunity availability} is at each origin, the spatial
+  \emph{opportunity availability} is at each origin-zone, the spatial
   availability per capita \(v_i\) value of 1 can be used as a policy
-  goal. For areas with a value below 1, targeted increases to the
-  quantity of opportunities, residential housing, and transportation
-  system improvements can be considered such that the number of
-  \emph{available jobs} per capita in the zone is at least equal to 1.
-  Since spatial availability per capita implicitly preserves the number
-  of opportunities in the region, it can be directly compared to the
-  region's raw jobs to population ratio to inform policy. Additionally,
-  the absolute values of spatial availability can be used to understand
-  the magnitude of the opportunity availability deficit (or surplus).
+  goal: 1 opportunity per person. For areas with a value below 1,
+  targeted increases to the quantity of opportunities, residential
+  housing, and transportation system improvements can be considered such
+  that the number of \emph{available jobs} per capita in the zone is at
+  least equal to 1. Since spatial availability per capita implicitly
+  preserves the number of opportunities in the region, it can be
+  directly compared to the region's raw jobs to population ratio to
+  inform policy. Additionally, the absolute values of spatial
+  availability can be used to understand the magnitude of the
+  opportunity availability deficit/surplus.
 \item
   Spatial availability per capita can also be compared directly to other
-  regions as done by literature using Shen-type measure/2SFCA {[}9,e.g.,
-  73,74{]}. However, as a result of the renewed interpretation, the
+  regions as done by literature using Shen-type measure/2SFCA
+  {[}9,76,77{]}. However, as a result of the renewed interpretation, the
   magnitude of \emph{spatially available} opportunities can be
   quantified.
 \item
   Lastly, since opportunities are preserved, many new avenues of
   analysis can be pursued. This is especially important in light of
-  emerging concerns with equity. For instance, the population and
-  opportunities can be segmented (i.e., transit users, active
-  transportation users, low income, low education, new comers, children)
-  and their spatial availability to opportunities can be assessed,
-  benchmarked, and corresponding policy to target inequities can be
-  theorized. As another example, the combined balancing factor can be
-  analysed to identify which populations currently do not seek
-  opportunities because of friction of distance.
+  emerging concerns regarding accessibility inequities. For instance,
+  the population and opportunities can be segmented (i.e., transit
+  users, active transportation users, low income, low education, new
+  comers, children) and their spatial availability to opportunities can
+  be assessed, benchmarked, and corresponding policy to target
+  inequities can be theorized. As another example, the combined
+  balancing factor can be analysed to identify which populations
+  currently do not seek opportunities because of friction of distance.
 \end{enumerate}
 
-\begin{landscape}
-
-\section{Appendix A}
-
-In this appendix, we solve spatial per population ($v_i$) for population center $A$ (Shen's synthetic example as discussed in Section 2.3) to demonstrate the mathematical equivalence of Shen-type accessibility measure ($a_i$) and spatial availability per person ($v_i$). The demonstration is shown in the following four steps.
-
-\textbf{First step}: the population-based balancing factor $F^p_{i}$ used in $V_i$ is defined as:
-$$
-F^p_{i} = \frac{P_{i}^\alpha}{\sum_{i}^N P_{i}^\alpha}
-$$
-
-For population center $A$, $F^p_{i}$ is equal to:
-$$
-F^p_{A} = \frac{P_{A}^\alpha}{P_{A}^\alpha + P_{B}^\alpha + P_{C}^\alpha}
-$$
-
-\textbf{Second step}: the impedance-based balancing factor $F^c_{ij}$ in $V_i$ is defined as:
-$$
-F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=A}^N f(c_{ij})}
-$$
-
-In this synthetic example, combinations of workers from population center $A$ are permitted to go to all employment centers ($1$, $2$, $3$), so their relative impedance value is experienced in all of the nine OD trip combinations. Therefore, all nine $F^c_{ij}$ are computed as follows, since they all consider the impact of population center $A$ trip combinations (i.e., either $A1$, $A2$, $A3$).
-$$
-F^c_{A1} = \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
-$$
-
-$$
-F^c_{B1} = \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
-$$
-
-$$
-F^c_{C1} = \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}
-$$
-
-$$
-F^c_{A2} = \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
-$$
-
-$$
-F^c_{B2} = \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
-$$
-
-$$
-F^c_{C2} = \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}
-$$
-
-$$
-F^c_{A3} = \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
-$$
-
-$$
-F^c_{B3} = \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
-$$
-
-$$
-F^c_{C3} = \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}
-$$
-
-\textbf{Third step}: when the balancing factors ($F^p_{i}$ and $F^c_{ij}$) concerning population center $A$ are assembled and divided by $P_i$, the denominators of the denominators cancel out. The following equation is the assigned general form, with the strike-through indicating which values cancel out:
-$$
-v_{i} = \sum_{j}\frac{O_j}{P_{i }^\alpha}\frac{\frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}{\sum_{i}^N \frac{P_{i}^\alpha}{\cancel{\sum_{i}^N P_{i}^\alpha}} \cdot \frac{f(c_{ij})}{\cancel{\sum_{i}^N f(c_{ij})}}}\
-$$
-
-To demonstrate that the strike-through terms cancel out, the following following terms for $v_A$ are subbed into the general form:
-$$
-v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}+ \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}) +
-$$
-
-$$
-\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}} )+
-$$
-
-$$
-\frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})} + \frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{B3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}+\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{C3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}} )
-$$
-
-$v_A$ simplifies to the following:
-$$
-v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A1})}{f(c_{A1})+f(c_{B1})+f(c_{C1})}}{\frac{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A1})+f(c_{B1})+f(c_{C1}))}}) +
-\frac{O_2}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A2})}{f(c_{A2})+f(c_{B2})+f(c_{C2})}}{\frac{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A2})+f(c_{B2})+f(c_{C2}))}}) + \frac{O_3}{P_{A}^\alpha}(\frac{\frac{P_{A}^\alpha}{P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha} \cdot \frac{f(c_{A3})}{f(c_{A3})+f(c_{B3})+f(c_{C3})}}{\frac{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})}{(P_{A}^\alpha+P_{B}^\alpha+P_{C}^\alpha) \cdot (f(c_{A3})+f(c_{B3})+f(c_{C3}))}} )
-$$
-
-
-Notice,the denominator of the denominator is the same as the denominator of the numerator for each $j$ (j=1, j=2, and j=3). Now, we remove those strike-through terms (as indicated at the beginning of this step) and re-write $v_a$ as follows:
-$$
-v_{A} = \frac{O_1}{P_{A}^\alpha}(\frac{P_{A}^\alpha \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{P_{A}^\alpha}\frac{P_{A}^\alpha \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
-$$
-
-\textbf{Fourth step}: We can now cancel out one more term, $P_{A}^\alpha$ as follows:
-$$
-v_{A} = \frac{O_1}{\cancel{P_{A}^\alpha}}(\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{A}^\alpha \cdot f(c_{B1}) + P_{A}^\alpha \cdot f(c_{C1})} + \frac{O_2}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{A}^\alpha \cdot f(c_{B2}) + P_{A}^\alpha \cdot f(c_{C2})} + \frac{O_3}{\cancel{P_{A}^\alpha}}\frac{\cancel{P_{A}^\alpha} \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{A}^\alpha \cdot f(c_{B3}) + P_{A}^\alpha \cdot f(c_{C3})} )
-$$
-
-Which can be expressed as: 
-$$
-v_{A} = (\frac{O_1 \cdot f(c_{A1})}{P_{A}^\alpha \cdot f(c_{A1}) + P_{B}^\alpha \cdot f(c_{B1}) + P_{C}^\alpha \cdot f(c_{C1})} + \frac{O_2  \cdot f(c_{A2})}{P_{A}^\alpha \cdot f(c_{A2}) + P_{B}^\alpha \cdot f(c_{B2}) + P_{C}^\alpha \cdot f(c_{C2})} + \frac{O_3 \cdot f(c_{A3})}{P_{A}^\alpha \cdot f(c_{A3}) + P_{B}^\alpha \cdot f(c_{B3}) + P_{C}^\alpha \cdot f(c_{C3})} )
-$$
-And generalized to be formally identical to the Shen-type accessibility measure with competition as follows:
-$$
-v_{i} = {a_i} = \sum_j{\frac{O_j \cdot f(c_{ij})}{\sum_i P_{i} \cdot f(c_{ij})}}
-$$
-
-\end{landscape}
-
-\textbackslash end\{landscape\}
+Lastly, please view the \textbf{Appendix A File.} for the mathematical
+equivalence of spatial availability per capita (\(v_i\)) and Shen-type
+accessibility (\(a_i\)). This document provides a step-by-step solution
+of \(v_i\) for population center \(A\) (from Shen's synthetic example
+{[}35{]} as discussed in Section 2.3).
 
 \section{References}
 
@@ -2444,15 +2352,30 @@ products-a framework for creating valuable analysis ready data. Journal
 of Geographical Systems. 2021;23: 497--514.
 doi:\href{https://doi.org/10.1007/s10109-021-00363-5}{10.1007/s10109-021-00363-5}}
 
-\leavevmode\vadjust pre{\hypertarget{ref-paez2012measuring}{}}%
+\leavevmode\vadjust pre{\hypertarget{ref-TTS2016r}{}}%
 \CSLLeftMargin{50. }%
+\CSLRightInline{Soukhov A, Paez A. TTS2016R: An augmented 2016
+transportation tomorrow survey (TTS) data package: Worker and place of
+employment counts, trips and estimated travel time to work in the
+greater golden horsehoe area, canada. 2022. Available:
+\url{https://soukhova.github.io/TTS2016R/}}
+
+\leavevmode\vadjust pre{\hypertarget{ref-soukhovGitHubRepositoryIntroducing2022}{}}%
+\CSLLeftMargin{51. }%
+\CSLRightInline{Soukhov A, Paez A, Higgins CD. {GitHub Repository}:
+{Introducing} spatial availability, a singly-constrained measure of
+competitive accessibility. 2022. Available:
+\url{https://github.com/soukhova/Spatial-Availability-Measure}}
+
+\leavevmode\vadjust pre{\hypertarget{ref-paez2012measuring}{}}%
+\CSLLeftMargin{52. }%
 \CSLRightInline{Paez A, Scott DM, Morency C. Measuring accessibility:
 Positive and normative implementations of various accessibility
 indicators. Journal of Transport Geography. 2012;25: 141--153.
 doi:\href{https://doi.org/10.1016/j.jtrangeo.2012.03.016}{10.1016/j.jtrangeo.2012.03.016}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-rosik_forecast_2021}{}}%
-\CSLLeftMargin{51. }%
+\CSLLeftMargin{53. }%
 \CSLRightInline{Rosik P, Goliszek S, Komornicki T, Duma P. Forecast of
 the {Impact} of {Electric} {Car} {Battery} {Performance} and
 {Infrastructural} and {Demographic} {Changes} on {Cumulative}
@@ -2461,7 +2384,7 @@ Energies. 2021;14: 8350.
 doi:\href{https://doi.org/10.3390/en14248350}{10.3390/en14248350}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-qi_decadelong_2018}{}}%
-\CSLLeftMargin{52. }%
+\CSLLeftMargin{54. }%
 \CSLRightInline{Qi Y, Fan Y, Sun T, Hu L(Ivy). Decade-long changes in
 spatial mismatch in {Beijing}, {China}: {Are} disadvantaged populations
 better or worse off? Environment and Planning A: Economy and Space.
@@ -2469,14 +2392,14 @@ better or worse off? Environment and Planning A: Economy and Space.
 doi:\href{https://doi.org/10.1177/0308518X18755747}{10.1177/0308518X18755747}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-kwan_spacetime_1998}{}}%
-\CSLLeftMargin{53. }%
+\CSLLeftMargin{55. }%
 \CSLRightInline{Kwan M-P. Space-{Time} and {Integral} {Measures} of
 {Individual} {Accessibility}: {A} {Comparative} {Analysis} {Using} a
 {Point}-based {Framework}. Geographical Analysis. 1998;30: 191--216.
 doi:\href{https://doi.org/10.1111/j.1538-4632.1998.tb00396.x}{10.1111/j.1538-4632.1998.tb00396.x}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-vale_influence_2017}{}}%
-\CSLLeftMargin{54. }%
+\CSLLeftMargin{56. }%
 \CSLRightInline{Vale DS, Pereira M. The influence of the impedance
 function on gravity-based pedestrian accessibility measures: {A}
 comparative analysis. Environment and Planning B: Urban Analytics and
@@ -2484,7 +2407,7 @@ City Science. 2017;44: 740--763.
 doi:\href{https://doi.org/10.1177/0265813516641685}{10.1177/0265813516641685}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-reggiani_accessibility_2011}{}}%
-\CSLLeftMargin{55. }%
+\CSLLeftMargin{57. }%
 \CSLRightInline{Reggiani A, Bucci P, Russo G. Accessibility and
 {Impedance} {Forms}: {Empirical} {Applications} to the {German}
 {Commuting} {Network}. International Regional Science Review. 2011;34:
@@ -2492,33 +2415,33 @@ doi:\href{https://doi.org/10.1177/0265813516641685}{10.1177/0265813516641685}}
 doi:\href{https://doi.org/10.1177/0160017610387296}{10.1177/0160017610387296}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-li_approach_2020}{}}%
-\CSLLeftMargin{56. }%
+\CSLLeftMargin{58. }%
 \CSLRightInline{Li A, Huang Y, Axhausen KW. An approach to imputing
 destination activities for inclusion in measures of bicycle
 accessibility. Journal of Transport Geography. 2020;82: 102566.
 doi:\href{https://doi.org/10.1016/j.jtrangeo.2019.102566}{10.1016/j.jtrangeo.2019.102566}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-higgins2019}{}}%
-\CSLLeftMargin{57. }%
+\CSLLeftMargin{59. }%
 \CSLRightInline{Higgins CD. Accessibility toolbox for r and ArcGIS.
 Transport Findings. 2019.
 doi:\href{https://doi.org/10.32866/8416}{10.32866/8416}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-santanapalacios2022}{}}%
-\CSLLeftMargin{58. }%
+\CSLLeftMargin{60. }%
 \CSLRightInline{Santana Palacios M, El-geneidy A. Cumulative versus
 Gravity-based Accessibility Measures: Which One to Use? Findings. 2022.
 doi:\href{https://doi.org/10.32866/001c.32444}{10.32866/001c.32444}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-barboza_balancing_2021}{}}%
-\CSLLeftMargin{59. }%
+\CSLLeftMargin{61. }%
 \CSLRightInline{Barboza MHC, Carneiro MS, Falavigna C, Luz G, Orrico R.
 Balancing time: {Using} a new accessibility measure in {Rio} de
 {Janeiro}. Journal of Transport Geography. 2021;90: 102924.
 doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102924}{10.1016/j.jtrangeo.2020.102924}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-pereira_distributional_2019}{}}%
-\CSLLeftMargin{60. }%
+\CSLLeftMargin{62. }%
 \CSLRightInline{Pereira RHM, Banister D, Schwanen T, Wessel N.
 Distributional effects of transport policies on inequalities in access
 to opportunities in {Rio} de {Janeiro}. Journal of Transport and Land
@@ -2526,51 +2449,57 @@ Use. 2019;12.
 doi:\href{https://doi.org/10.5198/jtlu.2019.1523}{10.5198/jtlu.2019.1523}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-wang_access_2021}{}}%
-\CSLLeftMargin{61. }%
+\CSLLeftMargin{63. }%
 \CSLRightInline{Wang S, Wang M, Liu Y. Access to urban parks:
 {Comparing} spatial accessibility measures using three {GIS}-based
 approaches. Computers, Environment and Urban Systems. 2021;90: 101713.
 doi:\href{https://doi.org/10.1016/j.compenvurbsys.2021.101713}{10.1016/j.compenvurbsys.2021.101713}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-ortuzar_2011_modelling}{}}%
-\CSLLeftMargin{62. }%
+\CSLLeftMargin{64. }%
 \CSLRightInline{Ortúzar JD, Willumsen LG. Modelling transport. New York:
 Wiley; 2011. }
 
 \leavevmode\vadjust pre{\hypertarget{ref-williams_hall_1981}{}}%
-\CSLLeftMargin{63. }%
+\CSLLeftMargin{65. }%
 \CSLRightInline{Williams HCWL. Travel demand forecasting: An overview of
 theoretical developments. In: Banister DJ, Hall PG, editors. Transport
 and public policy planning. Mansell; 1981. }
 
 \leavevmode\vadjust pre{\hypertarget{ref-sarlas_2020_betweenness}{}}%
-\CSLLeftMargin{64. }%
+\CSLLeftMargin{66. }%
 \CSLRightInline{Sarlas G, Paez A, Axhausen KW.
 Betweenness-accessibility: Estimating impacts of accessibility on
 networks. Journal of Transport Geography. 2020;84: 12.
 doi:\href{https://doi.org/10.1016/j.jtrangeo.2020.102680}{10.1016/j.jtrangeo.2020.102680}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-data_management_group_tts_2018}{}}%
-\CSLLeftMargin{65. }%
+\CSLLeftMargin{67. }%
 \CSLRightInline{Data Management Group. {TTS} - {Transportation}
 {Tomorrow} {Survey} 2016. 2018. Available:
 \url{http://dmg.utoronto.ca/transportation-tomorrow-survey/tts-introduction}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-r5r_2021}{}}%
-\CSLLeftMargin{66. }%
+\CSLLeftMargin{68. }%
 \CSLRightInline{Rafael H. M. Pereira, Marcus Saraiva, Daniel Herszenhut,
 Carlos Kaue Vieira Braga, Matthew Wigginton Conway. r5r: Rapid realistic
 routing on multimodal transport networks with R5 in r. Findings. 2021.
 doi:\href{https://doi.org/10.32866/001c.21262}{10.32866/001c.21262}}
 
+\leavevmode\vadjust pre{\hypertarget{ref-geofabrikOpenStreetMapStreetNetwork2021}{}}%
+\CSLLeftMargin{69. }%
+\CSLRightInline{{OpenStreetMap Street Network Extracts}: {Canada}. 2021.
+Available:
+\url{https://download.geofabrik.de/north-america/canada.html}}
+
 \leavevmode\vadjust pre{\hypertarget{ref-allen_suburbanization_2021}{}}%
-\CSLLeftMargin{67. }%
+\CSLLeftMargin{70. }%
 \CSLRightInline{Allen J, Farber S. Suburbanization of {Transport}
 {Poverty}. Annals of the American Association of Geographers. 2021;111:
 18. }
 
 \leavevmode\vadjust pre{\hypertarget{ref-higgins2021changes}{}}%
-\CSLLeftMargin{68. }%
+\CSLLeftMargin{71. }%
 \CSLRightInline{Higgins CD, Páez A, Ki G, Wang J. Changes in
 accessibility to emergency and community food services during COVID-19
 and implications for low income populations in hamilton, ontario. Social
@@ -2578,21 +2507,21 @@ Science \& Medicine. 2021; 114442.
 doi:\href{https://doi.org/10.1016/j.socscimed.2021.114442}{10.1016/j.socscimed.2021.114442}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-lopez_2017_spatial}{}}%
-\CSLLeftMargin{69. }%
+\CSLLeftMargin{72. }%
 \CSLRightInline{Lopez FA, Paez A. Spatial clustering of high-tech
 manufacturing and knowledge-intensive service firms in the greater
 toronto area. Canadian Geographer-Geographe Canadien. 2017;61: 240--252.
 doi:\href{https://doi.org/10.1111/cag.12326}{10.1111/cag.12326}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-horbachov_theoretical_2018}{}}%
-\CSLLeftMargin{70. }%
+\CSLLeftMargin{73. }%
 \CSLRightInline{Horbachov P, Svichynskyi S. Theoretical substantiation
 of trip length distribution for home-based work trips in urban transit
 systems. Journal of Transport and Land Use. 2018;11: 593--632.
 Available: \url{https://www.jstor.org/stable/26622420}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-batista_estimation_2019}{}}%
-\CSLLeftMargin{71. }%
+\CSLLeftMargin{74. }%
 \CSLRightInline{Batista SFA, Leclercq L, Geroliminis N. Estimation of
 regional trip length distributions for the calibration of the aggregated
 network traffic models. Transportation Research Part B: Methodological.
@@ -2600,14 +2529,14 @@ network traffic models. Transportation Research Part B: Methodological.
 doi:\href{https://doi.org/10.1016/j.trb.2019.02.009}{10.1016/j.trb.2019.02.009}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-fitdistrplus_2015}{}}%
-\CSLLeftMargin{72. }%
+\CSLLeftMargin{75. }%
 \CSLRightInline{Delignette-Muller ML, Dutang C. {fitdistrplus}: An {R}
 package for fitting distributions. Journal of Statistical Software.
 2015;64: 1--34. Available:
 \url{https://www.jstatsoft.org/article/view/v064i04}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-giannotti_inequalities_2021}{}}%
-\CSLLeftMargin{73. }%
+\CSLLeftMargin{76. }%
 \CSLRightInline{Giannotti M, Barros J, Tomasiello DB, Smith D, Pizzol B,
 Santos BM, et al. Inequalities in transit accessibility: {Contributions}
 from a comparative study between {Global} {South} and {North}
@@ -2615,7 +2544,7 @@ metropolitan regions. Cities. 2021;109: 103016.
 doi:\href{https://doi.org/10.1016/j.cities.2020.103016}{10.1016/j.cities.2020.103016}}
 
 \leavevmode\vadjust pre{\hypertarget{ref-zhouTransportationAccessibilityEvaluation2021}{}}%
-\CSLLeftMargin{74. }%
+\CSLLeftMargin{77. }%
 \CSLRightInline{Zhou C, Zhang D, He X. Transportation {Accessibility
 Evaluation} of {Educational Institutions Conducting Field Environmental
 Education Activities} in {Ecological Protection Areas}: {A Case Study}
