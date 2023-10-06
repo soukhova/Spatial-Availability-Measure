@@ -1,21 +1,18 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Introducing spatial availability, a singly-constrained competitive-access accessibility measure
+# Workshop
 
-Anastasia Soukhov (School of Earth, Environment and Society, McMaster
-University, Canada) Antonio Paez (School of Earth, Environment and
-Society, McMaster University, Canada) Christopher D. Higgins (Department
-of Geography & Planning, University of Toronto Scarborough, Canada)
-Moataz Mohamed (Department of Civil Engineering, McMaster University,
-Canada)
+## Introducing spatial availability, a singly-constrained competitive-access accessibility measure
 
-Soukhov A, Páez A, Higgins CD, Mohamed M (2023) Introducing spatial
-availability, a singly-constrained measure of competitive accessibility.
-PLOS ONE 18(1): e0278468. <https://doi.org/10.1371/journal.pone.0278468>
+Antonio Paez (School of Earth, Environment and Society, McMaster
+University, Canada)
 
 <!-- badges: start -->
 <!-- badges: end -->
+<!--
+ALL IMAGES WERE CREATED BY ANTONIO USING TAYASUI SKETCHES ON AN IPAD
+-->
 
 # Abstract
 
@@ -51,3 +48,41 @@ this research are openly available.
 - Gravity model
 - Transportation
 - TTS
+
+![](images/Image-01.png)
+
+![](images/Image-02.png)
+
+![](images/Image-03.png)
+
+![](images/Image-04.png)
+
+![](images/Image-05.png)
+
+![](images/Image-06.png)
+
+![](images/Image-07.png)
+
+![](images/Image-08.png)
+
+![](images/Image-09.png)
+
+![](images/Image-10.png)
+
+![](images/Image-11.png)
+
+![](images/Image-12.png)
+
+![](images/Image-13.png)
+
+![](images/Image-14.png)
+
+![](images/Image-15.png)
+
+![](images/Image-16.png)
+
+![](images/Image-17.png)
+
+![](images/Image-18.png)
+
+![](images/Image-19.png)
