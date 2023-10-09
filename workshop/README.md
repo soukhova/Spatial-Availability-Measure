@@ -14,7 +14,7 @@ University, Canada)
 ALL IMAGES WERE CREATED BY ANTONIO USING TAYASUI SKETCHES ON AN IPAD
 -->
 
-# Abstract
+## Abstract
 
 Accessibility measures are widely used in transportation, urban and
 healthcare planning, among other applications. These measures are
@@ -41,7 +41,7 @@ measures of accessibility, it can offer a more meaningful and
 interpretable measure of opportunity access. All data and code used in
 this research are openly available.
 
-# Keywords
+## Keywords
 
 - Spatial availability
 - Accessibility
@@ -106,7 +106,9 @@ Let us change the set up to illustrate a different point.
 ![](images/Image-19.png)
 
 When we formalize this we see again that *spatial availability* is a
-weighted sum of the opportunities, constrained to match the total: $$
+weighted sum of the opportunities, constrained to match the total:
+
+$$
 V_i = \sum_j O_j\frac{P_i}{\sum_n^N P_n}
 $$
 
@@ -135,15 +137,21 @@ $$
 F^P_i = \frac{P_i}{\sum_n^N P_m}
 $$
 
-The two factors are combined as follows: $$
+The two factors are combined as follows:
+
+$$
 F_{ij}^T = \frac{F^C_{ij}F^P_i}{\sum_n^NF^C_{ij}F^P_i}
 $$
 
-to give the following expression for *spatial availability*: $$
+to give the following expression for *spatial availability*:
+
+$$
 V_i = \sum_j^J O_jF^T_{ij}
 $$
 
-Compare again to accessibility: $$
+Compare again to accessibility:
+
+$$
 S_i = \sum_j^JO_jf(c_{ij})
 $$
 
@@ -159,21 +167,27 @@ accessibility.
 
 ## Exercise
 
-In reference to the figure below.
+This exercise is meant to be solved by hand. This is a great way to
+develop a good feeling for the mechanics of the method. See the figure
+below. It represents a tiny system with only two population centers ($a$
+and $b$) and two employment centers ($A$ and $B$).
 
 ![](images/Exercise.png)
 
-This is a tiny system with two population centers ($a$ and $b$) and two
-employment centers ($A$ and $B$). For the exercise use the following
-impedance function for $c_{ij}$, where $c$ is duration in minutes: $$
+For the exercise use the following impedance function for $c_{ij}$,
+where $c$ is trip duration in minutes:
+
+$$
 f(c_{ij}) = \begin{cases}
-\frac{1}{c_{ij}^\alpha} &\text{for } c_{ij}\le\delta\\
+\frac{1}{c_{ij}^\beta} &\text{for } c_{ij}\le\delta\\
 0 & \text{for } c_{ij}>\delta\\
 \end{cases}
 $$
 
 Assume that the number of people and jobs at each location is as shown
-below: $$
+below:
+
+$$
 \begin{array}{l}
 P_{a} = 80 \\
 P_{b} = 120 \\
@@ -182,7 +196,9 @@ O_{B} = 50
 \end{array}
 $$
 
-Further, the travel times in minutes between these locations are: $$
+Further, the travel times in minutes between these locations are:
+
+$$
 \begin{array}{l}
 c_{aA} = 15 \\
 c_{Ab} = 20 \\
@@ -190,9 +206,11 @@ c_{bB} = 15
 \end{array}
 $$
 
-Use $\alpha=1$ and $\delta=45$ min.
+Use $\beta=1$ and $\delta=45$ min.
 
-As a reminder, accessibility is: $$
+As a reminder, accessibility is:
+
+$$
 S_i = \sum_j O_jf(c_{ij})
 $$
 
@@ -219,12 +237,14 @@ $$
 12. Compare to the global jobs/population ratio.
 13. In which of the two population centers is the risk of unemployment
     higher? Discuss.
-14. What do you think would happen if $\alpha$ was less than one or
+14. What do you think would happen if $\beta$ was less than one or
     greater than one? Explain.
 
 ### Solution: Part 1
 
-The spatial availability is as follows: $$
+The spatial availability is as follows:
+
+$$
 \begin{array}{l}
 V_{a} = 47.1 \text{ jobs}\\ 
 V_{b} = 102.9 \text{ jobs}
@@ -233,7 +253,9 @@ $$
 
 Next, suppose that there is an upgrade in the transportation system that
 shortens the duration of trips between $a-A$, so the new travel times
-are: $$
+are:
+
+$$
 \begin{array}{l}
 c_{aA} = 5 \\
 c_{Ab} = 20 \\
@@ -241,7 +263,7 @@ c_{bB} = 15
 \end{array}
 $$
 
-Continue to use $\alpha =1$ and $\delta=45$ min.
+Continue to use $\beta =1$ and $\delta=45$ min.
 
 ### Questions: Part 2
 
@@ -252,73 +274,155 @@ Continue to use $\alpha =1$ and $\delta=45$ min.
 
 ### Solution: Part 2
 
-The spatial availability is now as follows: $$
+The spatial availability is now as follows:
+
+$$
 \begin{array}{l}
 V_{a} = 82.7 \text{ jobs}\\ 
 V_{b} = 67.3 \text{ jobs}
 \end{array}
 $$
 
-## Exercise 2
+## Practical example
 
-    library(accessibility)
-    library(dplyr)
-    library(TTS2016R)
+For this practical example we will use data from the 2016 edition of the
+[Transportation Tomorrow
+Survey](http://dmg.utoronto.ca/tts-introduction/) (TTS). This is a
+comprehensive travel survey conducted in the Greater Toronto and
+Hamilton Area every five years, and it includes rich information about
+travel patterns and the socio-demographic composition of the population
+in the region. For convenience, parts of the survey have been sourced in
+[{TTS2016R}](https://soukhova.github.io/TTS2016R/), an [open data
+product](https://rdcu.be/dn6yP). The data are augmented with other
+information, such as travel time tables, and distributed as
+analysis-ready data objects.
+
+We will begin by loading the packages used in this example.
+
+    library(accessibility) # Transport Accessibility Measures # Transport Accessibility Measures
+    library(dplyr) # A Grammar of Data Manipulation # A Grammar of Data Manipulation
+    library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics # Create Elegant Data Visualisations Using the Grammar of Graphics
+    library(leaflet) # Create Interactive Web Maps with the JavaScript 'Leaflet' Library # Create Interactive Web Maps with the JavaScript 'Leaflet' Library
+    library(patchwork) # The Composer of Plots # The Composer of Plots
+    library(sf) # Simple Features for R # Simple Features for R
+    library(tidyr) # Tidy Messy Data # Tidy Messy Data
+    library(TTS2016R) # An augmented 2016 Transportation Tomorrow Survey (TTS) data package: worker and place of employment counts, trips and estimated travel time to work in the Greater Golden Horsehoe area, Canada # An augmented 2016 Transportation Tomorrow Survey (TTS) data package: worker and place of employment counts, trips and estimated travel time to work in the Greater Golden Horsehoe area, Canada
+
+We will use two objects from the data package, information aggregated at
+the level of traffic analysis zones (TAZs) and an origin-destination
+table:
 
 ``` r
-data("ggh_taz")
-data("od")
+data("ggh_taz") # Traffic analysis zones.
+data("od") # Origin-destination table.
 ```
 
-The identifiers of TAZs in Toronto are 1-625 according to the [Data
+The data sets are documented, and you can check the help files like so:
+
+    ?ggh_ttz
+    ?od
+
+For the exercise we will use a slice of the data, so we will extract the
+parts of the data corresponding to the City of Toronto. According to the
+TTS [Data
 Guide](http://dmg.utoronto.ca/wp-content/uploads/2022/06/2016TTS_DataGuide.pdf)
-of TTS (p. 29).
+of TTS (p. 29), the identifiers of the TAZs in Toronto are 1-625. We
+will create a vector with those identifiers:
 
 ``` r
 TO_taz <- c(1:625) |> 
   as.character()
 ```
 
+Using the vector we just created we will filter the zones corresponding
+to the City of Toronto, and then select the three variables that will be
+used in the example, namely the zone identifier (using the GTA06 zoning
+system), the number of workers in the zone (work age population), and
+the number of jobs in the zone:
+
 ``` r
+# Filter the traffic analysis zones in the City of Toronto.
 lu <- ggh_taz |>
   filter(GTA06 %in% TO_taz) |>
+  # Rename and select only the three variables needed for the example.
   transmute(id = GTA06,
             P = workers,
             O = jobs)
 ```
 
-Global jobs/workers ratio:
+This selection somewhat simplifies a characteristic of the data set,
+because not all the workers living in Toronto work there, and not all
+jobs in Toronto are taken by people who live in Toronto. Given this
+caveat, we can calculate the jobs/workers ratio in the region:
 
 ``` r
 sum(lu$O)/sum(lu$P)
 #> [1] 1.11989
 ```
 
-Prepare the travel time matrix by filtering TAZ that are in Toronto.
+A summary of the table shows that workers in Toronto tend to be more
+dispersed than jobs. Some TAZs have zero workers (there is no housing in
+the zone) and some have zero jobs (they are purely residential):
 
 ``` r
+lu |> 
+  # Drop the geometry before reporting the summary.
+  st_drop_geometry() |>
+  summary()
+#>       id                  P              O        
+#>  Length:625         Min.   :   0   Min.   :    0  
+#>  Class :character   1st Qu.: 697   1st Qu.:  305  
+#>  Mode  :character   Median :1471   Median :  643  
+#>                     Mean   :1719   Mean   : 1925  
+#>                     3rd Qu.:2442   3rd Qu.: 1704  
+#>                     Max.   :8491   Max.   :41821
+```
+
+The overall jobs/workers ratio is probably a little bit optimistic
+because Toronto tends to attract many commuting trips from beyond the
+city boundaries. Next, we will prepare the travel time matrix by
+filtering TAZ that are in Toronto.
+
+``` r
+# Rename the table.
 od_ggh <- od
+
+# Filter the origin and destinations in the City of Toronto.
 od <- od |>
   filter(Origin %in% lu$id, 
          Destination %in% lu$id) |>
+  # Rename and select only the three variables needed for the example.
   transmute(from_id = Origin,
             to_id = Destination,
             travel_time)
 ```
 
-The maximum travel time in the table is:
+Travel times in the table are in minutes. The longest travel time
+between any origin and any destination is:
 
 ``` r
 max(od$travel_time)
 #> [1] 146
 ```
 
-We can use a
+We will use an inverse power impedance function of the following form
+for the example:
+
+$$
+f(c_{ij}) = c_{ij}^{\beta}
+$$
+
+We present the example with $\beta = 0.005$ (try this value first; you
+can experiment with other values later if you wish). This is the shape
+of the curve with the initial value of $\beta$:
 
 ``` r
-alpha <- 0.005
+# Parameter for inverse power impedance function.
+beta <- 0.005
+
+# Plot impedance function with {ggplot}
 ggplot() +
-  geom_function(fun = function(x) 1/(abs(x)^alpha),
+  geom_function(fun = function(x) 1/(abs(x)^beta),
                 xlim = c(1, max(od$travel_time))) +
   xlab("t (travel time in min)") +
   ylab("f(t)") +
@@ -327,9 +431,61 @@ ggplot() +
 
 ![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-Calculate accessibility:
+Package [{accessibility}](https://ipeagit.github.io/accessibility/)
+includes functions to calculate both accessibility metrics and spatial
+avaialbility. The documentation can be consulted like so:
 
-Calculate spatial availability:
+    ?accessibility
+
+The inputs are a travel matrix (which in this example is our `od` table)
+and a land use table (which in our example is the `lu` table containing
+the opportunities and demand).
+
+We calculate the accessibility first. The function to do this is
+`accessibiliy::gravity()`. We need to specify the name of the columns
+with the opportunities, the cost, as well as the impedance function
+(here `accessibility::decay_power()`):
+
+``` r
+# Use table `od` with the travel time information for origin-destination pairs.
+Si <- gravity(travel_matrix = od, 
+              # Use 
+              land_use_data = lu, 
+              opportunity = "O", 
+              travel_cost = "travel_time", 
+              #demand = "workers", 
+              decay_function = decay_power(beta)) |>
+  rename(Si = O)
+```
+
+Next, we calculate the spatial availability. The inputs are very
+similar, with the addition of a variable for the demand (in our case the
+population). You will recall that the population is needed to calculate
+the proportional allocation factor. The spatial availability can be
+reported in a detailed table that gives $V_{ij}$, that is, the number of
+jobs available to each origin from each destination. The alternative
+(`detailed_results = FALSE`) returns the spatial availability aggregated
+by :
+
+``` r
+#Alternatively, using package {accessibilit}
+Vij <- spatial_availability(travel_matrix = od |> 
+                              select(from_id, to_id, travel_time), 
+                            land_use_data = lu, 
+                            opportunity = "O", 
+                            travel_cost = "travel_time", 
+                            demand = "P", 
+                            decay_function = decay_power(beta),
+                            detailed_results = TRUE) |>
+  rename(Vij = O)
+```
+
+``` r
+Vi <- Vij |>
+  group_by(from_id) |>
+  summarize(Vi = sum(Vij)) |>
+  rename(id = from_id)
+```
 
 Join the results to the zoning system for plotting:
 
@@ -426,7 +582,7 @@ Render:
 Si_plot + Vi_plot
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+![](README_files/figure-gfm/applied-example-display-results-1.png)<!-- -->
 
 ``` r
 si_plot <- ggplot() +
@@ -456,7 +612,7 @@ Render:
 si_plot + vi_plot
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+![](README_files/figure-gfm/applied-example-display-per-capita-results-1.png)<!-- -->
 
 Ratio of $S_i$ to $V_i$ indicates that $S_i$ is not simply a scaled-up
 version of $V_i$ but rather something different:
@@ -471,7 +627,7 @@ ggplot() +
   theme_void()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-21-1.png)<!-- -->
+![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-1.png)<!-- -->
 
 The same is true of $s_i$: the ratio of $s_i$ to $v_i$ indicates it is
 not simply a scaled-up version of $v_i$ but rather something different:
@@ -486,7 +642,7 @@ ggplot() +
   theme_void()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
+![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-per-capita-1.png)<!-- -->
 
 ``` r
 ggplot() +
@@ -499,7 +655,7 @@ ggplot() +
   ggtitle("Spatial Availability per capita")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-23-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 ``` r
 
@@ -535,7 +691,7 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ``` r
 
@@ -571,4 +727,4 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
