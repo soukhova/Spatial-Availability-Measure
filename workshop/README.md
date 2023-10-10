@@ -14,32 +14,40 @@ University, Canada)
 ALL IMAGES WERE CREATED BY ANTONIO USING TAYASUI SKETCHES ON AN IPAD
 -->
 
-## Abstract
+## Summary
 
-Accessibility measures are widely used in transportation, urban and
-healthcare planning, among other applications. These measures are
-weighted sums of the opportunities that can be reached given the cost of
-movement and are interpreted to represent the potential for spatial
-interaction. Though these measures are useful in understanding spatial
-structure, their methodologies count available opportunities multiple
-times. This leads to interpretability issues, as noted in recent
-research on balanced floating catchment areas (BFCA) and competitive
-measures of accessibility. In this paper, we respond to the limitations
-of the accessibility measure by proposing a new measure of *spatial
-availability* which is calculated by imposing a single constraint on the
-conventional gravity-based accessibility. Similar to the gravity model
-from which spatial availability is derived, a single constraint ensures
-that the marginals at the destination are met and thus the number of
-opportunities are preserved. Through examples, we detail the formulation
-of the proposed measure. Further, we use data from the 2016
-Transportation Tomorrow Survey of the Greater Golden Horseshoe area in
-southern Ontario, Canada, to contrast how the conventional accessibility
-measure tends to overestimate and underestimate the number of jobs
-*available* to workers. We conclude with some discussion of the possible
-uses of spatial availability and argue that, compared to conventional
-measures of accessibility, it can offer a more meaningful and
-interpretable measure of opportunity access. All data and code used in
-this research are openly available.
+Accessibility measures are widely used to summarize the ease of reaching
+potential destinations. As such, they combine, into a single summary
+measure, properties of the land use system, on the one hand, and the
+transportation system and travel behavior on the other. Defined as the
+weighted sum of the opportunities that can be reached given the cost of
+movement, accessibility is used in transportation planning, health
+planning, economic analysis, etc.
+
+This workshop introduces *spatial availability*. Much like
+accessibility, spatial availability measures the ease of reaching
+potential destinations. However, unlike accessibility, it makes
+opportunities available uniquely to members of the population. For
+example, a job, once it is available to someone, it is no longer
+available to somebody else. In effect, spatial availability is a
+singly-constrained accessibility measure that preserves the number of
+opportunities.
+
+In this workshop, we explain the intuitions behind spatial availability
+and describe the mechanisms to implement it. A key to this is the idea
+of *proportional allocation*, and the use of proportional allocation
+factors.
+
+The use of proportional allocation factors as a mechanism for
+constraining the spatial availability means that the results are easier
+to interpret than those obtained from accessibility analysis, and they
+are more intuitive as well.
+
+One exercise is provided, meant to be solved by hand. The workshop
+finishes with a practical example of implementation in the `R` language.
+Data from a real survey in the Greater Toronto and Hamilton Area and the
+use of package {accessibility} give hands-on practice that can serve as
+a launching pad for your own experiments and applications.
 
 ## Materials
 
@@ -50,7 +58,7 @@ this research are openly available.
 
   <!-- -->
 
-      remotes::install_github(paezha/accessibility)
+      remotes::install_github("paezha/accessibility")
 
   - [{dplyr}](https://dplyr.tidyverse.org/) (Install from CRAN).
   - [{ggplot}](https://ggplot2.tidyverse.org/) (Install from CRAN).
@@ -58,20 +66,23 @@ this research are openly available.
   - [{patchwork}](https://patchwork.data-imaginist.com/articles/patchwork.html)
     (Install from CRAN).
   - [{sf}](https://r-spatial.github.io/sf/) (Install from CRAN).
-- Data
-  - [{TTS2016R}]() (Install from GitHub):
+- Data (sourced from the Transportation Tomorrow Survey of the Greater
+  Toronto and Hamilton Area)
+  - [{TTS2016R}](https://soukhova.github.io/TTS2016R/) (Install from
+    GitHub):
 
   <!-- -->
 
-      remotes::install_github(soukhova/TTS2016R)
+      remotes::install_github("soukhova/TTS2016R")
 
-## Keywords
+## Key concepts
 
-- Spatial availability
 - Accessibility
 - Gravity model
-- Transportation
-- TTS
+- Spatial availability
+- Proportional allocation
+- Congestion
+- Transportation Tomorrow Survey
 
 ## From accessibility to spatial availability
 
@@ -109,8 +120,8 @@ this research are openly available.
 
 ![](images/Image-17.png)
 
-Formalizing this, we see that spatial availability $V_i$ is the
-weighted, and *constrained*, sum of opportunities: $$
+Formalizing this, we see that spatial availability $V_i$ is the weighted
+and *constrained* sum of opportunities: $$
 V_i = \sum_j^J O_j\frac{f(c_{ij})}{\sum_n^N f(c_{nj})}
 $$
 
@@ -248,11 +259,11 @@ $$
     pair.
 4.  Calculate the accessibility.
 5.  Tabulate $F^c_{ij}$ for each population center-employment center
-    pair. what do these values represent?
+    pair. What do these values represent?
 6.  Tabulate $F^P_{i}$ for each population center. What do these values
     represent?
 7.  Tabulate $F^T_{ij}$ for each population center-employment center
-    pair. what do these values represent?
+    pair. What do these values represent?
 8.  Calculate the jobs available from each employment center to each
     population center (i.e., $V_ij$).
 9.  Calculate the jobs available at each population center (i.e.,
@@ -478,7 +489,7 @@ $$
 f(c_{ij}) = c_{ij}^{\beta}
 $$
 
-We present the example with $\beta = 0.5$ (try this value first; you can
+We present the example with $\beta = 1$ (try this value first; you can
 experiment with other values later if you wish). This is the shape of
 the curve with the initial value of $\beta$:
 
@@ -573,12 +584,12 @@ Compare results to our home-brewed function `spav()` above. The differences are 
 &#10;```r
 junkij <- spav() |> select(-starts_with("geometry"))
 junki <-  junkij |>
-  st_drop_geometry() |>
-  group_by(from_id) |>
-  summarize(Vi = sum(Vij)) |>
-  rename(id = from_id)
-  &#10;junk_compare <- junki |> left_join(Vi, by = "id")  
-  &#10;junk_compare |> mutate(diff = abs(Vi.x - Vi.y)/Vi.y) |> summarize(mean_diff = mean(diff))  
+st_drop_geometry() |>
+group_by(from_id) |>
+summarize(Vi = sum(Vij)) |>
+rename(id = from_id)
+&#10;junk_compare <- junki |> left_join(Vi, by = "id")  
+&#10;junk_compare |> mutate(diff = abs(Vi.x - Vi.y)/Vi.y) |> summarize(mean_diff = mean(diff))  
 #> # A tibble: 1 × 1
 #>   mean_diff
 #>       <dbl>
@@ -677,14 +688,14 @@ The two maps can be plotted side-by-side using the syntax of package
 {patchwork}:
 
 ``` r
-Si_plot + Vi_plot
+Si_plot / Vi_plot
 ```
 
 ![](README_files/figure-gfm/applied-example-display-results-1.png)<!-- -->
 
 As expected, the map of spatial availability in noticeably flatter with
-its smaller interquartile range. High levels of accessibility in and
-around Toronto downtown do not translate into high spatial availability.
+its smaller interquartile range. High levels of accessibility do not
+necessarily translate into high spatial availability in the same places.
 Why is that? High accessibility creates a somewhat paradoxical effect:
 the ease to reach destinations also means that there is more competition
 for the same opportunities.
@@ -696,7 +707,7 @@ plot the ratio of accessibility to spatial availability. If the two
 measures were similar but for the scale, we would expect that ratio to
 be more or less constant. However, what we see is that the ratio of
 $S_i$ to $V_i$ indicates that in some cases accessibility is tens,
-hundreds, or even thousands of times biger than spatial availability.
+hundreds, or even thousands of times greater than spatial availability.
 This suggests that $S_i$ is not simply a scaled-up version of $V_i$ but
 something different.
 
@@ -713,53 +724,19 @@ ggplot() +
 
 ![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-1.png)<!-- -->
 
-Notice the resemblance between the population and spatial availability
-maps. The correlation between these two variables is quite high:
+We can further explore the results if we calculate the number of
+accessible jobs per capita ($s_i$) and spatially available jobs per
+capita ($v_i$:
 
 ``` r
-cor(results$P, results$Vi, use = "pairwise.complete.obs")
-#> [1] 0.933404
-```
-
-This should not be surprising, since the spatial availability depends
-directly on the population: part of the proportional allocation
-mechanism works to ensure that opportunities are proportionally
-available by population. The global jobs-to-workers ratio provides a
-useful reference; in the next figure, we plot the population vs the
-spatial availability. The blue line passes through the origin and has a
-slope of 1.1198902. If a zone had as many jobs available as the global
-ratio it would be on the line; points below the line are zones with
-*fewer* jobs available than what they would have, given their
-population, if the jobs were equally distributed. In contrast, points
-above the line are zones with populations with *more* jobs available
-than their equal share.
-
-``` r
-ggplot(data = results |>
-         drop_na(Vi), 
-       # Plot P in the x axis and Vi in the y axis.
-       aes(x = P, y = Vi)) + 
-  # Plot the data as points, use alpha < 1 to control the transparency of the points.
-  geom_point(alpha = 0.5) + 
-  # Plot a line with a given intercept and slope.
-  geom_abline(intercept = 0, 
-              slope = sum(lu$O)/sum(lu$P),
-              color = "orange",
-              linewidth = 1.5) +
-  theme_minimal()
-```
-
-![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
-
-<!--
-&#10;Calculate values per capita:
-&#10;```r
 results <- results |>
   mutate(si = Si/P,
          vi = Vi/P)
 ```
-&#10;Summary of values per capita:
-&#10;```r
+
+This is the summary of these two indicators.
+
+``` r
 results |> 
   st_drop_geometry() |>
   select(si, vi) |>
@@ -773,8 +750,163 @@ results |>
 #>  Max.   :735.8087   Max.   :2.66881  
 #>  NA's   :75         NA's   :75
 ```
-&#10;
-```r
+
+Accessibility per capita is not particularly meaningful: as seen from
+the summary above, accessibility per capita does not particularly
+resemble the ratio of jobs-to-workers in the city. This is a result of
+accessibility being a sum of unconstrained opportunities. The summary
+reveals that 75/% of zones have more than 8.53 jobs accessible per
+person, which clearly is not a realistic estimate of the ease of
+reaching jobs while keeping in mind that many others will be doing the
+same. Spatially available jobs per capita do show some variability but
+they are more in line with the global jobs-to-workers ratio. It is not
+implausible to think that some zones, being very well served by the
+transportation system and/or facing little competition, can have around
+two jobs available per worker.
+
+Returning to the map of spatial availability, notice its resemblance to
+the distribution of the population. The correlation between these two
+variables is quite high:
+
+``` r
+cor(results$P, results$Vi, use = "pairwise.complete.obs")
+#> [1] 0.933404
+```
+
+This should not be surprising since the spatial availability depends
+directly on the population: part of the proportional allocation
+mechanism works to ensure that opportunities are proportionally
+available by population. That said, the global jobs-to-workers ratio
+provides a useful reference; in the next figure, we plot the population
+vs the spatial availability. The black line passes through the origin
+and has a slope of 1.1198902, that is, equal to the global
+jobs-to-workers ratio. If a zone had as many jobs available to its
+population as the global ratio the point would be on the line; points
+below the line are zones with *fewer* jobs available than what they
+would have, given their population, if the jobs were equally
+distributed. In contrast, points above the line are zones with
+populations with *more* jobs available to them than their equal share.
+
+``` r
+ggplot(data = results |>
+         drop_na(Vi), 
+       # Plot P in the x axis and Vi in the y axis.
+       aes(x = P, y = Vi)) + 
+  # Plot the data as points, use alpha < 1 to control the transparency of the points.
+  geom_point(aes(color = Vi/P - sum(lu$O)/sum(lu$P),
+                 size = Vi/P)) + 
+  geom_point(aes(size = Vi/P),
+             shape = 1,
+             alpha = 0.2) +
+  # Plot a line with a given intercept and slope.
+  geom_abline(intercept = 0, 
+              slope = sum(lu$O)/sum(lu$P),
+              #color = "orange"
+  ) +
+  scale_color_gradient2("Dev. from global jobs-to-workers ratio") +
+  scale_size("Spatial availability per capita (v_i)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/applied-example-scatterplot-population-to-availability-1.png)<!-- -->
+
+Many zones with small populations have lower spatial availability to
+employment. Not always, but frequently. Zones with large populations
+tend to enjoy higher employment availability. Not a single zone with
+population greater than 5,000 has fewer jobs available than workers. The
+map below shows zones with populations greater than 5,000.
+
+``` r
+ggplot() +
+  geom_sf(data = lu,
+          aes(fill = P>5000)) +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/applied-example-large-population-map-1.png)<!-- -->
+
+What could be the reason for this? Zones with large populations are not
+necessarily centrally located, and some are quite peripheral. But how
+well connected are they? To answer this question we need calculate the
+travel time to the opportunities available. To do this we join the
+travel times to the detailed spatial availability results:
+
+``` r
+results_2 <- Vij |>
+  # Join o-d travel times to detailed spatial availability results.  
+  left_join(od |>
+              select(from_id, to_id, travel_time),
+            by = c("from_id", "to_id"))
+```
+
+Next, we calculate the total travel time to available opportunities for
+every origin-destination pair:
+
+``` r
+results_2 <- results_2 |>
+  # Calculate the total travel time to opportunities available.
+  mutate(total_time_opp_av = Vij * travel_time)
+```
+
+We can now calculate the average time to available opportunity by
+origin. This quantity represents the time typically needed to reach an
+available opportunity:
+
+``` r
+results_2 <- results_2 |>
+  # Group by origin.
+  group_by(from_id) |>
+  # Compute the spatial availability by origin. The mean time is the total travel time by origin to spatially available opportunities, divided by the opportunities available to that origin.
+  summarize(Vi = sum(Vij),
+            mean_time = sum(total_time_opp_av)/Vi) |>
+  # Rename the id.
+  rename(id = from_id)
+```
+
+The scatterplot below is of zonal population vs mean travel time to
+available opportunity by origin. The horizontal line is the system-wide
+mean travel time to available opportunity:
+
+``` r
+results_2 |>
+  # Join the population values to table `results_2`
+  left_join(results |>
+              select(id, P),
+            by = "id") |>
+  mutate(vi = Vi/P) |>
+  # Pass to ggplot, where the population will be plotted on the x axis and the mean travel time to available opportunity in the y axis.
+  ggplot(aes(x = P,
+             y = mean_time)) +
+  # The color of the points will depend on the deviation from the global mean of the travel time to available opportunity.
+  geom_point(aes(color = mean_time - mean(results_2$mean_time),
+                 size = vi)) +
+  # For ease of visualization add silhouettes for the points
+  geom_point(aes(size = vi),
+             shape = 1,
+             alpha = 0.3) +
+  # Plot a horizontal line to reres
+  geom_hline(yintercept = mean(results_2$mean_time)) +
+  # Change the title of the legends to something informative
+  scale_color_gradient2("Dev. from global mean travel time") +
+  scale_size("Spatial availability per capita (v_i)") +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+The plot shows that zones with larger populations tend to be
+consistently are not necessarily the best connected, but nonetheless do
+not deviate much from the mean travel time to available opportunities:
+notice how zones with populations greater than 5,000 are much closer to
+the horizontal line (system-wise mean travel time to available
+opportunity). Of the smaller zones, quite a few tend to be have, on
+average, short travel times to available opportunties (which is
+reflected in the large values of $v_i$), but many are poorly connected
+to available opportunities, requiring on average longer travel times,
+which is associated with lower values of $v_i$.
+
+<!--
+&#10;```r
 si_plot <- ggplot() +
   geom_sf(data = results,
           aes(fill = si)) +
@@ -815,6 +947,7 @@ ggplot() +
 ```
 
 ![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-per-capita-1.png)<!-- -->
+–\>
 
 The values of spatial availability per capita can be compared to the
 overall jobs/workers ratio. In this plot we use a diverging gradient
@@ -834,7 +967,7 @@ ggplot() +
   ggtitle("Spatial Availability per capita")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
 The code in the next two chunks uses package {leaflet} to create
 interactive maps to further explore the results. Some zones had high
@@ -878,7 +1011,7 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 Map to explore spatial availability:
 
@@ -916,4 +1049,4 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
