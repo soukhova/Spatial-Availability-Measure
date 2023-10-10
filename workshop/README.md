@@ -41,6 +41,30 @@ measures of accessibility, it can offer a more meaningful and
 interpretable measure of opportunity access. All data and code used in
 this research are openly available.
 
+## Materials
+
+- Packages
+  - [{accessibility}](https://github.com/paezha/accessibility) (We use
+    the development version in `paezha/accessibility` which can be
+    installed like this:
+
+  <!-- -->
+
+      remotes::install_github(paezha/accessibility)
+
+  - [{dplyr}](https://dplyr.tidyverse.org/) (Install from CRAN).
+  - [{ggplot}](https://ggplot2.tidyverse.org/) (Install from CRAN).
+  - [{leaflet}](https://rstudio.github.io/leaflet/) (Install from CRAN).
+  - [{patchwork}](https://patchwork.data-imaginist.com/articles/patchwork.html)
+    (Install from CRAN).
+  - [{sf}](https://r-spatial.github.io/sf/) (Install from CRAN).
+- Data
+  - [{TTS2016R}]() (Install from GitHub):
+
+  <!-- -->
+
+      remotes::install_github(soukhova/TTS2016R)
+
 ## Keywords
 
 - Spatial availability
@@ -95,7 +119,9 @@ where:
 - $N$ is the number of locations where population is
 - $J$ is the number of locations where opportunities are
 
-Compare to accessibility: $$
+Compare to accessibility:
+
+$$
 S_i = \sum_j^JO_jf(c_{ij})
 $$
 
@@ -380,8 +406,48 @@ lu |>
 
 The overall jobs/workers ratio is probably a little bit optimistic
 because Toronto tends to attract many commuting trips from beyond the
-city boundaries. Next, we will prepare the travel time matrix by
-filtering TAZ that are in Toronto.
+city boundaries. Since table `lu` is a simple features object with
+geometry, we can map the variables in the form of choroplet maps. The
+next two chunks of code are for workers and jobs:
+
+``` r
+Pi_plot <- ggplot() +
+  geom_sf(data = lu,
+          aes(fill = P)) +
+  geom_sf(data = lu,
+          fill = NA) +
+  scale_fill_viridis_c(direction = 1) +
+  theme_void() +
+  ggtitle("Workers per TAZ")
+```
+
+``` r
+Oi_plot <- ggplot() +
+  geom_sf(data = lu,
+          aes(fill = O)) +
+  geom_sf(data = lu,
+          fill = NA) +
+  scale_fill_viridis_c(direction = 1) +
+  theme_void() +
+  ggtitle("Jobs per TAZ")
+```
+
+The two maps can be plotted side-by-side using the syntax of package
+{patchwork}:
+
+``` r
+Pi_plot + Oi_plot
+```
+
+![](README_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+
+The maps show that jobs are highly concentrated in downtown Toronto. The
+number of inhabitants downtown is not as high, and there are places in
+the periphery of the core of the city and towards the edges with
+relatively high populations.
+
+Next, we will prepare the travel time matrix by filtering TAZ that are
+in Toronto.
 
 ``` r
 # Rename the table.
@@ -412,13 +478,13 @@ $$
 f(c_{ij}) = c_{ij}^{\beta}
 $$
 
-We present the example with $\beta = 0.005$ (try this value first; you
-can experiment with other values later if you wish). This is the shape
-of the curve with the initial value of $\beta$:
+We present the example with $\beta = 0.5$ (try this value first; you can
+experiment with other values later if you wish). This is the shape of
+the curve with the initial value of $\beta$:
 
 ``` r
 # Parameter for inverse power impedance function.
-beta <- 0.005
+beta <- 1
 
 # Plot impedance function with {ggplot}
 ggplot() +
@@ -429,11 +495,11 @@ ggplot() +
   theme_minimal()
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
 
 Package [{accessibility}](https://ipeagit.github.io/accessibility/)
 includes functions to calculate both accessibility metrics and spatial
-avaialbility. The documentation can be consulted like so:
+availability. The documentation can be consulted like so:
 
     ?accessibility
 
@@ -449,12 +515,15 @@ with the opportunities, the cost, as well as the impedance function
 ``` r
 # Use table `od` with the travel time information for origin-destination pairs.
 Si <- gravity(travel_matrix = od, 
-              # Use 
+              # Use table `lu` with the land use information.
               land_use_data = lu, 
+              # Use column `O` for the opportunities; this column contains the number of jobs per zone.
               opportunity = "O", 
+              # Use column `travel_time` as the cost variable.
               travel_cost = "travel_time", 
-              #demand = "workers", 
+              # Use the power impedance function with parameter beta.
               decay_function = decay_power(beta)) |>
+  # Rename the opportunities $S_i$ for accessibility.
   rename(Si = O)
 ```
 
@@ -465,29 +534,59 @@ the proportional allocation factor. The spatial availability can be
 reported in a detailed table that gives $V_{ij}$, that is, the number of
 jobs available to each origin from each destination. The alternative
 (`detailed_results = FALSE`) returns the spatial availability aggregated
-by :
+by zone.
 
 ``` r
-#Alternatively, using package {accessibilit}
-Vij <- spatial_availability(travel_matrix = od |> 
-                              select(from_id, to_id, travel_time), 
+# Use table `od` with the travel time information for origin-destination pairs.
+Vij <- spatial_availability(travel_matrix = od,
+                            # Use table `lu` with the land use information.
                             land_use_data = lu, 
+                            # Use column `O` for the opportunities; this column contains the number of jobs per zone.
                             opportunity = "O", 
+                            # Use column `travel_time` as the cost variable.
                             travel_cost = "travel_time", 
+                            # Use column `P` for the demand; this column contains the number of workers per zone.
                             demand = "P", 
+                            # Use the power impedance function with parameter beta.
                             decay_function = decay_power(beta),
+                            # Return the detailed results.
                             detailed_results = TRUE) |>
+  # Rename the opportunities $V_i$ for spatial availability.
   rename(Vij = O)
 ```
 
+If the detailed results are requested, the spatial availability by
+origin can be computed as follows:
+
 ``` r
 Vi <- Vij |>
+  # Group by origin; this means that the operations in summarize() will be over the destinations.
   group_by(from_id) |>
+  # Sum the opportunities available from every destination
   summarize(Vi = sum(Vij)) |>
+  # Rename the column to `id`
   rename(id = from_id)
 ```
 
-Join the results to the zoning system for plotting:
+<!--
+Compare results to our home-brewed function `spav()` above. The differences are rounding errors.
+&#10;```r
+junkij <- spav() |> select(-starts_with("geometry"))
+junki <-  junkij |>
+  st_drop_geometry() |>
+  group_by(from_id) |>
+  summarize(Vi = sum(Vij)) |>
+  rename(id = from_id)
+  &#10;junk_compare <- junki |> left_join(Vi, by = "id")  
+  &#10;junk_compare |> mutate(diff = abs(Vi.x - Vi.y)/Vi.y) |> summarize(mean_diff = mean(diff))  
+#> # A tibble: 1 × 1
+#>   mean_diff
+#>       <dbl>
+#> 1   0.00186
+```
+-->
+
+Join the results to the zoning system:
 
 ``` r
 results <- lu |>
@@ -506,53 +605,49 @@ sum(lu$O)
 #> [1] 1202986
 # Sum of jobs accessible.
 sum(results$Si, na.rm = TRUE)
-#> [1] 175385249
+#> [1] 15421360
 # Sum of jobs available.
 sum(results$Vi, na.rm = TRUE)
 #> [1] 1202843
 ```
 
-Summary of results of accessibility and availability:
+We see that the jobs in the City of Toronto is preserved (with a small
+difference caused by zones that cannot be reached). The sum of
+accessibility in contrast is two orders of magnitude larger than the
+number of jobs in the table. This complicates the interpretation of the
+results. When we obtain a summary of these results we find that the
+maximum accessibility for any one zone is several hundred thousands of
+jobs, compared to less than sixteen thousand jobs according to spatial
+availability (notice the 75 NA values; these are zones with a population
+of zero). Recall that the maximum number of jobs in any one zone (check
+the summary of the `lu` table above) is 41,821. Why are the values of
+the accessibility so high?
 
 ``` r
 results |> 
   st_drop_geometry() |>
   select(Si, Vi) |>
   summary()
-#>        Si                 Vi           
-#>  Min.   :   558.5   Min.   :    0.152  
-#>  1st Qu.:205300.5   1st Qu.:  589.997  
-#>  Median :325584.6   Median : 1374.143  
-#>  Mean   :318882.3   Mean   : 2186.987  
-#>  3rd Qu.:421530.9   3rd Qu.: 2755.239  
-#>  Max.   :731470.7   Max.   :15966.794  
-#>  NA's   :75         NA's   :75
+#>        Si                  Vi           
+#>  Min.   :    42.88   Min.   :    0.037  
+#>  1st Qu.: 12475.44   1st Qu.:  579.082  
+#>  Median : 21153.41   Median : 1370.369  
+#>  Mean   : 28038.84   Mean   : 2186.987  
+#>  3rd Qu.: 34883.20   3rd Qu.: 2575.955  
+#>  Max.   :134653.00   Max.   :21152.968  
+#>  NA's   :75          NA's   :75
 ```
 
-Calculate values per capita:
+Accessibility, in addition, has much greater range of variation, which
+indicates that the high sum of accessibility is not the result of a few
+extraordinary values. The [interquartile
+range](https://en.wikipedia.org/wiki/Interquartile_range) (a measure of
+dispersion) of $S_i$ is 22,407.76 but only 1,996.87 for $V_i$. The
+latter value is more in line with the interquartile ranges of the
+population (1,996.87) and jobs (1,399).
 
-``` r
-results <- results |>
-  mutate(si = Si/P,
-         vi = Vi/P)
-```
-
-Summary of values per capita:
-
-``` r
-results |> 
-  st_drop_geometry() |>
-  select(si, vi) |>
-  summary()
-#>        si                 vi         
-#>  Min.   :   6.041   Min.   :0.01004  
-#>  1st Qu.: 134.950   1st Qu.:0.56016  
-#>  Median : 179.090   Median :0.81500  
-#>  Mean   : 201.788   Mean   :0.84675  
-#>  3rd Qu.: 237.619   3rd Qu.:1.09891  
-#>  Max.   :1410.188   Max.   :2.01775  
-#>  NA's   :75         NA's   :75
-```
+Maps of accessibility and spatial availability can be plotted using
+package {ggplot2}. This code is for the map of accessibility:
 
 ``` r
 Si_plot <- ggplot() +
@@ -565,6 +660,8 @@ Si_plot <- ggplot() +
   ggtitle("Accessibility")
 ```
 
+This code is for the map of spatial availability:
+
 ``` r
 Vi_plot <- ggplot() +
   geom_sf(data = results,
@@ -576,7 +673,8 @@ Vi_plot <- ggplot() +
   ggtitle("Spatial Availability")
 ```
 
-Render:
+The two maps can be plotted side-by-side using the syntax of package
+{patchwork}:
 
 ``` r
 Si_plot + Vi_plot
@@ -584,7 +682,99 @@ Si_plot + Vi_plot
 
 ![](README_files/figure-gfm/applied-example-display-results-1.png)<!-- -->
 
+As expected, the map of spatial availability in noticeably flatter with
+its smaller interquartile range. High levels of accessibility in and
+around Toronto downtown do not translate into high spatial availability.
+Why is that? High accessibility creates a somewhat paradoxical effect:
+the ease to reach destinations also means that there is more competition
+for the same opportunities.
+
+But, could it be that accessibility is just some sort of scaled-up
+version of spatial availability? That somehow the two give similar
+results but for some multiplicative constant? To answer this, we can
+plot the ratio of accessibility to spatial availability. If the two
+measures were similar but for the scale, we would expect that ratio to
+be more or less constant. However, what we see is that the ratio of
+$S_i$ to $V_i$ indicates that in some cases accessibility is tens,
+hundreds, or even thousands of times biger than spatial availability.
+This suggests that $S_i$ is not simply a scaled-up version of $V_i$ but
+something different.
+
 ``` r
+ggplot() +
+  geom_sf(data = results,
+          aes(fill = Si/Vi)) +
+  geom_sf(data = lu,
+          fill = NA) +
+  scale_fill_viridis_c(direction = 1, 
+                       trans = "log10") +
+  theme_void()
+```
+
+![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-1.png)<!-- -->
+
+Notice the resemblance between the population and spatial availability
+maps. The correlation between these two variables is quite high:
+
+``` r
+cor(results$P, results$Vi, use = "pairwise.complete.obs")
+#> [1] 0.933404
+```
+
+This should not be surprising, since the spatial availability depends
+directly on the population: part of the proportional allocation
+mechanism works to ensure that opportunities are proportionally
+available by population. The global jobs-to-workers ratio provides a
+useful reference; in the next figure, we plot the population vs the
+spatial availability. The blue line passes through the origin and has a
+slope of 1.1198902. If a zone had as many jobs available as the global
+ratio it would be on the line; points below the line are zones with
+*fewer* jobs available than what they would have, given their
+population, if the jobs were equally distributed. In contrast, points
+above the line are zones with populations with *more* jobs available
+than their equal share.
+
+``` r
+ggplot(data = results |>
+         drop_na(Vi), 
+       # Plot P in the x axis and Vi in the y axis.
+       aes(x = P, y = Vi)) + 
+  # Plot the data as points, use alpha < 1 to control the transparency of the points.
+  geom_point(alpha = 0.5) + 
+  # Plot a line with a given intercept and slope.
+  geom_abline(intercept = 0, 
+              slope = sum(lu$O)/sum(lu$P),
+              color = "orange",
+              linewidth = 1.5) +
+  theme_minimal()
+```
+
+![](README_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
+
+<!--
+&#10;Calculate values per capita:
+&#10;```r
+results <- results |>
+  mutate(si = Si/P,
+         vi = Vi/P)
+```
+&#10;Summary of values per capita:
+&#10;```r
+results |> 
+  st_drop_geometry() |>
+  select(si, vi) |>
+  summary()
+#>        si                 vi         
+#>  Min.   :  0.1992   Min.   :0.00283  
+#>  1st Qu.:  8.5324   1st Qu.:0.51484  
+#>  Median : 12.4421   Median :0.79628  
+#>  Mean   : 19.2023   Mean   :0.85798  
+#>  3rd Qu.: 18.2990   3rd Qu.:1.11207  
+#>  Max.   :735.8087   Max.   :2.66881  
+#>  NA's   :75         NA's   :75
+```
+&#10;
+```r
 si_plot <- ggplot() +
   geom_sf(data = results,
           aes(fill = si)) +
@@ -594,8 +784,8 @@ si_plot <- ggplot() +
   theme_void() +
   ggtitle("Accessibility per capita")
 ```
-
-``` r
+&#10;
+```r
 vi_plot <- ggplot() +
   geom_sf(data = results,
           aes(fill = vi)) +
@@ -605,29 +795,11 @@ vi_plot <- ggplot() +
   theme_void() +
   ggtitle("Spatial Availability per capita")
 ```
-
-Render:
-
-``` r
+&#10;Render:
+&#10;```r
 si_plot + vi_plot
 ```
-
-![](README_files/figure-gfm/applied-example-display-per-capita-results-1.png)<!-- -->
-
-Ratio of $S_i$ to $V_i$ indicates that $S_i$ is not simply a scaled-up
-version of $V_i$ but rather something different:
-
-``` r
-ggplot() +
-  geom_sf(data = results,
-          aes(fill = Si/Vi)) +
-  geom_sf(data = lu,
-          fill = NA) +
-  scale_fill_viridis_c(direction = 1, trans = "log10") +
-  theme_void()
-```
-
-![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-1.png)<!-- -->
+&#10;![](README_files/figure-gfm/applied-example-display-per-capita-results-1.png)<!-- -->
 
 The same is true of $s_i$: the ratio of $s_i$ to $v_i$ indicates it is
 not simply a scaled-up version of $v_i$ but rather something different:
@@ -644,6 +816,13 @@ ggplot() +
 
 ![](README_files/figure-gfm/applied-example-ratio-accessibility-to-availability-per-capita-1.png)<!-- -->
 
+The values of spatial availability per capita can be compared to the
+overall jobs/workers ratio. In this plot we use a diverging gradient
+with the mid-point set at that overall value. Shades of red indicate
+that the spatial availability per capita is below the regional level,
+and shades of blue indicate a value greater than the overall
+jobs/workers ratio. This way we can explore deviations from equality:
+
 ``` r
 ggplot() +
   geom_sf(data = results,
@@ -655,7 +834,15 @@ ggplot() +
   ggtitle("Spatial Availability per capita")
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+The code in the next two chunks uses package {leaflet} to create
+interactive maps to further explore the results. Some zones had high
+accessibility, and yet relatively low availability. This could be caused
+by the competition for opportunities in well-connected central parts of
+Toronto.
+
+Map to explore accessibility:
 
 ``` r
 
@@ -691,7 +878,9 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+Map to explore spatial availability:
 
 ``` r
 
@@ -727,4 +916,4 @@ leaflet(data = results |> st_transform(crs = 4326 )) |>
       direction = "auto"))
 ```
 
-![](README_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](README_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
